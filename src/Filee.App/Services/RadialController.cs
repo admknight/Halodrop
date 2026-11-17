@@ -72,6 +72,17 @@ public sealed class RadialController(
     private bool _forLaunches;  // the click-mode donut's files came from later launches, so more of them can join it
     private bool _dragBackFace; // the drag gesture opens the donut on its back face, once files enter it
 
+    // Morph change: a donut that rides with the cursor during a drag (Settings → Shortcuts → Open the donut).
+    private DonutOpenAt _openAt = DonutOpenAt.DragStart;   // this drag's way
+    private bool _settled;          // "follow me": anchored after a pause, until the cursor goes well past the ring
+    private int _settleGeneration;
+
+    /// <summary>Morph change: how long the cursor must rest before a "follow me" donut anchors.</summary>
+    internal static readonly TimeSpan SettleAfter = TimeSpan.FromMilliseconds(260);
+
+    /// <summary>Morph change: how far past the ring an anchored "follow me" donut lets the cursor go before following again.</summary>
+    internal const double RideAgainMargin = 36;
+
     /// <summary>
     /// How long a drag that never brought files may keep the invisible window up, in case the button release is
     /// missed (the system dropped the input hook, a UAC prompt took the desktop): the window catches clicks.
@@ -110,6 +121,10 @@ public sealed class RadialController(
         _dragBackFace = backFace;
         viewModel.ResetForDrag();
         window.DonutControl.AllowContextEdit = false;
+        // Morph change: how this drag's donut follows the cursor; a "where I let go" one starts as the hub alone.
+        _openAt = store.Settings.Donut.OpenAt;
+        _settled = false;
+        window.DonutControl.HubOnly = _openAt == DonutOpenAt.LetGo;
         PlaceAndShow(window, x, y, activate: false);
         WatchFlipKey();
 
@@ -154,6 +169,7 @@ public sealed class RadialController(
         else
             _grace.Cancel();
         var window = EnsureWindow();
+        window.DonutControl.HubOnly = false;   // Morph change: a click-mode donut always shows its slices
         _dropped = false;
         _converted = false;
         viewModel.Load(files, clickMode: true, backFace);
@@ -172,6 +188,7 @@ public sealed class RadialController(
         ReplaceWeb(null);
         _toClipboard = false;
         var window = EnsureWindow();
+        window.DonutControl.HubOnly = false;
         _dropped = false;
         _converted = false;
         viewModel.LoadForConnect();
@@ -204,7 +221,7 @@ public sealed class RadialController(
         // Explorer's drag out (Filee runs as administrator). Tells "the donut didn't react" reports apart.
         if (!_dragReachedDonut && Throttle.TryEnter("no-drag-enter", out var held))
             log.LogInformation("Drag gesture ended without a drag entering the donut{Elevation}{Held}",
-                Program.Elevation.ShellCannotReachFilee ? " (Filee runs as administrator: Windows blocks drops from Explorer)" : "",
+                Program.Elevation.ShellCannotReachFilee ? " (Morph runs as administrator: Windows blocks drops from Explorer)" : "",
                 LogThrottle.HeldText(held));
         // Nothing was brought to the donut: the window is invisible but catches clicks, so go right away.
         if (!viewModel.HasFiles && !_window!.DonutControl.IsInProgressMode)
@@ -271,7 +288,7 @@ public sealed class RadialController(
         var extensions = FormatRequest.UnknownExtensions(viewModel.Files).Where(_formatRequestsOffered.Add).ToList();
         if (extensions.Count == 0)
             return;
-        log.LogInformation("Donut closed on files Filee can't read: {Extensions}", FormatRequest.Label(extensions));
+        log.LogInformation("Donut closed on files Morph can't read: {Extensions}", FormatRequest.Label(extensions));
         windows.ShowFormatRequestNotice(extensions);
     }
 
@@ -309,7 +326,7 @@ public sealed class RadialController(
         window.DragWithoutFiles += formats =>
         {
             if (Throttle.TryEnter("drag-without-files", out var held))
-                log.LogInformation("A drag without files Filee reads entered the donut; it offered: {Formats}{Held}",
+                log.LogInformation("A drag without files Morph reads entered the donut; it offered: {Formats}{Held}",
                     formats, LogThrottle.HeldText(held));
         };
         window.FilesEntered += files =>
@@ -321,8 +338,15 @@ public sealed class RadialController(
             TakeKeyboard(window);
             WatchFlipKey();
         };
+        window.DragMoved += offset => Ride(window, offset);
         window.Dropped += (hit, dropped) =>
         {
+            // Morph change: the riding bubble was let go: the donut opens right there, to click a slice.
+            if (window.DonutControl.HubOnly && !viewModel.IsClickMode)
+            {
+                BloomWhereLetGo(window, dropped);
+                return;
+            }
             _dropped = true;
             WatchFlipKey();
             if (hit.Kind is DonutHitKind.Segment or DonutHitKind.SubSegment)
@@ -395,6 +419,62 @@ public sealed class RadialController(
 
         _window = window;
         return window;
+    }
+
+    /// <summary>
+    /// Morph change: keeps a riding donut's hub under the cursor (<paramref name="offset"/>: the cursor against the hub, in
+    /// the window's units). "Where I let go" always follows; "follow me" follows until the cursor rests, then stays
+    /// while the cursor works the ring, and follows again once it goes well past it.
+    /// </summary>
+    private void Ride(RadialWindow window, Vector offset)
+    {
+        if (!_visible || _dropped || viewModel.IsClickMode || _openAt == DonutOpenAt.DragStart)
+            return;
+        var distance = offset.Length;
+        if (_openAt == DonutOpenAt.FollowMe)
+        {
+            if (_settled && distance < viewModel.OuterRadius + RideAgainMargin)
+                return;
+            _settled = false;
+            if (distance <= 1.5)
+                return;   // the system repeats the last position while the mouse rests: that's the pause
+            var generation = ++_settleGeneration;
+            DispatcherTimer.RunOnce(() =>
+            {
+                if (generation == _settleGeneration && _visible && !_dropped)
+                    _settled = true;
+            }, SettleAfter);
+        }
+        else if (distance < 0.5)
+        {
+            return;
+        }
+        var scaling = OperatingSystem.IsMacOS() ? 1 : window.RenderScaling;
+        window.Position = new PixelPoint(
+            window.Position.X + (int)Math.Round(offset.X * scaling),
+            window.Position.Y + (int)Math.Round(offset.Y * scaling));
+    }
+
+    /// <summary>
+    /// Morph change: files let go on the riding bubble. The donut opens where they landed, as a click-mode donut (moved
+    /// in from a screen edge as usual), once the system has finished the drop.
+    /// </summary>
+    private void BloomWhereLetGo(RadialWindow window, DraggedItems dropped)
+    {
+        var files = dropped.Files.Count > 0 ? dropped.Files : viewModel.Files;
+        var scaling = OperatingSystem.IsMacOS() ? 1 : window.RenderScaling;
+        var hub = window.DonutControl.TranslatePoint(window.DonutControl.HubCenter, window)
+                  ?? new Point(window.Bounds.Width / 2, window.Bounds.Height / 2);
+        var x = window.Position.X + (int)Math.Round(hub.X * scaling);
+        var y = window.Position.Y + (int)Math.Round(hub.Y * scaling);
+        var backFace = _dragBackFace;
+        log.LogInformation("Files let go on the riding bubble: the donut opens there for {Count} file(s)", files.Count);
+        Dispatcher.UIThread.Post(() =>
+        {
+            ShowForFiles(x, y, files, web: dropped.Web, backFace: backFace);
+            // The file manager can take the focus back for a moment as its drag ends: forgive that once.
+            _grace.Start();
+        });
     }
 
     /// <summary>

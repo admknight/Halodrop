@@ -14,15 +14,15 @@ public class UpdateServiceMirrorTests
 {
     private const string GitHub = "https://github.com/KnifeLemon/Filee/releases/download/v9.9.9/";
     private const string Mirror = "https://dl.filee.sh/9.9.9/";
-    private const string Setup = "Filee-9.9.9-win-Setup.exe";
-    private const string SumsName = "Filee-9.9.9-SHA256SUMS.txt";
+    private const string Setup = "Morph-9.9.9-win-Setup.exe";
+    private const string SumsName = "Morph-9.9.9-SHA256SUMS.txt";
 
     [Theory]
-    [InlineData("win", "Filee-2.5.0-win-Setup.exe", "https://dl.filee.sh/2.5.0/Filee-2.5.0-win-Setup.exe")]
-    [InlineData("win-arm64", "Filee-2.5.0-win-arm64-Setup.exe", "https://dl.filee.sh/2.5.0/Filee-2.5.0-win-arm64-Setup.exe")]
-    [InlineData("win", "Filee-2.5.0-SHA256SUMS.txt.sig", "https://dl.filee.sh/2.5.0/Filee-2.5.0-SHA256SUMS.txt.sig")]
+    [InlineData("win", "Morph-2.5.0-win-Setup.exe", "https://dl.filee.sh/2.5.0/Filee-2.5.0-win-Setup.exe")]
+    [InlineData("win-arm64", "Morph-2.5.0-win-arm64-Setup.exe", "https://dl.filee.sh/2.5.0/Filee-2.5.0-win-arm64-Setup.exe")]
+    [InlineData("win", "Morph-2.5.0-SHA256SUMS.txt.sig", "https://dl.filee.sh/2.5.0/Filee-2.5.0-SHA256SUMS.txt.sig")]
     [InlineData("win", "Setup.exe", null)]
-    [InlineData("linux-x64", "Filee-2.5.0-linux-x64.tar.gz", null)]
+    [InlineData("linux-x64", "Morph-2.5.0-linux-x64.tar.gz", null)]
     public void Mirror_has_the_windows_files_under_their_version(string target, string name, string? expected)
     {
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, new Network()) { TargetPlatform = target };
@@ -134,8 +134,8 @@ public class UpdateServiceMirrorTests
     public async Task Linux_files_are_not_taken_from_the_mirror()
     {
         var archive = RandomNumberGenerator.GetBytes(1_000);
-        const string name = "Filee-9.9.9-linux-x64.tar.gz";
-        const string sums = "Filee-9.9.9-linux-x64-SHA256SUMS.txt";
+        const string name = "Morph-9.9.9-linux-x64.tar.gz";
+        const string sums = "Morph-9.9.9-linux-x64-SHA256SUMS.txt";
         var network = new Network { GitHubFails = true };
         network.Serve(sums, Sums(archive, name)).Serve(name, archive);
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, network) { TargetPlatform = "linux-x64" };
@@ -161,7 +161,7 @@ public class UpdateServiceMirrorTests
     // ───────── Helpers ─────────
 
     private static byte[] Sums(byte[] installer, string name = Setup) =>
-        Encoding.ASCII.GetBytes($"{new string('1', 64)}  Filee-9.9.9-win-Portable.zip\n" +
+        Encoding.ASCII.GetBytes($"{new string('1', 64)}  Morph-9.9.9-win-Portable.zip\n" +
                                 $"{Convert.ToHexStringLower(SHA256.HashData(installer))}  {name}\n");
 
     private static byte[] Sign(ECDsa key, byte[] data) =>
@@ -179,7 +179,7 @@ public class UpdateServiceMirrorTests
 
     private static string TempFolder()
     {
-        var folder = Path.Combine(Path.GetTempPath(), "filee-update-test-" + Guid.NewGuid().ToString("N"));
+        var folder = Path.Combine(Path.GetTempPath(), "morph-update-test-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(folder);
         return folder;
     }
@@ -211,7 +211,7 @@ public class UpdateServiceMirrorTests
             var url = request.RequestUri!.ToString();
             lock (Requests)
                 Requests.Add(url);
-            Assert.Contains("Filee", request.Headers.UserAgent.ToString()); // Cloudflare refuses an empty one
+            Assert.Contains("Morph", request.Headers.UserAgent.ToString()); // Cloudflare refuses an empty one
             if (url.StartsWith(GitHub, StringComparison.Ordinal))
             {
                 OnGitHub?.Invoke();

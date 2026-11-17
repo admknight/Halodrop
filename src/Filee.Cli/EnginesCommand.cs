@@ -20,7 +20,7 @@ internal static class EnginesCommand
         var id = options.Inputs[1];
         if (EngineDownloads.Packages.FirstOrDefault(p => string.Equals(p.Id, id, StringComparison.OrdinalIgnoreCase)) is not { } package)
         {
-            errors.WriteLine($"filee: unknown engine '{id}'. Run 'filee engines' for the list.");
+            errors.WriteLine($"morph: unknown engine '{id}'. Run 'morph engines' for the list.");
             return Cli.UsageError;
         }
         var result = options.Inputs[0].ToLowerInvariant() switch
@@ -64,7 +64,7 @@ internal static class EnginesCommand
             });
         }
         else if (failed)
-            errors.WriteLine($"filee: {result.Message}");
+            errors.WriteLine($"morph: {result.Message}");
         else if (!options.Quiet)
             output.WriteLine(result.Message);
     }
@@ -115,8 +115,8 @@ internal static class EnginesCommand
         foreach (var line in lines)
             output.WriteLine($"{line.Id.PadRight(idWidth)}  {line.Status.PadRight(statusWidth)}  {line.Version.PadRight(versionWidth)}  {line.Size}");
         output.WriteLine();
-        output.WriteLine("Install one with: filee engines install <id>");
-        output.WriteLine("Without internet: 'filee engines download <id> -o <folder>' on another computer, then 'filee engines install <id> --from <folder>' here.");
+        output.WriteLine("Install one with: morph engines install <id>");
+        output.WriteLine("Without internet: 'morph engines download <id> -o <folder>' on another computer, then 'morph engines install <id> --from <folder>' here.");
         return Cli.Success;
     }
 
@@ -235,7 +235,7 @@ internal static class EnginesCommand
         }
         return new Result(package.Id, "saved",
             $"Saved {package.Id} {version} to {folder}: {string.Join(", ", files.Select(Path.GetFileName))}. "
-            + $"Install it there with: filee engines install {package.Id} --from <folder>", version, Files: files);
+            + $"Install it there with: morph engines install {package.Id} --from <folder>", version, Files: files);
     }
 
     /// <summary>Removes Filee's download, as the Engines page allows it; a copy Filee didn't download is never touched.</summary>
@@ -244,8 +244,8 @@ internal static class EnginesCommand
         var copy = engines.StatusOf(package);
         if (copy.Status == EngineCopyStatus.OwnCopy)
             return new Result(package.Id, "skipped", copy.FromSystem
-                ? $"{package.Id} uses the copy found at {copy.Folder}; Filee didn't download it."
-                : $"{package.Id} uses your own copy at {copy.Folder}; Filee didn't download it.");
+                ? $"{package.Id} uses the copy found at {copy.Folder}; Morph didn't download it."
+                : $"{package.Id} uses your own copy at {copy.Folder}; Morph didn't download it.");
         if (copy.Status == EngineCopyStatus.NotInstalled)
             return new Result(package.Id, "skipped", $"{package.Id} is not installed.");
         try
@@ -259,7 +259,7 @@ internal static class EnginesCommand
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            return new Result(package.Id, "failed", $"{package.Id} is in use; close Filee or wait for the conversion to finish.");
+            return new Result(package.Id, "failed", $"{package.Id} is in use; close Morph or wait for the conversion to finish.");
         }
     }
 
@@ -282,7 +282,7 @@ internal static class EnginesCommand
         package.Components.Sum(c => engines.Components[c].Size);
 
     private static string UnavailableReason(EnginePackage package) =>
-        EngineDownloads.UnavailableReason(package) ?? $"No Filee download of {package.Id} is available for {EngineDownloads.RuntimeIdentifier}.";
+        EngineDownloads.UnavailableReason(package) ?? $"No Morph download of {package.Id} is available for {EngineDownloads.RuntimeIdentifier}.";
 
     /// <summary>"297 MB", "1.3 GB", as Settings → Engines shows sizes.</summary>
     private static string Bytes(long bytes) => bytes >= 1_000_000_000

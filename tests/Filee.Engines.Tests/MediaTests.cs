@@ -483,9 +483,9 @@ public class MediaTests(EngineFixture fx) : IClassFixture<EngineFixture>
         static byte[] Text(string text, int length) => [.. Encoding.ASCII.GetBytes(text.PadRight(length))];
 
         w.Write(Text("Extended Module: ", 17));
-        w.Write(Text("Filee test", 20));
+        w.Write(Text("Morph test", 20));
         w.Write((byte)0x1A);
-        w.Write(Text("Filee", 20));
+        w.Write(Text("Morph", 20));
         w.Write((ushort)0x0104);
         w.Write(276u); // header size, counted from this field: 20 bytes of fields + the 256-entry order table
         w.Write((ushort)1); // song length (orders)

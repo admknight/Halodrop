@@ -14,7 +14,7 @@ internal static class Help
     {
         "convert" => Convert,
         "watch" => Watch,
-        "formats" => "Usage: filee formats [<format>] [--json]\n\nLists every format, or what one format converts to.\n" +
+        "formats" => "Usage: morph formats [<format>] [--json]\n\nLists every format, or what one format converts to.\n" +
                      "With --json, prints the same as JSON (for scripts and other programs).\n",
         "presets" => Presets,
         "engines" => Engines,
@@ -22,40 +22,40 @@ internal static class Help
     };
 
     private const string General = """
-        Filee: convert files offline from the command line.
+        Morph: convert files offline from the command line.
 
         Usage:
-          filee convert <files or folders...> --to <format> [options]
-          filee convert <files or folders...> --preset <preset> [options]
-          filee watch <folder> --to <format> [options]
-          filee formats [<format>] [--json]
-          filee presets [--json]
-          filee presets check <folder> [--json]
-          filee engines [--json]
-          filee engines (install | remove) <engine> [--json]
-          filee engines download <engine> -o <folder> [--json]
-          filee help [<command>]
-          filee version
+          morph convert <files or folders...> --to <format> [options]
+          morph convert <files or folders...> --preset <preset> [options]
+          morph watch <folder> --to <format> [options]
+          morph formats [<format>] [--json]
+          morph presets [--json]
+          morph presets check <folder> [--json]
+          morph engines [--json]
+          morph engines (install | remove) <engine> [--json]
+          morph engines download <engine> -o <folder> [--json]
+          morph help [<command>]
+          morph version
 
         Examples:
-          filee convert folder --to iso --iso-filesystem udf201
-          filee convert photo.heic --to jpg
-          filee convert *.png --to webp --quality 80 -o converted
-          filee convert D:\Scans --recursive --preset to-pdf
-          filee watch D:\Inbox --to pdf --move-originals
-          filee engines install pandoc
+          morph convert folder --to iso --iso-filesystem udf201
+          morph convert photo.heic --to jpg
+          morph convert *.png --to webp --quality 80 -o converted
+          morph convert D:\Scans --recursive --preset to-pdf
+          morph watch D:\Inbox --to pdf --move-originals
+          morph engines install pandoc
 
-        Presets and engines are the ones in the Filee app. Exit codes: 0 nothing failed (skipped
+        Presets and engines are the ones in the Morph app. Exit codes: 0 nothing failed (skipped
         files included), 1 some failed or were cancelled, 2 wrong arguments or a missing input, 3 nothing to
         convert.
 
         """;
 
     private const string Presets = """
-        Usage: filee presets [--json]
-               filee presets check <folder> [--json] [--quiet]
+        Usage: morph presets [--json]
+               morph presets check <folder> [--json] [--quiet]
 
-        Lists the presets saved in Filee (built-in and your own). With --json, prints the same as JSON (for scripts
+        Lists the presets saved in Morph (built-in and your own). With --json, prints the same as JSON (for scripts
         and other programs).
 
         'check' checks a shared preset for the preset gallery: a folder with preset.json (what Settings → General →
@@ -78,20 +78,20 @@ internal static class Help
         """;
 
     private const string Engines = """
-        Usage: filee engines [--json]
-               filee engines install <engine> [--from <file or folder>...] [--json] [--quiet]
-               filee engines download <engine> -o <folder> [--json] [--quiet]
-               filee engines remove <engine> [--json] [--quiet]
+        Usage: morph engines [--json]
+               morph engines install <engine> [--from <file or folder>...] [--json] [--quiet]
+               morph engines download <engine> -o <folder> [--json] [--quiet]
+               morph engines remove <engine> [--json] [--quiet]
 
         Lists the optional engines of Settings → Engines (LibreOffice, Pandoc, FFmpeg, …), or installs or removes
-        one with the same download and checks as the app. 'remove' only removes what Filee downloaded; your own copy
+        one with the same download and checks as the app. 'remove' only removes what Morph downloaded; your own copy
         and one found on this computer are left alone.
 
         Without internet: 'download' saves an engine's files in a folder on a computer with internet, and
         'install --from' installs them from that folder (or from the files downloaded by hand). The files have to be
-        the ones this version of Filee downloads: each is checked against its SHA-256 before anything is installed.
+        the ones this version of Morph downloads: each is checked against its SHA-256 before anything is installed.
 
-        In the JSON of the list, "version" is the version Filee downloads, also for an engine whose status is
+        In the JSON of the list, "version" is the version Morph downloads, also for an engine whose status is
         "owncopy" (your own copy or one found on this computer).
 
         Options:
@@ -104,14 +104,14 @@ internal static class Help
         """;
 
     private const string Convert = """
-        Usage: filee convert <files or folders...> (--to <format> | --preset <preset>) [options]
+        Usage: morph convert <files or folders...> (--to <format> | --preset <preset>) [options]
 
-        Files can be wildcards (*.heic). Folders convert the files in them that Filee knows.
+        Files can be wildcards (*.heic). Folders convert the files in them that Morph knows.
 
         Options:
-          -t, --to <format>      Target format, e.g. jpg, png, pdf, docx, mp4 (see 'filee formats'); same-audio
+          -t, --to <format>      Target format, e.g. jpg, png, pdf, docx, mp4 (see 'morph formats'); same-audio
                                  takes a video's sound out as it is (AAC → M4A, Opus → OPUS, DTS → MKA, …)
-          -p, --preset <preset>  A preset from the app, by id or name (see 'filee presets')
+          -p, --preset <preset>  A preset from the app, by id or name (see 'morph presets')
               --iso-filesystem <joliet|udf201>
                                  ISO filesystem; an explicit choice overrides the preset (default: Joliet).
           -o, --output <folder>  Save there instead of next to the sources
@@ -140,7 +140,7 @@ internal static class Help
         """;
 
     private static string Watch => FormattableString.Invariant($$"""
-        Usage: filee watch <folder> (--to <format> | --preset <preset>) [options]
+        Usage: morph watch <folder> (--to <format> | --preset <preset>) [options]
 
         Converts files that land in the folder until Ctrl+C. Files are converted once they are complete (no
         longer growing or open in another program). Output goes to a "converted" folder inside it unless -o is given.
@@ -159,7 +159,7 @@ internal static class Help
               --quiet            Print nothing but errors
 
         With --json, stdout gets nothing but events: {"event":"started",…} with the folder, preset, target and output
-        folder, {"event":"file",…} as each file is done (the fields of 'filee convert --json'), and
+        folder, {"event":"file",…} as each file is done (the fields of 'morph convert --json'), and
         {"event":"stopped"} on Ctrl+C.
 
         """);

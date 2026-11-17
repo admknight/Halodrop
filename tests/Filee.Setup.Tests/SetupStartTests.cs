@@ -18,8 +18,8 @@ public class SetupStartTests
     }
 
     [Theory]
-    [InlineData("Filee-2.0.0-win-Setup.exe")]
-    [InlineData("Filee-2.0.0-win-Setup (1).exe")]
+    [InlineData("Morph-2.0.0-win-Setup.exe")]
+    [InlineData("Morph-2.0.0-win-Setup (1).exe")]
     [InlineData("setup.exe")]
     public void A_setup_cut_off_in_its_payload_is_incomplete_not_the_uninstaller(string name)
     {
@@ -45,7 +45,7 @@ public class SetupStartTests
         using var temp = new TempFolder();
         var signed = SignedSetup(temp);
         var bytes = File.ReadAllBytes(signed);
-        var cut = temp.Sub("Filee-2.0.0-win-Setup.exe");
+        var cut = temp.Sub("Morph-2.0.0-win-Setup.exe");
         File.WriteAllBytes(cut, bytes[..^missing]);
 
         var start = SetupStart.Of(cut, uninstall: false);
@@ -59,7 +59,7 @@ public class SetupStartTests
         // Cut exactly where the signature starts: the payload is whole, its checksum says so when installing.
         using var temp = new TempFolder();
         var bytes = File.ReadAllBytes(SignedSetup(temp));
-        var cut = temp.Sub("Filee-2.0.0-win-Setup.exe");
+        var cut = temp.Sub("Morph-2.0.0-win-Setup.exe");
         File.WriteAllBytes(cut, bytes[..^512]);
         var start = SetupStart.Of(cut, uninstall: false);
         using var payload = start.Payload;
@@ -126,7 +126,7 @@ public class SetupStartTests
     /// <summary>A Setup.exe whose header points at a 512-byte certificate table at its end, as signtool leaves it.</summary>
     private static string SignedSetup(TempFolder temp)
     {
-        temp.Write(@"app\Filee.exe", "Filee");
+        temp.Write(@"app\Morph.exe", "Filee");
         var program = temp.Sub("program.exe");
         File.WriteAllBytes(program, PayloadTests.MinimalPe(0, 0));
         var unsigned = temp.Sub("unsigned.exe");

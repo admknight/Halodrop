@@ -92,7 +92,7 @@ public class AskCompressionTests
     public async Task Dropping_a_photo_asks_for_the_quality_then_compresses_it_or_esc_starts_nothing(bool cancel, bool remember)
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-ask-compression-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-ask-compression-").FullName;
         var store = AppHost.Get<UserDataStore>();
         var profile = store.Profiles.Single(p => p.Id == "images");
         var previous = profile.PresetIds;
@@ -212,7 +212,7 @@ public class AskCompressionTests
         vm.VideoQuality = vm.VideoQualities.Single(q => q.Value == MediaQuality.Balanced);
         await Task.Delay(20, Ct);
         Dispatcher.UIThread.RunJobs();
-        Assert.Equal("Filee can't estimate the size of these files.", vm.EstimateText);
+        Assert.Equal("Morph can't estimate the size of these files.", vm.EstimateText);
     }
 
     /// <summary>Only the newest estimate is shown: one that ends after a later change is dropped.</summary>

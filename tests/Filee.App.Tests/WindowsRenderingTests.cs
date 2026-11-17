@@ -188,12 +188,12 @@ public class WindowsRenderingTests
     public void The_log_line_says_what_was_asked()
     {
         Assert.StartsWith("Rendering: ", WindowsRendering.Describe(null));
-        Assert.EndsWith("(FILEE_RENDERING=software)", WindowsRendering.Describe(" Software"));
-        Assert.EndsWith("(FILEE_RENDERING=vulkan)", WindowsRendering.Describe("Vulkan"));
-        Assert.EndsWith("(FILEE_RENDERING=opengl is unknown and ignored)", WindowsRendering.Describe("opengl"));
-        Assert.EndsWith("(FILEE_RENDERING not set)", WindowsRendering.Describe(null, Architecture.X64));
-        Assert.EndsWith("(FILEE_RENDERING not set, gpu on ARM64)", WindowsRendering.Describe(null, Architecture.Arm64));
-        Assert.EndsWith("(FILEE_RENDERING=auto)", WindowsRendering.Describe(" Auto", Architecture.Arm64));
+        Assert.EndsWith("(MORPH_RENDERING=software)", WindowsRendering.Describe(" Software"));
+        Assert.EndsWith("(MORPH_RENDERING=vulkan)", WindowsRendering.Describe("Vulkan"));
+        Assert.EndsWith("(MORPH_RENDERING=opengl is unknown and ignored)", WindowsRendering.Describe("opengl"));
+        Assert.EndsWith("(MORPH_RENDERING not set)", WindowsRendering.Describe(null, Architecture.X64));
+        Assert.EndsWith("(MORPH_RENDERING not set, gpu on ARM64)", WindowsRendering.Describe(null, Architecture.Arm64));
+        Assert.EndsWith("(MORPH_RENDERING=auto)", WindowsRendering.Describe(" Auto", Architecture.Arm64));
     }
 }
 

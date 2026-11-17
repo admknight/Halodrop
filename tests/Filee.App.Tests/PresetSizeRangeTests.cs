@@ -55,7 +55,7 @@ public class PresetSizeRangeTests
     public void Kilobytes_are_saved_as_megabytes_and_read_back_in_kilobytes()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-size-range-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-size-range-").FullName;
         try
         {
             var preset = new Preset { Id = "size-range", Name = "Upload", TargetFormat = "jpg" };

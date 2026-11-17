@@ -39,8 +39,8 @@ public class UnhwpNativeTests
     [Fact]
     public void A_shipped_library_that_does_not_load_counts_as_shipped()
     {
-        var empty = Directory.CreateTempSubdirectory("filee-unhwp-").FullName;
-        var shipped = Directory.CreateTempSubdirectory("filee-unhwp-").FullName;
+        var empty = Directory.CreateTempSubdirectory("morph-unhwp-").FullName;
+        var shipped = Directory.CreateTempSubdirectory("morph-unhwp-").FullName;
         try
         {
             File.WriteAllText(Path.Combine(shipped, "unhwp.dll"), "not a library");

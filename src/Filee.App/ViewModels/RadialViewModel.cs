@@ -334,7 +334,7 @@ public sealed partial class RadialViewModel(UserDataStore store, ILocalizer loc,
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>The id of the example group <see cref="ShowExampleGroup"/> hangs off the top slice.</summary>
-    public const string ExampleGroupId = "filee-example-group";
+    public const string ExampleGroupId = "morph-example-group";
 
     /// <summary>
     /// For a donut with no group, while its ring settings are adjusted: the top slice fans out an example ring of four

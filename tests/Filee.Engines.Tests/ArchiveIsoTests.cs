@@ -13,7 +13,7 @@ namespace Filee.Engines.Tests;
 
 public sealed class ArchiveIsoTests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-archive-iso-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-archive-iso-").FullName;
     public void Dispose() => Directory.Delete(_root, true);
 
     public static IEnumerable<object[]> ReadableFormats() => ArchiveExtractor.ReadableFormats.Select(f => new object[] { f });
@@ -199,7 +199,7 @@ public sealed class ArchiveIsoTests : IDisposable
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => converter.ConvertAsync(step, null, cancel.Token));
         Assert.Equal("old image", File.ReadAllText(output));
         Assert.Empty(Directory.GetDirectories(_root, "archive-*"));
-        Assert.Empty(Directory.GetFiles(_root, ".filee-iso-*.tmp"));
+        Assert.Empty(Directory.GetFiles(_root, ".morph-iso-*.tmp"));
     }
 
     private async Task<ConversionJob> Run(string input)

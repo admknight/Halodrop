@@ -264,7 +264,7 @@ public static partial class ExifTool
         // Absolute, so the path can never start with "-" and be read as an option. No separator: a list comes as a
         // JSON array, its entries whole.
         path = Path.GetFullPath(path);
-        var work = Directory.CreateTempSubdirectory("filee-exiftool-").FullName;
+        var work = Directory.CreateTempSubdirectory("morph-exiftool-").FullName;
         try
         {
             using var output = new MemoryStream();
@@ -512,7 +512,7 @@ public static partial class ExifTool
     /// </summary>
     public static bool KeptByRemoveAll(MetadataField field) => field.Tag == "Orientation" && (IsIfd(field.Group) || field.Group == "XMP-tiff");
 
-    private const string Config = "filee.config";
+    private const string Config = "morph.config";
 
     /// <summary>
     /// ExifTool's own configuration for a write: macOS puts these in XMP, where ExifTool reads them but wouldn't write or

@@ -73,7 +73,7 @@ public class FolderIso632Tests
     public void A_deleted_folders_profile_falls_back_to_normal_profile_selection(string folderName, bool clickMode)
     {
         TestServices.EnsureInitialized("en");
-        var root = Directory.CreateTempSubdirectory("filee-deleted-folder-profile-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-deleted-folder-profile-").FullName;
         try
         {
             var folder = Directory.CreateDirectory(Path.Combine(root, folderName)).FullName;
@@ -107,7 +107,7 @@ public class FolderIso632Tests
     {
         Assert.SkipUnless(SevenZip.Locate() is not null, "Bundled 7-Zip is required for archive-to-ISO availability.");
         TestServices.EnsureInitialized("en");
-        var root = Directory.CreateTempSubdirectory("filee-archives-iso-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-archives-iso-").FullName;
         try
         {
             var store = new UserDataStore(root);
@@ -154,7 +154,7 @@ public class FolderIso632Tests
     public async Task Folder_toolbar_passes_folder_context_to_new_and_existing_preset_dialogs()
     {
         TestServices.EnsureInitialized("en");
-        var root = Directory.CreateTempSubdirectory("filee-folder-editor-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-folder-editor-").FullName;
         var windows = AppHost.Get<WindowService>();
         try
         {
@@ -222,7 +222,7 @@ public class FolderIso632Tests
     public void Folder_group_editor_only_offers_folder_actions_without_removing_existing_members()
     {
         TestServices.EnsureInitialized("en");
-        var root = Directory.CreateTempSubdirectory("filee-folder-group-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-folder-group-").FullName;
         try
         {
             var store = new UserDataStore(root);
@@ -245,7 +245,7 @@ public class FolderIso632Tests
     public void Folder_palette_offers_only_compatible_presets_and_groups_even_when_searching_or_switching_tabs()
     {
         TestServices.EnsureInitialized("en");
-        var root = Directory.CreateTempSubdirectory("filee-folder-palette-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-folder-palette-").FullName;
         var store = new UserDataStore(root);
         store.Load();
         var folders = store.Profiles.Single(p => p.Id == "folders");
@@ -300,7 +300,7 @@ public class FolderIso632Tests
     public void Folder_input_opens_the_iso_donut_and_editor_shows_no_compression()
     {
         TestServices.EnsureInitialized("en");
-        var root = Directory.CreateTempSubdirectory("filee-iso632-ui-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-iso632-ui-").FullName;
         try
         {
             var folder = Directory.CreateDirectory(Path.Combine(root, "photos.jpg")).FullName;

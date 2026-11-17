@@ -92,7 +92,7 @@ public sealed class WebDownloaderTests : IDisposable
 
     private Uri Url(string path) => new(_root + path.TrimStart('/'));
 
-    private static WebDownloader Downloader() => new(userAgent: "Filee-tests/1.0") { IsRefused = AllButTheServer };
+    private static WebDownloader Downloader() => new(userAgent: "Morph-tests/1.0") { IsRefused = AllButTheServer };
 
     /// <summary>Every local address but the test server's.</summary>
     private static bool AllButTheServer(IPAddress address) => !address.Equals(IPAddress.Loopback) && LocalNetwork.IsLocal(address);

@@ -12,7 +12,7 @@ public sealed class SystemIntegrationTests
     [Fact]
     public void A_marked_copy_never_registers_or_removes_installed_integration()
     {
-        var root = Directory.CreateTempSubdirectory("filee-portable-integration-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-portable-integration-").FullName;
         var previous = Environment.GetEnvironmentVariable(UserDataStore.DirectoryVariable);
         Environment.SetEnvironmentVariable(UserDataStore.DirectoryVariable, null);
         try
@@ -23,7 +23,7 @@ public sealed class SystemIntegrationTests
             var service = new SystemIntegrationService(platform, new Texts(), NullLogger<SystemIntegrationService>.Instance)
             {
                 RegistrationEnabled = true,
-                ExecutablePath = Path.Combine(root, "Filee.exe"),
+                ExecutablePath = Path.Combine(root, "Morph.exe"),
             };
             Assert.True(service.SeparateDataDirectory);
             service.Apply(new AppSettings { StartWithSystem = true, ContextMenuEnabled = true });
@@ -107,7 +107,7 @@ public sealed class SystemIntegrationTests
         {
             RegistrationEnabled = true,
             SeparateDataDirectory = true,
-            ExecutablePath = Path.Combine(Path.GetTempPath(), "Filee test", "Filee"),
+            ExecutablePath = Path.Combine(Path.GetTempPath(), "Morph test", "Morph"),
         };
         service.Apply(new AppSettings { StartWithSystem = true, ContextMenuEnabled = true });
         Assert.Equal(0, platform.StartupCalls);
@@ -119,7 +119,7 @@ public sealed class SystemIntegrationTests
         {
             RegistrationEnabled = true,
             SeparateDataDirectory = false,
-            ExecutablePath = Path.Combine(Path.GetTempPath(), "Filee test", "Filee"),
+            ExecutablePath = Path.Combine(Path.GetTempPath(), "Morph test", "Morph"),
         };
 
     private sealed class Texts : ILocalizer

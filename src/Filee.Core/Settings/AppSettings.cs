@@ -65,6 +65,23 @@ public sealed class ThemeSettings
 }
 
 /// <summary>Geometry and appearance of the donut toolbar.</summary>
+/// <summary>Morph change: where the donut of a drag gesture opens.</summary>
+public enum DonutOpenAt
+{
+    /// <summary>Where the drag started, and it stays there (Filee's way).</summary>
+    DragStart,
+
+    /// <summary>
+    /// A bubble with the files rides under the cursor; letting go anywhere opens the donut right there, to click a slice.
+    /// </summary>
+    LetGo,
+
+    /// <summary>
+    /// The donut trails the cursor and settles once it pauses; going well past the ring sets it following again.
+    /// </summary>
+    FollowMe,
+}
+
 public sealed class DonutSettings
 {
     /// <summary>Outer radius in logical pixels.</summary>
@@ -130,6 +147,12 @@ public sealed class DonutSettings
 
     /// <summary>A turn of the mouse wheel flips the open donut to its other face.</summary>
     public bool FlipWithWheel { get; set; } = true;
+
+    /// <summary>
+    /// Morph change: where the donut of a drag gesture opens (Settings → Shortcuts). <see cref="DonutOpenAt.LetGo"/> by
+    /// default: a small bubble rides with the cursor and the donut opens where the files are let go.
+    /// </summary>
+    public DonutOpenAt OpenAt { get; set; } = DonutOpenAt.LetGo;
 
     /// <summary>
     /// Keys that never flip the donut: Esc closes it, Enter and Space convert or open a group, the arrows move between

@@ -335,7 +335,7 @@ internal sealed partial class CanvasText
         return alt.Length > 0 ? alt.ToString() : Path.GetFileName(image.Url ?? "");
     }
 
-    private const string EmbedScheme = "filee-embed:";
+    private const string EmbedScheme = "morph-embed:";
 
     /// <summary>
     /// The Markdown with Obsidian's internal links ([[Note]], [[Note|shown text]], ![[picture.png]]) written as ordinary
@@ -360,7 +360,7 @@ internal sealed partial class CanvasText
                     var shown = match.Groups["alias"].Success ? match.Groups["alias"].Value
                         : target.EndsWith(".md", StringComparison.OrdinalIgnoreCase) ? target[..^3] : target;
                     shown = MarkdownSpecial().Replace(shown.Replace("#", " > ", StringComparison.Ordinal), @"\$0");
-                    return $"[{shown}](<{(match.Groups["embed"].Success ? EmbedScheme : "filee-link:")}>)";
+                    return $"[{shown}](<{(match.Groups["embed"].Success ? EmbedScheme : "morph-link:")}>)";
                 });
         }
         return string.Join('\n', lines);

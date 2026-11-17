@@ -17,7 +17,7 @@ internal static class PresetsCheckCommand
         var folder = options.Inputs[1];
         if (!Directory.Exists(folder))
         {
-            errors.WriteLine($"filee: not a folder: {folder}");
+            errors.WriteLine($"morph: not a folder: {folder}");
             return Cli.UsageError;
         }
         var result = SharedPresetFolderCheck.Check(folder, new SkiaImageDecoder());
@@ -42,7 +42,7 @@ internal static class PresetsCheckCommand
             output.WriteLine($"warning ({warning.Severity}): {warning.Message} ({warning.Code}: {string.Join(", ", warning.Presets)})");
         output.WriteLine($"OK: {derived.Presets} preset(s), {derived.Profiles} donut(s). Kinds: {string.Join(", ", derived.Kinds)}. "
             + $"Formats: {(derived.From.Count == 0 ? "any" : string.Join(", ", derived.From))} → {(derived.To.Count == 0 ? "-" : string.Join(", ", derived.To))}. "
-            + $"Needs Filee {derived.MinVersion} or later.");
+            + $"Needs Morph {derived.MinVersion} or later.");
     }
 
     private static void WriteJson(PresetCheckResult result, TextWriter output) => Cli.WriteJsonDocument(output, json =>

@@ -50,7 +50,7 @@ public class EmlTests(EngineFixture fx) : IClassFixture<EngineFixture>
         using var logo = new MagickImage(MagickColors.Teal, 16, 16);
         var png = logo.ToByteArray(MagickFormat.Png);
         const string Html = "<html><head><style>p { color: #C00000; }</style></head><body><p>안녕하세요. 자료를 보냅니다.</p>" +
-                            "<img src=\"cid:logo@filee\" alt=\"logo\"><script>alert('x')</script>" +
+                            "<img src=\"cid:logo@morph\" alt=\"logo\"><script>alert('x')</script>" +
                             "<img src=\"https://tracker.example/pixel\" onerror=\"alert('x')\">" +
                             "<a href=\"javascript:alert('x')\">bad link</a><svg onload=\"alert('x')\"></svg>" +
                             "<table bgcolor=\"#EEEEEE\"><tr><td valign=\"top\"><font color=\"#336699\">표 안</font></td></tr></table>" +
@@ -84,7 +84,7 @@ public class EmlTests(EngineFixture fx) : IClassFixture<EngineFixture>
             "--alt--",
             "--related",
             "Content-Type: image/png",
-            "Content-ID: <logo@filee>",
+            "Content-ID: <logo@morph>",
             "Content-Transfer-Encoding: base64",
             "",
             Base64Lines(png),
@@ -176,7 +176,7 @@ public class EmlTests(EngineFixture fx) : IClassFixture<EngineFixture>
 
         var html = await File.ReadAllTextAsync(await ConvertAsync(path, "html"), TestContext.Current.CancellationToken);
         Assert.Contains("<title>한글 제목</title>", html);
-        Assert.Contains("<pre class=\"filee-mail-text\">본문 &lt;첫 줄&gt;\n둘째 줄", html.ReplaceLineEndings("\n"));
+        Assert.Contains("<pre class=\"morph-mail-text\">본문 &lt;첫 줄&gt;\n둘째 줄", html.ReplaceLineEndings("\n"));
         Assert.DoesNotContain("Attachments", html);
 
         // No attachments: a clear error instead of an empty ZIP.

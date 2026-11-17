@@ -4,7 +4,7 @@
         x:Class="Filee.App.Views.FileeConnectWindow"
         x:DataType="vm:FileeConnectViewModel"
         Title="{DynamicResource connect.title}"
-        Icon="avares://Filee/Assets/Icons/filee.ico"
+        Icon="avares://Morph/Assets/Icons/morph.ico"
         Width="760" Height="620" MinWidth="600" MinHeight="500"
         WindowStartupLocation="CenterScreen">
   <Window.Styles>
@@ -47,9 +47,9 @@
         <DockPanel LastChildFill="False">
           <!-- Left: FileeConnect Brand -->
           <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-            <Image Source="avares://Filee/Assets/Icons/filee.png" Width="26" Height="26" />
+            <Image Source="avares://Morph/Assets/Icons/morph.png" Width="26" Height="26" />
             <TextBlock FontSize="17" FontWeight="Bold" VerticalAlignment="Center">
-              <Run Text="Filee" Foreground="{DynamicResource TextPrimaryBrush}" />
+              <Run Text="Morph" Foreground="{DynamicResource TextPrimaryBrush}" />
               <Run Text="Connect" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" />
             </TextBlock>
           </StackPanel>
@@ -258,9 +258,9 @@
         <!-- Modal Header with Title & Close button -->
         <DockPanel LastChildFill="False">
           <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-            <Image Source="avares://Filee/Assets/Icons/filee.png" Width="22" Height="22" />
+            <Image Source="avares://Morph/Assets/Icons/morph.png" Width="22" Height="22" />
             <TextBlock FontSize="16" FontWeight="Bold" VerticalAlignment="Center">
-              <Run Text="Filee" Foreground="{DynamicResource TextPrimaryBrush}" />
+              <Run Text="Morph" Foreground="{DynamicResource TextPrimaryBrush}" />
               <Run Text="Connect" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" />
             </TextBlock>
           </StackPanel>

@@ -44,11 +44,11 @@ public class WhisperTests
     public void Transcript_is_the_spoken_text_without_times()
     {
         // As whisper-cli writes it: a line repeated over several segments, which happens on long pauses.
-        var srt = "1\n00:00:00,000 --> 00:00:02,000\n Hello everyone.\n\n2\n00:00:02,000 --> 00:00:04,000\n Today we talk about Filee.\n\n" +
-                  "3\n00:00:04,000 --> 00:00:06,000\n Today we talk about Filee.\n\n4\n00:00:06,000 --> 00:00:08,000\n Thank you.\n\n";
+        var srt = "1\n00:00:00,000 --> 00:00:02,000\n Hello everyone.\n\n2\n00:00:02,000 --> 00:00:04,000\n Today we talk about Morph.\n\n" +
+                  "3\n00:00:04,000 --> 00:00:06,000\n Today we talk about Morph.\n\n4\n00:00:06,000 --> 00:00:08,000\n Thank you.\n\n";
         var text = new UTF8Encoding(false).GetString(WhisperConverter.Transcript(Encoding.UTF8.GetBytes(srt))).TrimStart('﻿');
 
-        Assert.Equal("Hello everyone.\r\nToday we talk about Filee.\r\nThank you.\r\n", text);
+        Assert.Equal("Hello everyone.\r\nToday we talk about Morph.\r\nThank you.\r\n", text);
         // Silence: Whisper's SRT has no cues, and the text is empty like it.
         Assert.Empty(WhisperConverter.Transcript(Encoding.UTF8.GetBytes("\n")));
     }
@@ -78,7 +78,7 @@ public class WhisperTests
     [Fact]
     public void The_largest_model_is_used_even_next_to_the_downloaded_base()
     {
-        var root = Directory.CreateTempSubdirectory("filee-whisper-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-whisper-").FullName;
         try
         {
             // Filee downloads base into whisper-model; the user puts small next to it and medium in their own copy's folder.

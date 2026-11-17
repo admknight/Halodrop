@@ -173,7 +173,7 @@ public sealed class TranslatorConverter : IConverter
     public async Task<IReadOnlyList<string>> ConvertAsync(ConversionStep step, IProgress<double>? progress, CancellationToken cancellationToken)
     {
         if (_translationService is null && OllamaEndpoint.IgnoredValue is { } ignored)
-            _logger?.LogWarning("Ignored {Variable}={Value}: Filee only uses an Ollama on this computer, so it uses {Address}",
+            _logger?.LogWarning("Ignored {Variable}={Value}: Morph only uses an Ollama on this computer, so it uses {Address}",
                 OllamaEndpoint.Variable, ignored, OllamaEndpoint.Address);
 
         var isAvailable = _translationService is not null || await TranslationService.IsLocalOllamaAvailableAsync(cancellationToken);

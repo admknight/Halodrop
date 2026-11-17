@@ -92,7 +92,7 @@ public class FieldsPageTests
     public void Turning_a_field_off_on_the_page_saves_it_and_survives_a_restart()
     {
         TestServices.EnsureInitialized();
-        var directory = Directory.CreateTempSubdirectory("filee-fields-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-fields-").FullName;
         var window = new Window { Width = 800, Height = 820 };
         var restarted = new Window { Width = 800, Height = 820 };
         try
@@ -143,7 +143,7 @@ public class FieldsPageTests
     public void Turning_a_field_on_keeps_ids_this_version_does_not_know()
     {
         TestServices.EnsureInitialized();
-        var directory = Directory.CreateTempSubdirectory("filee-fields-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-fields-").FullName;
         var window = new Window { Width = 800, Height = 820 };
         try
         {

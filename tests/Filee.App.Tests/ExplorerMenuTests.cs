@@ -55,7 +55,7 @@ public class ExplorerMenuTests
         Assert.Equal("10.0.22000.0", (string?)manifest.Descendants(F + "TargetDeviceFamily").Single().Attribute("MinVersion"));
 
         var app = manifest.Descendants(F + "Application").Single();
-        Assert.Equal("Filee.exe", (string?)app.Attribute("Executable"));
+        Assert.Equal("Morph.exe", (string?)app.Attribute("Executable"));
         Assert.Equal("mediumIL", (string?)app.Attribute(Uap10 + "TrustLevel"));
         Assert.Equal("win32App", (string?)app.Attribute(Uap10 + "RuntimeBehavior"));
         Assert.Equal("none", (string?)app.Element(Uap + "VisualElements")!.Attribute("AppListEntry"));
@@ -84,7 +84,7 @@ public class ExplorerMenuTests
         Assert.Equal(ExplorerMenuPackage.ClassId, fromSource);
 
         Assert.Contains($"#define LIST_PREFIX L\"{CommandLine.ListFilePrefix}\"", source);
-        Assert.Contains($"#define TITLE_FILE L\"Filee\\\\{ExplorerMenuPackage.TitleFileName}\"", source);
+        Assert.Contains($"#define TITLE_FILE L\"Morph\\\\{ExplorerMenuPackage.TitleFileName}\"", source);
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class ExplorerMenuTests
     public void Reading_the_registered_package_never_throws()
     {
         Assert.SkipUnless(OperatingSystem.IsWindowsVersionAtLeast(10), "Package APIs need Windows.");
-        Assert.Null(ExplorerMenuRegistration.ExternalLocationOf("Filee.NotInstalled_1.0.0.0_x64__0000000000000"));
+        Assert.Null(ExplorerMenuRegistration.ExternalLocationOf("Morph.NotInstalled_1.0.0.0_x64__0000000000000"));
         // Whatever is registered on this machine (nothing on CI): a registered sparse package has an external location.
         if (ExplorerMenuRegistration.Find() is { } package)
             Assert.False(string.IsNullOrEmpty(package.ExternalLocation), package.FullName);
@@ -129,53 +129,53 @@ public class ExplorerMenuTests
     public void A_package_of_the_other_architecture_is_outdated_and_replaced()
     {
         // Setup switches an install between x64 and ARM64 in place: same folder, same package version.
-        const string folder = @"C:\Program Files\Filee";
+        const string folder = @"C:\Program Files\Morph";
         var version = ExplorerMenuPackage.ManifestVersion;
-        var x64 = new ExplorerMenuRegistration.RegisteredPackage($"Filee.ExplorerMenu_{version}_x64__c73vxh346rtay", version, folder, "x64");
-        var arm64 = x64 with { FullName = $"Filee.ExplorerMenu_{version}_arm64__c73vxh346rtay", Architecture = "arm64" };
+        var x64 = new ExplorerMenuRegistration.RegisteredPackage($"Morph.ExplorerMenu_{version}_x64__c73vxh346rtay", version, folder, "x64");
+        var arm64 = x64 with { FullName = $"Morph.ExplorerMenu_{version}_arm64__c73vxh346rtay", Architecture = "arm64" };
 
         Assert.Equal(ModernContextMenuState.On, ExplorerMenuRegistration.StateOf(x64, folder, "x64"));
         Assert.Equal(ModernContextMenuState.On, ExplorerMenuRegistration.StateOf(arm64, folder, "arm64"));
         Assert.Equal(ModernContextMenuState.Outdated, ExplorerMenuRegistration.StateOf(x64, folder, "arm64"));
         Assert.Equal(ModernContextMenuState.Outdated, ExplorerMenuRegistration.StateOf(arm64, folder, "x64"));
-        Assert.Equal(ModernContextMenuState.Outdated, ExplorerMenuRegistration.StateOf(x64, @"D:\Other\Filee", "x64"));
+        Assert.Equal(ModernContextMenuState.Outdated, ExplorerMenuRegistration.StateOf(x64, @"D:\Other\Morph", "x64"));
         Assert.Equal(ModernContextMenuState.Off, ExplorerMenuRegistration.StateOf(null, folder, "x64"));
         Assert.True(ExplorerMenuRegistration.IsOtherArchitecture(x64, "arm64"));
         Assert.False(ExplorerMenuRegistration.IsOtherArchitecture(arm64, "ARM64"));
         Assert.Equal(RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "arm64" : "x64", ExplorerMenuRegistration.BuildArchitecture);
 
-        var replace = ExplorerMenuRegistration.BuildAddScript(@"C:\Program Files\Filee\FileeExplorerMenu.msix", folder, @"C:\Temp\err.txt", removeFirst: true);
-        Assert.Matches(@"Get-AppxPackage -Name 'Filee\.ExplorerMenu' \| Remove-AppxPackage; Add-AppxPackage ", replace);
+        var replace = ExplorerMenuRegistration.BuildAddScript(@"C:\Program Files\Morph\MorphExplorerMenu.msix", folder, @"C:\Temp\err.txt", removeFirst: true);
+        Assert.Matches(@"Get-AppxPackage -Name 'Morph\.ExplorerMenu' \| Remove-AppxPackage; Add-AppxPackage ", replace);
         Assert.DoesNotContain("Remove-AppxPackage", ExplorerMenuRegistration.BuildAddScript(@"C:\a.msix", folder, @"C:\Temp\err.txt"));
     }
 
     [Fact]
     public void PowerShell_literals_escape_straight_and_typographic_single_quotes()
     {
-        Assert.Equal(@"'C:\Users\Kim''s PC\Filee'", ExplorerMenuRegistration.Quote(@"C:\Users\Kim's PC\Filee"));
+        Assert.Equal(@"'C:\Users\Kim''s PC\Morph'", ExplorerMenuRegistration.Quote(@"C:\Users\Kim's PC\Morph"));
         Assert.Equal("'Kim\u2019\u2019s'", ExplorerMenuRegistration.Quote("Kim\u2019s"));
     }
 
     [Fact]
     public void Add_script_registers_the_package_unsigned_with_the_install_folder_as_external_location()
     {
-        var script = ExplorerMenuRegistration.BuildAddScript(@"C:\Apps\Filee\current\FileeExplorerMenu.msix",
-            @"C:\Apps\Filee\current", @"C:\Temp\err.txt");
-        Assert.Contains(@"Add-AppxPackage -Path 'C:\Apps\Filee\current\FileeExplorerMenu.msix' -ExternalLocation 'C:\Apps\Filee\current' -AllowUnsigned", script);
+        var script = ExplorerMenuRegistration.BuildAddScript(@"C:\Apps\Morph\current\MorphExplorerMenu.msix",
+            @"C:\Apps\Morph\current", @"C:\Temp\err.txt");
+        Assert.Contains(@"Add-AppxPackage -Path 'C:\Apps\Morph\current\MorphExplorerMenu.msix' -ExternalLocation 'C:\Apps\Morph\current' -AllowUnsigned", script);
         Assert.Contains(@"[IO.File]::WriteAllText('C:\Temp\err.txt', $_.Exception.Message); exit 1", script);
         Assert.DoesNotContain("\"", script);
 
         var remove = ExplorerMenuRegistration.BuildRemoveScript(@"C:\Temp\err.txt");
-        Assert.Contains("Get-AppxPackage -Name 'Filee.ExplorerMenu' | Remove-AppxPackage", remove);
+        Assert.Contains("Get-AppxPackage -Name 'Morph.ExplorerMenu' | Remove-AppxPackage", remove);
     }
 
     [Fact]
     public void Deployment_errors_lose_the_activity_id_note_and_line_breaks()
     {
         const string message = "Deployment failed with HRESULT: 0x80073D2B, The package could not be installed.\r\n\r\n" +
-                               "Windows cannot install package Filee.ExplorerMenu.\r\n\r\n" +
+                               "Windows cannot install package Morph.ExplorerMenu.\r\n\r\n" +
                                "NOTE: For additional information, look for [ActivityId] 3a41 in the Event Log";
-        Assert.Equal("Deployment failed with HRESULT: 0x80073D2B, The package could not be installed. Windows cannot install package Filee.ExplorerMenu.",
+        Assert.Equal("Deployment failed with HRESULT: 0x80073D2B, The package could not be installed. Windows cannot install package Morph.ExplorerMenu.",
             ExplorerMenuRegistration.ShortenDeploymentError(message));
     }
 
@@ -198,7 +198,7 @@ public class ExplorerMenuTests
     [Fact]
     public void Convert_list_reads_existing_paths_and_only_deletes_its_own_temp_file()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-list-test-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-list-test-").FullName;
         var list = Path.Combine(Path.GetTempPath(), CommandLine.ListFilePrefix + Guid.NewGuid().ToString("N") + ".txt");
         var foreign = Path.Combine(folder, CommandLine.ListFilePrefix + "elsewhere.txt");
         try
@@ -257,13 +257,13 @@ public class ExplorerMenuTests
         using var command = NativeCommand.Create(dll);
         // The title comes from the file the app writes into its data folder; without it the English default is used.
         var expectedTitle = ExplorerMenuRegistration.ReadTitle();
-        Assert.Equal(expectedTitle ?? "Convert with Filee", command.GetTitle());
-        Assert.Equal(Path.Combine(BuiltFolder, "Filee.exe") + ",0", command.GetIcon(), ignoreCase: true);
+        Assert.Equal(expectedTitle ?? "Convert with Morph", command.GetTitle());
+        Assert.Equal(Path.Combine(BuiltFolder, "Morph.exe") + ",0", command.GetIcon(), ignoreCase: true);
         Assert.Equal(ExplorerMenuPackage.ClassId, command.GetCanonicalName());
 
         const int enabled = 0, hidden = 2;
         var file = Path.GetTempFileName();
-        var folder = Directory.CreateTempSubdirectory("filee-menu-test-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-menu-test-").FullName;
         try
         {
             Assert.Equal(expectedTitle is null ? hidden : enabled, command.GetState(file));

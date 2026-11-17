@@ -60,7 +60,7 @@ public sealed record EngineCopy(EngineCopyStatus Status, string? Folder, bool Fr
 
 /// <summary>Another Filee (the app, the CLI or a second copy) is installing or removing the same package.</summary>
 public sealed class EngineBusyException(string packageId)
-    : IOException($"{packageId} is being installed by another Filee. Try again when it has finished.")
+    : IOException($"{packageId} is being installed by another Morph. Try again when it has finished.")
 {
     public string PackageId { get; } = packageId;
 }
@@ -68,7 +68,7 @@ public sealed class EngineBusyException(string packageId)
 /// <summary>Installs and removes <see cref="EnginePackage"/>s.</summary>
 public sealed class EngineInstaller
 {
-    private const string MarkerName = ".filee-component";
+    private const string MarkerName = ".morph-component";
     private static readonly TimeSpan MsiTimeout = TimeSpan.FromMinutes(15);
 
     /// <summary>Tries before a file held open counts as in use: about 2 seconds, for holds as brief as a virus scan's.</summary>
@@ -98,7 +98,9 @@ public sealed class EngineInstaller
         IReadOnlyList<EnginePackage>? packages = null, Func<EngineComponent, Uri?>? mirror = null)
     {
         _http = http;
-        _mirror = mirror ?? EngineDownloads.MirrorUrl;
+        // Morph change: no fallback mirror. dl.filee.sh is Filee's own server; Morph fetches only from each engine's
+        // official URL (every file is still checked against its pinned SHA-256).
+        _mirror = mirror ?? (_ => null);
         _root = root ?? EngineEnvironment.DownloadRoot;
         _components = components ?? EngineDownloads.Components;
         _logger = logger ?? NullLogger.Instance;
@@ -112,7 +114,7 @@ public sealed class EngineInstaller
     public static HttpClient CreateHttpClient(TimeSpan timeout)
     {
         var http = new HttpClient(new SocketsHttpHandler { AllowAutoRedirect = false }) { Timeout = timeout };
-        http.DefaultRequestHeaders.UserAgent.ParseAdd($"Filee/{typeof(EngineInstaller).Assembly.GetName().Version}");
+        http.DefaultRequestHeaders.UserAgent.ParseAdd($"Morph/{typeof(EngineInstaller).Assembly.GetName().Version}");
         return http;
     }
 
@@ -680,7 +682,7 @@ public sealed class EngineInstaller
                     Replace(component.Id, staging);
                     break;
                 case "msi":
-                    await UnpackMsiAsync(component.Id, file, staging, Path.Combine(Path.GetTempPath(), "filee-msiexec.log"), cancellationToken);
+                    await UnpackMsiAsync(component.Id, file, staging, Path.Combine(Path.GetTempPath(), "morph-msiexec.log"), cancellationToken);
                     Replace(component.Id, MsiProgramFolder(component.Id, staging));
                     break;
                 case "conda":
@@ -711,7 +713,7 @@ public sealed class EngineInstaller
                     break;
                 case "nsis":
                     var sevenZip = Archives.SevenZip.Locate()
-                                   ?? throw new InvalidOperationException($"{component.Id} needs Filee's 7-Zip, which is missing.");
+                                   ?? throw new InvalidOperationException($"{component.Id} needs Morph's 7-Zip, which is missing.");
                     Directory.CreateDirectory(staging);
                     await sevenZip.ExtractAsync(file, staging, [], _root, cancellationToken);
                     TrimTesseract(staging);

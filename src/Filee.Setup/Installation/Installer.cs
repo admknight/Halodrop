@@ -78,8 +78,8 @@ public sealed class Installer(SetupContext context, SetupPayload payload)
             var newFiles = payload.Manifest.Files.Select(f => f.Path).ToList();
             if (choices.Portable)
             {
-                File.WriteAllText(Path.Combine(swap.Staging, "filee.portable"), "");
-                newFiles.Add("filee.portable");
+                File.WriteAllText(Path.Combine(swap.Staging, "morph.portable"), "");
+                newFiles.Add("morph.portable");
             }
             if (!choices.Portable)
             {
@@ -225,7 +225,7 @@ public sealed class Installer(SetupContext context, SetupPayload payload)
         if (File.Exists(exe))
         {
             var code = System.RunAndWait(exe, "--quit", QuitTimeout);
-            Log.Info($"Filee --quit: exit code {code}");
+            Log.Info($"Morph --quit: exit code {code}");
         }
         var running = System.ProgramsIn(folder).ToList();
         if (velopack)
@@ -270,13 +270,13 @@ public sealed class Installer(SetupContext context, SetupPayload payload)
         {
             if (!File.Exists(startMenu))
                 undo.Push(("Start menu shortcut", () => File.Delete(startMenu)));
-            System.CreateShortcut(startMenu, exe, folder, "Filee");
+            System.CreateShortcut(startMenu, exe, folder, "Morph");
         }
         if (choices.Tasks.DesktopIcon && !choices.NoIcons)
         {
             if (!File.Exists(desktop))
                 undo.Push(("desktop shortcut", () => File.Delete(desktop)));
-            System.CreateShortcut(desktop, exe, folder, "Filee");
+            System.CreateShortcut(desktop, exe, folder, "Morph");
         }
         else if (update && File.Exists(desktop))
         {

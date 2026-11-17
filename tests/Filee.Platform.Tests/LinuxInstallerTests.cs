@@ -6,7 +6,7 @@ namespace Filee.Platform.Tests;
 [SupportedOSPlatform("linux")]
 public sealed class LinuxInstallerTests : IDisposable
 {
-    private readonly string _root = Path.Combine(Path.GetTempPath(), "filee-installer-test-" + Guid.NewGuid().ToString("N"));
+    private readonly string _root = Path.Combine(Path.GetTempPath(), "morph-installer-test-" + Guid.NewGuid().ToString("N"));
     private readonly string _installScriptPath;
     private readonly string _shimBinDir;
 
@@ -57,7 +57,7 @@ if [ ""${SHIM_FAIL_POST_VALIDATION:-0}"" = ""1"" ]; then
         *.staging-*)
             ""$REAL_MV"" ""$@""
             res=$?
-            rm -f ""$2/.filee-package""
+            rm -f ""$2/.morph-package""
             exit ""$res""
             ;;
     esac
@@ -71,7 +71,7 @@ if [ ""${SHIM_FAIL_CLEANUP_FAILED_DIR:-0}"" = ""1"" ]; then
             mkdir -p ""$2/locked-folder""
             touch ""$2/locked-folder/file""
             chmod 555 ""$2/locked-folder""
-            rm -f ""$2/.filee-package""
+            rm -f ""$2/.morph-package""
             exit ""$res""
             ;;
     esac
@@ -82,7 +82,7 @@ if [ ""${SHIM_FAIL_QUARANTINE:-0}"" = ""1"" ]; then
         *.staging-*)
             ""$REAL_MV"" ""$@""
             res=$?
-            rm -f ""$2/.filee-package""
+            rm -f ""$2/.morph-package""
             exit ""$res""
             ;;
     esac
@@ -150,29 +150,29 @@ exec ""$REAL_MV"" ""$@""
         var (exitCode, output, error) = RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
         Assert.True(exitCode == 0, $"Install failed with code {exitCode}. Output: {output}. Error: {error}");
-        Assert.Contains("Installed Filee at", output);
+        Assert.Contains("Installed Morph at", output);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
-        Assert.True(File.Exists(Path.Combine(installDir, "Filee")));
-        Assert.True(File.Exists(Path.Combine(installDir, "filee-cli")));
-        Assert.False(File.Exists(Path.Combine(installDir, "filee.portable")));
-        Assert.True(File.Exists(Path.Combine(env.SourceDir, "filee.portable")));
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
+        Assert.True(File.Exists(Path.Combine(installDir, "morph-cli")));
+        Assert.False(File.Exists(Path.Combine(installDir, "morph.portable")));
+        Assert.True(File.Exists(Path.Combine(env.SourceDir, "morph.portable")));
         Assert.False(Directory.Exists(Path.Combine(installDir, "data")));
         Assert.True(File.Exists(Path.Combine(env.SourceDir, "data", "engines", "keep.txt")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
 
-        var markerPath = Path.Combine(installDir, ".filee-package");
+        var markerPath = Path.Combine(installDir, ".morph-package");
         Assert.True(File.Exists(markerPath));
-        Assert.Equal("com.filee.app", File.ReadAllText(markerPath).Trim());
-        Assert.False(File.Exists(Path.Combine(installDir, ".filee-upgrade-token")));
+        Assert.Equal("app.morph", File.ReadAllText(markerPath).Trim());
+        Assert.False(File.Exists(Path.Combine(installDir, ".morph-upgrade-token")));
 
-        var launcherPath = Path.Combine(env.HomeDir, ".local", "bin", "filee");
+        var launcherPath = Path.Combine(env.HomeDir, ".local", "bin", "morph");
         Assert.True(File.Exists(launcherPath));
-        Assert.Equal(Path.Combine(installDir, "filee-cli"), File.ResolveLinkTarget(launcherPath, true)?.FullName);
+        Assert.Equal(Path.Combine(installDir, "morph-cli"), File.ResolveLinkTarget(launcherPath, true)?.FullName);
 
-        var desktopPath = Path.Combine(env.DataDir, "applications", "com.filee.app.desktop");
+        var desktopPath = Path.Combine(env.DataDir, "applications", "app.morph.desktop");
         Assert.True(File.Exists(desktopPath));
-        Assert.Contains("X-Filee-Managed=true", File.ReadAllText(desktopPath));
+        Assert.Contains("X-Morph-Managed=true", File.ReadAllText(desktopPath));
     }
 
     [Fact]
@@ -203,16 +203,16 @@ exec ""$REAL_MV"" ""$@""
         var (exitCode1, _, _) = RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
         Assert.Equal(0, exitCode1);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
 
         // Simulate user downloaded engines in ~/.local/share/Filee/engines
-        var engineDir = Path.Combine(env.DataDir, "Filee", "engines", "ffmpeg");
+        var engineDir = Path.Combine(env.DataDir, "Morph", "engines", "ffmpeg");
         Directory.CreateDirectory(engineDir);
         var mockEngineBinary = Path.Combine(engineDir, "ffmpeg");
         File.WriteAllText(mockEngineBinary, "ffmpeg-binary-data");
 
         // Simulate user settings in ~/.config/Filee
-        var configDir = Path.Combine(env.HomeDir, ".config", "Filee");
+        var configDir = Path.Combine(env.HomeDir, ".config", "Morph");
         Directory.CreateDirectory(configDir);
         var mockSettings = Path.Combine(configDir, "settings.json");
         File.WriteAllText(mockSettings, "{\"custom\": true}");
@@ -224,12 +224,12 @@ exec ""$REAL_MV"" ""$@""
         // Run upgrade
         var (exitCode2, output2, error2) = RunInstaller(v2Source, env.DataDir, env.HomeDir, "--upgrade");
         Assert.True(exitCode2 == 0, $"Upgrade failed with code {exitCode2}. Output: {output2}. Error: {error2}");
-        Assert.Contains("Upgraded Filee at", output2);
+        Assert.Contains("Upgraded Morph at", output2);
 
         // Verify application was updated to v2.0.0
         Assert.Equal("v2.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
-        Assert.False(File.Exists(Path.Combine(installDir, "filee.portable")));
-        Assert.True(File.Exists(Path.Combine(v2Source, "filee.portable")));
+        Assert.False(File.Exists(Path.Combine(installDir, "morph.portable")));
+        Assert.True(File.Exists(Path.Combine(v2Source, "morph.portable")));
         Assert.False(Directory.Exists(Path.Combine(installDir, "data")));
 
         // Verify downloaded engines are STILL PRESERVED!
@@ -241,10 +241,10 @@ exec ""$REAL_MV"" ""$@""
         Assert.Equal("{\"custom\": true}", File.ReadAllText(mockSettings));
 
         // Verify launcher symlink, package marker, and token cleanup
-        var launcherPath = Path.Combine(env.HomeDir, ".local", "bin", "filee");
-        Assert.Equal(Path.Combine(installDir, "filee-cli"), File.ResolveLinkTarget(launcherPath, true)?.FullName);
-        Assert.Equal("com.filee.app", File.ReadAllText(Path.Combine(installDir, ".filee-package")).Trim());
-        Assert.False(File.Exists(Path.Combine(installDir, ".filee-upgrade-token")));
+        var launcherPath = Path.Combine(env.HomeDir, ".local", "bin", "morph");
+        Assert.Equal(Path.Combine(installDir, "morph-cli"), File.ResolveLinkTarget(launcherPath, true)?.FullName);
+        Assert.Equal("app.morph", File.ReadAllText(Path.Combine(installDir, ".morph-package")).Trim());
+        Assert.False(File.Exists(Path.Combine(installDir, ".morph-upgrade-token")));
     }
 
     [Fact]
@@ -270,8 +270,8 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
-        var markerPath = Path.Combine(installDir, ".filee-package");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var markerPath = Path.Combine(installDir, ".morph-package");
         File.WriteAllText(markerPath, "alien.app");
 
         var v2Source = Path.Combine(_root, "source-v2");
@@ -279,7 +279,7 @@ exec ""$REAL_MV"" ""$@""
 
         var (exitCode, output, error) = RunInstaller(v2Source, env.DataDir, env.HomeDir, "--upgrade");
         Assert.NotEqual(0, exitCode);
-        Assert.Contains("not installed by Filee", output + error);
+        Assert.Contains("not installed by Morph", output + error);
 
         // Original installation must be untouched
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
@@ -294,12 +294,12 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
 
         // Broken v2 source: missing filee-cli
         var v2Source = Path.Combine(_root, "source-v2");
         CreateMockPayload(v2Source, "v2.0.0");
-        File.Delete(Path.Combine(v2Source, "filee-cli"));
+        File.Delete(Path.Combine(v2Source, "morph-cli"));
 
         var (exitCode, output, error) = RunInstaller(v2Source, env.DataDir, env.HomeDir, "--upgrade");
         Assert.NotEqual(0, exitCode);
@@ -318,11 +318,11 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
         var quitLog = Path.Combine(env.DataDir, "quit.log");
 
         // Replace Filee with a mock script that records --quit
-        var fileeScript = Path.Combine(installDir, "Filee");
+        var fileeScript = Path.Combine(installDir, "Morph");
         File.WriteAllText(fileeScript, $"#!/bin/sh\nif [ \"$1\" = \"--quit\" ]; then echo \"quit-called\" >> \"{quitLog}\"; exit 0; fi\nexit 0\n");
         File.SetUnixFileMode(fileeScript, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
 
@@ -344,7 +344,7 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
 
         var v2Source = Path.Combine(_root, "source-v2");
         CreateMockPayload(v2Source, "v2.0.0");
@@ -354,12 +354,12 @@ exec ""$REAL_MV"" ""$@""
             new Dictionary<string, string> { ["SHIM_FAIL_ACTIVATION"] = "1" }, "--upgrade");
 
         Assert.NotEqual(0, exitCode);
-        Assert.Contains("Restored the previous Filee installation", output + error);
+        Assert.Contains("Restored the previous Morph installation", output + error);
 
         // Original installation must be safely restored
-        Assert.True(File.Exists(Path.Combine(installDir, "Filee")));
+        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
-        Assert.Equal("com.filee.app", File.ReadAllText(Path.Combine(installDir, ".filee-package")).Trim());
+        Assert.Equal("app.morph", File.ReadAllText(Path.Combine(installDir, ".morph-package")).Trim());
     }
 
     [Fact]
@@ -371,7 +371,7 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
 
         var v2Source = Path.Combine(_root, "source-v2");
         CreateMockPayload(v2Source, "v2.0.0");
@@ -382,12 +382,12 @@ exec ""$REAL_MV"" ""$@""
 
         Assert.NotEqual(0, exitCode);
         Assert.Contains("Activated installation failed post-swap validation", output + error);
-        Assert.Contains("Restored the previous Filee installation", output + error);
+        Assert.Contains("Restored the previous Morph installation", output + error);
 
         // Original installation must be safely restored
-        Assert.True(File.Exists(Path.Combine(installDir, "Filee")));
+        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
-        Assert.Equal("com.filee.app", File.ReadAllText(Path.Combine(installDir, ".filee-package")).Trim());
+        Assert.Equal("app.morph", File.ReadAllText(Path.Combine(installDir, ".morph-package")).Trim());
     }
 
     [Fact]
@@ -413,15 +413,15 @@ exec ""$REAL_MV"" ""$@""
         Assert.Contains("inspect and remove or rename", output + error);
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "filee");
+        var fileeDir = Path.Combine(env.DataDir, "morph");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Filee")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
 
         // Verify that the occupied conflict file was preserved and not overwritten
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
         Assert.True(File.Exists(Path.Combine(installDir, "conflict")));
     }
 
@@ -448,15 +448,15 @@ exec ""$REAL_MV"" ""$@""
         Assert.Contains("inspect and remove or rename", output + error);
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "filee");
+        var fileeDir = Path.Combine(env.DataDir, "morph");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Filee")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
 
         // Verify that the unmanaged conflict was not touched
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
         Assert.True(File.Exists(Path.Combine(installDir, "conflict")));
     }
 
@@ -483,11 +483,11 @@ exec ""$REAL_MV"" ""$@""
         Assert.DoesNotContain("A partial or invalid directory exists at:", output + error);
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "filee");
+        var fileeDir = Path.Combine(env.DataDir, "morph");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Filee")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
 
         var installDir = Path.Combine(fileeDir, "application");
@@ -518,15 +518,15 @@ exec ""$REAL_MV"" ""$@""
         Assert.Contains("inspect and remove or rename", output + error);
 
         // Verify that the destination was NOT deleted or removed via fallback
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
-        Assert.True(File.Exists(Path.Combine(installDir, "Filee")));
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "filee");
+        var fileeDir = Path.Combine(env.DataDir, "morph");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Filee")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
     }
 
@@ -547,16 +547,16 @@ exec ""$REAL_MV"" ""$@""
             new Dictionary<string, string> { ["SHIM_FAIL_CLEANUP_FAILED_DIR"] = "1" }, "--upgrade");
 
         Assert.NotEqual(0, exitCode);
-        Assert.Contains("Update failed. Restored the previous Filee installation", output + error);
+        Assert.Contains("Update failed. Restored the previous Morph installation", output + error);
         Assert.Contains("Quarantined failed update files preserved at:", output + error);
 
         // Verify that the old installation was successfully restored to application directory
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
-        Assert.True(File.Exists(Path.Combine(installDir, "Filee")));
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
 
         // Verify that the quarantined failed directory still exists on disk and was preserved
-        var fileeDir = Path.Combine(env.DataDir, "filee");
+        var fileeDir = Path.Combine(env.DataDir, "morph");
         var failedDirs = Directory.GetDirectories(fileeDir, ".failed-*");
         Assert.NotEmpty(failedDirs);
         var failedDir = failedDirs[0];
@@ -577,7 +577,7 @@ exec ""$REAL_MV"" ""$@""
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
         // Create a pre-existing backup and failed directory from earlier interrupted runs
-        var fileeDir = Path.Combine(env.DataDir, "filee");
+        var fileeDir = Path.Combine(env.DataDir, "morph");
         var oldBackupDir = Path.Combine(fileeDir, ".backup-earlier-crash-999");
         Directory.CreateDirectory(oldBackupDir);
         var oldVersionFile = Path.Combine(oldBackupDir, "version.txt");
@@ -631,17 +631,17 @@ exec ""$REAL_MV"" ""$@""
         Assert.Contains("inspect and remove or rename", output + error);
 
         // Verify that the foreign directory and its contents were NOT deleted
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
         var foreignFile = Path.Combine(installDir, "important.txt");
         Assert.True(File.Exists(foreignFile));
         Assert.Equal("important-foreign-data", File.ReadAllText(foreignFile).Trim());
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "filee");
+        var fileeDir = Path.Combine(env.DataDir, "morph");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Filee")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
     }
 
@@ -659,12 +659,12 @@ exec ""$REAL_MV"" ""$@""
 
         // Setting obsolete internal test hook variables has no effect because install.sh contains no test hooks
         var (exitCode, output, error) = RunInstaller(v2Source, env.DataDir, env.HomeDir,
-            new Dictionary<string, string> { ["_FILEE_TEST_FAIL_ACTIVATION"] = "1", ["_FILEE_TEST_HARNESS"] = "com.filee.test.harness" }, "--upgrade");
+            new Dictionary<string, string> { ["_MORPH_TEST_FAIL_ACTIVATION"] = "1", ["_MORPH_TEST_HARNESS"] = "com.morph.test.harness" }, "--upgrade");
 
         Assert.True(exitCode == 0, $"Upgrade failed unexpectedly. Output: {output}. Error: {error}");
-        Assert.Contains("Upgraded Filee at", output);
+        Assert.Contains("Upgraded Morph at", output);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
         Assert.Equal("v2.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
     }
 
@@ -686,10 +686,10 @@ exec ""$REAL_MV"" ""$@""
         // Fresh install with spaces
         var (exitCode1, output1, error1) = RunInstaller(sourceDir, dataDir, homeDir);
         Assert.True(exitCode1 == 0, $"Fresh install failed. Output: {output1}. Error: {error1}");
-        Assert.Contains("Installed Filee at", output1);
+        Assert.Contains("Installed Morph at", output1);
 
-        var installDir = Path.Combine(dataDir, "filee", "application");
-        Assert.True(File.Exists(Path.Combine(installDir, "Filee")));
+        var installDir = Path.Combine(dataDir, "morph", "application");
+        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
 
         // Upgrade with spaces
@@ -698,7 +698,7 @@ exec ""$REAL_MV"" ""$@""
 
         var (exitCode2, output2, error2) = RunInstaller(v2Source, dataDir, homeDir, "--upgrade");
         Assert.True(exitCode2 == 0, $"Upgrade failed. Output: {output2}. Error: {error2}");
-        Assert.Contains("Upgraded Filee at", output2);
+        Assert.Contains("Upgraded Morph at", output2);
         Assert.Equal("v2.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
     }
 
@@ -713,8 +713,8 @@ exec ""$REAL_MV"" ""$@""
         var (exitCode1, _, _) = RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
         Assert.Equal(0, exitCode1);
 
-        var installDir = Path.Combine(env.DataDir, "filee", "application");
-        var activeFilee = Path.Combine(installDir, "Filee");
+        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var activeFilee = Path.Combine(installDir, "Morph");
 
         // Make the installed Filee binary fail if --quit is invoked
         File.WriteAllText(activeFilee, "#!/bin/sh\nif [ \"$1\" = \"--quit\" ]; then exit 42; fi\nexit 0\n");
@@ -746,9 +746,9 @@ exec ""$REAL_MV"" ""$@""
     private void CreateMockPayload(string dir, string version)
     {
         Directory.CreateDirectory(dir);
-        var filee = Path.Combine(dir, "Filee");
-        var cli = Path.Combine(dir, "filee-cli");
-        var icon = Path.Combine(dir, "filee.png");
+        var filee = Path.Combine(dir, "Morph");
+        var cli = Path.Combine(dir, "morph-cli");
+        var icon = Path.Combine(dir, "morph.png");
         var ver = Path.Combine(dir, "version.txt");
         var script = Path.Combine(dir, "install.sh");
 
@@ -756,7 +756,7 @@ exec ""$REAL_MV"" ""$@""
         File.WriteAllText(cli, "#!/bin/sh\nexit 0\n");
         File.WriteAllText(icon, "dummy-png");
         File.WriteAllText(ver, version);
-        File.WriteAllText(Path.Combine(dir, "filee.portable"), "");
+        File.WriteAllText(Path.Combine(dir, "morph.portable"), "");
         Directory.CreateDirectory(Path.Combine(dir, "data", "engines"));
         File.WriteAllText(Path.Combine(dir, "data", "engines", "keep.txt"), "portable engine");
         File.Copy(_installScriptPath, script, overwrite: true);

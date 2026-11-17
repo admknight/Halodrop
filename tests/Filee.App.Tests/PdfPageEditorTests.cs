@@ -46,7 +46,7 @@ public class PdfPageEditorTests
     public async Task Editor_adds_reorders_rotates_deletes_and_saves_pages()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-pages-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-pages-").FullName;
         try
         {
             var first = MakePdf(folder, "source.pdf", (200, 0), (300, 0));
@@ -112,7 +112,7 @@ public class PdfPageEditorTests
     public async Task Several_selected_pages_move_rotate_delete_and_extract_together()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-pages-multi-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-pages-multi-").FullName;
         try
         {
             var source = MakePdf(folder, "source.pdf", (210, 0), (220, 0), (230, 0), (240, 0), (250, 0));
@@ -161,7 +161,7 @@ public class PdfPageEditorTests
     public async Task Dragged_pages_land_before_the_drop_position()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-pages-drag-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-pages-drag-").FullName;
         try
         {
             var source = MakePdf(folder, "source.pdf", (210, 0), (220, 0), (230, 0), (240, 0), (250, 0));
@@ -193,7 +193,7 @@ public class PdfPageEditorTests
     public async Task Pages_are_inserted_around_the_selection_and_replace_it()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-pages-insert-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-pages-insert-").FullName;
         try
         {
             var source = MakePdf(folder, "source.pdf", (210, 0), (220, 0), (230, 0), (240, 0));
@@ -238,7 +238,7 @@ public class PdfPageEditorTests
     public async Task Dropped_pdfs_are_inserted_at_the_drop_position_and_other_files_left_out()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-pages-drop-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-pages-drop-").FullName;
         try
         {
             var source = MakePdf(folder, "source.pdf", (210, 0), (220, 0), (230, 0));
@@ -287,7 +287,7 @@ public class PdfPageEditorTests
     public async Task Pdfs_dragged_from_the_file_manager_show_the_drop_line_and_land_there()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-pages-filedrop-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-pages-filedrop-").FullName;
         try
         {
             var source = MakePdf(folder, "source.pdf", (210, 0), (220, 0), (230, 0), (240, 0));
@@ -369,7 +369,7 @@ public class PdfPageEditorTests
     public async Task Ctrl_click_selects_several_pages_and_a_drag_moves_them_all()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-pages-mouse-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-pages-mouse-").FullName;
         try
         {
             var source = MakePdf(folder, "source.pdf", (210, 0), (220, 0), (230, 0), (240, 0));
@@ -436,7 +436,7 @@ public class PdfPageEditorTests
     public async Task Editor_window_renders_previews_and_all_actions_without_clipping(string language)
     {
         TestServices.EnsureInitialized(language);
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-pages-ui-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-pages-ui-").FullName;
         try
         {
             var source = MakePdf(folder, "Annual report.pdf", (595, 0), (595, 0), (842, 0), (595, 0));

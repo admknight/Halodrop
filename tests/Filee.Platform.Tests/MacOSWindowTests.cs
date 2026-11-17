@@ -52,7 +52,7 @@ public sealed class MacOSWindowTests
         SendAction orderFront = (_, _) => orders++;
         Delegate[] callbacks = [getBehavior, getStyle, setBehavior, setLevel, setStyle, setHidesOnDeactivate, orderFront];
 
-        var baseClass = AllocateClass(GetClass("NSObject"), "FileeRaiseTopmostTestWindow", 0);
+        var baseClass = AllocateClass(GetClass("NSObject"), "MorphRaiseTopmostTestWindow", 0);
         Assert.NotEqual(0, baseClass);
         nint windowClass = 0, panelClass = 0, window = 0, foreign = 0;
         try
@@ -165,7 +165,7 @@ public sealed class MacOSWindowTests
         GetBool getIsVisible = (_, _) => isVisible;
         Delegate[] callbacks = [makeKey, orderOut, orderFront, resignKey, isKeyWindow, getIsVisible];
 
-        var testClass = AllocateClass(GetClass("NSObject"), "FileeKeyWindowTestWindow", 0);
+        var testClass = AllocateClass(GetClass("NSObject"), "MorphKeyWindowTestWindow", 0);
         Assert.NotEqual(0, testClass);
         nint window = 0;
         try
@@ -261,7 +261,7 @@ public sealed class MacOSWindowTests
         SetInteger setBehavior = (_, _, value) => behavior = value;
         Delegate[] callbacks = [getBehavior, setBehavior];
 
-        var testClass = AllocateClass(GetClass("NSObject"), "FileeMoveToActiveSpaceTestWindow", 0);
+        var testClass = AllocateClass(GetClass("NSObject"), "MorphMoveToActiveSpaceTestWindow", 0);
         Assert.NotEqual(0, testClass);
         nint window = 0;
         try

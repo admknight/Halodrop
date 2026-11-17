@@ -132,7 +132,7 @@ public class AutomationNameTests
 /// <summary>A throwaway data folder, so a test that changes settings never touches the real ones.</summary>
 internal sealed class TempNavDirectory : IDisposable
 {
-    public string Path { get; } = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "filee-nav-" + Guid.NewGuid().ToString("N"));
+    public string Path { get; } = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "morph-nav-" + Guid.NewGuid().ToString("N"));
 
     public TempNavDirectory() => Directory.CreateDirectory(Path);
 

@@ -45,15 +45,15 @@ public sealed class PortableFirstStartTests
         Window? window = null;
         var catalog = LocalizationService.LoadStrings("en");
         var prompt = string.Format(catalog["portable.import_prompt"],
-            @"C:\Users\Administrator\AppData\Roaming\Filee", @"D:\Filee\data");
+            @"C:\Users\Administrator\AppData\Roaming\Morph", @"D:\Morph\data");
         var result = PortableFirstStart.AskAsync(prompt, _ => Task.CompletedTask,
             determinate: true, shown: value => window = value,
             acceptText: catalog["portable.import_existing"], declineText: catalog["portable.start_fresh"],
-            sourcePath: @"C:\Users\Administrator\AppData\Roaming\Filee", destinationPath: @"D:\Filee\data");
+            sourcePath: @"C:\Users\Administrator\AppData\Roaming\Morph", destinationPath: @"D:\Morph\data");
         try
         {
             RenderTests.Pump();
-            Assert.Contains(window!.GetVisualDescendants().OfType<SelectableTextBlock>(), text => text.Text == @"D:\Filee\data");
+            Assert.Contains(window!.GetVisualDescendants().OfType<SelectableTextBlock>(), text => text.Text == @"D:\Morph\data");
             Assert.Contains(window.GetVisualDescendants().OfType<TextBlock>(), text => text.Text == catalog["portable.import_next"]);
             var labels = window.GetVisualDescendants().OfType<Button>().Where(button => button is not CheckBox).Select(button => button.Content?.ToString()).ToArray();
             Assert.Equal(["Start fresh", "Import existing data"], labels);

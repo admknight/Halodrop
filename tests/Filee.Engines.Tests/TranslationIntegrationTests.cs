@@ -47,7 +47,7 @@ public class TranslationIntegrationTests
     [Fact]
     public async Task Translates_chinese_markdown_to_english_preserving_markdown_structure()
     {
-        var tempDir = Path.Combine(Path.GetTempPath(), "filee-trans-" + Guid.NewGuid().ToString("N"));
+        var tempDir = Path.Combine(Path.GetTempPath(), "morph-trans-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
         try
         {
@@ -98,7 +98,7 @@ public class TranslationIntegrationTests
     [Fact]
     public async Task Translates_english_markdown_to_hindi_preserving_markdown_structure()
     {
-        var tempDir = Path.Combine(Path.GetTempPath(), "filee-trans-hi-" + Guid.NewGuid().ToString("N"));
+        var tempDir = Path.Combine(Path.GetTempPath(), "morph-trans-hi-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
         try
         {
@@ -149,7 +149,7 @@ public class TranslationIntegrationTests
     [Fact]
     public async Task Translates_document_to_docx_producing_valid_output()
     {
-        var tempDir = Path.Combine(Path.GetTempPath(), "filee-trans-docx-" + Guid.NewGuid().ToString("N"));
+        var tempDir = Path.Combine(Path.GetTempPath(), "morph-trans-docx-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDir);
         try
         {

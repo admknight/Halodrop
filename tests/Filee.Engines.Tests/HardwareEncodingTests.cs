@@ -415,7 +415,7 @@ public class HardwareEncodingTests(EngineFixture fx) : IClassFixture<EngineFixtu
         var logger = new ListLogger();
         var converter = new FfmpegConverter(logger)
         {
-            SelectHardware = (_, codec, _, _, _) => Task.FromResult<HardwareEncoder?>(new HardwareEncoder($"{codec}_filee_missing", HardwareApi.Nvenc)),
+            SelectHardware = (_, codec, _, _, _) => Task.FromResult<HardwareEncoder?>(new HardwareEncoder($"{codec}_morph_missing", HardwareApi.Nvenc)),
         };
         Assert.True(converter.GetStatus().IsAvailable);
 
@@ -423,7 +423,7 @@ public class HardwareEncodingTests(EngineFixture fx) : IClassFixture<EngineFixtu
             null, CancellationToken.None);
 
         Assert.Equal("h264", await CodecOfAsync(Assert.Single(outputs)));
-        Assert.Contains(logger.Entries, e => e.Level == LogLevel.Warning && e.Message.Contains("h264_filee_missing", StringComparison.Ordinal));
+        Assert.Contains(logger.Entries, e => e.Level == LogLevel.Warning && e.Message.Contains("h264_morph_missing", StringComparison.Ordinal));
     }
 
     /// <summary>Runs only where a GPU encoder works (e.g. a laptop with Intel graphics); CI has none.</summary>

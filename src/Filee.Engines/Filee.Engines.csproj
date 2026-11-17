@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Filee" />
+    <InternalsVisibleTo Include="Morph" />
     <InternalsVisibleTo Include="Filee.Engines.Tests" />
     <InternalsVisibleTo Include="Filee.App.Tests" />
   </ItemGroup>

@@ -61,7 +61,7 @@
                       <TextBlock Text="{Binding Summary}" FontWeight="SemiBold" Foreground="{DynamicResource AccentStrongBrush}" />
                     </Border>
                     <Border Classes="badge accent" IsVisible="{Binding IsConnectShortcut}" VerticalAlignment="Center">
-                      <TextBlock Text="Filee Connect" FontWeight="SemiBold" />
+                      <TextBlock Text="Morph Connect" FontWeight="SemiBold" />
                     </Border>
                   </StackPanel>
                 </DockPanel>
@@ -150,6 +150,20 @@
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>
+
+    <!-- Morph change: where a drag's donut opens -->
+    <Border x:Name="OpenAtCard" Classes="card">
+      <StackPanel Spacing="10" DataContext="{Binding Flip}" x:DataType="vm:FlipOptionsViewModel">
+        <TextBlock Classes="label" Text="{DynamicResource triggers.open_title}" />
+        <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource triggers.open_description}" />
+        <ComboBox x:Name="OpenAt" SelectedIndex="{Binding OpenAtIndex}" MinWidth="280"
+                  AutomationProperties.Name="{DynamicResource triggers.open_title}">
+          <ComboBoxItem Content="{DynamicResource triggers.open_start}" />
+          <ComboBoxItem Content="{DynamicResource triggers.open_let_go}" />
+          <ComboBoxItem Content="{DynamicResource triggers.open_follow}" />
+        </ComboBox>
+      </StackPanel>
+    </Border>
 
     <!-- Flipping the open donut to its other face: a key (recorded) and the mouse wheel -->
     <Border x:Name="FlipCard" Classes="card">

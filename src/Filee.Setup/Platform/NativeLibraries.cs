@@ -28,7 +28,7 @@ namespace Filee.Setup.Platform;
 internal static class NativeLibraries
 {
     /// <summary>The name of an unpacked libraries folder, followed by a new GUID.</summary>
-    internal const string FolderPrefix = "Filee-Native-";
+    internal const string FolderPrefix = "Morph-Native-";
 
     /// <summary>The libraries the publish carries, by the name SkiaSharp's and HarfBuzzSharp's P/Invokes use.</summary>
     internal static readonly IReadOnlyList<string> Carried = ["libSkiaSharp", "libHarfBuzzSharp"];

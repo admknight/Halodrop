@@ -22,7 +22,7 @@ public sealed class PresetSaveFeedbackTests
 
     private sealed class Fixture : IDisposable
     {
-        internal readonly string Folder = Directory.CreateTempSubdirectory("filee-save-feedback-").FullName;
+        internal readonly string Folder = Directory.CreateTempSubdirectory("morph-save-feedback-").FullName;
         internal readonly UserDataStore Store;
         internal readonly PresetsPageViewModel ViewModel;
 

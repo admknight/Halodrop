@@ -129,7 +129,7 @@ public class FolderCopyTests
         var job = await Run([source.File("a.png")], Copy(target.Path));
         var rule = new WatchRule { Folder = target.Path, IncludeSubfolders = true };
         Assert.False(FolderWatcher.ShouldIgnore(Assert.Single(job.Outputs), rule));
-        Assert.True(FolderWatcher.ShouldIgnore(Path.Combine(target.Path, ".filee-copy-test.tmp", "a.png"), rule));
+        Assert.True(FolderWatcher.ShouldIgnore(Path.Combine(target.Path, ".morph-copy-test.tmp", "a.png"), rule));
     }
 
     [Fact]

@@ -99,7 +99,7 @@ public class RadialControllerTests
                 .GetValue(window);
             Assert.NotNull(filesEntered);
 
-            filesEntered([@"/tmp/filee-test-drag.png"]);
+            filesEntered([@"/tmp/morph-test-drag.png"]);
 
             Assert.Equal([handle], platform.KeyWindowsTaken);
             Assert.Equal(1, platform.RememberFrontAppCalls);
@@ -128,7 +128,7 @@ public class RadialControllerTests
         TestServices.EnsureInitialized("en");
         var platform = new WindowPlatform();
         var radial = Create(platform);
-        var tempFile = Path.Combine(Path.GetTempPath(), "filee-test-drop.png");
+        var tempFile = Path.Combine(Path.GetTempPath(), "morph-test-drop.png");
         File.WriteAllBytes(tempFile, [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
         try
         {
@@ -193,7 +193,7 @@ public class RadialControllerTests
         profile.PresetIds = ["tool-crop", .. beforePresets];
         var platform = new WindowPlatform();
         var radial = Create(platform);
-        var tempFile = Path.Combine(Path.GetTempPath(), "filee-test-tool.png");
+        var tempFile = Path.Combine(Path.GetTempPath(), "morph-test-tool.png");
         File.WriteAllBytes(tempFile, [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
         try
         {
@@ -395,7 +395,7 @@ public class RadialControllerTests
     [Fact]
     public void Folder_archive_presets_keep_folders_while_image_presets_take_only_files()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-donut-folder-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-donut-folder-").FullName;
         try
         {
             var file = Path.Combine(folder, "1.png");

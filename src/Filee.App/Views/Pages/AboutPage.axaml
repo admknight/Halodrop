@@ -36,10 +36,10 @@
         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="18">
           <!-- Centered next to the text. Side by side, this card is stretched to the height of the Updates card, so a
                top-aligned logo would sit above the middle of the text. -->
-          <Image Source="avares://Filee/Assets/Icons/filee.png" Width="72" Height="72" VerticalAlignment="Center" />
+          <Image Source="avares://Morph/Assets/Icons/morph.png" Width="72" Height="72" VerticalAlignment="Center" />
           <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
             <StackPanel Orientation="Horizontal" Spacing="10">
-              <TextBlock Text="Filee" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
+              <TextBlock Text="Morph" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
               <!-- The version as a small pill, tinted with the accent (it follows the accent the user picked). The text colour
                    is set in the code-behind: the accent itself on dark, the deeper accent on light. -->
               <Border Classes="badge" Padding="10,3" Background="{DynamicResource AccentSoftBrush}" VerticalAlignment="Center"
@@ -48,8 +48,20 @@
                            Foreground="{DynamicResource AccentBrush}" />
               </Border>
             </StackPanel>
-            <TextBlock Classes="muted" Text="{DynamicResource about.license}" TextWrapping="Wrap" />
-            <Button Classes="ghost" Padding="0" Click="OnOpenRepository" Margin="0,4,0,0">
+            <!-- Morph change: what Morph is and who makes it -->
+            <TextBlock Classes="muted" Text="{DynamicResource app.tagline}" TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,6,0,0">
+              <TextBlock Text="{DynamicResource about.made_by}" VerticalAlignment="Center" />
+              <TextBlock Text="{Binding DeveloperName}" FontWeight="SemiBold" VerticalAlignment="Center" />
+            </StackPanel>
+            <Button Classes="ghost" Padding="0" Click="OnOpenDeveloper">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Width="13" Height="13" Data="{StaticResource Icon.GitHub}" Foreground="{DynamicResource AccentBrush}" />
+                <TextBlock Text="{Binding DeveloperLinkText}" Foreground="{DynamicResource AccentBrush}" TextWrapping="Wrap" />
+              </StackPanel>
+            </Button>
+            <TextBlock Classes="muted" Text="{DynamicResource about.license}" TextWrapping="Wrap" Margin="0,4,0,0" />
+            <Button Classes="ghost" Padding="0" Click="OnOpenRepository" Margin="0,4,0,0" IsVisible="{Binding HasRepository}">
               <StackPanel Orientation="Horizontal" Spacing="6">
                 <PathIcon Width="13" Height="13" Data="{StaticResource Icon.Link}" Foreground="{DynamicResource AccentBrush}" />
                 <TextBlock Text="{Binding RepositoryUrl}" Foreground="{DynamicResource AccentBrush}" TextWrapping="Wrap" />
@@ -68,8 +80,12 @@
       <Border Classes="card update-card">
         <StackPanel Spacing="12">
           <TextBlock Classes="h2" Text="{DynamicResource about.updates}" />
-          <ToggleSwitch Content="{DynamicResource general.check_updates}" IsChecked="{Binding CheckForUpdates}" />
-          <WrapPanel>
+          <!-- Morph change: no release repository yet, so no update checks: say so instead of offering them -->
+          <TextBlock Classes="muted" TextWrapping="Wrap" Text="{DynamicResource about.updates_later}"
+                     IsVisible="{Binding !HasRepository}" />
+          <ToggleSwitch Content="{DynamicResource general.check_updates}" IsChecked="{Binding CheckForUpdates}"
+                        IsVisible="{Binding HasRepository}" />
+          <WrapPanel IsVisible="{Binding HasRepository}">
             <Button Command="{Binding CheckNowCommand}" Margin="0,0,10,0">
               <StackPanel Orientation="Horizontal" Spacing="6">
                 <!-- Turns while the check runs (Spin.IsActive follows CheckNowCommand.IsRunning; the code is in Controls/Spin.cs). -->
@@ -90,20 +106,20 @@
       </Border>
     </Grid>
     <!-- The sponsors right below Filee itself and the updates, while there are any -->
-    <Border Classes="card" IsVisible="{Binding #Supporters.IsVisible}">
+    <Border Classes="card" IsVisible="False"><!-- Morph change: Filee's sponsors support Filee -->
       <StackPanel Spacing="12">
         <TextBlock Classes="h2" Text="{DynamicResource sponsor.thanks}" />
         <v:SupportersView x:Name="Supporters" ShowTitle="False" LogoHeight="40" />
       </StackPanel>
     </Border>
-    <Border Classes="card">
+    <Border Classes="card" IsVisible="{Binding HasRepository}"><!-- Morph change: star, issue and sponsor need Morph's own repository -->
       <StackPanel Spacing="10">
         <TextBlock Classes="h2" Text="{DynamicResource about.support_title}" />
         <TextBlock Classes="muted" TextWrapping="Wrap" Text="{DynamicResource about.support_text}" />
         <WrapPanel>
           <Button Classes="accent" Click="OnStar" Margin="0,0,8,0" Content="{DynamicResource feedback.star}" />
           <Button Click="OnIssue" Content="{DynamicResource feedback.issue}" Margin="0,0,8,0" />
-          <Button Click="OnSponsor">
+          <Button Click="OnSponsor" IsVisible="False">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Width="13" Height="13" Data="{StaticResource Icon.Heart}" Foreground="#D4537E" />
               <TextBlock Text="{DynamicResource about.sponsor}" />

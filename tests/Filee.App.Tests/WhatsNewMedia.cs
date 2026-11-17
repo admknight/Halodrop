@@ -63,7 +63,7 @@ public class WhatsNewMedia
     [AvaloniaFact(Explicit = true)]
     public void Generate_2_0_0()
     {
-        var language = Environment.GetEnvironmentVariable("FILEE_WHATSNEW_LANGUAGE") ?? "en";
+        var language = Environment.GetEnvironmentVariable("MORPH_WHATSNEW_LANGUAGE") ?? "en";
         Assert.Contains(language, AppLanguages.All.Select(l => l.Code));
         TestServices.EnsureInitialized(language);
         var folder = language == "en" ? Folder("2.0.0") : Path.Combine(Folder("2.0.0"), language);
@@ -165,7 +165,7 @@ public class WhatsNewMedia
     {
         var clip = new Clip();
         // Where a browser picture stands before it is saved (BrowserDrags: placeholder paths named like the file).
-        var (window, vm) = OpenDonut([Path.Combine(Path.GetTempPath(), "Filee", "web", "drop", "1", "sunset.jpg")], clickMode: false);
+        var (window, vm) = OpenDonut([Path.Combine(Path.GetTempPath(), "Morph", "web", "drop", "1", "sunset.jpg")], clickMode: false);
         var donut = window.DonutControl;
         var badge = window.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "DownloadBadge");
         var badgeText = (TextBlock)badge.Child!;
@@ -303,7 +303,7 @@ public class WhatsNewMedia
     private static Clip Crop()
     {
         var clip = new Clip { Quality = 72 };
-        var folder = Directory.CreateTempSubdirectory("filee-whatsnew-crop-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-whatsnew-crop-").FullName;
         var clock = System.Diagnostics.Stopwatch.GetTimestamp();
         CropCanvas.Clock = () => clock;
         // Crop on the donut's front (it ships on the back face, where Tab turns the donut): one drop in a short clip.
@@ -701,7 +701,7 @@ public class WhatsNewMedia
     private static Clip Annotate()
     {
         var clip = new Clip { Quality = 74 };
-        var folder = Directory.CreateTempSubdirectory("filee-whatsnew-annotate-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-whatsnew-annotate-").FullName;
         var store = AppHost.Get<UserDataStore>();
         var tool = store.FindPreset(BuiltInData.AnnotateId) ?? BuiltInData.AnnotatePresets().Single();
         AnnotateTool.Remember(tool, AnnotateTool.Colors[0], AnnotationWidth.Medium);
@@ -826,7 +826,7 @@ public class WhatsNewMedia
     private static Clip CropVideo()
     {
         var clip = new Clip { Quality = 76 };
-        var folder = Directory.CreateTempSubdirectory("filee-whatsnew-video-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-whatsnew-video-").FullName;
         try
         {
             // A 2.39:1 film in a 16:9 frame.
@@ -913,7 +913,7 @@ public class WhatsNewMedia
     private static Clip Sheets()
     {
         var clip = new Clip { Quality = 78 };
-        var folder = Directory.CreateTempSubdirectory("filee-whatsnew-sheets-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-whatsnew-sheets-").FullName;
         // Pages per sheet is in the palette, on no donut: put on the PDF donut's front for the clip.
         var pdf = AppHost.Get<UserDataStore>().Profiles.Single(p => p.Id == "pdf");
         var front = pdf.PresetIds.ToList();
@@ -1342,7 +1342,7 @@ public class WhatsNewMedia
         ];
         store.Presets.AddRange(added);
         images.BackPresetIds = ["tool-crop", "rotate", "remove-background", "whatsnew-projects", "whatsnew-references", "tool-image-edit", "zip-all"];
-        var folder = Directory.CreateTempSubdirectory("filee-whatsnew-more-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-whatsnew-more-").FullName;
         var clock = System.Diagnostics.Stopwatch.GetTimestamp();
         CropCanvas.Clock = () => clock;
         try
@@ -1549,7 +1549,7 @@ public class WhatsNewMedia
         var clip = new Clip { Quality = 78 };
         var store = AppHost.Get<UserDataStore>();
         var loc = AppHost.Get<ILocalizer>();
-        var folder = Directory.CreateTempSubdirectory("filee-whatsnew-share-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-whatsnew-share-").FullName;
         var blog = new Preset
         {
             Id = "whatsnew-blog",
@@ -1617,7 +1617,7 @@ public class WhatsNewMedia
         var clip = new Clip { Quality = 72 };
         var store = AppHost.Get<UserDataStore>();
         var loc = AppHost.Get<ILocalizer>();
-        var folder = Directory.CreateTempSubdirectory("filee-whatsnew-trash-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-whatsnew-trash-").FullName;
         var word = new Preset { Id = "whatsnew-word-pdf", Name = "Word to PDF", TargetFormat = "pdf" };
         store.Presets.Insert(0, word);
         store.ClearHistory();
@@ -1884,9 +1884,9 @@ public class WhatsNewMedia
     /// </summary>
     private static (PresetGalleryViewModel Vm, PresetGalleryClient Client) LoadGallery()
     {
-        var copy = Environment.GetEnvironmentVariable("FILEE_WHATSNEW_PRESETS") ?? Path.Combine(RepositoryRoot, "..", "Filee-Presets");
+        var copy = Environment.GetEnvironmentVariable("MORPH_WHATSNEW_PRESETS") ?? Path.Combine(RepositoryRoot, "..", "Filee-Presets");
         Assert.True(File.Exists(Path.Combine(copy, "index.json")),
-            $"No gallery at {copy}: clone https://github.com/KnifeLemon/Filee-Presets there or set FILEE_WHATSNEW_PRESETS");
+            $"No gallery at {copy}: clone https://github.com/KnifeLemon/Filee-Presets there or set MORPH_WHATSNEW_PRESETS");
         var client = new PresetGalleryClient(new LocalGallery(copy), cacheFolder: "");
         var vm = new PresetGalleryViewModel(client, AppHost.Get<UserDataStore>(), AppHost.Get<ILocalizer>(), new Version(2, 5, 0), _ => Task.CompletedTask);
         _ = vm.LoadAsync();
@@ -2620,7 +2620,7 @@ public class WhatsNewMedia
     /// </summary>
     private static void Write(string folder, string name, Func<Clip> render, bool onRequestOnly = false)
     {
-        var only = Environment.GetEnvironmentVariable("FILEE_WHATSNEW_ONLY");
+        var only = Environment.GetEnvironmentVariable("MORPH_WHATSNEW_ONLY");
         var named = !string.IsNullOrWhiteSpace(only)
                     && only.Split(',', StringSplitOptions.TrimEntries).Contains(Path.GetFileNameWithoutExtension(name), StringComparer.OrdinalIgnoreCase);
         if (onRequestOnly ? !named : !string.IsNullOrWhiteSpace(only) && !named)

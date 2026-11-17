@@ -80,7 +80,7 @@ public class CropServiceTests
     public async Task A_perspective_crop_straightens_a_tilted_picture()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-perspective-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-perspective-").FullName;
         try
         {
             var source = Tilted(folder, "tilted.png");
@@ -103,7 +103,7 @@ public class CropServiceTests
     public async Task A_perspective_crop_of_a_plain_rectangle_is_not_resampled()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-perspective-rectangle-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-perspective-rectangle-").FullName;
         try
         {
             var preset = BuiltInData.CreatePresets().Single(p => p.Id == "tool-crop");
@@ -133,7 +133,7 @@ public class CropServiceTests
     public async Task A_perspective_crop_follows_the_pictures_orientation()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-perspective-orientation-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-perspective-orientation-").FullName;
         try
         {
             var source = Tilted(folder, "tilted.jpg", oriented: true);
@@ -167,7 +167,7 @@ public class CropServiceTests
     public async Task A_perspective_crop_keeps_quality_dates_and_the_conflict_policy()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-perspective-quality-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-perspective-quality-").FullName;
         try
         {
             var store = AppHost.Get<UserDataStore>();
@@ -222,7 +222,7 @@ public class CropServiceTests
     public async Task CropFileAsync_resolves_output_path_and_crops_image()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-crop-test-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-crop-test-").FullName;
         try
         {
             var source = CreateTestImage(folder, "photo.png", 200, 100);
@@ -251,7 +251,7 @@ public class CropServiceTests
     public async Task Pdf_preview_and_crop_keep_every_page_as_a_PDF()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-pdf-crop-test-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-pdf-crop-test-").FullName;
         try
         {
             var source = Path.Combine(folder, "pages.pdf");
@@ -293,7 +293,7 @@ public class CropServiceTests
     public async Task CropFileAsync_honors_conflict_policies()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-crop-conflict-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-crop-conflict-").FullName;
         try
         {
             var source = CreateTestImage(folder, "sample.png", 100, 100);
@@ -342,7 +342,7 @@ public class CropServiceTests
     public async Task CropFileAsync_keeps_the_sources_quality()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-crop-quality-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-crop-quality-").FullName;
         try
         {
             var store = AppHost.Get<UserDataStore>();
@@ -390,7 +390,7 @@ public class CropServiceTests
     public async Task An_only_file_that_cant_be_cropped_keeps_the_overlay_open_with_the_reason_and_no_retry()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-crop-animated-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-crop-animated-").FullName;
         try
         {
             var store = AppHost.Get<UserDataStore>();
@@ -431,7 +431,7 @@ public class CropServiceTests
     public async Task A_file_skipped_because_the_output_exists_is_shown_but_isnt_a_failure()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-crop-skip-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-crop-skip-").FullName;
         try
         {
             var store = AppHost.Get<UserDataStore>();
@@ -499,7 +499,7 @@ public class CropServiceTests
     public async Task Dds_stored_rgba_is_previewed_and_cropped_in_its_own_colours(uint flags)
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-dds-crop-test-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-dds-crop-test-").FullName;
         try
         {
             byte[] red = [255, 0, 0, 255], green = [0, 255, 0, 255], blue = [0, 0, 255, 255];

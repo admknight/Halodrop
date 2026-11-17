@@ -196,7 +196,7 @@ public class OfficeTests(EngineFixture fx) : IClassFixture<EngineFixture>
             held?.Dispose();
             if (!OperatingSystem.IsWindows())
                 File.SetUnixFileMode(dir, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
-            foreach (var partial in Directory.GetFiles(dir, "*.filee-tmp"))
+            foreach (var partial in Directory.GetFiles(dir, "*.morph-tmp"))
                 File.Delete(partial);
         }
 
@@ -206,7 +206,7 @@ public class OfficeTests(EngineFixture fx) : IClassFixture<EngineFixture>
             // From here deleting the partial file fails: on Windows while a handle without delete sharing is open,
             // on Unix in a folder that can't be written.
             if (OperatingSystem.IsWindows())
-                held = new FileStream(Assert.Single(Directory.GetFiles(dir, "*.filee-tmp")), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                held = new FileStream(Assert.Single(Directory.GetFiles(dir, "*.morph-tmp")), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             else
                 File.SetUnixFileMode(dir, UnixFileMode.UserRead | UnixFileMode.UserExecute);
             throw new IOException("the second row failed");

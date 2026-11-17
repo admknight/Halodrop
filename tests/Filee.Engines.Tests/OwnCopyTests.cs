@@ -12,7 +12,7 @@ namespace Filee.Engines.Tests;
 [Collection("EngineEnvironment")] // OwnCopies is process-wide
 public sealed class OwnCopyTests : IDisposable
 {
-    private readonly string _folder = Directory.CreateTempSubdirectory("filee-own-").FullName;
+    private readonly string _folder = Directory.CreateTempSubdirectory("morph-own-").FullName;
 
     public void Dispose()
     {
@@ -79,7 +79,7 @@ public sealed class EngineEnvironmentCollection;
 [Collection("EngineEnvironment")] // changes PATH and the system-copy cache
 public sealed class SystemCopyTests : IDisposable
 {
-    private readonly string _folder = Directory.CreateTempSubdirectory("filee-path-").FullName;
+    private readonly string _folder = Directory.CreateTempSubdirectory("morph-path-").FullName;
     private readonly string? _path = Environment.GetEnvironmentVariable("PATH");
 
     public void Dispose()
@@ -152,7 +152,7 @@ public sealed class SystemCopyTests : IDisposable
         Assert.SkipUnless(OperatingSystem.IsWindows(), "version.ini is read on Windows only");
         // Any program with a version resource stands in for soffice.exe.
         var program = Environment.ProcessPath!;
-        var folder = Directory.CreateTempSubdirectory("filee-lo-version-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-lo-version-").FullName;
         try
         {
             File.WriteAllText(Path.Combine(folder, "version.ini"), "[Version]\nVendor=The Document Foundation\n");
@@ -175,7 +175,7 @@ public sealed class SystemCopyTests : IDisposable
         File.WriteAllBytes(Path.Combine(_folder, EngineEnvironment.ProgramName("weasyprint.exe")), [0x4D, 0x5A]);
         Environment.SetEnvironmentVariable("PATH", _folder + Path.PathSeparator + _path);
         EngineEnvironment.ForgetSystemCopies();
-        var root = Directory.CreateTempSubdirectory("filee-download-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-download-").FullName;
         try
         {
             Assert.Null(EngineEnvironment.SystemCopyFolder("weasyprint"));
@@ -190,7 +190,7 @@ public sealed class SystemCopyTests : IDisposable
 
             // With it, no copy is offered in its place ("Use this one instead" would remove the one that works).
             Directory.CreateDirectory(Path.Combine(root, "weasyprint"));
-            File.WriteAllText(Path.Combine(root, "weasyprint", ".filee-component"), component.Sha256);
+            File.WriteAllText(Path.Combine(root, "weasyprint", ".morph-component"), component.Sha256);
             Assert.Equal(new EngineCopy(EngineCopyStatus.Installed, null, false, false), installer.StatusOf(package));
 
             // A Pandoc in the same folder is still found: only the engines Filee never takes from the PC are left out.
@@ -211,7 +211,7 @@ public sealed class SystemCopyTests : IDisposable
         File.WriteAllBytes(Path.Combine(_folder, EngineEnvironment.ProgramName("ffprobe.exe")), [0x4D, 0x5A]);
         Environment.SetEnvironmentVariable("PATH", _folder + Path.PathSeparator + _path);
         EngineEnvironment.ForgetSystemCopies();
-        var root = Directory.CreateTempSubdirectory("filee-download-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-download-").FullName;
         try
         {
             var component = new EngineComponent("ffmpeg", "8.0", "https://example.test/ffmpeg.zip", new string('a', 64), 1, "zip");
@@ -223,11 +223,11 @@ public sealed class SystemCopyTests : IDisposable
 
             // With it, the download comes first and the copy on the PC is only reported.
             Directory.CreateDirectory(Path.Combine(root, "ffmpeg"));
-            File.WriteAllText(Path.Combine(root, "ffmpeg", ".filee-component"), component.Sha256);
+            File.WriteAllText(Path.Combine(root, "ffmpeg", ".morph-component"), component.Sha256);
             Assert.Equal(new EngineCopy(EngineCopyStatus.Installed, null, false, false, _folder), installer.StatusOf(package));
 
             // The user's own copy comes first of all: nothing else is reported.
-            var own = Directory.CreateTempSubdirectory("filee-own-").FullName;
+            var own = Directory.CreateTempSubdirectory("morph-own-").FullName;
             File.WriteAllBytes(Path.Combine(own, EngineEnvironment.ProgramName("ffmpeg.exe")), [0x4D, 0x5A]);
             File.WriteAllBytes(Path.Combine(own, EngineEnvironment.ProgramName("ffprobe.exe")), [0x4D, 0x5A]);
             EngineEnvironment.OwnCopies = new Dictionary<string, string> { ["ffmpeg"] = own };
@@ -250,14 +250,14 @@ public sealed class SystemCopyTests : IDisposable
     [Fact]
     public void Filees_download_reached_by_another_path_is_not_reported_as_another_copy()
     {
-        var root = Directory.CreateTempSubdirectory("filee-download-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-download-").FullName;
         try
         {
             var component = new EngineComponent("ffmpeg", "8.0", "https://example.test/ffmpeg.zip", new string('a', 64), 1, "zip");
             var installer = new EngineInstaller(new HttpClient(), root, new Dictionary<string, EngineComponent> { ["ffmpeg"] = component });
             var package = new EnginePackage("ffmpeg", ["ffmpeg"], 1000, ["ffmpeg"]);
             var download = Directory.CreateDirectory(Path.Combine(root, "ffmpeg")).FullName;
-            File.WriteAllText(Path.Combine(download, ".filee-component"), component.Sha256);
+            File.WriteAllText(Path.Combine(download, ".morph-component"), component.Sha256);
             var bin = Directory.CreateDirectory(Path.Combine(download, "bin")).FullName;
             var programs = new[] { "ffmpeg.exe", "ffprobe.exe" }.Select(EngineEnvironment.ProgramName).ToList();
             File.WriteAllBytes(Path.Combine(bin, programs[0]), [0x4D, 0x5A, 1]);
@@ -378,7 +378,7 @@ public sealed class SystemCopyTests : IDisposable
         Assert.Equal(_folder, EngineEnvironment.SystemCopyFolder("pandoc"));
 
         // Both move; only Pandoc's download was removed, so only Pandoc is searched again.
-        var moved = Directory.CreateTempSubdirectory("filee-path-moved-").FullName;
+        var moved = Directory.CreateTempSubdirectory("morph-path-moved-").FullName;
         try
         {
             foreach (var program in new[] { "ffmpeg.exe", "ffprobe.exe", "pandoc.exe" })

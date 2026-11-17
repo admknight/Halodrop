@@ -29,7 +29,7 @@ public class WhatsNewTests
     private static readonly Version V2 = new(2, 0, 0);
 
     private static SlideDeck Deck(string version) =>
-        new(SlideDeck.TryParseVersion(version)!, [new Slide("a", new Uri("avares://Filee/a.webp"), "t", "x")]);
+        new(SlideDeck.TryParseVersion(version)!, [new Slide("a", new Uri("avares://Morph/a.webp"), "t", "x")]);
 
     // ───────────────────────── Manifests ─────────────────────────
 
@@ -40,7 +40,7 @@ public class WhatsNewTests
     public void A_deck_ships_with_its_media_and_texts(string version)
     {
         TestServices.EnsureInitialized("en");
-        var decks = SlideDeck.LoadAll("Filee");
+        var decks = SlideDeck.LoadAll("Morph");
         var deck = Assert.Single(decks, d => d.Version == new Version(version));
         Assert.InRange(deck.Slides.Count, 5, 7);
         Assert.Equal(deck.Slides.Count, deck.Slides.Select(s => s.Id).Distinct().Count());
@@ -48,7 +48,7 @@ public class WhatsNewTests
         foreach (var slide in deck.Slides)
         {
             Assert.True(AssetLoader.Exists(slide.Media), $"{slide.Media} is missing");
-            Assert.StartsWith($"avares://Filee/Assets/WhatsNew/{version}/", slide.Media.ToString(), StringComparison.Ordinal);
+            Assert.StartsWith($"avares://Morph/Assets/WhatsNew/{version}/", slide.Media.ToString(), StringComparison.Ordinal);
             Assert.Contains(slide.TitleKey, english.Keys);
             Assert.Contains(slide.TextKey, english.Keys);
         }
@@ -77,7 +77,7 @@ public class WhatsNewTests
     [InlineData(null, "crop.webp", 2)]
     public void Localized_media_use_an_exact_variant_and_their_own_poster(string? language, string path, int poster)
     {
-        var folder = new Uri("avares://Filee/Assets/WhatsNew/2.0.0/");
+        var folder = new Uri("avares://Morph/Assets/WhatsNew/2.0.0/");
         var deck = SlideDeck.Parse("""
             { "version": "2.0.0", "slides": [
               { "id": "crop", "media": "crop.webp", "poster": 2, "title": "t", "text": "x",
@@ -101,7 +101,7 @@ public class WhatsNewTests
     public void Portuguese_recordings_preserve_the_desktop_context_and_localize_the_other_slides(string language)
     {
         TestServices.EnsureInitialized(language);
-        var deck = Assert.Single(SlideDeck.LoadAll("Filee"), d => d.Version == V2);
+        var deck = Assert.Single(SlideDeck.LoadAll("Morph"), d => d.Version == V2);
         foreach (var slide in deck.Slides)
         {
             var media = slide.MediaFor(language);
@@ -142,7 +142,7 @@ public class WhatsNewTests
     [Fact]
     public void A_manifest_is_read_leniently_and_safely()
     {
-        var folder = new Uri("avares://Filee/Assets/WhatsNew/3.1.0/");
+        var folder = new Uri("avares://Morph/Assets/WhatsNew/3.1.0/");
         var deck = SlideDeck.Parse("""
             {
               // comments and trailing commas are fine
@@ -162,7 +162,7 @@ public class WhatsNewTests
         Assert.Equal(new Version(3, 1, 0), deck.Version);
         Assert.Equal("3.1", deck.DisplayVersion);
         var slide = Assert.Single(deck.Slides);
-        Assert.Equal(new Uri("avares://Filee/Assets/WhatsNew/3.1.0/one.webp"), slide.Media);
+        Assert.Equal(new Uri("avares://Morph/Assets/WhatsNew/3.1.0/one.webp"), slide.Media);
         Assert.Equal(("a.title", "a.text"), (slide.TitleKey, slide.TextKey));
         Assert.Equal(12, slide.PosterFrame);
 
@@ -326,7 +326,7 @@ public class WhatsNewTests
     {
         TestServices.EnsureInitialized(language);
         beforeOpening?.Invoke();
-        var deck = SlideDeck.LoadAll("Filee").Single(d => d.Version == (version ?? V2));
+        var deck = SlideDeck.LoadAll("Morph").Single(d => d.Version == (version ?? V2));
         var window = new WhatsNewWindow(deck, AppHost.Get<ILocalizer>());
         window.Show();
         window.Activate();

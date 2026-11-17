@@ -26,7 +26,7 @@ internal enum StartMode
 internal sealed record SetupStart(StartMode Mode, SetupPayload? Payload = null, string? Problem = null)
 {
     /// <summary>The build output's name. Releases rename it (Filee-&lt;version&gt;-win-Setup.exe, uninstall.exe).</summary>
-    public const string DevelopmentExe = "Filee.Setup.exe";
+    public const string DevelopmentExe = "Morph.Setup.exe";
 
     /// <param name="uninstall">/UNINSTALL: uninstall whatever the program carries.</param>
     public static SetupStart Of(string exe, bool uninstall)

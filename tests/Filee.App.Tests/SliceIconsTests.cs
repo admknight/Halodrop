@@ -82,7 +82,7 @@ public class SliceIconsTests
         Assert.Equal("star-outline", SliceIcons.For(crop));
         crop.Icon = Preset.NoIcon;
         Assert.Null(SliceIcons.For(crop));
-        crop.Icon = "an-icon-from-a-newer-filee";
+        crop.Icon = "an-icon-from-a-newer-morph";
         Assert.Equal("crop", SliceIcons.For(crop));
         Assert.Equal("star-outline", SliceIcons.For(new Preset { Icon = "star-outline" }));
     }

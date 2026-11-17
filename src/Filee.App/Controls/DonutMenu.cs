@@ -297,6 +297,27 @@ public sealed partial class DonutMenu : Control
     private Point Center => new(Bounds.Width / 2, Bounds.Height / 2);
     private double InnerRadius => OuterRadius * Math.Clamp(HoleRatio, 0.2, 0.75);
 
+    private bool _hubOnly;
+
+    /// <summary>
+    /// Morph change: only the hub is drawn, a bubble with the files' name that rides under the cursor while a "where I let
+    /// go" drag goes on (<c>DonutOpenAt.LetGo</c>). Turning it off lets the slices open as usual.
+    /// </summary>
+    public bool HubOnly
+    {
+        get => _hubOnly;
+        set
+        {
+            if (_hubOnly == value)
+                return;
+            _hubOnly = value;
+            InvalidateVisual();
+        }
+    }
+
+    /// <summary>Morph change: the hub's centre in the control, where a riding donut keeps the cursor.</summary>
+    public Point HubCenter => Center;
+
     // ───────────────────────── Public API ─────────────────────────
 
     /// <summary>Plays the "pop out from the centre" animation.</summary>
@@ -933,6 +954,14 @@ public sealed partial class DonutMenu : Control
         if (_progressMode)
         {
             RenderProgress(context, center, r1, r2, typeface, typefaceRegular);
+            return;
+        }
+
+        if (_hubOnly)
+        {
+            // Morph change: the riding bubble of a "where I let go" drag: the hub and its shadow, no slices yet.
+            DrawSoftShadow(context, center, r1);
+            DrawCenter(context, center, r1, typeface, typefaceRegular);
             return;
         }
 

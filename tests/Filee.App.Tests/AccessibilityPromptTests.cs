@@ -11,7 +11,7 @@ public class AccessibilityPromptTests
     [Fact]
     public void The_alert_is_shown_once_and_not_at_later_starts()
     {
-        var directory = Directory.CreateTempSubdirectory("filee-accessibility-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-accessibility-").FullName;
         try
         {
             var store = new UserDataStore(directory);

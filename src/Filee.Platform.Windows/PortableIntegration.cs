@@ -9,8 +9,8 @@ namespace Filee.Platform.Windows;
 public static class PortableIntegration
 {
     internal const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
-    internal const string VerbKey = @"Software\Classes\*\shell\Filee";
-    private static string Shortcut => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SendTo), "Filee.lnk");
+    internal const string VerbKey = @"Software\Classes\*\shell\Morph";
+    private static string Shortcut => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SendTo), "Morph.lnk");
 
     public static bool HasOwnedEntries(string executable) =>
         HasRegistryEntries(Registry.CurrentUser, executable)
@@ -29,20 +29,20 @@ public static class PortableIntegration
 
     private static bool OwnsModernPackage(string executable) => ExplorerMenuRegistration.IsSupportedOs
         && ExplorerMenuRegistration.Find()?.ExternalLocation is { } folder
-        && SameExecutable(Path.Combine(folder, "Filee.exe"), executable);
+        && SameExecutable(Path.Combine(folder, "Morph.exe"), executable);
 
     internal static bool HasRegistryEntries(RegistryKey root, string executable)
     {
         using var run = root.OpenSubKey(RunKey);
         using var command = root.OpenSubKey(VerbKey + @"\command");
-        return CommandTargets(run?.GetValue("Filee") as string, executable)
+        return CommandTargets(run?.GetValue("Morph") as string, executable)
             || CommandTargets(command?.GetValue(null) as string, executable);
     }
 
     internal static void RemoveRegistryEntries(RegistryKey root, string executable)
     {
         using var run = root.OpenSubKey(RunKey, writable: true);
-        if (CommandTargets(run?.GetValue("Filee") as string, executable)) run!.DeleteValue("Filee", false);
+        if (CommandTargets(run?.GetValue("Morph") as string, executable)) run!.DeleteValue("Morph", false);
         using var command = root.OpenSubKey(VerbKey + @"\command");
         var ownsVerb = CommandTargets(command?.GetValue(null) as string, executable);
         command?.Dispose();

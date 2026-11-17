@@ -301,7 +301,7 @@ public class ToolbarPageTests
                 .Where(c => c is Button or Avalonia.Controls.Primitives.ToggleButton or ListBoxItem).Where(c => c.IsEffectivelyVisible && c.TemplatedParent is null).ToList();
             Assert.NotEmpty(buttons);
             Assert.All(buttons, b => Assert.False(string.IsNullOrWhiteSpace(NameOf(b)) || NameOf(b).StartsWith("Avalonia.", StringComparison.Ordinal)
-                || NameOf(b).StartsWith("Filee.", StringComparison.Ordinal),
+                || NameOf(b).StartsWith("Morph.", StringComparison.Ordinal),
                 $"{b.GetType().Name} {b.Name}: \"{NameOf(b)}\""));
         }
         void NamedAsShown()

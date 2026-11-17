@@ -15,7 +15,7 @@ public sealed class FileeConnectTests : IDisposable
 
     public FileeConnectTests()
     {
-        var baseDir = Path.Combine(Path.GetTempPath(), "FileeConnectTests_" + Guid.NewGuid().ToString("N"));
+        var baseDir = Path.Combine(Path.GetTempPath(), "MorphConnectTests_" + Guid.NewGuid().ToString("N"));
         _storageDir = Path.Combine(baseDir, "Storage");
         _tempDir = Path.Combine(baseDir, "Temp");
         _manager = new SharedFolderManager(NullLogger<SharedFolderManager>.Instance, _storageDir, _tempDir);
@@ -47,7 +47,7 @@ public sealed class FileeConnectTests : IDisposable
     [Fact]
     public async Task Save_file_persists_content_and_retrieves_item()
     {
-        var content = "Hello Filee Connect!";
+        var content = "Hello Morph Connect!";
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
 
         var item = await _manager.SaveStreamAsync(stream, "test.txt", "test.txt", "pc", "text/plain");
@@ -163,7 +163,7 @@ public sealed class FileeConnectTests : IDisposable
             var response = await http.GetAsync(service.MobileUrl, TestContext.Current.CancellationToken);
             var body = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
             Assert.True(response.IsSuccessStatusCode, $"Failed to fetch {service.MobileUrl}: {response.StatusCode} Body: {body}");
-            Assert.Contains("Filee Connect", body);
+            Assert.Contains("Morph Connect", body);
             Assert.Contains("/app.css", body);
         }
         finally
@@ -306,7 +306,7 @@ public sealed class FileeConnectTests : IDisposable
             // Verify Set-Cookie header contains filee_token and is HttpOnly
             Assert.True(firstResponse.Headers.TryGetValues("Set-Cookie", out var cookies));
             var cookieStr = string.Join("; ", cookies);
-            Assert.Contains("filee_token=", cookieStr);
+            Assert.Contains("morph_token=", cookieStr);
             Assert.Contains("httponly", cookieStr, StringComparison.OrdinalIgnoreCase);
 
             // Second request with same URL must 404 because secret was consumed atomically on first pair

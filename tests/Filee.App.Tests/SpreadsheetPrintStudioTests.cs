@@ -22,7 +22,7 @@ public class SpreadsheetPrintStudioTests
     public async Task Translated_print_settings_fit_at_the_minimum_window_width(string language)
     {
         TestServices.EnsureInitialized(language);
-        var folder = Directory.CreateTempSubdirectory("filee-studio-layout-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-studio-layout-").FullName;
         SpreadsheetPrintStudioWindow? window = null;
         SpreadsheetPrintStudioViewModel? vm = null;
         try
@@ -37,7 +37,7 @@ public class SpreadsheetPrintStudioTests
             window = new SpreadsheetPrintStudioWindow { DataContext = vm, Width = 1040, Height = 860 };
             window.Show();
             RenderTests.Pump();
-            if (Environment.GetEnvironmentVariable("FILEE_LOCALIZATION_SCREENSHOTS") == "1")
+            if (Environment.GetEnvironmentVariable("MORPH_LOCALIZATION_SCREENSHOTS") == "1")
                 RenderTests.Save(window, $"spreadsheet-studio-{language}-1040.png");
             var labels = window.GetVisualDescendants().OfType<TextBlock>()
                 .Where(text => text.IsEffectivelyVisible && !string.IsNullOrWhiteSpace(text.Text));
@@ -59,7 +59,7 @@ public class SpreadsheetPrintStudioTests
     public void Multiple_workbooks_keep_independent_studio_windows()
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-studios-test-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-studios-test-").FullName;
         var windows = AppHost.Get<WindowService>();
         var before = windows.SpreadsheetStudios.ToArray();
         try
@@ -95,7 +95,7 @@ public class SpreadsheetPrintStudioTests
         TestServices.EnsureInitialized();
         var service = AppHost.Get<SpreadsheetPrintService>();
         Assert.SkipUnless(service.Status.IsAvailable, "LibreOffice not found");
-        var folder = Directory.CreateTempSubdirectory("filee-sheet-studio-test-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-sheet-studio-test-").FullName;
         try
         {
             var source = Path.Combine(folder, "large.xlsx");
@@ -112,7 +112,7 @@ public class SpreadsheetPrintStudioTests
             await export;
             await WaitUntilAsync(() => !WorkFolders().Except(before).Any(), TimeSpan.FromSeconds(10));
 
-            Assert.False(File.Exists(output + ".filee-tmp"));
+            Assert.False(File.Exists(output + ".morph-tmp"));
             Assert.Empty(WorkFolders().Except(before));
         }
         finally
@@ -160,7 +160,7 @@ public class SpreadsheetPrintStudioTests
         TestServices.EnsureInitialized();
         var service = AppHost.Get<SpreadsheetPrintService>();
         Assert.SkipUnless(service.Status.IsAvailable, "LibreOffice not found");
-        var folder = Directory.CreateTempSubdirectory("filee-sheet-studio-split-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-sheet-studio-split-").FullName;
         var store = AppHost.Get<UserDataStore>();
         try
         {
@@ -180,7 +180,7 @@ public class SpreadsheetPrintStudioTests
             Assert.All(expected, path => Assert.True(File.Exists(path), path));
             Assert.Equal("earlier export", File.ReadAllText(earlier));
             Assert.False(File.Exists(Path.Combine(folder, "book.pdf")));
-            Assert.Empty(Directory.GetFiles(folder, "*.filee-tmp"));
+            Assert.Empty(Directory.GetFiles(folder, "*.morph-tmp"));
             Assert.Contains(store.History, entry => entry.Outputs.SequenceEqual(expected));
         }
         finally

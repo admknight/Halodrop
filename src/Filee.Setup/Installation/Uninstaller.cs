@@ -63,7 +63,7 @@ public sealed class Uninstaller(SetupContext context)
         IProgress<SetupProgress>? progress = null, Action? releaseUninstaller = null)
     {
         folder = Path.TrimEndingDirectorySeparator(Path.GetFullPath(folder));
-        Log.Info($"Uninstalling Filee {record.Version} from {folder} ({record.Scope}); delete settings: {deleteSettings}");
+        Log.Info($"Uninstalling Morph {record.Version} from {folder} ({record.Scope}); delete settings: {deleteSettings}");
         var later = new List<string>();
         var stuck = new List<string>();
         progress?.Report(new SetupProgress(SetupStep.Closing, 0));
@@ -79,7 +79,7 @@ public sealed class Uninstaller(SetupContext context)
         }
         // From here on a Filee would run on from the trash folder, and offer updates, with nothing left to remove it.
         if (StaysRunning(folder, record))
-            throw new SetupException("installer.uninstall.still_running", $"Filee could not be ended and still runs from {folder}");
+            throw new SetupException("installer.uninstall.still_running", $"Morph could not be ended and still runs from {folder}");
         progress?.Report(new SetupProgress(SetupStep.Removing, 0.3));
         if (System.ExplorerMenuSupported)
             System.UnregisterExplorerMenu();
@@ -88,7 +88,7 @@ public sealed class Uninstaller(SetupContext context)
         if (!cleaned)
             cleaned = RunCleanup(exe);
         if (!cleaned)
-            Log.Warn("Filee's cleanup did not finish: what it registered for the user may stay");
+            Log.Warn("Morph's cleanup did not finish: what it registered for the user may stay");
         if (!cleaned || !hasExe)
             RemoveStartupEntry(folder);
         CleanupFailed = !cleaned;
@@ -99,7 +99,7 @@ public sealed class Uninstaller(SetupContext context)
         if (PathVariable.Set(Registry, record.Scope, Path.Combine(folder, SetupNames.CliFolder), present: false))
         {
             System.BroadcastEnvironmentChange();
-            Log.Info("Removed the filee command from PATH");
+            Log.Info("Removed the morph command from PATH");
         }
 
         progress?.Report(new SetupProgress(SetupStep.Removing, 0.5));
@@ -129,7 +129,7 @@ public sealed class Uninstaller(SetupContext context)
         if (stuck.Count > 0)
         {
             Log.Error($"Could not remove: {string.Join(", ", stuck)}");
-            throw new SetupException("installer.uninstall.files_left", $"Could not remove {stuck.Count} files of Filee", folder);
+            throw new SetupException("installer.uninstall.files_left", $"Could not remove {stuck.Count} files of Morph", folder);
         }
         Registry.DeleteKey(hive, SetupNames.UninstallKey);
         progress?.Report(new SetupProgress(SetupStep.Removing, 0.95));
@@ -168,7 +168,7 @@ public sealed class Uninstaller(SetupContext context)
     private bool RunCleanup(string exe)
     {
         var code = System.RunAsSignedInUser(exe, "--uninstall-cleanup", CleanupTimeout);
-        Log.Info($"Filee --uninstall-cleanup: exit code {code}");
+        Log.Info($"Morph --uninstall-cleanup: exit code {code}");
         return code == 0;
     }
 
@@ -204,7 +204,7 @@ public sealed class Uninstaller(SetupContext context)
             {
                 Log.Error(left.Count > 0
                     ? $"Still running: {string.Join(", ", left.Select(p => p.Path))}"
-                    : "Still running: a Filee this program may not look at");
+                    : "Still running: a Morph this program may not look at");
                 return true;
             }
             Thread.Sleep(250);

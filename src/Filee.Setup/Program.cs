@@ -49,8 +49,8 @@ internal static class Program
         var start = SetupStart.Of(exe, options.Uninstall);
         var payload = start.Payload;
         var uninstall = start.Mode == StartMode.Uninstall;
-        var log = new SetupLog(options.LogFile ?? SetupLog.DefaultFile(paths.Temp, uninstall ? "Filee-Uninstall" : "Filee-Setup"));
-        log.Info($"{(uninstall ? "Uninstaller" : "Setup")} {SetupInfo.Version}{(payload is null ? "" : $" with Filee {payload.Manifest.Version}")}: " +
+        var log = new SetupLog(options.LogFile ?? SetupLog.DefaultFile(paths.Temp, uninstall ? "Morph-Uninstall" : "Morph-Setup"));
+        log.Info($"{(uninstall ? "Uninstaller" : "Setup")} {SetupInfo.Version}{(payload is null ? "" : $" with Morph {payload.Manifest.Version}")}: " +
                  $"{exe} {SetupOptions.Join(args)}; administrator: {NativeMethods.IsElevated()}; Windows {Environment.OSVersion.Version} " +
                  $"{RuntimeInformation.OSArchitecture}{(sandbox is null ? "" : $"; sandbox {sandbox}")}");
         foreach (var unknown in options.Unknown)
@@ -110,7 +110,7 @@ internal static class Program
         if (!options.Portable && sandbox is null && scope == InstallScope.Machine && !NativeMethods.IsElevated())
         {
             payload.Dispose();
-            return RunElevated(exe, args, log, launchFile: Path.Combine(Path.GetTempPath(), $"Filee-Setup-{Guid.NewGuid():N}.launch"));
+            return RunElevated(exe, args, log, launchFile: Path.Combine(Path.GetTempPath(), $"Morph-Setup-{Guid.NewGuid():N}.launch"));
         }
 
         var context = CreateContext(sandbox, paths, log);
@@ -119,10 +119,10 @@ internal static class Program
             texts.SetLanguage(recorded);
         var folder = previous?.Folder
                      ?? (options.Directory is { } dir ? Path.GetFullPath(Environment.ExpandEnvironmentVariables(dir)) : null)
-                     ?? (options.Portable ? Path.Combine(Path.GetDirectoryName(exe)!, "Filee") : paths.DefaultInstallFolder(scope));
+                     ?? (options.Portable ? Path.Combine(Path.GetDirectoryName(exe)!, "Morph") : paths.DefaultInstallFolder(scope));
         if (previous is not null && options.Directory is { } asked
             && !Path.GetFullPath(Environment.ExpandEnvironmentVariables(asked)).TrimEnd('\\').Equals(previous.Folder, StringComparison.OrdinalIgnoreCase))
-            log.Warn($"/DIR={asked} ignored: Filee is installed in {previous.Folder}, which an update keeps");
+            log.Warn($"/DIR={asked} ignored: Morph is installed in {previous.Folder}, which an update keeps");
 
         var modernMenu = context.System.ExplorerMenuSupported && scope == InstallScope.Machine && !options.Portable;
         var tasks = previous is null
@@ -175,7 +175,7 @@ internal static class Program
         if (result is { Succeeded: true } && launch is not null)
         {
             if (options.NoLaunch || sandbox is not null)
-                log.Info($"Not starting Filee ({(sandbox is null ? "/NOLAUNCH" : "sandbox")}): {launch.Executable} {launch.Arguments}");
+                log.Info($"Not starting Morph ({(sandbox is null ? "/NOLAUNCH" : "sandbox")}): {launch.Executable} {launch.Arguments}");
             else
                 StartFilee(launch, options.LaunchFile, log);
         }
@@ -285,7 +285,7 @@ internal static class Program
     private const string ReleasedFile = "released";
 
     /// <summary>The name of the uninstaller copy's folder, followed by a new GUID: the copy knows itself by it.</summary>
-    internal const string CopyFolderPrefix = "Filee-Uninstall-";
+    internal const string CopyFolderPrefix = "Morph-Uninstall-";
 
     /// <summary>
     /// The rights of an elevated uninstaller's copy folder: SYSTEM and administrators only, nothing inherited from the
@@ -487,7 +487,7 @@ internal static class Program
             try
             {
                 File.WriteAllLines(launchFile, [launch.Executable, launch.Arguments]);
-                log.Info($"Filee starts from the unelevated Setup: {launch.Arguments}");
+                log.Info($"Morph starts from the unelevated Setup: {launch.Arguments}");
                 return;
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
@@ -499,11 +499,11 @@ internal static class Program
         {
             if (NativeMethods.StartAsShellUser(launch.Executable, launch.Arguments, Path.GetDirectoryName(launch.Executable)!, out var error))
             {
-                log.Info($"Started Filee as the signed-in user: {launch.Arguments}");
+                log.Info($"Started Morph as the signed-in user: {launch.Arguments}");
                 return;
             }
             // Filee notices it runs elevated and offers to restart without administrator rights.
-            log.Warn($"Could not start Filee as the signed-in user ({error}); starting it with Setup's rights");
+            log.Warn($"Could not start Morph as the signed-in user ({error}); starting it with Setup's rights");
         }
         Start(launch, log);
     }
@@ -517,11 +517,11 @@ internal static class Program
                 UseShellExecute = false,
                 WorkingDirectory = Path.GetDirectoryName(launch.Executable)!,
             });
-            log.Info($"Started Filee: {launch.Arguments}");
+            log.Info($"Started Morph: {launch.Arguments}");
         }
         catch (Exception ex) when (ex is Win32Exception or InvalidOperationException)
         {
-            log.Warn($"Could not start Filee: {ex.Message}");
+            log.Warn($"Could not start Morph: {ex.Message}");
         }
     }
 
@@ -564,7 +564,7 @@ internal static class Program
     private static void Tell(SetupOptions options, string text, uint icon)
     {
         if (options.CanShowMessages)
-            NativeMethods.MessageBox(0, text, "Filee Setup", NativeMethods.MB_OK | icon | NativeMethods.MB_SETFOREGROUND);
+            NativeMethods.MessageBox(0, text, "Morph Setup", NativeMethods.MB_OK | icon | NativeMethods.MB_SETFOREGROUND);
     }
 }
 

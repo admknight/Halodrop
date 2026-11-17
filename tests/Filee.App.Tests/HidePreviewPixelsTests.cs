@@ -12,7 +12,7 @@ public class HidePreviewPixelsTests
 {
     private static MagickImage Saved(MagickImage image)
     {
-        var path = Path.Combine(Directory.CreateTempSubdirectory("filee-depth-").FullName, "picture.png");
+        var path = Path.Combine(Directory.CreateTempSubdirectory("morph-depth-").FullName, "picture.png");
         image.Write(path, MagickFormat.Png);
         return new MagickImage(path);
     }

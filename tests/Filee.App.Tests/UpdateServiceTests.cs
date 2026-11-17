@@ -78,16 +78,16 @@ public class UpdateServiceTests
     {
         using var release = JsonDocument.Parse($$"""
             {"tag_name": "v9.9.9", "assets": [
-              {"name": "Filee-9.9.9-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-SHA256SUMS.txt"},
-              {"name": "Filee-9.9.9-win-Portable.zip", "size": 5, "browser_download_url": "{{Base}}Filee-9.9.9-win-Portable.zip"},
-              {"name": "Filee-9.9.9-win-Setup.exe", "size": 1234, "browser_download_url": "{{Base}}Filee-9.9.9-win-Setup.exe"}
+              {"name": "Morph-9.9.9-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-SHA256SUMS.txt"},
+              {"name": "Morph-9.9.9-win-Portable.zip", "size": 5, "browser_download_url": "{{Base}}Morph-9.9.9-win-Portable.zip"},
+              {"name": "Morph-9.9.9-win-Setup.exe", "size": 1234, "browser_download_url": "{{Base}}Morph-9.9.9-win-Setup.exe"}
             ]}
             """);
 
         var (installer, checksums) = UpdateService.FindFiles(release.RootElement);
 
-        Assert.Equal(new UpdateService.ReleaseFile("Filee-9.9.9-win-Setup.exe", Base + "Filee-9.9.9-win-Setup.exe", 1234), installer);
-        Assert.Equal("Filee-9.9.9-SHA256SUMS.txt", checksums?.Name);
+        Assert.Equal(new UpdateService.ReleaseFile("Morph-9.9.9-win-Setup.exe", Base + "Morph-9.9.9-win-Setup.exe", 1234), installer);
+        Assert.Equal("Morph-9.9.9-SHA256SUMS.txt", checksums?.Name);
     }
 
     [Fact]
@@ -95,36 +95,36 @@ public class UpdateServiceTests
     {
         using var release = JsonDocument.Parse($$"""
             {"tag_name": "v9.9.9", "assets": [
-              {"name": "Filee-9.9.9-linux-arm64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-linux-arm64-SHA256SUMS.txt"},
-              {"name": "Filee-9.9.9-linux-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-linux-x64-SHA256SUMS.txt"},
-              {"name": "Filee-9.9.9-osx-arm64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-osx-arm64-SHA256SUMS.txt"},
-              {"name": "Filee-9.9.9-osx-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-osx-x64-SHA256SUMS.txt"},
-              {"name": "Filee-9.9.9-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-SHA256SUMS.txt"},
-              {"name": "Filee-9.9.9-win-Portable.zip", "size": 5000, "browser_download_url": "{{Base}}Filee-9.9.9-win-Portable.zip"},
-              {"name": "Filee-9.9.9-win-Setup.exe", "size": 6000, "browser_download_url": "{{Base}}Filee-9.9.9-win-Setup.exe"}
+              {"name": "Morph-9.9.9-linux-arm64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-linux-arm64-SHA256SUMS.txt"},
+              {"name": "Morph-9.9.9-linux-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-linux-x64-SHA256SUMS.txt"},
+              {"name": "Morph-9.9.9-osx-arm64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-osx-arm64-SHA256SUMS.txt"},
+              {"name": "Morph-9.9.9-osx-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-osx-x64-SHA256SUMS.txt"},
+              {"name": "Morph-9.9.9-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-SHA256SUMS.txt"},
+              {"name": "Morph-9.9.9-win-Portable.zip", "size": 5000, "browser_download_url": "{{Base}}Morph-9.9.9-win-Portable.zip"},
+              {"name": "Morph-9.9.9-win-Setup.exe", "size": 6000, "browser_download_url": "{{Base}}Morph-9.9.9-win-Setup.exe"}
             ]}
             """);
 
         var (installer, checksums) = UpdateService.FindFiles(release.RootElement);
-        Assert.Equal("Filee-9.9.9-win-Setup.exe", installer?.Name);
-        Assert.Equal("Filee-9.9.9-SHA256SUMS.txt", checksums?.Name);
+        Assert.Equal("Morph-9.9.9-win-Setup.exe", installer?.Name);
+        Assert.Equal("Morph-9.9.9-SHA256SUMS.txt", checksums?.Name);
     }
 
     // A release as sign-release.ps1 leaves it: x64 and ARM64 Windows files with one checksum file for both, next to the
     // Linux and macOS packages.
     private const string EveryPlatformAssets = $$"""
-          {"name": "Filee-9.9.9-linux-arm64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-linux-arm64-SHA256SUMS.txt"},
-          {"name": "Filee-9.9.9-linux-arm64.tar.gz", "size": 4000, "browser_download_url": "{{Base}}Filee-9.9.9-linux-arm64.tar.gz"},
-          {"name": "Filee-9.9.9-linux-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-linux-x64-SHA256SUMS.txt"},
-          {"name": "Filee-9.9.9-linux-x64.tar.gz", "size": 4100, "browser_download_url": "{{Base}}Filee-9.9.9-linux-x64.tar.gz"},
-          {"name": "Filee-9.9.9-osx-arm64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-osx-arm64-SHA256SUMS.txt"},
-          {"name": "Filee-9.9.9-osx-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-osx-x64-SHA256SUMS.txt"},
-          {"name": "Filee-9.9.9-SHA256SUMS.txt", "size": 384, "browser_download_url": "{{Base}}Filee-9.9.9-SHA256SUMS.txt"},
-          {"name": "Filee-9.9.9-SHA256SUMS.txt.sig", "size": 89, "browser_download_url": "{{Base}}Filee-9.9.9-SHA256SUMS.txt.sig"},
-          {"name": "Filee-9.9.9-win-Portable.zip", "size": 5000, "browser_download_url": "{{Base}}Filee-9.9.9-win-Portable.zip"},
-          {"name": "Filee-9.9.9-win-Setup.exe", "size": 6000, "browser_download_url": "{{Base}}Filee-9.9.9-win-Setup.exe"},
-          {"name": "Filee-9.9.9-win-arm64-Portable.zip", "size": 5100, "browser_download_url": "{{Base}}Filee-9.9.9-win-arm64-Portable.zip"},
-          {"name": "Filee-9.9.9-win-arm64-Setup.exe", "size": 6100, "browser_download_url": "{{Base}}Filee-9.9.9-win-arm64-Setup.exe"}
+          {"name": "Morph-9.9.9-linux-arm64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-linux-arm64-SHA256SUMS.txt"},
+          {"name": "Morph-9.9.9-linux-arm64.tar.gz", "size": 4000, "browser_download_url": "{{Base}}Morph-9.9.9-linux-arm64.tar.gz"},
+          {"name": "Morph-9.9.9-linux-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-linux-x64-SHA256SUMS.txt"},
+          {"name": "Morph-9.9.9-linux-x64.tar.gz", "size": 4100, "browser_download_url": "{{Base}}Morph-9.9.9-linux-x64.tar.gz"},
+          {"name": "Morph-9.9.9-osx-arm64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-osx-arm64-SHA256SUMS.txt"},
+          {"name": "Morph-9.9.9-osx-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-osx-x64-SHA256SUMS.txt"},
+          {"name": "Morph-9.9.9-SHA256SUMS.txt", "size": 384, "browser_download_url": "{{Base}}Morph-9.9.9-SHA256SUMS.txt"},
+          {"name": "Morph-9.9.9-SHA256SUMS.txt.sig", "size": 89, "browser_download_url": "{{Base}}Morph-9.9.9-SHA256SUMS.txt.sig"},
+          {"name": "Morph-9.9.9-win-Portable.zip", "size": 5000, "browser_download_url": "{{Base}}Morph-9.9.9-win-Portable.zip"},
+          {"name": "Morph-9.9.9-win-Setup.exe", "size": 6000, "browser_download_url": "{{Base}}Morph-9.9.9-win-Setup.exe"},
+          {"name": "Morph-9.9.9-win-arm64-Portable.zip", "size": 5100, "browser_download_url": "{{Base}}Morph-9.9.9-win-arm64-Portable.zip"},
+          {"name": "Morph-9.9.9-win-arm64-Setup.exe", "size": 6100, "browser_download_url": "{{Base}}Morph-9.9.9-win-arm64-Setup.exe"}
         """;
 
     private static JsonDocument ReleaseWithEveryPlatform(string extraAssets = "") =>
@@ -132,8 +132,8 @@ public class UpdateServiceTests
 
     // Filee-9.9.9-SHA256SUMS.txt as sign-release.ps1 writes it: the x64 lines, then the ARM64 ones.
     private static readonly string CombinedSums =
-        $"{new string('a', 64)}  Filee-9.9.9-win-Setup.exe\r\n{new string('b', 64)}  Filee-9.9.9-win-Portable.zip\r\n" +
-        $"{new string('c', 64)}  Filee-9.9.9-win-arm64-Setup.exe\r\n{new string('d', 64)}  Filee-9.9.9-win-arm64-Portable.zip\r\n";
+        $"{new string('a', 64)}  Morph-9.9.9-win-Setup.exe\r\n{new string('b', 64)}  Morph-9.9.9-win-Portable.zip\r\n" +
+        $"{new string('c', 64)}  Morph-9.9.9-win-arm64-Setup.exe\r\n{new string('d', 64)}  Morph-9.9.9-win-arm64-Portable.zip\r\n";
 
     [Fact]
     public void X64_windows_takes_the_x64_setup_and_the_windows_checksums()
@@ -142,8 +142,8 @@ public class UpdateServiceTests
 
         var (installer, checksums) = UpdateService.FindFiles(release.RootElement, "win");
 
-        Assert.Equal(new UpdateService.ReleaseFile("Filee-9.9.9-win-Setup.exe", Base + "Filee-9.9.9-win-Setup.exe", 6000), installer);
-        Assert.Equal("Filee-9.9.9-SHA256SUMS.txt", checksums?.Name);
+        Assert.Equal(new UpdateService.ReleaseFile("Morph-9.9.9-win-Setup.exe", Base + "Morph-9.9.9-win-Setup.exe", 6000), installer);
+        Assert.Equal("Morph-9.9.9-SHA256SUMS.txt", checksums?.Name);
         Assert.Equal(new string('a', 64), UpdateService.ParseChecksum(CombinedSums, installer!.Name));
     }
 
@@ -154,8 +154,8 @@ public class UpdateServiceTests
 
         var (installer, checksums) = UpdateService.FindFiles(release.RootElement, "win-arm64");
 
-        Assert.Equal(new UpdateService.ReleaseFile("Filee-9.9.9-win-arm64-Setup.exe", Base + "Filee-9.9.9-win-arm64-Setup.exe", 6100), installer);
-        Assert.Equal(new UpdateService.ReleaseFile("Filee-9.9.9-SHA256SUMS.txt", Base + "Filee-9.9.9-SHA256SUMS.txt", 384), checksums);
+        Assert.Equal(new UpdateService.ReleaseFile("Morph-9.9.9-win-arm64-Setup.exe", Base + "Morph-9.9.9-win-arm64-Setup.exe", 6100), installer);
+        Assert.Equal(new UpdateService.ReleaseFile("Morph-9.9.9-SHA256SUMS.txt", Base + "Morph-9.9.9-SHA256SUMS.txt", 384), checksums);
         Assert.Equal(new string('c', 64), UpdateService.ParseChecksum(CombinedSums, installer!.Name));
     }
 
@@ -167,10 +167,10 @@ public class UpdateServiceTests
         // The ARM64 build's own sums file (CI's package): a release doesn't ship it, but if one were attached after
         // the Windows one, neither target may take it.
         using var release = ReleaseWithEveryPlatform($$"""
-            , {"name": "Filee-9.9.9-win-arm64-SHA256SUMS.txt", "size": 199, "browser_download_url": "{{Base}}Filee-9.9.9-win-arm64-SHA256SUMS.txt"}
+            , {"name": "Morph-9.9.9-win-arm64-SHA256SUMS.txt", "size": 199, "browser_download_url": "{{Base}}Morph-9.9.9-win-arm64-SHA256SUMS.txt"}
             """);
 
-        Assert.Equal("Filee-9.9.9-SHA256SUMS.txt", UpdateService.FindFiles(release.RootElement, target).Checksums?.Name);
+        Assert.Equal("Morph-9.9.9-SHA256SUMS.txt", UpdateService.FindFiles(release.RootElement, target).Checksums?.Name);
     }
 
     /// <summary>FindFiles as Filee 2.4.0 and older have it (v2.4.0 UpdateService.cs), for Windows.</summary>
@@ -196,15 +196,15 @@ public class UpdateServiceTests
 
         var (installer, checksums) = FindFilesLikeFilee240(release.RootElement);
 
-        Assert.Equal("Filee-9.9.9-win-Setup.exe", installer);
-        Assert.Equal("Filee-9.9.9-SHA256SUMS.txt", checksums);
+        Assert.Equal("Morph-9.9.9-win-Setup.exe", installer);
+        Assert.Equal("Morph-9.9.9-SHA256SUMS.txt", checksums);
         Assert.Equal(new string('a', 64), UpdateService.ParseChecksum(CombinedSums, installer));
 
         // Why the ARM64 hashes share the file: a separate one listed after it would be 2.4.0's pick, without the x64 Setup.
         using var separate = ReleaseWithEveryPlatform($$"""
-            , {"name": "Filee-9.9.9-win-arm64-SHA256SUMS.txt", "size": 199, "browser_download_url": "{{Base}}Filee-9.9.9-win-arm64-SHA256SUMS.txt"}
+            , {"name": "Morph-9.9.9-win-arm64-SHA256SUMS.txt", "size": 199, "browser_download_url": "{{Base}}Morph-9.9.9-win-arm64-SHA256SUMS.txt"}
             """);
-        Assert.Equal("Filee-9.9.9-win-arm64-SHA256SUMS.txt", FindFilesLikeFilee240(separate.RootElement).Checksums);
+        Assert.Equal("Morph-9.9.9-win-arm64-SHA256SUMS.txt", FindFilesLikeFilee240(separate.RootElement).Checksums);
     }
 
     [Fact]
@@ -214,8 +214,8 @@ public class UpdateServiceTests
 
         var (installer, checksums) = UpdateService.FindFiles(release.RootElement, "linux-arm64");
 
-        Assert.Equal("Filee-9.9.9-linux-arm64.tar.gz", installer?.Name);
-        Assert.Equal("Filee-9.9.9-linux-arm64-SHA256SUMS.txt", checksums?.Name);
+        Assert.Equal("Morph-9.9.9-linux-arm64.tar.gz", installer?.Name);
+        Assert.Equal("Morph-9.9.9-linux-arm64-SHA256SUMS.txt", checksums?.Name);
     }
 
     [Fact]
@@ -223,10 +223,10 @@ public class UpdateServiceTests
     {
         using var release = JsonDocument.Parse($$"""
             {"tag_name": "v9.9.9", "assets": [
-              {"name": "Filee-9.9.9-linux-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-linux-x64-SHA256SUMS.txt"},
-              {"name": "Filee-9.9.9-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Filee-9.9.9-SHA256SUMS.txt"},
-              {"name": "Filee-9.9.9-win-Portable.zip", "size": 5000, "browser_download_url": "{{Base}}Filee-9.9.9-win-Portable.zip"},
-              {"name": "Filee-9.9.9-win-Setup.exe", "size": 6000, "browser_download_url": "{{Base}}Filee-9.9.9-win-Setup.exe"}
+              {"name": "Morph-9.9.9-linux-x64-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-linux-x64-SHA256SUMS.txt"},
+              {"name": "Morph-9.9.9-SHA256SUMS.txt", "size": 189, "browser_download_url": "{{Base}}Morph-9.9.9-SHA256SUMS.txt"},
+              {"name": "Morph-9.9.9-win-Portable.zip", "size": 5000, "browser_download_url": "{{Base}}Morph-9.9.9-win-Portable.zip"},
+              {"name": "Morph-9.9.9-win-Setup.exe", "size": 6000, "browser_download_url": "{{Base}}Morph-9.9.9-win-Setup.exe"}
             ]}
             """);
 
@@ -245,7 +245,7 @@ public class UpdateServiceTests
     {
         using var empty = JsonDocument.Parse("""{"tag_name": "v9.9.9"}""");
         using var http = JsonDocument.Parse("""
-            {"assets": [{"name": "Filee-9.9.9-win-Setup.exe", "size": 1, "browser_download_url": "http://example.test/a.exe"}]}
+            {"assets": [{"name": "Morph-9.9.9-win-Setup.exe", "size": 1, "browser_download_url": "http://example.test/a.exe"}]}
             """);
 
         Assert.Equal((null, null), UpdateService.FindFiles(empty.RootElement));
@@ -256,12 +256,12 @@ public class UpdateServiceTests
     public void Checksum_lines_are_matched_by_file_name()
     {
         var hash = new string('A', 64);
-        var sums = $"{new string('1', 64)}  Filee-9.9.9-win-Portable.zip\r\n{hash}  Filee-9.9.9-win-Setup.exe\r\n";
+        var sums = $"{new string('1', 64)}  Morph-9.9.9-win-Portable.zip\r\n{hash}  Morph-9.9.9-win-Setup.exe\r\n";
 
-        Assert.Equal(hash.ToLowerInvariant(), UpdateService.ParseChecksum(sums, "Filee-9.9.9-win-Setup.exe"));
-        Assert.Equal(hash.ToLowerInvariant(), UpdateService.ParseChecksum($"{hash} *Filee-9.9.9-win-Setup.exe", "Filee-9.9.9-win-Setup.exe"));
-        Assert.Null(UpdateService.ParseChecksum(sums, "Filee-9.9.8-win-Setup.exe"));
-        Assert.Null(UpdateService.ParseChecksum("tooshort  Filee-9.9.9-win-Setup.exe", "Filee-9.9.9-win-Setup.exe"));
+        Assert.Equal(hash.ToLowerInvariant(), UpdateService.ParseChecksum(sums, "Morph-9.9.9-win-Setup.exe"));
+        Assert.Equal(hash.ToLowerInvariant(), UpdateService.ParseChecksum($"{hash} *Morph-9.9.9-win-Setup.exe", "Filee-9.9.9-win-Setup.exe"));
+        Assert.Null(UpdateService.ParseChecksum(sums, "Morph-9.9.8-win-Setup.exe"));
+        Assert.Null(UpdateService.ParseChecksum("tooshort  Morph-9.9.9-win-Setup.exe", "Morph-9.9.9-win-Setup.exe"));
     }
 
     [Fact]
@@ -271,12 +271,12 @@ public class UpdateServiceTests
         var network = new FakeRelease(installer, Sha256(installer));
         var updates = Updates(network, installer.Length);
         var folder = TempFolder();
-        File.WriteAllText(Path.Combine(folder, "Filee-9.9.8-win-Setup.exe"), "an older download");
+        File.WriteAllText(Path.Combine(folder, "Morph-9.9.8-win-Setup.exe"), "an older download");
         var progress = new List<int>();
 
         var path = await updates.DownloadInstallerAsync(folder, new SyncProgress(progress.Add), TestContext.Current.CancellationToken);
 
-        Assert.Equal(Path.Combine(folder, "Filee-9.9.9-win-Setup.exe"), path);
+        Assert.Equal(Path.Combine(folder, "Morph-9.9.9-win-Setup.exe"), path);
         Assert.Equal(installer, File.ReadAllBytes(path));
         Assert.Equal([path], Directory.GetFiles(folder)); // the older download and the .part file are gone
         Assert.Equal(100, progress[^1]);
@@ -314,7 +314,7 @@ public class UpdateServiceTests
     public async Task Checksum_file_without_the_installer_fails()
     {
         var installer = RandomNumberGenerator.GetBytes(1_000);
-        var updates = Updates(new FakeRelease(installer, Sha256(installer), sumsName: "Filee-9.9.8-win-Setup.exe"), installer.Length);
+        var updates = Updates(new FakeRelease(installer, Sha256(installer), sumsName: "Morph-9.9.8-win-Setup.exe"), installer.Length);
 
         await Assert.ThrowsAsync<InvalidDataException>(() =>
             updates.DownloadInstallerAsync(TempFolder(), null, TestContext.Current.CancellationToken));
@@ -331,20 +331,20 @@ public class UpdateServiceTests
     }
 
     internal const string Issuer = "CN=Certum Code Signing 2021 CA, O=Asseco Data Systems S.A., C=PL";
-    internal static readonly AuthenticodeSigner Publisher = new("CN=Open Source Developer, Filee", Issuer, new string('a', 64));
+    internal static readonly AuthenticodeSigner Publisher = new("CN=Open Source Developer, Morph", Issuer, new string('a', 64));
 
     /// <summary>An update service whose own program is signed by <paramref name="own"/> and the installer by <paramref name="installer"/>.</summary>
     private static UpdateService Signed(AuthenticodeSigner? own, AuthenticodeSigner? installer) =>
         new(NullLogger<UpdateService>.Instance, new FakeNetwork("no network"))
         {
-            OwnProgram = "Filee.exe",
-            SignerOf = (path, _) => path == "Filee.exe" ? own : installer,
+            OwnProgram = "Morph.exe",
+            SignerOf = (path, _) => path == "Morph.exe" ? own : installer,
         };
 
     [Fact]
     public void Installer_signed_by_the_same_publisher_is_kept()
     {
-        var path = Path.Combine(TempFolder(), "Filee-9.9.9-win-Setup.exe");
+        var path = Path.Combine(TempFolder(), "Morph-9.9.9-win-Setup.exe");
         File.WriteAllText(path, "setup");
 
         Signed(Publisher, Publisher).CheckPublisher(path);
@@ -355,7 +355,7 @@ public class UpdateServiceTests
     [Fact]
     public void Installer_signed_with_a_renewed_certificate_of_the_same_publisher_is_kept()
     {
-        var path = Path.Combine(TempFolder(), "Filee-9.9.9-win-Setup.exe");
+        var path = Path.Combine(TempFolder(), "Morph-9.9.9-win-Setup.exe");
         File.WriteAllText(path, "setup");
 
         Signed(Publisher, Publisher with { KeySha256 = new string('b', 64) }).CheckPublisher(path);
@@ -369,7 +369,7 @@ public class UpdateServiceTests
     [InlineData(null)] // not signed, or signed with a certificate Windows does not trust
     public void Installer_signed_by_anyone_else_is_thrown_away(string? who)
     {
-        var path = Path.Combine(TempFolder(), "Filee-9.9.9-win-Setup.exe");
+        var path = Path.Combine(TempFolder(), "Morph-9.9.9-win-Setup.exe");
         File.WriteAllText(path, "setup");
         var signer = who switch
         {
@@ -387,12 +387,12 @@ public class UpdateServiceTests
     {
         // Offline or behind a proxy, the signature is fine but the certificate authority can't be asked: the
         // installer is still thrown away, and the log says why instead of blaming the publisher.
-        var path = Path.Combine(TempFolder(), "Filee-9.9.9-win-Setup.exe");
+        var path = Path.Combine(TempFolder(), "Morph-9.9.9-win-Setup.exe");
         File.WriteAllText(path, "setup");
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, new FakeNetwork("no network"))
         {
-            OwnProgram = "Filee.exe",
-            SignerOf = (file, revocation) => file == "Filee.exe" || !revocation ? Publisher : null,
+            OwnProgram = "Morph.exe",
+            SignerOf = (file, revocation) => file == "Morph.exe" || !revocation ? Publisher : null,
         };
 
         var error = Assert.Throws<UpdateVerificationException>(() => updates.CheckPublisher(path));
@@ -407,7 +407,7 @@ public class UpdateServiceTests
         var checks = new List<(string Path, bool Revocation)>();
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, new FakeNetwork("no network"))
         {
-            OwnProgram = "Filee.exe",
+            OwnProgram = "Morph.exe",
             SignerOf = (path, revocation) =>
             {
                 checks.Add((path, revocation));
@@ -417,14 +417,14 @@ public class UpdateServiceTests
 
         updates.CheckPublisher("Setup.exe");
 
-        Assert.Equal([("Filee.exe", false), ("Setup.exe", true)], checks);
+        Assert.Equal([("Morph.exe", false), ("Setup.exe", true)], checks);
     }
 
     [Fact]
     public void Unsigned_copy_keeps_to_the_checksum()
     {
         // Built from source: there is no publisher to compare with, so the installer is not refused for its signature.
-        var path = Path.Combine(TempFolder(), "Filee-9.9.9-win-Setup.exe");
+        var path = Path.Combine(TempFolder(), "Morph-9.9.9-win-Setup.exe");
         File.WriteAllText(path, "setup");
 
         Signed(null, null).CheckPublisher(path);
@@ -467,8 +467,8 @@ public class UpdateServiceTests
     private static UpdateService Updates(FakeRelease network, long installerSize)
     {
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, network);
-        updates.UseRelease(new UpdateService.ReleaseFile("Filee-9.9.9-win-Setup.exe", Base + "Filee-9.9.9-win-Setup.exe", installerSize),
-            new UpdateService.ReleaseFile("Filee-9.9.9-SHA256SUMS.txt", Base + "Filee-9.9.9-SHA256SUMS.txt", 100));
+        updates.UseRelease(new UpdateService.ReleaseFile("Morph-9.9.9-win-Setup.exe", Base + "Morph-9.9.9-win-Setup.exe", installerSize),
+            new UpdateService.ReleaseFile("Morph-9.9.9-SHA256SUMS.txt", Base + "Morph-9.9.9-SHA256SUMS.txt", 100));
         return updates;
     }
 
@@ -476,7 +476,7 @@ public class UpdateServiceTests
 
     private static string TempFolder()
     {
-        var folder = Path.Combine(Path.GetTempPath(), "filee-update-test-" + Guid.NewGuid().ToString("N"));
+        var folder = Path.Combine(Path.GetTempPath(), "morph-update-test-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(folder);
         return folder;
     }
@@ -488,7 +488,7 @@ public class UpdateServiceTests
     }
 
     /// <summary>Serves a release's checksum file and installer.</summary>
-    private sealed class FakeRelease(byte[] installer, string hash, string sumsName = "Filee-9.9.9-win-Setup.exe",
+    private sealed class FakeRelease(byte[] installer, string hash, string sumsName = "Morph-9.9.9-win-Setup.exe",
         HttpStatusCode installerStatus = HttpStatusCode.OK) : HttpMessageHandler
     {
         public int InstallerRequests { get; private set; }
@@ -499,7 +499,7 @@ public class UpdateServiceTests
             if (url.EndsWith("SHA256SUMS.txt", StringComparison.Ordinal))
                 return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new StringContent($"{new string('1', 64)}  Filee-9.9.9-win-Portable.zip\n{hash}  {sumsName}\n", Encoding.ASCII),
+                    Content = new StringContent($"{new string('1', 64)}  Morph-9.9.9-win-Portable.zip\n{hash}  {sumsName}\n", Encoding.ASCII),
                 });
             if (url.EndsWith("-win-Setup.exe", StringComparison.Ordinal))
             {
@@ -531,14 +531,14 @@ public class UpdateServiceTests
     {
         // An earlier check found 9.9.9; 9.9.10 came out before Update was pressed.
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, new LatestRelease("v9.9.10")) { TargetPlatform = "win" };
-        updates.UseRelease(new UpdateService.ReleaseFile("Filee-9.9.9-win-Setup.exe", Base + "Filee-9.9.9-win-Setup.exe", 1),
-            new UpdateService.ReleaseFile("Filee-9.9.9-SHA256SUMS.txt", Base + "Filee-9.9.9-SHA256SUMS.txt", 1));
+        updates.UseRelease(new UpdateService.ReleaseFile("Morph-9.9.9-win-Setup.exe", Base + "Morph-9.9.9-win-Setup.exe", 1),
+            new UpdateService.ReleaseFile("Morph-9.9.9-SHA256SUMS.txt", Base + "Morph-9.9.9-SHA256SUMS.txt", 1));
         var announced = 0;
         updates.UpdateFound += (_, _) => announced++;
 
         Assert.True(await updates.RefreshAsync(announce: false));
 
-        Assert.Equal("Filee-9.9.10-win-Setup.exe", updates.Installer!.Name);
+        Assert.Equal("Morph-9.9.10-win-Setup.exe", updates.Installer!.Name);
         Assert.Equal("9.9.10", updates.LatestVersion);
         Assert.Equal(0, announced); // no second notice while updating
     }
@@ -551,8 +551,8 @@ public class UpdateServiceTests
             var version = tag.TrimStart('v');
             var json = $$"""
                 {"tag_name":"{{tag}}","assets":[
-                  {"name":"Filee-{{version}}-win-Setup.exe","browser_download_url":"{{Base}}Filee-{{version}}-win-Setup.exe","size":1234},
-                  {"name":"Filee-{{version}}-SHA256SUMS.txt","browser_download_url":"{{Base}}Filee-{{version}}-SHA256SUMS.txt","size":100}]}
+                  {"name":"Morph-{{version}}-win-Setup.exe","browser_download_url":"{{Base}}Morph-{{version}}-win-Setup.exe","size":1234},
+                  {"name":"Morph-{{version}}-SHA256SUMS.txt","browser_download_url":"{{Base}}Morph-{{version}}-SHA256SUMS.txt","size":100}]}
                 """;
             return Task.FromResult(request.RequestUri!.AbsolutePath.EndsWith("/releases/latest", StringComparison.Ordinal)
                 ? new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json, Encoding.UTF8, "application/json") }
@@ -586,8 +586,8 @@ public class UpdateServiceTests
         var folder = TempFolder();
         Assert.False(UpdateService.IsLinuxInstalled(folder));
 
-        var marker = Path.Combine(folder, ".filee-package");
-        File.WriteAllText(marker, "com.filee.app\n");
+        var marker = Path.Combine(folder, ".morph-package");
+        File.WriteAllText(marker, "app.morph\n");
         Assert.True(UpdateService.IsLinuxInstalled(folder));
 
         File.WriteAllText(marker, "org.other.app");
@@ -599,26 +599,26 @@ public class UpdateServiceTests
     {
         using var release = JsonDocument.Parse($$"""
             {"tag_name": "v1.2.3", "assets": [
-              {"name": "Filee-1.2.3-SHA256SUMS.txt", "size": 100, "browser_download_url": "{{Base}}Filee-1.2.3-SHA256SUMS.txt"},
-              {"name": "Filee-1.2.3-win-Setup.exe", "size": 1200, "browser_download_url": "{{Base}}Filee-1.2.3-win-Setup.exe"},
-              {"name": "Filee-1.2.3-linux-x64.tar.gz", "size": 2000, "browser_download_url": "{{Base}}Filee-1.2.3-linux-x64.tar.gz"},
-              {"name": "Filee-1.2.3-linux-x64-SHA256SUMS.txt", "size": 90, "browser_download_url": "{{Base}}Filee-1.2.3-linux-x64-SHA256SUMS.txt"},
-              {"name": "Filee-1.2.3-linux-arm64.tar.gz", "size": 1900, "browser_download_url": "{{Base}}Filee-1.2.3-linux-arm64.tar.gz"},
-              {"name": "Filee-1.2.3-linux-arm64-SHA256SUMS.txt", "size": 92, "browser_download_url": "{{Base}}Filee-1.2.3-linux-arm64-SHA256SUMS.txt"}
+              {"name": "Morph-1.2.3-SHA256SUMS.txt", "size": 100, "browser_download_url": "{{Base}}Morph-1.2.3-SHA256SUMS.txt"},
+              {"name": "Morph-1.2.3-win-Setup.exe", "size": 1200, "browser_download_url": "{{Base}}Morph-1.2.3-win-Setup.exe"},
+              {"name": "Morph-1.2.3-linux-x64.tar.gz", "size": 2000, "browser_download_url": "{{Base}}Morph-1.2.3-linux-x64.tar.gz"},
+              {"name": "Morph-1.2.3-linux-x64-SHA256SUMS.txt", "size": 90, "browser_download_url": "{{Base}}Morph-1.2.3-linux-x64-SHA256SUMS.txt"},
+              {"name": "Morph-1.2.3-linux-arm64.tar.gz", "size": 1900, "browser_download_url": "{{Base}}Morph-1.2.3-linux-arm64.tar.gz"},
+              {"name": "Morph-1.2.3-linux-arm64-SHA256SUMS.txt", "size": 92, "browser_download_url": "{{Base}}Morph-1.2.3-linux-arm64-SHA256SUMS.txt"}
             ]}
             """);
 
         var (installerX64, sumsX64) = UpdateService.FindFiles(release.RootElement, "linux-x64");
-        Assert.Equal("Filee-1.2.3-linux-x64.tar.gz", installerX64?.Name);
-        Assert.Equal("Filee-1.2.3-linux-x64-SHA256SUMS.txt", sumsX64?.Name);
+        Assert.Equal("Morph-1.2.3-linux-x64.tar.gz", installerX64?.Name);
+        Assert.Equal("Morph-1.2.3-linux-x64-SHA256SUMS.txt", sumsX64?.Name);
 
         var (installerArm64, sumsArm64) = UpdateService.FindFiles(release.RootElement, "linux-arm64");
-        Assert.Equal("Filee-1.2.3-linux-arm64.tar.gz", installerArm64?.Name);
-        Assert.Equal("Filee-1.2.3-linux-arm64-SHA256SUMS.txt", sumsArm64?.Name);
+        Assert.Equal("Morph-1.2.3-linux-arm64.tar.gz", installerArm64?.Name);
+        Assert.Equal("Morph-1.2.3-linux-arm64-SHA256SUMS.txt", sumsArm64?.Name);
 
         var (installerWin, sumsWin) = UpdateService.FindFiles(release.RootElement, "win");
-        Assert.Equal("Filee-1.2.3-win-Setup.exe", installerWin?.Name);
-        Assert.Equal("Filee-1.2.3-SHA256SUMS.txt", sumsWin?.Name);
+        Assert.Equal("Morph-1.2.3-win-Setup.exe", installerWin?.Name);
+        Assert.Equal("Morph-1.2.3-SHA256SUMS.txt", sumsWin?.Name);
     }
 
     [Fact]
@@ -629,10 +629,10 @@ public class UpdateServiceTests
         var folder = TempFolder();
 
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, new FakeLinuxRelease(
-            installerData, hash, sumsArtifact: "Filee-1.2.3-linux-arm64.tar.gz"));
+            installerData, hash, sumsArtifact: "Morph-1.2.3-linux-arm64.tar.gz"));
         updates.UseRelease(
-            new UpdateService.ReleaseFile("Filee-1.2.3-linux-x64.tar.gz", Base + "Filee-1.2.3-linux-x64.tar.gz", installerData.Length),
-            new UpdateService.ReleaseFile("Filee-1.2.3-linux-x64-SHA256SUMS.txt", Base + "Filee-1.2.3-linux-x64-SHA256SUMS.txt", 100));
+            new UpdateService.ReleaseFile("Morph-1.2.3-linux-x64.tar.gz", Base + "Morph-1.2.3-linux-x64.tar.gz", installerData.Length),
+            new UpdateService.ReleaseFile("Morph-1.2.3-linux-x64-SHA256SUMS.txt", Base + "Morph-1.2.3-linux-x64-SHA256SUMS.txt", 100));
 
         await Assert.ThrowsAsync<InvalidDataException>(() =>
             updates.DownloadInstallerAsync(folder, null, TestContext.Current.CancellationToken));
@@ -647,17 +647,17 @@ public class UpdateServiceTests
 
         var tarBytes = CreateTarGz(writer =>
         {
-            AddFileEntry(writer, "Filee-1.0.0-linux-x64/Filee", "#!/bin/sh\necho app\n");
-            AddFileEntry(writer, "Filee-1.0.0-linux-x64/install.sh", "#!/bin/sh\necho installer\n");
-            AddFileEntry(writer, "Filee-1.0.0-linux-x64/filee.png", "fake png data");
+            AddFileEntry(writer, "Morph-1.0.0-linux-x64/Morph", "#!/bin/sh\necho app\n");
+            AddFileEntry(writer, "Morph-1.0.0-linux-x64/install.sh", "#!/bin/sh\necho installer\n");
+            AddFileEntry(writer, "Morph-1.0.0-linux-x64/morph.png", "fake png data");
         });
         File.WriteAllBytes(archiveFile, tarBytes);
 
         var payloadDir = UpdateService.ExtractLinuxArchive(archiveFile, destFolder);
 
-        Assert.Equal(Path.Combine(destFolder, "Filee-1.0.0-linux-x64"), payloadDir);
+        Assert.Equal(Path.Combine(destFolder, "Morph-1.0.0-linux-x64"), payloadDir);
         var installSh = Path.Combine(payloadDir, "install.sh");
-        var fileeExe = Path.Combine(payloadDir, "Filee");
+        var fileeExe = Path.Combine(payloadDir, "Morph");
         Assert.True(File.Exists(installSh));
         Assert.True(File.Exists(fileeExe));
 
@@ -666,7 +666,7 @@ public class UpdateServiceTests
             var installMode = File.GetUnixFileMode(installSh);
             Assert.True((installMode & UnixFileMode.UserExecute) != 0, "install.sh must be executable");
             var fileeMode = File.GetUnixFileMode(fileeExe);
-            Assert.True((fileeMode & UnixFileMode.UserExecute) != 0, "Filee must be executable");
+            Assert.True((fileeMode & UnixFileMode.UserExecute) != 0, "Morph must be executable");
         }
     }
 
@@ -711,7 +711,7 @@ public class UpdateServiceTests
 
         var tarBytes = CreateTarGz(writer =>
         {
-            AddSymlinkEntry(writer, "Filee-1.0.0/escape_link", "/etc/passwd");
+            AddSymlinkEntry(writer, "Morph-1.0.0/escape_link", "/etc/passwd");
         });
         File.WriteAllBytes(archiveFile, tarBytes);
 
@@ -727,7 +727,7 @@ public class UpdateServiceTests
 
         var tarBytes = CreateTarGz(writer =>
         {
-            AddFileEntry(writer, "Filee-1.0.0/filee.png", "png data");
+            AddFileEntry(writer, "Morph-1.0.0/morph.png", "png data");
         });
         File.WriteAllBytes(archiveFile, tarBytes);
 
@@ -739,12 +739,12 @@ public class UpdateServiceTests
     {
         var tarBytes = CreateTarGz(writer =>
         {
-            AddFileEntry(writer, "Filee-9.9.9-linux-x64/Filee", "#!/bin/sh\nexit 0\n");
-            AddFileEntry(writer, "Filee-9.9.9-linux-x64/install.sh", "#!/bin/sh\nexit 0\n");
-            AddFileEntry(writer, "Filee-9.9.9-linux-x64/filee.png", "png data");
+            AddFileEntry(writer, "Morph-9.9.9-linux-x64/Morph", "#!/bin/sh\nexit 0\n");
+            AddFileEntry(writer, "Morph-9.9.9-linux-x64/install.sh", "#!/bin/sh\nexit 0\n");
+            AddFileEntry(writer, "Morph-9.9.9-linux-x64/morph.png", "png data");
         });
         var hash = Sha256(tarBytes);
-        var network = new FakeLinuxRelease(tarBytes, hash, "Filee-9.9.9-linux-x64.tar.gz", "9.9.9");
+        var network = new FakeLinuxRelease(tarBytes, hash, "Morph-9.9.9-linux-x64.tar.gz", "9.9.9");
 
         var mockInstallDir = TempFolder();
 
@@ -755,8 +755,8 @@ public class UpdateServiceTests
             LinuxInstallDirectoryOverride = mockInstallDir,
         };
         updates.UseRelease(
-            new UpdateService.ReleaseFile("Filee-9.9.9-linux-x64.tar.gz", Base + "Filee-9.9.9-linux-x64.tar.gz", tarBytes.Length),
-            new UpdateService.ReleaseFile("Filee-9.9.9-linux-x64-SHA256SUMS.txt", Base + "Filee-9.9.9-linux-x64-SHA256SUMS.txt", 100));
+            new UpdateService.ReleaseFile("Morph-9.9.9-linux-x64.tar.gz", Base + "Morph-9.9.9-linux-x64.tar.gz", tarBytes.Length),
+            new UpdateService.ReleaseFile("Morph-9.9.9-linux-x64-SHA256SUMS.txt", Base + "Morph-9.9.9-linux-x64-SHA256SUMS.txt", 100));
 
         var processes = new List<ProcessStartInfo>();
         var shutdownRequested = false;
@@ -783,7 +783,7 @@ public class UpdateServiceTests
         Assert.Contains("rm -rf \"$5\"", helperPsi.ArgumentList[1]);
         Assert.Equal(Environment.ProcessId.ToString(), helperPsi.ArgumentList[3]);
         Assert.EndsWith("install.sh", helperPsi.ArgumentList[4]);
-        Assert.Equal(Path.Combine(mockInstallDir, "Filee"), helperPsi.ArgumentList[5]);
+        Assert.Equal(Path.Combine(mockInstallDir, "Morph"), helperPsi.ArgumentList[5]);
         Assert.EndsWith(".log", helperPsi.ArgumentList[6]);
         Assert.EndsWith(".update-failed", helperPsi.ArgumentList[8]);
 
@@ -795,12 +795,12 @@ public class UpdateServiceTests
     {
         var tarBytes = CreateTarGz(writer =>
         {
-            AddFileEntry(writer, "Filee-9.9.9-linux-x64/Filee", "#!/bin/sh\nexit 0\n");
-            AddFileEntry(writer, "Filee-9.9.9-linux-x64/install.sh", "#!/bin/sh\nexit 0\n");
-            AddFileEntry(writer, "Filee-9.9.9-linux-x64/filee.png", "png data");
+            AddFileEntry(writer, "Morph-9.9.9-linux-x64/Morph", "#!/bin/sh\nexit 0\n");
+            AddFileEntry(writer, "Morph-9.9.9-linux-x64/install.sh", "#!/bin/sh\nexit 0\n");
+            AddFileEntry(writer, "Morph-9.9.9-linux-x64/morph.png", "png data");
         });
         var hash = Sha256(tarBytes);
-        var network = new FakeLinuxRelease(tarBytes, hash, "Filee-9.9.9-linux-x64.tar.gz", "9.9.9");
+        var network = new FakeLinuxRelease(tarBytes, hash, "Morph-9.9.9-linux-x64.tar.gz", "9.9.9");
 
         var mockInstallDir = TempFolder();
 
@@ -811,8 +811,8 @@ public class UpdateServiceTests
             LinuxInstallDirectoryOverride = mockInstallDir,
         };
         updates.UseRelease(
-            new UpdateService.ReleaseFile("Filee-9.9.9-linux-x64.tar.gz", Base + "Filee-9.9.9-linux-x64.tar.gz", tarBytes.Length),
-            new UpdateService.ReleaseFile("Filee-9.9.9-linux-x64-SHA256SUMS.txt", Base + "Filee-9.9.9-linux-x64-SHA256SUMS.txt", 100));
+            new UpdateService.ReleaseFile("Morph-9.9.9-linux-x64.tar.gz", Base + "Morph-9.9.9-linux-x64.tar.gz", tarBytes.Length),
+            new UpdateService.ReleaseFile("Morph-9.9.9-linux-x64-SHA256SUMS.txt", Base + "Morph-9.9.9-linux-x64-SHA256SUMS.txt", 100));
 
         var failedCount = 0;
         updates.UpdateFailed += (_, _) => failedCount++;
@@ -963,8 +963,8 @@ public class UpdateServiceTests
                              | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute;
             var setgidMode = UnixFileMode.SetGroup | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute
                              | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute;
-            AddFileEntry(writer, "Filee-9.9.9-linux-x64/Filee", "#!/bin/sh\nexit 0\n", setuidMode);
-            AddFileEntry(writer, "Filee-9.9.9-linux-x64/install.sh", "#!/bin/sh\nexit 0\n", setgidMode);
+            AddFileEntry(writer, "Morph-9.9.9-linux-x64/Morph", "#!/bin/sh\nexit 0\n", setuidMode);
+            AddFileEntry(writer, "Morph-9.9.9-linux-x64/install.sh", "#!/bin/sh\nexit 0\n", setgidMode);
         });
         var archiveFile = Path.Combine(TempFolder(), "payload.tar.gz");
         File.WriteAllBytes(archiveFile, tarBytes);
@@ -974,7 +974,7 @@ public class UpdateServiceTests
 
         if (OperatingSystem.IsLinux())
         {
-            var fileeMode = File.GetUnixFileMode(Path.Combine(payloadDir, "Filee"));
+            var fileeMode = File.GetUnixFileMode(Path.Combine(payloadDir, "Morph"));
             var installMode = File.GetUnixFileMode(Path.Combine(payloadDir, "install.sh"));
 
             Assert.False(fileeMode.HasFlag(UnixFileMode.SetUser), "setuid bit must be stripped");
@@ -1007,7 +1007,7 @@ public class UpdateServiceTests
     {
         var dir = TempFolder();
         var marker = Path.Combine(dir, ".update-failed");
-        var logPath = Path.Combine(dir, "logs", "filee-test.log");
+        var logPath = Path.Combine(dir, "logs", "morph-test.log");
         Directory.CreateDirectory(Path.GetDirectoryName(logPath)!);
         File.WriteAllText(logPath, "some error log");
         File.WriteAllText(marker, logPath + "\n");
@@ -1151,8 +1151,8 @@ public class UpdateServiceTests
         File.WriteAllText(mockInstallSh, "#!/bin/sh\necho 'Rolling back...' >&2\nexit 2\n");
         File.SetUnixFileMode(mockInstallSh, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
 
-        var argsOut = Path.Combine(tempDir, "filee-args.txt");
-        var mockFilee = Path.Combine(tempDir, "Filee");
+        var argsOut = Path.Combine(tempDir, "morph-args.txt");
+        var mockFilee = Path.Combine(tempDir, "Morph");
         File.WriteAllText(mockFilee, $"#!/bin/sh\necho \"$@\" > '{argsOut}'\nexit 0\n");
         File.SetUnixFileMode(mockFilee, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
 
@@ -1162,7 +1162,7 @@ public class UpdateServiceTests
 
         var script =
             "for _ in $(seq 1 600); do if ! kill -0 \"$1\" 2>/dev/null; then break; fi; sleep 0.1; done; " +
-            "if kill -0 \"$1\" 2>/dev/null; then echo \"Update aborted: Filee (PID $1) did not exit within timeout\" >> \"$4\"; rm -rf \"$5\" 2>/dev/null; exit 1; fi; " +
+            "if kill -0 \"$1\" 2>/dev/null; then echo \"Update aborted: Morph (PID $1) did not exit within timeout\" >> \"$4\"; rm -rf \"$5\" 2>/dev/null; exit 1; fi; " +
             "\"$2\" --upgrade >> \"$4\" 2>&1; " +
             "status=$?; " +
             "rm -rf \"$5\" 2>/dev/null; " +
@@ -1171,7 +1171,7 @@ public class UpdateServiceTests
             "else " +
             "echo \"Update failed with status $status\" >> \"$4\"; " +
             "echo \"$4\" > \"$6.tmp\" 2>/dev/null && mv -f \"$6.tmp\" \"$6\" 2>/dev/null || true; " +
-            "if [ -x \"$3\" ]; then exec \"$3\" --background; else echo \"Cannot restart Filee: '$3' is not executable after rollback\" >> \"$4\"; exit $status; fi; " +
+            "if [ -x \"$3\" ]; then exec \"$3\" --background; else echo \"Cannot restart Morph: '$3' is not executable after rollback\" >> \"$4\"; exit $status; fi; " +
             "fi";
 
         using var proc = Process.Start(new ProcessStartInfo("/bin/sh")
@@ -1188,7 +1188,7 @@ public class UpdateServiceTests
         Assert.True(File.Exists(markerFile), "Failure marker file must be created");
         Assert.Equal(installLog, File.ReadAllText(markerFile).Trim());
 
-        Assert.True(File.Exists(argsOut), "Restored Filee executable must have been launched");
+        Assert.True(File.Exists(argsOut), "Restored Morph executable must have been launched");
         var args = File.ReadAllText(argsOut).Trim();
         Assert.Equal("--background", args);
         Assert.DoesNotContain("--whats-new", args);
@@ -1208,12 +1208,12 @@ public class UpdateServiceTests
         var markerFile = Path.Combine(tempDir, ".update-failed");
         var mockInstallSh = Path.Combine(tempDir, "install.sh");
         File.WriteAllText(mockInstallSh, "#!/bin/sh\nexit 0\n");
-        var mockFilee = Path.Combine(tempDir, "Filee");
+        var mockFilee = Path.Combine(tempDir, "Morph");
         File.WriteAllText(mockFilee, "#!/bin/sh\nexit 0\n");
 
         var timeoutScript =
             "for _ in $(seq 1 2); do if ! kill -0 \"$1\" 2>/dev/null; then break; fi; sleep 0.01; done; " +
-            "if kill -0 \"$1\" 2>/dev/null; then echo \"Update aborted: Filee (PID $1) did not exit within timeout\" >> \"$4\"; rm -rf \"$5\" 2>/dev/null; exit 1; fi; " +
+            "if kill -0 \"$1\" 2>/dev/null; then echo \"Update aborted: Morph (PID $1) did not exit within timeout\" >> \"$4\"; rm -rf \"$5\" 2>/dev/null; exit 1; fi; " +
             "\"$2\" --upgrade >> \"$4\" 2>&1; " +
             "status=$?; " +
             "rm -rf \"$5\" 2>/dev/null; " +
@@ -1222,7 +1222,7 @@ public class UpdateServiceTests
             "else " +
             "echo \"Update failed with status $status\" >> \"$4\"; " +
             "echo \"$4\" > \"$6.tmp\" 2>/dev/null && mv -f \"$6.tmp\" \"$6\" 2>/dev/null || true; " +
-            "if [ -x \"$3\" ]; then exec \"$3\" --background; else echo \"Cannot restart Filee: '$3' is not executable after rollback\" >> \"$4\"; exit $status; fi; " +
+            "if [ -x \"$3\" ]; then exec \"$3\" --background; else echo \"Cannot restart Morph: '$3' is not executable after rollback\" >> \"$4\"; exit $status; fi; " +
             "fi";
 
         using var proc = Process.Start(new ProcessStartInfo("/bin/sh")
@@ -1236,7 +1236,7 @@ public class UpdateServiceTests
         Assert.Equal(1, proc.ExitCode);
 
         Assert.False(Directory.Exists(workspace), "Workspace must be cleaned up on timeout");
-        Assert.Contains("Update aborted: Filee", File.ReadAllText(installLog));
+        Assert.Contains("Update aborted: Morph", File.ReadAllText(installLog));
     }
 
     private static byte[] CreateTarGz(Action<TarWriter> populate)
@@ -1270,7 +1270,7 @@ public class UpdateServiceTests
         writer.WriteEntry(entry);
     }
 
-    private sealed class FakeLinuxRelease(byte[] archive, string hash, string sumsArtifact = "Filee-9.9.9-linux-x64.tar.gz", string version = "9.9.9") : HttpMessageHandler
+    private sealed class FakeLinuxRelease(byte[] archive, string hash, string sumsArtifact = "Morph-9.9.9-linux-x64.tar.gz", string version = "9.9.9") : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
@@ -1279,8 +1279,8 @@ public class UpdateServiceTests
             {
                 var json = $$"""
                     {"tag_name":"v{{version}}","assets":[
-                      {"name":"Filee-{{version}}-linux-x64.tar.gz","browser_download_url":"{{Base}}Filee-{{version}}-linux-x64.tar.gz","size":{{archive.Length}}},
-                      {"name":"Filee-{{version}}-linux-x64-SHA256SUMS.txt","browser_download_url":"{{Base}}Filee-{{version}}-linux-x64-SHA256SUMS.txt","size":100}]}
+                      {"name":"Morph-{{version}}-linux-x64.tar.gz","browser_download_url":"{{Base}}Morph-{{version}}-linux-x64.tar.gz","size":{{archive.Length}}},
+                      {"name":"Morph-{{version}}-linux-x64-SHA256SUMS.txt","browser_download_url":"{{Base}}Morph-{{version}}-linux-x64-SHA256SUMS.txt","size":100}]}
                     """;
                 return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
                 {

@@ -10,7 +10,7 @@ namespace Filee.Cli.Tests;
 
 public sealed class PresetsCheckTests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-presets-check-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-presets-check-").FullName;
 
     public void Dispose()
     {
@@ -170,7 +170,7 @@ public sealed class PresetsCheckTests : IDisposable
     [Fact]
     public void Help_explains_the_check()
     {
-        Assert.Contains("filee presets check <folder>", Help.Text(null), StringComparison.Ordinal);
+        Assert.Contains("morph presets check <folder>", Help.Text(null), StringComparison.Ordinal);
         Assert.Contains("\"sha256\"", Help.Text("presets"), StringComparison.Ordinal);
     }
 }

@@ -60,7 +60,7 @@ internal static class CmykPictures
             xobjects = new PdfDictionary(document);
             resources.Elements["/XObject"] = xobjects;
         }
-        var name = $"/FileeCmyk{xobjects.Elements.Count + 1}";
+        var name = $"/MorphCmyk{xobjects.Elements.Count + 1}";
         xobjects.Elements[name] = image.Reference;
 
         // PDF measures from the bottom left.

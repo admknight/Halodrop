@@ -10,7 +10,7 @@ namespace Filee.Engines.Tests;
 
 public sealed class RealPathTests : IDisposable
 {
-    private readonly string _root = Path.Combine(Path.GetTempPath(), "filee-realpath-" + Guid.NewGuid().ToString("N")[..8]);
+    private readonly string _root = Path.Combine(Path.GetTempPath(), "morph-realpath-" + Guid.NewGuid().ToString("N")[..8]);
 
     private string Link => Path.Combine(_root, "link");
 
@@ -70,9 +70,9 @@ public sealed class RealPathTests : IDisposable
     public void An_installer_that_cannot_open_its_package_says_so()
     {
         // In the user's language on the Engines card (error.* keys, every language file has them).
-        var link = Assert.IsType<ConversionRefusedException>(EngineInstaller.MsiFailure("libreoffice", 1620, @"C:\Temp\filee-msiexec.log"));
+        var link = Assert.IsType<ConversionRefusedException>(EngineInstaller.MsiFailure("libreoffice", 1620, @"C:\Temp\morph-msiexec.log"));
         Assert.Equal("error.msi_link", link.ErrorKey);
-        Assert.Equal(@"msiexec 1620, log: C:\Temp\filee-msiexec.log", link.Detail);
+        Assert.Equal(@"msiexec 1620, log: C:\Temp\morph-msiexec.log", link.Detail);
         Assert.Equal("error.msi_busy", Assert.IsType<ConversionRefusedException>(EngineInstaller.MsiFailure("calibre", 1618, "log")).ErrorKey);
         Assert.Contains("exit code 1603", EngineInstaller.MsiFailure("calibre", 1603, "log").Message);
     }

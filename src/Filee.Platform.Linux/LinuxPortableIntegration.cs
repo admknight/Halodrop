@@ -38,11 +38,11 @@ public sealed class LinuxPortableIntegration(string configHome, string dataHome)
         catch (ArgumentException) { yield break; } // Such a path could not have been registered by Filee.
         foreach (var (path, command) in new[]
         {
-            (Path.Combine(configHome, "autostart", "filee.desktop"), $"Exec={desktop} --background"),
-            (Path.Combine(dataHome, "Thunar", "sendto", "filee.desktop"), $"Exec={desktop} --convert %F"),
-            (Path.Combine(dataHome, "nemo", "actions", "filee.nemo_action"), $"Exec={desktop} --convert %F"),
-            (Path.Combine(dataHome, "kio", "servicemenus", "filee.desktop"), $"Exec={desktop} --convert %F"),
-            (Path.Combine(dataHome, "nautilus", "scripts", "Filee"), $"exec {LinuxDesktopIntegration.ShellArgument(executable)} --convert \"$@\""),
+            (Path.Combine(configHome, "autostart", "morph.desktop"), $"Exec={desktop} --background"),
+            (Path.Combine(dataHome, "Thunar", "sendto", "morph.desktop"), $"Exec={desktop} --convert %F"),
+            (Path.Combine(dataHome, "nemo", "actions", "morph.nemo_action"), $"Exec={desktop} --convert %F"),
+            (Path.Combine(dataHome, "kio", "servicemenus", "morph.desktop"), $"Exec={desktop} --convert %F"),
+            (Path.Combine(dataHome, "nautilus", "scripts", "Morph"), $"exec {LinuxDesktopIntegration.ShellArgument(executable)} --convert \"$@\""),
         })
         {
             if (!RegularFile(path)) continue;

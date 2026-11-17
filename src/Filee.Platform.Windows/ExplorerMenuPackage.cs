@@ -14,19 +14,19 @@ namespace Filee.Platform.Windows;
 public static class ExplorerMenuPackage
 {
     /// <summary>Package name (the <c>Identity/@Name</c>); also used to find and remove the registration.</summary>
-    public const string PackageName = "Filee.ExplorerMenu";
+    public const string PackageName = "Morph.ExplorerMenu";
 
     /// <summary>
     /// Publisher of the unsigned package. Windows 11 only registers unsigned packages whose publisher contains this
     /// special OID, so they can never collide with (or spoof) a signed package.
     /// </summary>
-    public const string Publisher = "CN=Filee, OID.2.25.311729368913984317654407730594956997722=1";
+    public const string Publisher = "CN=Morph, OID.2.25.311729368913984317654407730594956997722=1";
 
     /// <summary>
     /// Package family name = name + "_" + a hash of <see cref="Publisher"/> (checked by a test against
     /// <c>PackageFamilyNameFromId</c>). Used to look the registration up without PowerShell.
     /// </summary>
-    public const string FamilyName = "Filee.ExplorerMenu_c73vxh346rtay";
+    public const string FamilyName = "Morph.ExplorerMenu_c73vxh346rtay";
 
     /// <summary>
     /// Version of the manifest, deliberately independent of the app version: registering an unsigned package with a
@@ -40,10 +40,10 @@ public static class ExplorerMenuPackage
     public static readonly Guid ClassId = new("6DB0E670-807F-4D22-BE3F-20492D0F4AB1");
 
     /// <summary>The native COM server next to Filee.exe.</summary>
-    public const string DllFileName = "FileeExplorerMenu.dll";
+    public const string DllFileName = "MorphExplorerMenu.dll";
 
     /// <summary>The package file next to Filee.exe.</summary>
-    public const string PackageFileName = "FileeExplorerMenu.msix";
+    public const string PackageFileName = "MorphExplorerMenu.msix";
 
     /// <summary>
     /// File in the data folder (%APPDATA%\Filee, TITLE_FILE in FileeExplorerMenu.c) whose first line is the menu title
@@ -99,8 +99,8 @@ public static class ExplorerMenuPackage
                 new XAttribute("Version", ManifestVersion.ToString(4)),
                 new XAttribute("ProcessorArchitecture", architecture)),
             new XElement(Foundation + "Properties",
-                new XElement(Foundation + "DisplayName", "Filee"),
-                new XElement(Foundation + "PublisherDisplayName", "Filee contributors"),
+                new XElement(Foundation + "DisplayName", "Morph"),
+                new XElement(Foundation + "PublisherDisplayName", "Morph contributors"),
                 new XElement(Foundation + "Logo", LogoPath),
                 new XElement(Uap10 + "AllowExternalContent", "true")),
             new XElement(Foundation + "Resources",
@@ -115,15 +115,15 @@ public static class ExplorerMenuPackage
                 new XElement(Rescap + "Capability", new XAttribute("Name", "unvirtualizedResources"))),
             new XElement(Foundation + "Applications",
                 new XElement(Foundation + "Application",
-                    new XAttribute("Id", "Filee"),
-                    new XAttribute("Executable", "Filee.exe"),
+                    new XAttribute("Id", "Morph"),
+                    new XAttribute("Executable", "Morph.exe"),
                     new XAttribute(Uap10 + "TrustLevel", "mediumIL"),
                     new XAttribute(Uap10 + "RuntimeBehavior", "win32App"),
                     // AppListEntry="none": the package only carries the shell extension, it adds no Start menu entry.
                     new XElement(Uap + "VisualElements",
                         new XAttribute("AppListEntry", "none"),
-                        new XAttribute("DisplayName", "Filee"),
-                        new XAttribute("Description", "Filee File Explorer integration"),
+                        new XAttribute("DisplayName", "Morph"),
+                        new XAttribute("Description", "Morph File Explorer integration"),
                         new XAttribute("BackgroundColor", "transparent"),
                         new XAttribute("Square150x150Logo", LogoPath),
                         new XAttribute("Square44x44Logo", LogoPath)),
@@ -136,13 +136,13 @@ public static class ExplorerMenuPackage
                                 new XElement(Desktop5 + "ItemType",
                                     new XAttribute("Type", "*"),
                                     new XElement(Desktop5 + "Verb",
-                                        new XAttribute("Id", "ConvertWithFilee"),
+                                        new XAttribute("Id", "ConvertWithMorph"),
                                         new XAttribute("Clsid", clsid))))),
                         new XElement(Com + "Extension",
                             new XAttribute("Category", "windows.comServer"),
                             new XElement(Com + "ComServer",
                                 new XElement(Com + "SurrogateServer",
-                                    new XAttribute("DisplayName", "Filee context menu"),
+                                    new XAttribute("DisplayName", "Morph context menu"),
                                     new XElement(Com + "Class",
                                         new XAttribute("Id", clsid),
                                         new XAttribute("Path", DllFileName),

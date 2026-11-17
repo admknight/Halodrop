@@ -140,7 +140,7 @@ public static partial class SharedPresetFolderCheck
             var prefix = $"{ImagesFolder}/{language.Name}";
             if (!Languages.Contains(language.Name))
             {
-                result.Add("images.language", prefix + "/", "", $"is not a language of Filee's ({string.Join(", ", Languages)})");
+                result.Add("images.language", prefix + "/", "", $"is not a language of Morph's ({string.Join(", ", Languages)})");
                 continue;
             }
             var set = CheckImageSet(language, prefix, decoder, result, null);
@@ -290,7 +290,7 @@ public static partial class SharedPresetFolderCheck
     });
 
     private static string? AppLanguage(string code) =>
-        Languages.Contains(code) ? null : $"is not a language of Filee's ({string.Join(", ", Languages)})";
+        Languages.Contains(code) ? null : $"is not a language of Morph's ({string.Join(", ", Languages)})";
 
     private static string? Timestamp(string text) =>
         DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out _) ? null : "is not a date and time like 2026-11-15T00:00:00Z";
@@ -352,7 +352,7 @@ public static partial class SharedPresetFolderCheck
                     .SetEquals(derived.Warnings.Select(w => w.Code)))
                 result.Add("meta.derived_mismatch", MetaName, "warnings", $"must be [{string.Join(", ", derived.Warnings.Select(w => w.Code))}], as preset.json is");
             if (root.TryGetProperty("minVersion", out var min) && Version.Parse(min.GetString()!) < Version.Parse(derived.MinVersion))
-                result.Add("meta.derived_mismatch", MetaName, "minVersion", $"must be at least {derived.MinVersion}, the first Filee that can install it");
+                result.Add("meta.derived_mismatch", MetaName, "minVersion", $"must be at least {derived.MinVersion}, the first Morph that can install it");
             return languages;
         }
     }

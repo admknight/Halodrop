@@ -526,7 +526,7 @@ public class ComplexScriptTests(EngineFixture fx) : IClassFixture<EngineFixture>
     /// <summary>A package of the given parts.</summary>
     private static string Package(string name, params (string Part, string Xml)[] parts)
     {
-        var path = Path.Combine(Directory.CreateTempSubdirectory("filee-scan-").FullName, name);
+        var path = Path.Combine(Directory.CreateTempSubdirectory("morph-scan-").FullName, name);
         using var zip = ZipFile.Open(path, ZipArchiveMode.Create);
         foreach (var (part, xml) in parts)
         {
@@ -556,7 +556,7 @@ public class ComplexScriptTests(EngineFixture fx) : IClassFixture<EngineFixture>
     [Fact]
     public void The_scan_stops_at_the_size_a_reader_would_refuse()
     {
-        var path = Path.Combine(Directory.CreateTempSubdirectory("filee-scan-").FullName, "bomb.docx");
+        var path = Path.Combine(Directory.CreateTempSubdirectory("morph-scan-").FullName, "bomb.docx");
         using (var zip = ZipFile.Open(path, ZipArchiveMode.Create))
         using (var stream = zip.CreateEntry("word/document.xml", CompressionLevel.Fastest).Open())
         {

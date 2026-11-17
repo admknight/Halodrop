@@ -9,10 +9,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <AssemblyName>Filee.Setup</AssemblyName>
+    <AssemblyName>Morph.Setup</AssemblyName>
     <RootNamespace>Filee.Setup</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>..\Filee.App\Assets\Icons\filee.ico</ApplicationIcon>
+    <ApplicationIcon>..\Filee.App\Assets\Icons\morph.ico</ApplicationIcon>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <!-- Kept trim- and AOT-safe (no reflection, compiled bindings, source-generated COM), so the publish can be
@@ -20,7 +20,7 @@
     <IsAotCompatible>true</IsAotCompatible>
     <InvariantGlobalization>true</InvariantGlobalization>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-    <Product>Filee Setup</Product>
+    <Product>Morph Setup</Product>
   </PropertyGroup>
 
   <!-- build/build-installer.ps1: dotnet publish -c Release -r win-x64 -p:FileeSetupPublish=true -->
@@ -63,8 +63,8 @@
     <Compile Include="..\Filee.App\Controls\SlideShow.cs" Link="Shared\SlideShow.cs" />
     <AvaloniaResource Include="..\Filee.App\Assets\WhatsNew\**" Link="Assets\WhatsNew\%(RecursiveDir)%(Filename)%(Extension)" />
     <AvaloniaResource Include="..\Filee.App\Styles\Soft.axaml" Link="Styles\Soft.axaml" />
-    <AvaloniaResource Include="..\Filee.App\Assets\Icons\filee.ico" Link="Assets\Icons\filee.ico" />
-    <AvaloniaResource Include="..\Filee.App\Assets\Icons\filee.png" Link="Assets\Icons\filee.png" />
+    <AvaloniaResource Include="..\Filee.App\Assets\Icons\morph.ico" Link="Assets\Icons\morph.ico" />
+    <AvaloniaResource Include="..\Filee.App\Assets\Icons\morph.png" Link="Assets\Icons\morph.png" />
     <EmbeddedResource Include="..\Filee.App\Assets\i18n\*.json" Link="i18n\%(Filename)%(Extension)" LogicalName="i18n.%(Filename)%(Extension)" />
   </ItemGroup>
 

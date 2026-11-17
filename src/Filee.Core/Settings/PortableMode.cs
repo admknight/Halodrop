@@ -6,7 +6,7 @@ namespace Filee.Core.Settings;
 public static class PortableMode
 {
     /// <summary>The marker shipped or created beside Filee.</summary>
-    public const string MarkerName = "filee.portable";
+    public const string MarkerName = "morph.portable";
 
     /// <summary>The selected portable data directory, or null in an ordinary installation.</summary>
     public static string? DataDirectory { get; private set; }
@@ -58,7 +58,7 @@ public static class PortableMode
         try
         {
             System.IO.Directory.CreateDirectory(directory);
-            using var probe = new FileStream(Path.Combine(directory, ".filee-write-" + Guid.NewGuid().ToString("N")),
+            using var probe = new FileStream(Path.Combine(directory, ".morph-write-" + Guid.NewGuid().ToString("N")),
                 FileMode.CreateNew, FileAccess.Write, FileShare.None, 1, FileOptions.DeleteOnClose);
             probe.WriteByte(0);
             probe.Flush();

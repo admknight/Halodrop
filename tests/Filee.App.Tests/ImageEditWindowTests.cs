@@ -357,7 +357,7 @@ public class ImageEditWindowTests
     [AvaloniaFact]
     public void The_size_read_is_the_one_seen_and_an_icons_largest()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-image-edit-size-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-image-edit-size-").FullName;
         try
         {
             // A phone photo stored on its side, upright by its EXIF orientation.
@@ -396,7 +396,7 @@ public class ImageEditWindowTests
         var theme = AppHost.Get<ThemeService>();
         if (dark)
             theme.Apply(new ThemeSettings { Mode = ThemeMode.Dark }, language);
-        var folder = Directory.CreateTempSubdirectory("filee-image-edit-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-image-edit-").FullName;
         ImageEditWindow? window = null;
         try
         {

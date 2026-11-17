@@ -8,7 +8,7 @@ namespace Filee.Engines.Tests;
 
 public sealed class PortableEngineTests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-portable-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-portable-").FullName;
 
     public void Dispose() => Directory.Delete(_root, recursive: true);
 

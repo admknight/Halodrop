@@ -405,7 +405,7 @@ public class AccentContrastTests
     {
         // Material You turns the grey swatch into its monochrome palette: the accent is near white, the swatch stays grey.
         var service = Theme();
-        var directory = Directory.CreateTempSubdirectory("filee-swatch-test-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-swatch-test-").FullName;
         var store = new UserDataStore(directory);
         store.Load();
         var vm = new ThemePageViewModel(store, AppHost.Get<ILocalizer>(), AppHost.Get<IPlatformServices>());

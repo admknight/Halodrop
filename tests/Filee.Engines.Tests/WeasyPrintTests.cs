@@ -427,13 +427,13 @@ public sealed partial class WeasyPrintTests(EngineFixture fx) : IClassFixture<En
         var folders = Make();
         using var listener = new Listener();
         var inline = Convert.ToBase64String(EbookBuilders.Png(16, 16, MagickColors.Teal));
-        var html = $"""<html><body><p>Hello from the mail</p><img src="cid:logo@filee"><img src="https://127.0.0.1:{listener.Port}/track.png"><img src="{new Uri(folders.Secret).AbsoluteUri}"></body></html>""";
+        var html = $"""<html><body><p>Hello from the mail</p><img src="cid:logo@morph"><img src="https://127.0.0.1:{listener.Port}/track.png"><img src="{new Uri(folders.Secret).AbsoluteUri}"></body></html>""";
         var eml = Path.Combine(folders.Inbox, "mail.eml");
         File.WriteAllText(eml, string.Join("\r\n",
             "From: sender@example.com", "To: receiver@example.com", "Subject: Report", "Date: Thu, 01 Oct 2026 09:30:00 +0900",
             "MIME-Version: 1.0", "Content-Type: multipart/related; boundary=\"related\"", "",
             "--related", "Content-Type: text/html; charset=utf-8", "", html,
-            "--related", "Content-Type: image/png", "Content-Transfer-Encoding: base64", "Content-ID: <logo@filee>", "", inline,
+            "--related", "Content-Type: image/png", "Content-Transfer-Encoding: base64", "Content-ID: <logo@morph>", "", inline,
             "--related--", ""));
         Assert.Equal(["email", "weasyprint"], Ids(fx.Catalog.CreatePlanner().Plan("eml", "pdf")));
 

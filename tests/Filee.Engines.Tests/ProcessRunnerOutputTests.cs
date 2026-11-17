@@ -10,7 +10,7 @@ namespace Filee.Engines.Tests;
 
 public sealed class ProcessRunnerOutputTests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-runner-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-runner-").FullName;
 
     /// <summary>The output folder, like LibreOffice's: the probe takes the first file in it.</summary>
     private string Output => Path.Combine(_root, "out");

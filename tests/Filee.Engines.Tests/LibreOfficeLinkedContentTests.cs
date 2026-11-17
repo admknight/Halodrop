@@ -279,7 +279,7 @@ public class LibreOfficeLinkedContentTests(EngineFixture fx) : IClassFixture<Eng
         Assert.StartsWith(@"{\rtf1\ansi INCLUDEPICTURE in the text\par", text);
         Assert.Single(Regex.Matches(text, "INCLUDEPICTURE", RegexOptions.IgnoreCase)); // the one in the text
         Assert.Contains("{\\fldrslt cached}", text);
-        Assert.Contains("FILEEREMOVED", text);
+        Assert.Contains("MORPHREMOVED", text);
     }
 
     private static void Package(string path, Dictionary<string, string> parts)

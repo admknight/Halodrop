@@ -20,8 +20,8 @@ public class MetadataTests(EngineFixture fx) : IClassFixture<EngineFixture>
     private static string? FindExifTool()
     {
         // Set and not there is a broken setup, as in CI: failing, not skipping, so the writer can't go untested unseen.
-        if (Environment.GetEnvironmentVariable("FILEE_TEST_EXIFTOOL") is { Length: > 0 } chosen)
-            return File.Exists(chosen) ? chosen : throw new FileNotFoundException("FILEE_TEST_EXIFTOOL is set, but no such file.", chosen);
+        if (Environment.GetEnvironmentVariable("MORPH_TEST_EXIFTOOL") is { Length: > 0 } chosen)
+            return File.Exists(chosen) ? chosen : throw new FileNotFoundException("MORPH_TEST_EXIFTOOL is set, but no such file.", chosen);
         var name = OperatingSystem.IsWindows() ? "exiftool.exe" : "exiftool";
         return (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator)
             .Concat(["/opt/homebrew/bin", "/usr/local/bin", "/usr/bin"])
@@ -1083,7 +1083,7 @@ public class MetadataTests(EngineFixture fx) : IClassFixture<EngineFixture>
     public async Task A_conversion_of_a_file_over_a_reads_limits_is_refused_and_says_why()
     {
         var converter = fx.Converters.OfType<ExifToolConverter>().Single();
-        Assert.SkipUnless(fx.Catalog.StatusOf(converter).IsAvailable, "Filee doesn't find this ExifTool (Settings → Engines).");
+        Assert.SkipUnless(fx.Catalog.StatusOf(converter).IsAvailable, "Morph doesn't find this ExifTool (Settings → Engines).");
         var path = Path.Combine(fx.NewFolder(), "packed.png");
         await File.WriteAllBytesAsync(path, PngWithComment(100), Token);
         var tool = BuiltInData.CreatePresets().Single(p => p.Id == BuiltInData.MetadataId);
@@ -1345,7 +1345,7 @@ public class MetadataTests(EngineFixture fx) : IClassFixture<EngineFixture>
     {
         var (path, _) = await PhotoAsync();
         var converter = fx.Converters.OfType<ExifToolConverter>().Single();
-        Assert.SkipUnless(fx.Catalog.StatusOf(converter).IsAvailable, "Filee doesn't find this ExifTool (Settings → Engines).");
+        Assert.SkipUnless(fx.Catalog.StatusOf(converter).IsAvailable, "Morph doesn't find this ExifTool (Settings → Engines).");
         var before = await File.ReadAllBytesAsync(path, Token);
         var tool = BuiltInData.CreatePresets().Single(p => p.Id == BuiltInData.MetadataId);
         var edits = Setting(("XMP-dc:Title", ["New title"]));

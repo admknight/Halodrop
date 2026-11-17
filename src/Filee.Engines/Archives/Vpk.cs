@@ -139,11 +139,11 @@ internal static partial class Vpk
         var version = BinaryPrimitives.ReadUInt32LittleEndian(header[4..]);
         var treeSize = BinaryPrimitives.ReadUInt32LittleEndian(header[8..]);
         if (version is not (1 or 2))
-            throw new InvalidDataException($"{archiveName} is a VPK of version {version}; Filee reads versions 1 and 2.");
+            throw new InvalidDataException($"{archiveName} is a VPK of version {version}; Morph reads versions 1 and 2.");
         var headerSize = version == 2 ? 28 : 12;
         var dataStart = (long)headerSize + treeSize;
         if (treeSize > MaxTreeBytes)
-            throw new InvalidDataException($"{archiveName} lists more files than Filee unpacks from one pak.");
+            throw new InvalidDataException($"{archiveName} lists more files than Morph unpacks from one pak.");
         if (dataStart > stream.Length)
             throw ArchiveSafety.Damaged(archiveName, "the pak is cut off");
         stream.Position = headerSize;
@@ -160,7 +160,7 @@ internal static partial class Vpk
                     for (string file; (file = ReadString(stream, archiveName)).Length > 0;)
                     {
                         if (entries.Count >= ArchiveSafety.MaxEntries)
-                            throw new InvalidDataException($"{archiveName} has more than {ArchiveSafety.MaxEntries:N0} files; Filee does not unpack it.");
+                            throw new InvalidDataException($"{archiveName} has more than {ArchiveSafety.MaxEntries:N0} files; Morph does not unpack it.");
                         stream.ReadExactly(fields);
                         var crc = BinaryPrimitives.ReadUInt32LittleEndian(fields);
                         var preloadSize = BinaryPrimitives.ReadUInt16LittleEndian(fields[4..]);

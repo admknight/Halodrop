@@ -100,7 +100,7 @@ public class AskPagesTests
     public async Task Dropping_a_pdf_asks_for_the_pages_then_splits_them_or_esc_starts_nothing(bool cancel)
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-ask-pages-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-ask-pages-").FullName;
         var store = AppHost.Get<UserDataStore>();
         var profile = store.Profiles.Single(p => p.Id == "pdf");
         var previous = profile.PresetIds;
@@ -185,7 +185,7 @@ public class AskPagesTests
     public async Task Several_pages_per_file_chosen_in_the_window_splits_every_n_pages()
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-ask-pages-groups-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-ask-pages-groups-").FullName;
         var store = AppHost.Get<UserDataStore>();
         var profile = store.Profiles.Single(p => p.Id == "pdf");
         var previous = profile.PresetIds;
@@ -246,7 +246,7 @@ public class AskPagesTests
     public async Task Each_pdf_dropped_gets_its_own_window_and_its_own_pages()
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-ask-pages-two-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-ask-pages-two-").FullName;
         var store = AppHost.Get<UserDataStore>();
         var profile = store.Profiles.Single(p => p.Id == "pdf");
         var previous = profile.PresetIds;
@@ -331,7 +331,7 @@ public class AskPagesTests
 
         // Pages that couldn't be counted: said, and the range is only checked for its form.
         var unknown = new AskPagesViewModel("locked.pdf", null, split, loc, 1, 3);
-        Assert.Equal("Filee couldn't count the pages of this PDF.", unknown.PageCountText);
+        Assert.Equal("Morph couldn't count the pages of this PDF.", unknown.PageCountText);
         Assert.Equal("File 2 of 3", unknown.Position);
         unknown.Range = "400-410";
         Assert.True(unknown.IsValid);
@@ -367,7 +367,7 @@ public class AskPagesTests
     public void A_pdf_that_cant_be_read_has_no_count()
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-ask-pages-bad-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-ask-pages-bad-").FullName;
         try
         {
             var bad = Path.Combine(folder, "broken.pdf");

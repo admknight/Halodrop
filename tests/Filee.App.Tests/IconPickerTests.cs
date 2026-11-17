@@ -57,7 +57,7 @@ public class IconPickerTests
 
         Assert.True(Make().Vm.IsDefault);
         Assert.True(Make(Preset.NoIcon).Vm.IsNone);
-        Assert.True(Make("an-icon-from-a-newer-filee").Vm.IsDefault); // unknown here: the default shows
+        Assert.True(Make("an-icon-from-a-newer-morph").Vm.IsDefault); // unknown here: the default shows
     }
 
     [AvaloniaFact]

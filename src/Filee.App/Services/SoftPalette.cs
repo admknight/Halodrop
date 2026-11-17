@@ -18,11 +18,11 @@ internal static class SoftPalette
     public const double DefaultCornerRadius = 16;
 
     /// <summary>Embedded Noto fonts (see build/fetch-fonts.ps1). Missing files fall back to system fonts.</summary>
-    private const string Latin = "fonts:Filee#Noto Sans";
-    private const string Arabic = "fonts:Filee#Noto Sans Arabic";
-    private const string Devanagari = "fonts:Filee#Noto Sans Devanagari";
-    private const string Bengali = "fonts:Filee#Noto Sans Bengali";
-    private const string Thai = "fonts:Filee#Noto Sans Thai";
+    private const string Latin = "fonts:Morph#Noto Sans";
+    private const string Arabic = "fonts:Morph#Noto Sans Arabic";
+    private const string Devanagari = "fonts:Morph#Noto Sans Devanagari";
+    private const string Bengali = "fonts:Morph#Noto Sans Bengali";
+    private const string Thai = "fonts:Morph#Noto Sans Thai";
 
     /// <summary>
     /// The installed fonts as SystemUiFontCollection serves them, a letter matched only in the family asked for. Plain
@@ -32,11 +32,11 @@ internal static class SoftPalette
 
     /// <summary>Each CJK region's embedded font and its system fonts (Windows, then macOS).</summary>
     private static readonly (string Embedded, string System) Japanese =
-        ("fonts:Filee#Noto Sans JP", "Yu Gothic UI, Meiryo, Hiragino Sans");
+        ("fonts:Morph#Noto Sans JP", "Yu Gothic UI, Meiryo, Hiragino Sans");
     private static readonly (string Embedded, string System) Korean =
-        ("fonts:Filee#Noto Sans KR", "Malgun Gothic, Apple SD Gothic Neo");
+        ("fonts:Morph#Noto Sans KR", "Malgun Gothic, Apple SD Gothic Neo");
     private static readonly (string Embedded, string System) Chinese =
-        ("fonts:Filee#Noto Sans SC", "Microsoft YaHei, PingFang SC");
+        ("fonts:Morph#Noto Sans SC", "Microsoft YaHei, PingFang SC");
 
     /// <summary>
     /// Traditional Chinese has no embedded font (two more Noto CJK files would add 11 MB): Windows and macOS always carry

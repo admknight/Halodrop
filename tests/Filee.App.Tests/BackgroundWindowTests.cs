@@ -24,7 +24,7 @@ namespace Filee.App.Tests;
 
 public sealed class BackgroundWindowTests : IDisposable
 {
-    private readonly string _folder = Directory.CreateTempSubdirectory("filee-background-").FullName;
+    private readonly string _folder = Directory.CreateTempSubdirectory("morph-background-").FullName;
 
     public void Dispose()
     {

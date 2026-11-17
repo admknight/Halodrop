@@ -98,7 +98,7 @@ public class BrowserDropTests
     {
         TestServices.EnsureInitialized("en");
         var store = AppHost.Get<UserDataStore>();
-        var destination = Directory.CreateTempSubdirectory("filee-copy-drop-").FullName;
+        var destination = Directory.CreateTempSubdirectory("morph-copy-drop-").FullName;
         var preset = new Filee.Core.Presets.Preset
         {
             Name = "Folder",
@@ -156,7 +156,7 @@ public class BrowserDropTests
 
     private static string UseFolder(UserDataStore store, bool saveOnlyConverted)
     {
-        var folder = Path.Combine(Path.GetTempPath(), "filee-app-tests", "downloads-" + Guid.NewGuid().ToString("N")[..8]);
+        var folder = Path.Combine(Path.GetTempPath(), "morph-app-tests", "downloads-" + Guid.NewGuid().ToString("N")[..8]);
         Directory.CreateDirectory(folder);
         store.Settings.BrowserDrops.Folder = folder;
         store.Settings.BrowserDrops.SaveOnlyConverted = saveOnlyConverted;
@@ -214,7 +214,7 @@ public class BrowserDropTests
     public void Firefox_temporary_copies_count_as_browser_files_but_files_on_disk_stay_local()
     {
         TestServices.EnsureInitialized("en");
-        var temp = Path.Combine(Path.GetTempPath(), "filee-app-tests", "moz-" + Guid.NewGuid().ToString("N")[..6], "dog.png");
+        var temp = Path.Combine(Path.GetTempPath(), "morph-app-tests", "moz-" + Guid.NewGuid().ToString("N")[..6], "dog.png");
         Directory.CreateDirectory(Path.GetDirectoryName(temp)!);
         File.WriteAllBytes(temp, Png);
         try
@@ -433,7 +433,7 @@ public class BrowserDropTests
         var store = AppHost.Get<UserDataStore>();
         var collect = store.Settings.CollectDroppedFiles;
         store.Settings.CollectDroppedFiles = true;
-        var downloads = Directory.CreateTempSubdirectory("filee-queue-downloads-").FullName;
+        var downloads = Directory.CreateTempSubdirectory("morph-queue-downloads-").FullName;
         store.Settings.BrowserDrops.Folder = downloads;
         var vm = new MainWindowViewModel(AppHost.Services, AppHost.Get<Filee.Core.Localization.ILocalizer>(), AppHost.Get<UpdateService>(), store);
         vm.Navigate("home");

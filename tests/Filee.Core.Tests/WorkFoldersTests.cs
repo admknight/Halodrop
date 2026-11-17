@@ -17,7 +17,7 @@ public class WorkFoldersTests
         Assert.Equal(WorkFolders.Root, JobQueue.DefaultWorkRoot);
         Assert.Equal(Path.Combine(WorkFolders.Root, "web"), WebDrop.DefaultWorkRoot);
         if (OperatingSystem.IsWindows())
-            Assert.Equal(Path.Combine(Path.GetTempPath(), "Filee"), WorkFolders.Root); // as before: %TEMP% is the user's
+            Assert.Equal(Path.Combine(Path.GetTempPath(), "Morph"), WorkFolders.Root); // as before: %TEMP% is the user's
     }
 
     [Fact]
@@ -26,10 +26,10 @@ public class WorkFoldersTests
         var home = OperatingSystem.IsWindows() ? @"C:\Users\someone" : "/home/someone";
         var cache = OperatingSystem.IsWindows() ? @"D:\cache" : "/srv/cache/someone";
 
-        Assert.Equal(Path.Combine(home, ".cache", "filee"), WorkFolders.UnixRoot(null, home, macOS: false));
-        Assert.Equal(Path.Combine(cache, "filee"), WorkFolders.UnixRoot(cache, home, macOS: false));
-        Assert.Equal(Path.Combine(home, ".cache", "filee"), WorkFolders.UnixRoot("relative/cache", home, macOS: false)); // ignored, as XDG says
-        Assert.Equal(Path.Combine(home, "Library", "Caches", "Filee"), WorkFolders.UnixRoot(cache, home, macOS: true));
+        Assert.Equal(Path.Combine(home, ".cache", "morph"), WorkFolders.UnixRoot(null, home, macOS: false));
+        Assert.Equal(Path.Combine(cache, "morph"), WorkFolders.UnixRoot(cache, home, macOS: false));
+        Assert.Equal(Path.Combine(home, ".cache", "morph"), WorkFolders.UnixRoot("relative/cache", home, macOS: false)); // ignored, as XDG says
+        Assert.Equal(Path.Combine(home, "Library", "Caches", "Morph"), WorkFolders.UnixRoot(cache, home, macOS: true));
         Assert.Null(WorkFolders.UnixRoot(null, "", macOS: false));
         Assert.Null(WorkFolders.UnixRoot("", null, macOS: true));
     }
@@ -44,7 +44,7 @@ public class WorkFoldersTests
         Assert.True(Directory.Exists(root));
         Assert.Equal(OwnerOnly, File.GetUnixFileMode(root));
         // Not a fixed name in the shared /tmp that someone else could have made first.
-        Assert.NotEqual(Path.Combine(Path.GetTempPath(), "Filee"), root);
+        Assert.NotEqual(Path.Combine(Path.GetTempPath(), "Morph"), root);
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class WorkFoldersTests
         Assert.SkipWhen(OperatingSystem.IsWindows(), "File modes are a Unix matter.");
 
         using var dir = new TempDir();
-        var made = Path.Combine(dir.Path, "new", "filee");
+        var made = Path.Combine(dir.Path, "new", "morph");
         WorkFolders.MakePrivate(made);
         Assert.Equal(OwnerOnly, File.GetUnixFileMode(made));
 

@@ -37,7 +37,7 @@ public class MergeOrderTests
     public async Task Donut_merge_waits_for_review_and_uses_the_chosen_order_or_cancels(bool cancel)
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-merge-order-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-merge-order-").FullName;
         var store = AppHost.Get<UserDataStore>();
         var profile = store.Profiles.Single(p => p.Id == "pdf");
         var previous = profile.PresetIds;
@@ -125,7 +125,7 @@ public class MergeOrderTests
     public async Task Sort_list_orders_the_merge_by_date_and_name_and_a_move_makes_it_custom()
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-merge-sort-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-merge-sort-").FullName;
         var store = AppHost.Get<UserDataStore>();
         var profile = store.Profiles.Single(p => p.Id == "pdf");
         var previous = profile.PresetIds;
@@ -251,7 +251,7 @@ public class MergeOrderTests
     {
         TestServices.EnsureInitialized(language);
         // A real file, so that one row shows its date next to a long name.
-        var dated = Path.Combine(Directory.CreateTempSubdirectory("filee-merge-fit-").FullName, "This is a very long document name with spaces.pdf");
+        var dated = Path.Combine(Directory.CreateTempSubdirectory("morph-merge-fit-").FullName, "This is a very long document name with spaces.pdf");
         File.WriteAllBytes(dated, [1]);
         var vm = new MergeOrderViewModel([
             @"C:\Documents\Quarterly reports\2026\This is a very long document name with spaces.pdf",
@@ -326,7 +326,7 @@ public class MergeOrderTests
     public async Task Donut_merge_of_pictures_takes_the_layout_chosen_and_remembers_it(bool cancel)
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-merge-images-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-merge-images-").FullName;
         var store = AppHost.Get<UserDataStore>();
         var profile = store.Profiles.Single(p => p.Id == "images");
         var previous = profile.PresetIds;
@@ -649,7 +649,7 @@ public class MergeOrderTests
     [Fact]
     public void Files_start_in_name_order_counting_numbers_and_browser_files_show_no_folder()
     {
-        var root = Path.Combine(Path.GetTempPath(), "filee-merge-names");
+        var root = Path.Combine(Path.GetTempPath(), "morph-merge-names");
         string In(string folder, string name) => Path.Combine(root, folder, name);
         var browser = Path.Combine(Filee.Core.Web.WebDrop.DefaultWorkRoot, "abc", "drop", "1", "page 1.pdf");
         var vm = new MergeOrderViewModel([In("b", "page 10.pdf"), In("a", "page 2.pdf"), browser, In("a", "page 10.pdf")]);
@@ -664,7 +664,7 @@ public class MergeOrderTests
     public void Arrows_move_the_selection_and_the_focus_stays_on_the_card()
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateTempSubdirectory("filee-merge-keys-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-merge-keys-").FullName;
         var inputs = new List<string>();
         for (var i = 1; i <= 6; i++)
         {

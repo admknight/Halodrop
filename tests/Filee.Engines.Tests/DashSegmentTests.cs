@@ -50,7 +50,7 @@ public class DashSegmentTests
     [Fact]
     public void Only_m4s_files_are_checked_and_a_bare_segment_is_refused_with_its_own_message()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-m4s-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-m4s-").FullName;
         try
         {
             var segment = Box("styp").Concat(Box("moof")).Concat(Box("mdat")).ToArray();

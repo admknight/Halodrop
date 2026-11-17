@@ -11,7 +11,7 @@ namespace Filee.Engines.Tests;
 
 public sealed class FolderIso632Tests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-iso632-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-iso632-").FullName;
     public void Dispose() => Directory.Delete(_root, true);
     private string Folder(string name = "photos.jpg") => Directory.CreateDirectory(Path.Combine(_root, name)).FullName;
 
@@ -39,7 +39,7 @@ public sealed class FolderIso632Tests : IDisposable
         Assert.Equal("error.iso_root", error.ErrorKey);
         Assert.Equal(root, error.Detail);
         Assert.False(output.Called);
-        Assert.Empty(Directory.GetFiles(_root, ".filee-iso-*"));
+        Assert.Empty(Directory.GetFiles(_root, ".morph-iso-*"));
     }
 
     [Theory]
@@ -59,7 +59,7 @@ public sealed class FolderIso632Tests : IDisposable
         Assert.Equal(root, job.Files[0].ErrorDetail);
         Assert.Empty(job.Outputs);
         Assert.False(Directory.Exists(destination));
-        Assert.Empty(Directory.GetFiles(_root, ".filee-iso-*"));
+        Assert.Empty(Directory.GetFiles(_root, ".morph-iso-*"));
     }
 
     [Fact]
@@ -268,7 +268,7 @@ public sealed class FolderIso632Tests : IDisposable
         Assert.Equal("error.iso_name", job.Files[0].ErrorKey);
         Assert.Equal(actualName, job.Files[0].ErrorDetail);
         Assert.Equal("previous image", File.ReadAllText(folder + ".iso"));
-        Assert.Empty(Directory.GetFiles(_root, ".filee-iso-*"));
+        Assert.Empty(Directory.GetFiles(_root, ".morph-iso-*"));
     }
 
     [Theory]
@@ -308,7 +308,7 @@ public sealed class FolderIso632Tests : IDisposable
         Assert.Equal("error.iso_name", job.Files[0].ErrorKey);
         Assert.Equal(name, job.Files[0].ErrorDetail);
         Assert.Equal("previous image", File.ReadAllText(folder + ".iso"));
-        Assert.Empty(Directory.GetFiles(_root, ".filee-iso-*"));
+        Assert.Empty(Directory.GetFiles(_root, ".morph-iso-*"));
     }
 
     [Fact]
@@ -347,7 +347,7 @@ public sealed class FolderIso632Tests : IDisposable
         Assert.DoesNotContain(1d, progress.Values);
         if (existingDestination) Assert.Equal("previous image", File.ReadAllText(output));
         else Assert.False(File.Exists(output));
-        Assert.Empty(Directory.GetFiles(_root, ".filee-iso-*"));
+        Assert.Empty(Directory.GetFiles(_root, ".morph-iso-*"));
     }
 
     [Fact]
@@ -362,7 +362,7 @@ public sealed class FolderIso632Tests : IDisposable
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => new FolderIsoConverter().ConvertAsync(step,
             new CancelProgress(cancel), cancel.Token));
         Assert.Equal("keep", File.ReadAllText(output));
-        Assert.Empty(Directory.GetFiles(_root, ".filee-iso-*"));
+        Assert.Empty(Directory.GetFiles(_root, ".morph-iso-*"));
     }
 
     [Fact]

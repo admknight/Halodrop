@@ -57,7 +57,7 @@ public class HikvisionStreamTests
     [Fact]
     public void The_input_is_a_concat_of_the_header_and_the_file()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-hik-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-hik-").FullName;
         try
         {
             var recording = Path.Combine(folder, "hiv00000.mp4");

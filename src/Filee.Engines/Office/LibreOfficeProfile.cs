@@ -80,7 +80,7 @@ internal static class LibreOfficeProfile
             return;
 
         Directory.CreateDirectory(Path.GetDirectoryName(file)!);
-        var temporary = file + ".filee";
+        var temporary = file + ".morph";
         using (var writer = XmlWriter.Create(temporary, new XmlWriterSettings { Encoding = new UTF8Encoding(false) }))
             document.Save(writer);
         File.Move(temporary, file, overwrite: true);

@@ -156,7 +156,7 @@ public sealed class FileeConnectService : IAsyncDisposable
             await _server.StartAsync(ConfigureRoutes);
 
             _isRunning = true;
-            _log.LogInformation("FileeConnect session started at {Url}", _mobileUrl);
+            _log.LogInformation("MorphConnect session started at {Url}", _mobileUrl);
         }
         finally
         {
@@ -653,7 +653,7 @@ public sealed class FileeConnectService : IAsyncDisposable
 
     private static void SetDeviceTokenCookie(HttpContext context, string token)
     {
-        context.Response.Cookies.Append("filee_token", token, new CookieOptions
+        context.Response.Cookies.Append("morph_token", token, new CookieOptions
         {
             Path = "/",
             SameSite = SameSiteMode.Lax,
@@ -673,7 +673,7 @@ public sealed class FileeConnectService : IAsyncDisposable
             token = authHeader.ToString()["Bearer ".Length..].Trim();
         }
 
-        if (string.IsNullOrEmpty(token) && context.Request.Cookies.TryGetValue("filee_token", out var cookieToken))
+        if (string.IsNullOrEmpty(token) && context.Request.Cookies.TryGetValue("morph_token", out var cookieToken))
         {
             token = cookieToken;
         }

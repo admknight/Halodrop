@@ -33,7 +33,7 @@ public sealed class TriggerService : IDisposable
     /// again (a press waiting to become a drag is dropped then, #739), and on Windows each mouse move that reached
     /// Filee late (a stuck cursor, #511).
     /// </summary>
-    private static readonly bool Trace = Environment.GetEnvironmentVariable("FILEE_TRACE_GESTURES") == "1";
+    private static readonly bool Trace = Environment.GetEnvironmentVariable("MORPH_TRACE_GESTURES") == "1";
 
     /// <summary>A mouse move this late (ms) goes to the trace: the clock itself is only 16 ms exact.</summary>
     private const long LateMove = 50;
@@ -248,7 +248,7 @@ public sealed class TriggerService : IDisposable
                 }
             })
             // Highest: Windows holds every mouse move until this thread has queued it (#511). It does nothing else.
-            { IsBackground = true, Name = "Filee global input", Priority = ThreadPriority.Highest };
+            { IsBackground = true, Name = "Morph global input", Priority = ThreadPriority.Highest };
             _hookThread.Start();
         }
         catch (Exception ex)
@@ -297,7 +297,7 @@ public sealed class TriggerService : IDisposable
                 _gnomeInput?.Reset(LastCursor.X, LastCursor.Y);
             GnomeExtensionStatus = status;
             if (status == GnomeBridgeStatus.VersionMismatch)
-                _log.LogWarning("GNOME pointer extension speaks another protocol version than this Filee ({Version}); " +
+                _log.LogWarning("GNOME pointer extension speaks another protocol version than this Morph ({Version}); " +
                     "sign out and in to load the installed extension", GnomePointerState.ProtocolVersion);
             else
                 _log.LogInformation("GNOME pointer extension {State}",
@@ -305,7 +305,7 @@ public sealed class TriggerService : IDisposable
             NotifyStatus();
         }));
         _gnomeBridge = bridge;
-        _log.LogInformation("Waiting for the Filee GNOME pointer extension (no input-device permission required)");
+        _log.LogInformation("Waiting for the Morph GNOME pointer extension (no input-device permission required)");
         NotifyStatus();
     }
 
@@ -337,7 +337,7 @@ public sealed class TriggerService : IDisposable
         // How long Windows held the cursor for Filee (#511): the event's time is in Unix milliseconds there.
         if (Trace && OperatingSystem.IsWindows()
             && DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - (long)e.RawEvent.Time is > LateMove and var late)
-            _log.LogInformation("Trace: a mouse move reached Filee {Late} ms late", late);
+            _log.LogInformation("Trace: a mouse move reached Morph {Late} ms late", late);
         (_estX, _estY) = (e.Data.X, e.Data.Y);
         LastCursor = (e.Data.X, e.Data.Y);
         if (Trace && HeldButton(e.RawEvent.Mask) != TriggerMouseButton.None)

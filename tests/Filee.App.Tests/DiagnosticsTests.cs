@@ -168,9 +168,9 @@ public class StartupDiagnosticsTests
     [Fact]
     public void The_startup_line_names_version_path_kind_rights_os_and_argument_count()
     {
-        var line = StartupDiagnostics.Describe("1.11.0", "/opt/filee/Filee", "portable",
+        var line = StartupDiagnostics.Describe("1.11.0", "/opt/morph/Morph", "portable",
             new ElevationState(IntegrityLevel.High, IntegrityLevel.Medium, true), "Microsoft Windows 10.0.26200 X64", 3);
-        Assert.Equal("Filee 1.11.0 starting: /opt/filee/Filee (portable), integrity High (elevated), Explorer Medium, " +
+        Assert.Equal("Morph 1.11.0 starting: /opt/morph/Morph (portable), integrity High (elevated), Explorer Medium, " +
                      "Microsoft Windows 10.0.26200 X64, 3 argument(s)", line);
     }
 
@@ -178,7 +178,7 @@ public class StartupDiagnosticsTests
     public void An_unknown_path_and_state_still_give_a_line()
     {
         var line = StartupDiagnostics.Describe("1.0.0", null, "development build", ElevationState.Unknown, "Linux", 0);
-        Assert.Equal("Filee 1.0.0 starting: (unknown path) (development build), integrity unknown, Linux, 0 argument(s)", line);
+        Assert.Equal("Morph 1.0.0 starting: (unknown path) (development build), integrity unknown, Linux, 0 argument(s)", line);
     }
 
     [Theory]
@@ -196,13 +196,13 @@ public class StartupDiagnosticsTests
     [Fact]
     public void The_early_logger_writes_to_the_daily_file()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-early-log-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-early-log-").FullName;
         try
         {
             var log = StartupDiagnostics.CreateEarlyLogger(folder);
-            log.LogInformation("{Startup}", "Filee test starting");
-            var file = Assert.Single(Directory.GetFiles(folder, "filee-*.log"));
-            Assert.Contains("Program: Filee test starting", File.ReadAllText(file));
+            log.LogInformation("{Startup}", "Morph test starting");
+            var file = Assert.Single(Directory.GetFiles(folder, "morph-*.log"));
+            Assert.Contains("Program: Morph test starting", File.ReadAllText(file));
         }
         finally
         {
@@ -213,11 +213,11 @@ public class StartupDiagnosticsTests
     [Fact]
     public void Logs_are_kept_for_two_weeks()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-log-retention-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-log-retention-").FullName;
         try
         {
-            var tenDays = Path.Combine(folder, "filee-20000110.log");
-            var fifteenDays = Path.Combine(folder, "filee-20000105.log");
+            var tenDays = Path.Combine(folder, "morph-20000110.log");
+            var fifteenDays = Path.Combine(folder, "morph-20000105.log");
             File.WriteAllText(tenDays, "");
             File.WriteAllText(fifteenDays, "");
             File.SetLastWriteTime(tenDays, DateTime.Now.AddDays(-10));
@@ -237,7 +237,7 @@ public class StartupDiagnosticsTests
     [Fact]
     public void Early_store_load_logs_corrupt_settings_and_keeps_broken_copy()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-early-store-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-early-store-").FullName;
         try
         {
             File.WriteAllText(Path.Combine(folder, "settings.json"), "{broken");
@@ -246,7 +246,7 @@ public class StartupDiagnosticsTests
 
             store.Load();
 
-            var file = Assert.Single(Directory.GetFiles(Path.Combine(folder, "logs"), "filee-*.log"));
+            var file = Assert.Single(Directory.GetFiles(Path.Combine(folder, "logs"), "morph-*.log"));
             Assert.Contains("WARN UserDataStore: Could not read", File.ReadAllText(file));
             Assert.True(File.Exists(Path.Combine(folder, "settings.json.broken")));
             Assert.True(store.Settings.ShowInDock);
@@ -290,9 +290,9 @@ public class ElevationServiceTests
         var elevation = Create(relaunchError: null);
         Assert.True(elevation.ShellCannotReachFilee);
 
-        Assert.True(elevation.RestartWithoutAdministratorRights("/apps/Filee"));
+        Assert.True(elevation.RestartWithoutAdministratorRights("/apps/Morph"));
 
-        Assert.Equal(["release", "relaunch /apps/Filee", "shutdown"], _calls);
+        Assert.Equal(["release", "relaunch /apps/Morph", "shutdown"], _calls);
         Assert.False(elevation.RestartFailed);
     }
 
@@ -303,9 +303,9 @@ public class ElevationServiceTests
         var changed = new List<string?>();
         elevation.PropertyChanged += (_, e) => changed.Add(e.PropertyName);
 
-        Assert.False(elevation.RestartWithoutAdministratorRights("/apps/Filee"));
+        Assert.False(elevation.RestartWithoutAdministratorRights("/apps/Morph"));
 
-        Assert.Equal(["release", "relaunch /apps/Filee", "reacquire"], _calls);
+        Assert.Equal(["release", "relaunch /apps/Morph", "reacquire"], _calls);
         Assert.True(elevation.RestartFailed);
         Assert.Contains(nameof(ElevationService.RestartFailed), changed);
     }

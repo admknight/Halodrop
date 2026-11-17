@@ -98,7 +98,7 @@ public class DonutEditorTests
     public void A_slider_moving_writes_the_settings_once_it_rests()
     {
         TestServices.EnsureInitialized("en");
-        var dir = Directory.CreateTempSubdirectory("filee-donut-look-").FullName;
+        var dir = Directory.CreateTempSubdirectory("morph-donut-look-").FullName;
         var store = new UserDataStore(dir);
         store.Load();
         store.SaveSettings();

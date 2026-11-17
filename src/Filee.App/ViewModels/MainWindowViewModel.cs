@@ -60,6 +60,9 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
     /// <summary>The repository, for the GitHub button above the version.</summary>
     public string RepositoryUrl => UpdateService.RepositoryUrl;
 
+    /// <summary>Morph change: links to the project only once Morph has a repository of its own.</summary>
+    public bool HasRepository => UpdateService.HasReleaseRepository;
+
     public MainWindowViewModel(IServiceProvider services, ILocalizer loc, UpdateService updates, UserDataStore store)
         : this(services, loc, updates, store, services.GetService<ILogger<MainWindowViewModel>>() ?? (ILogger)NullLogger.Instance,
             type => (ObservableObject)ActivatorUtilities.CreateInstance(services, type))

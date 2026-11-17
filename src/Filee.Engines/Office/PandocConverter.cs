@@ -295,7 +295,7 @@ public sealed class PandocConverter : IConverter
     }
 
     /// <summary>Metadata entry of the AST that lists the checked pictures: name → file.</summary>
-    private const string PicturesKey = "filee-pictures";
+    private const string PicturesKey = "morph-pictures";
 
     /// <summary>
     /// Hands the writer the pictures <see cref="CheckPictures"/> let through: in the sandbox it takes pictures from the
@@ -303,14 +303,14 @@ public sealed class PandocConverter : IConverter
     /// </summary>
     private const string LoadPictures = """
         function Pandoc(doc)
-          for name, file in pairs(doc.meta['filee-pictures'] or {}) do
+          for name, file in pairs(doc.meta['morph-pictures'] or {}) do
             local handle = io.open(pandoc.utils.stringify(file), 'rb')
             if handle then
               pandoc.mediabag.insert(name, nil, handle:read('a'))
               handle:close()
             end
           end
-          doc.meta['filee-pictures'] = nil
+          doc.meta['morph-pictures'] = nil
           return doc
         end
         """;

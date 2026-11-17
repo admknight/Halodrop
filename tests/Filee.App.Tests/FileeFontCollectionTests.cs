@@ -11,7 +11,7 @@ namespace Filee.App.Tests;
 
 public class FileeFontCollectionTests
 {
-    private const string Key = "fonts:FileeOnDemand";
+    private const string Key = "fonts:MorphOnDemand";
 
     private static readonly string[] Families =
         ["Noto Sans", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC"];
@@ -32,7 +32,7 @@ public class FileeFontCollectionTests
 
     private static string? Match(string language, int letter, FontWeight weight = FontWeight.Normal)
     {
-        var chain = ThemeService.FontFamilies(language).Replace("fonts:Filee", Key, StringComparison.Ordinal);
+        var chain = ThemeService.FontFamilies(language).Replace("fonts:Morph", Key, StringComparison.Ordinal);
         return FontManager.Current.TryMatchCharacter(letter, FontStyle.Normal, weight, FontStretch.Normal, FontFamily.Parse(chain), null, out var typeface)
             ? typeface.GlyphTypeface.FamilyName
             : null;

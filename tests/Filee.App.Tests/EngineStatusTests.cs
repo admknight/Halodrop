@@ -82,7 +82,7 @@ public sealed class EngineStatusTests : IDisposable
     private static EnginePackageState Downloadable()
     {
         var state = EngineDownloads.Packages.Where(EngineDownloads.CanDownload).Select(p => new EnginePackageState(p, Loc)).FirstOrDefault();
-        Assert.SkipWhen(state is null, "Filee downloads no engine on this platform");
+        Assert.SkipWhen(state is null, "Morph downloads no engine on this platform");
         return state!;
     }
 
@@ -131,15 +131,15 @@ public sealed class EngineStatusTests : IDisposable
     {
         _systemVersion = Tested;
         _usedCatalog = true;
-        var system = Folder("filee-path-");
+        var system = Folder("morph-path-");
         File.WriteAllBytes(Path.Combine(system, EngineEnvironment.ProgramName("pandoc.exe")), [0x4D, 0x5A]);
         Environment.SetEnvironmentVariable("PATH", system + Path.PathSeparator + _path);
         EngineEnvironment.ForgetSystemCopies();
 
-        var root = Folder("filee-engines-");
+        var root = Folder("morph-engines-");
         var component = new EngineComponent("pandoc", "3.13", "https://example.test/pandoc.zip", new string('a', 64), 1, "zip");
         Directory.CreateDirectory(Path.Combine(root, "pandoc"));
-        File.WriteAllText(Path.Combine(root, "pandoc", ".filee-component"), component.Sha256);
+        File.WriteAllText(Path.Combine(root, "pandoc", ".morph-component"), component.Sha256);
         var installer = new EngineInstaller(new HttpClient(), root, new Dictionary<string, EngineComponent> { ["pandoc"] = component });
         var downloads = new EngineDownloadService(AppHost.Get<ConverterCatalog>(), Loc, NullLogger<EngineDownloadService>.Instance, installer,
             (_, folder) =>
@@ -175,7 +175,7 @@ public sealed class EngineStatusTests : IDisposable
 
         state.Status = EnginePackageStatus.Installed;
         Assert.Equal("Ready", state.StatusText);
-        Assert.Equal($"Filee's download · version {state.Version} · {EnginePackageState.FormatBytes(state.Package.InstalledSize)} on disk", state.SourceText);
+        Assert.Equal($"Morph's download · version {state.Version} · {EnginePackageState.FormatBytes(state.Package.InstalledSize)} on disk", state.SourceText);
 
         state.OwnCopyFolder = "/opt/homebrew/bin";
         state.FromSystem = true;
@@ -206,7 +206,7 @@ public sealed class EngineStatusTests : IDisposable
         Assert.Equal("Ready", state.StatusText);
         Assert.Equal($"New version {state.Version}", state.UpdateText);
         // The version the card would name is the new one, not the one on disk: it is left out of the source line.
-        Assert.Equal($"Filee's download · {EnginePackageState.FormatBytes(state.Package.InstalledSize)} on disk", state.SourceText);
+        Assert.Equal($"Morph's download · {EnginePackageState.FormatBytes(state.Package.InstalledSize)} on disk", state.SourceText);
     }
 
     [AvaloniaFact]
@@ -292,12 +292,12 @@ public sealed class EngineStatusTests : IDisposable
 
         state.Status = EnginePackageStatus.Installed;
         Assert.True(state.HasOtherCopy);
-        Assert.Equal("/Applications/calibre.app · version 9.15 (Filee's download would be removed)", state.OtherCopyText);
+        Assert.Equal("/Applications/calibre.app · version 9.15 (Morph's download would be removed)", state.OtherCopyText);
 
         // One that starts without telling its version (an FFmpeg nightly, Upscayl) is offered too.
         state.OtherCopyVersion = null;
         Assert.True(state.HasOtherCopy);
-        Assert.Equal("/Applications/calibre.app (Filee's download would be removed)", state.OtherCopyText);
+        Assert.Equal("/Applications/calibre.app (Morph's download would be removed)", state.OtherCopyText);
 
         // One that didn't start (or hasn't been tried yet) isn't: it may not work.
         state.OtherCopyRuns = false;
@@ -334,7 +334,7 @@ public sealed class EngineStatusTests : IDisposable
     {
         TestServices.EnsureInitialized("en");
         var state = EngineDownloads.Packages.Where(p => !EngineDownloads.CanDownload(p)).Select(p => new EnginePackageState(p, Loc)).FirstOrDefault();
-        Assert.SkipWhen(state is null, "Filee downloads every engine on this platform");
+        Assert.SkipWhen(state is null, "Morph downloads every engine on this platform");
 
         state!.Status = EnginePackageStatus.NotInstalled;
         Assert.False(string.IsNullOrEmpty(state.InstallGuidance));
@@ -376,13 +376,13 @@ public sealed class EngineStatusTests : IDisposable
     {
         TestServices.EnsureInitialized("en");
         _usedCatalog = true;
-        var root = Folder("filee-engines-");
+        var root = Folder("morph-engines-");
         var component = new EngineComponent("pandoc", "3.13", "https://example.test/pandoc.zip", new string('a', 64), 1, "zip");
         var download = Directory.CreateDirectory(Path.Combine(root, "pandoc")).FullName;
-        File.WriteAllText(Path.Combine(download, ".filee-component"), component.Sha256);
+        File.WriteAllText(Path.Combine(download, ".morph-component"), component.Sha256);
         File.WriteAllBytes(Path.Combine(download, EngineEnvironment.ProgramName("pandoc.exe")), [0x4D, 0x5A]);
         // The user put Filee's Pandoc on the PATH through a link.
-        var link = Path.Combine(Folder("filee-path-"), "pandoc-link");
+        var link = Path.Combine(Folder("morph-path-"), "pandoc-link");
         try
         {
             Directory.CreateSymbolicLink(link, download);
@@ -420,7 +420,7 @@ public sealed class EngineStatusTests : IDisposable
         downloads.InstallPackage = (_, _, _) =>
         {
             Directory.CreateDirectory(download);
-            File.WriteAllText(Path.Combine(download, ".filee-component"), new string('a', 64));
+            File.WriteAllText(Path.Combine(download, ".morph-component"), new string('a', 64));
             return Task.CompletedTask;
         };
         var install = downloads.InstallAsync(pandoc);
@@ -436,7 +436,7 @@ public sealed class EngineStatusTests : IDisposable
         Assert.Null(pandoc.CopyVersion);
         Assert.Null(pandoc.OwnCopyFolder);
         Assert.False(pandoc.IsOutdated);
-        Assert.StartsWith("Filee's download", pandoc.SourceText);
+        Assert.StartsWith("Morph's download", pandoc.SourceText);
         Assert.Equal(system, pandoc.OtherCopyFolder);
         WaitFor(() => pandoc.HasOtherCopy);
     }
@@ -552,7 +552,7 @@ public sealed class EngineStatusTests : IDisposable
 
         // Another copy comes first now (installed meanwhile, found by Check again): what was known about the first one
         // doesn't carry over, so nothing is offered until its own check comes back.
-        var another = Folder("filee-path-");
+        var another = Folder("morph-path-");
         File.WriteAllBytes(Path.Combine(another, EngineEnvironment.ProgramName("pandoc.exe")), [0x4D, 0x5A]);
         _alsoRuns = another;
         Environment.SetEnvironmentVariable("PATH", another + Path.PathSeparator + Environment.GetEnvironmentVariable("PATH"));
@@ -578,7 +578,7 @@ public sealed class EngineStatusTests : IDisposable
         WaitFor(() => pandoc.HasOtherCopy);
 
         // The card shows another copy than the one confirmed (it was read again while the question was open).
-        var confirmed = Folder("filee-path-");
+        var confirmed = Folder("morph-path-");
         File.WriteAllBytes(Path.Combine(confirmed, EngineEnvironment.ProgramName("pandoc.exe")), [0x4D, 0x5A]);
         _alsoRuns = confirmed;
         Assert.Equal("engines.other_copy_gone", Finish(downloads.UseOtherCopyAsync(pandoc, confirmed)));
@@ -639,7 +639,7 @@ public sealed class EngineStatusTests : IDisposable
             var button = window.GetVisualDescendants().OfType<Button>()
                 .Single(b => ReferenceEquals(b.DataContext, pandoc) && Equals(b.Content, "Use this one instead"));
             Assert.True(button.IsEffectivelyVisible);
-            var expected = $"Use the copy in {system} and remove Filee's download of {pandoc.Name}? You can download it again later.";
+            var expected = $"Use the copy in {system} and remove Morph's download of {pandoc.Name}? You can download it again later.";
 
             // "Cancel" leaves everything as it was.
             button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
@@ -685,7 +685,7 @@ public sealed class EngineStatusTests : IDisposable
                 .Any(t => ReferenceEquals(t.DataContext, pandoc) && t.Text == text && t.IsEffectivelyVisible);
             Assert.False(Shown(pandoc.Sizes));
             bool Offered() => window.GetVisualDescendants().OfType<Button>()
-                .Any(b => ReferenceEquals(b.DataContext, pandoc) && Equals(b.Content, "Install Filee's copy") && b.IsEffectivelyVisible);
+                .Any(b => ReferenceEquals(b.DataContext, pandoc) && Equals(b.Content, "Install Morph's copy") && b.IsEffectivelyVisible);
             Assert.False(Offered());
 
             _systemVersion = new Version(1, 0);
@@ -734,7 +734,7 @@ public sealed class EngineStatusTests : IDisposable
             Assert.False(Shown(pandoc.Sizes));
 
             // An older download: the update is offered with its size.
-            File.WriteAllText(Path.Combine(download, ".filee-component"), new string('b', 64));
+            File.WriteAllText(Path.Combine(download, ".morph-component"), new string('b', 64));
             downloads.RefreshStatus();
             Pump();
             Assert.True(pandoc.CanUpdate);
@@ -782,7 +782,7 @@ public sealed class EngineStatusTests : IDisposable
 
         // Removed on the same card while the copy was being started: nothing to switch from, and no message.
         Directory.CreateDirectory(download);
-        File.WriteAllText(Path.Combine(download, ".filee-component"), new string('a', 64));
+        File.WriteAllText(Path.Combine(download, ".morph-component"), new string('a', 64));
         downloads.RefreshStatus();
         WaitFor(() => pandoc.HasOtherCopy);
         using var hold = new ManualResetEventSlim();

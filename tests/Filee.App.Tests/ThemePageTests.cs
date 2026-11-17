@@ -26,7 +26,7 @@ public class ThemePageTests
     public void Visual_picker_and_swatches_stay_in_sync_and_persist(string language, ThemeMode mode)
     {
         TestServices.EnsureInitialized(language);
-        var directory = Directory.CreateTempSubdirectory("filee-theme-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-theme-").FullName;
         var store = new UserDataStore(directory);
         store.Load();
         store.Settings.Theme.Mode = mode;
@@ -111,7 +111,7 @@ public class ThemePageTests
     public void Preview_toggle_is_interactive_but_does_not_change_settings()
     {
         TestServices.EnsureInitialized();
-        var directory = Directory.CreateTempSubdirectory("filee-theme-preview-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-theme-preview-").FullName;
         var store = new UserDataStore(directory);
         store.Load();
         AppHost.Get<ThemeService>().Apply(store.Settings.Theme, "en");

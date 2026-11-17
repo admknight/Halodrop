@@ -14,7 +14,7 @@ public class StagedPreviewTests
     public async Task A_pdf_added_to_the_list_gets_a_picture_of_its_first_page()
     {
         TestServices.EnsureInitialized();
-        var folder = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "filee-preview-" + Guid.NewGuid().ToString("N")[..8])).FullName;
+        var folder = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "morph-preview-" + Guid.NewGuid().ToString("N")[..8])).FullName;
         var path = Path.Combine(folder, "page.pdf");
         using (var document = new PdfDocument())
         {

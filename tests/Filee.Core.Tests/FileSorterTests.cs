@@ -75,7 +75,7 @@ public class FileSorterTests
     [Fact]
     public void Reads_the_dates_on_disk_and_none_for_a_missing_file()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-sort-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-sort-").FullName;
         try
         {
             var path = Path.Combine(folder, "real.pdf");

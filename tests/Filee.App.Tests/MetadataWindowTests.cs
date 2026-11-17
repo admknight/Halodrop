@@ -27,7 +27,7 @@ namespace Filee.App.Tests;
 
 public sealed class MetadataWindowTests : IDisposable
 {
-    private readonly string _folder = Directory.CreateTempSubdirectory("filee-metadata-").FullName;
+    private readonly string _folder = Directory.CreateTempSubdirectory("morph-metadata-").FullName;
 
     public void Dispose()
     {

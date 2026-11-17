@@ -14,7 +14,7 @@ public sealed class FolderArchives1345Tests
     public void Folder_wheel_and_editor_offer_zip_and_one_zip()
     {
         TestServices.EnsureInitialized("zh-TW");
-        var root = Directory.CreateTempSubdirectory("filee-folder-1345-ui-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-folder-1345-ui-").FullName;
         try
         {
             var folder = Directory.CreateDirectory(Path.Combine(root, "photos.jpg")).FullName;

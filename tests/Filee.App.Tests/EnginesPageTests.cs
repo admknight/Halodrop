@@ -40,14 +40,14 @@ public class EnginesPageTests
         // #527: msiexec 1620, a junction on the way. The card says so in the user's language, with the log's path.
         TestServices.EnsureInitialized("en");
         var loc = AppHost.Get<LocalizationService>();
-        var failure = Filee.Engines.Infrastructure.EngineInstaller.MsiFailure("libreoffice", 1620, @"C:\Temp\filee-msiexec.log");
+        var failure = Filee.Engines.Infrastructure.EngineInstaller.MsiFailure("libreoffice", 1620, @"C:\Temp\morph-msiexec.log");
         try
         {
             loc.SetLanguage("ko");
             var text = EngineDownloadService.ErrorText(loc, failure);
             Assert.StartsWith(loc["error.msi_link"], text);
             Assert.NotEqual("error.msi_link", loc["error.msi_link"]);
-            Assert.EndsWith(@"(msiexec 1620, log: C:\Temp\filee-msiexec.log)", text);
+            Assert.EndsWith(@"(msiexec 1620, log: C:\Temp\morph-msiexec.log)", text);
             Assert.Equal(loc["error.msi_busy"], EngineDownloadService.ErrorText(loc, Filee.Engines.Infrastructure.EngineInstaller.MsiFailure("calibre", 1618, "log")));
         }
         finally
@@ -70,7 +70,7 @@ public class EnginesPageTests
             var text = EngineDownloadService.ErrorText(loc, new Filee.Engines.Infrastructure.EngineBusyException("libreoffice"));
             Assert.Equal(loc["error.engine_busy"], text);
             Assert.NotEqual("error.engine_busy", text);
-            Assert.DoesNotContain("being installed by another Filee", text);
+            Assert.DoesNotContain("being installed by another Morph", text);
         }
         finally
         {
@@ -234,7 +234,7 @@ public class EnginesPageTests
         }
 
         // An engines folder of the test's: the card is read again from disk after installing (#867).
-        var root = Directory.CreateTempSubdirectory("filee-engines-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-engines-").FullName;
         var downloads = new EngineDownloadService(AppHost.Get<ConverterCatalog>(), AppHost.Get<ILocalizer>(), NullLogger<EngineDownloadService>.Instance,
             new EngineInstaller(new HttpClient(), root));
         var state = downloads.Packages.First(p => p.HasOfflineMenu && p.CanInstallFromFiles && !p.Package.ConverterIds.Contains("libreoffice")
@@ -273,7 +273,7 @@ public class EnginesPageTests
             foreach (var id in package.Components) // what the installer leaves: each component's marker
             {
                 Directory.CreateDirectory(Path.Combine(root, id));
-                File.WriteAllText(Path.Combine(root, id, ".filee-component"), EngineDownloads.Components[id].Sha256);
+                File.WriteAllText(Path.Combine(root, id, ".morph-component"), EngineDownloads.Components[id].Sha256);
             }
         };
         try

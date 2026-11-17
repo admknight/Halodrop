@@ -89,7 +89,7 @@ internal sealed class AniBuilder
         var info = new MemoryStream();
         info.Write("INFO"u8);
         Chunk(info, "INAM", Encoding.ASCII.GetBytes("Busy\0")); // odd size: padded
-        Chunk(info, "IART", Encoding.ASCII.GetBytes("Filee tests\0"));
+        Chunk(info, "IART", Encoding.ASCII.GetBytes("Morph tests\0"));
         Chunk(body, "LIST", info.ToArray());
 
         var frames = new MemoryStream();

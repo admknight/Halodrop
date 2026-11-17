@@ -256,7 +256,7 @@ internal static partial class LinkedContent
             var end = text.IndexOf(@"\fldrslt", start, StringComparison.Ordinal);
             end = end < 0 ? text.Length : end;
             var instruction = text[start..end];
-            var renamed = IncludePicture().Replace(instruction, "FILEEREMOVED");
+            var renamed = IncludePicture().Replace(instruction, "MORPHREMOVED");
             builder.Append(text, at, start - at).Append(renamed);
             changed |= renamed != instruction;
             at = end;

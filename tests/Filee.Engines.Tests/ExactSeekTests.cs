@@ -27,15 +27,15 @@ public class ExactSeekTests(EngineFixture fx) : IClassFixture<EngineFixture>
     /// CI sets it where it installs FFmpeg: a missing FFmpeg or encoder then fails these tests instead of skipping
     /// them.
     /// </summary>
-    private static bool Required => Environment.GetEnvironmentVariable("FILEE_TEST_FFMPEG") == "required";
+    private static bool Required => Environment.GetEnvironmentVariable("MORPH_TEST_FFMPEG") == "required";
 
     private static void SkipUnlessInstalled()
     {
         if (Tools is null && Required)
-            Assert.Fail("FILEE_TEST_FFMPEG is required, but FFmpeg was not found.");
+            Assert.Fail("MORPH_TEST_FFMPEG is required, but FFmpeg was not found.");
         Assert.SkipUnless(Tools is not null, "FFmpeg is not installed (pwsh build/fetch-engines.ps1 -Only ffmpeg)");
         // CI names the FFmpeg it means to test, so a fallback to another one can't pass unnoticed.
-        if (Environment.GetEnvironmentVariable("FILEE_TEST_FFMPEG_FOLDER") is { Length: > 0 } folder)
+        if (Environment.GetEnvironmentVariable("MORPH_TEST_FFMPEG_FOLDER") is { Length: > 0 } folder)
             Assert.StartsWith(Path.GetFullPath(folder), Path.GetFullPath(Tools!.Value.Ffmpeg), StringComparison.Ordinal);
     }
 
@@ -309,7 +309,7 @@ public class ExactSeekTests(EngineFixture fx) : IClassFixture<EngineFixture>
         if (result.ExitCode != 0 && result.StandardError.Contains("Unknown encoder", StringComparison.OrdinalIgnoreCase))
         {
             if (Required)
-                Assert.Fail($"FILEE_TEST_FFMPEG is required, but this FFmpeg can't write {name}.");
+                Assert.Fail($"MORPH_TEST_FFMPEG is required, but this FFmpeg can't write {name}.");
             Assert.Skip($"This FFmpeg can't write {name}");
         }
         Assert.True(result.ExitCode == 0, result.StandardError);

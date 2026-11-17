@@ -20,7 +20,7 @@ namespace Filee.App.Services;
 
 internal static class WindowsRendering
 {
-    public const string Variable = "FILEE_RENDERING";
+    public const string Variable = "MORPH_RENDERING";
 
     /// <summary>FILEE_RENDERING's values besides "auto": Avalonia's defaults, as unset is on x64.</summary>
     public static readonly IReadOnlyList<string> Choices = ["dcomp", "redirection", "software", "gpu", "vulkan", "wgl"];

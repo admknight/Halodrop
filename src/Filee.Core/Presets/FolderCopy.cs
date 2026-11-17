@@ -5,7 +5,7 @@ namespace Filee.Core.Presets;
 /// <summary>Byte-preserving copies and moves, published without overwriting any existing file or folder.</summary>
 public static class FolderCopy
 {
-    private const string WorkPrefix = ".filee-copy-";
+    private const string WorkPrefix = ".morph-copy-";
 
     /// <summary>Whether two folders are on the same volume, where a move is a rename. Tests replace it.</summary>
     internal static Func<string, string, bool> SameVolume { get; set; } = (a, b) =>

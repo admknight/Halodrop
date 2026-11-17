@@ -18,7 +18,7 @@ public class SpreadsheetPrintSourceBookmarksTests(ITestOutputHelper output)
     [AvaloniaFact]
     public async Task SpreadsheetPrint_export_disables_source_bookmarks_and_creates_no_temporary_name_entries()
     {
-        var folder = Directory.CreateTempSubdirectory("filee-source-bookmark-print-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-source-bookmark-print-").FullName;
         try
         {
             var data = Path.Combine(folder, "data");

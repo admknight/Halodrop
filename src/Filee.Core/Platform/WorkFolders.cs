@@ -22,7 +22,7 @@ public static class WorkFolders
     private static string FindRoot()
     {
         if (OperatingSystem.IsWindows())
-            return Path.Combine(Path.GetTempPath(), "Filee");
+            return Path.Combine(Path.GetTempPath(), "Morph");
 
         var root = UnixRoot(Environment.GetEnvironmentVariable("XDG_CACHE_HOME"),
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), OperatingSystem.IsMacOS());
@@ -42,12 +42,12 @@ public static class WorkFolders
         // aren't swept at the next start; the system empties its temp folder.
         try
         {
-            return Directory.CreateTempSubdirectory("Filee-").FullName;
+            return Directory.CreateTempSubdirectory("Morph-").FullName;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             // Nowhere to write: the jobs fail when they make their folders, with the reason.
-            return root ?? Path.Combine(Path.GetTempPath(), "Filee-" + Guid.NewGuid().ToString("N"));
+            return root ?? Path.Combine(Path.GetTempPath(), "Morph-" + Guid.NewGuid().ToString("N"));
         }
     }
 
@@ -56,10 +56,10 @@ public static class WorkFolders
     {
         // The XDG spec ignores a relative XDG_CACHE_HOME.
         if (!macOS && Path.IsPathFullyQualified(cacheHome ?? ""))
-            return Path.Combine(cacheHome!, "filee");
+            return Path.Combine(cacheHome!, "morph");
         if (!Path.IsPathFullyQualified(home ?? ""))
             return null;
-        return macOS ? Path.Combine(home!, "Library", "Caches", "Filee") : Path.Combine(home!, ".cache", "filee");
+        return macOS ? Path.Combine(home!, "Library", "Caches", "Morph") : Path.Combine(home!, ".cache", "morph");
     }
 
     /// <summary>

@@ -17,7 +17,7 @@ public sealed class FillsTheMemory
 [Collection(FillsTheMemory.Name)]
 public sealed class ExifToolMemoryTests : IDisposable
 {
-    private readonly string _folder = Directory.CreateTempSubdirectory("filee-exiftool-memory-").FullName;
+    private readonly string _folder = Directory.CreateTempSubdirectory("morph-exiftool-memory-").FullName;
 
     public void Dispose() => Directory.Delete(_folder, recursive: true);
 

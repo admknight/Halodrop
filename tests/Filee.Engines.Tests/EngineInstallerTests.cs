@@ -13,10 +13,10 @@ namespace Filee.Engines.Tests;
 
 public sealed class EngineInstallerTests : IDisposable
 {
-    private readonly string _root = Path.Combine(Path.GetTempPath(), "filee-installer-" + Guid.NewGuid().ToString("N")[..8]);
+    private readonly string _root = Path.Combine(Path.GetTempPath(), "morph-installer-" + Guid.NewGuid().ToString("N")[..8]);
 
     /// <summary>Where the user keeps engine files they brought (#447), outside the engines folder.</summary>
-    private readonly string _files = Path.Combine(Path.GetTempPath(), "filee-installer-files-" + Guid.NewGuid().ToString("N")[..8]);
+    private readonly string _files = Path.Combine(Path.GetTempPath(), "morph-installer-files-" + Guid.NewGuid().ToString("N")[..8]);
 
     public void Dispose()
     {
@@ -28,7 +28,7 @@ public sealed class EngineInstallerTests : IDisposable
     public void A_separate_data_folder_keeps_its_own_engines()
     {
         Assert.Equal(Path.Combine(_root, "engines"), EngineEnvironment.DefaultDownloadRoot(_root));
-        Assert.Equal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Filee", "engines"),
+        Assert.Equal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Morph", "engines"),
             EngineEnvironment.DefaultDownloadRoot(null));
     }
 
@@ -232,7 +232,7 @@ public sealed class EngineInstallerTests : IDisposable
         {
             var busy = await Assert.ThrowsAsync<EngineBusyException>(() => updating.InstallAsync(package, null, TestContext.Current.CancellationToken));
             Assert.Equal("tool", busy.PackageId);
-            Assert.Contains("another Filee", busy.Message);
+            Assert.Contains("another Morph", busy.Message);
             Assert.Throws<EngineBusyException>(() => installer.Uninstall(package));
         }
 
@@ -364,7 +364,7 @@ public sealed class EngineInstallerTests : IDisposable
         var package = new EnginePackage(id, [id], 1, [id]);
         await Installer(new FakeServer(new() { [component.Url] = archive }), component).InstallAsync(package, null, TestContext.Current.CancellationToken);
         var folder = Path.Combine(_root, id);
-        foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Where(f => Path.GetFileName(f) != ".filee-component"))
+        foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Where(f => Path.GetFileName(f) != ".morph-component"))
             File.SetAttributes(file, FileAttributes.ReadOnly);
         return (package, folder);
     }
@@ -421,7 +421,7 @@ public sealed class EngineInstallerTests : IDisposable
     {
         Assert.SkipUnless(OperatingSystem.IsWindows(), "Windows refuses to move a folder with an open file.");
         var (package, folder) = await InstallReadOnly("tool");
-        var marker = File.ReadAllText(Path.Combine(folder, ".filee-component"));
+        var marker = File.ReadAllText(Path.Combine(folder, ".morph-component"));
         var update = Zip(("tool-2.0/new.exe", "new"));
         var component = Component("tool", "zip", update) with { Version = "2.0" };
         var installer = Installer(new FakeServer(new() { [component.Url] = update }), component);
@@ -429,7 +429,7 @@ public sealed class EngineInstallerTests : IDisposable
         using (new FileStream(Path.Combine(folder, "old.exe"), FileMode.Open, FileAccess.Read, FileShare.None))
             await Assert.ThrowsAnyAsync<Exception>(() => installer.InstallAsync(package, null, TestContext.Current.CancellationToken));
 
-        Assert.Equal(marker, File.ReadAllText(Path.Combine(folder, ".filee-component")));
+        Assert.Equal(marker, File.ReadAllText(Path.Combine(folder, ".morph-component")));
         Assert.Equal("old", File.ReadAllText(Path.Combine(folder, "old.exe")));
         Assert.Empty(Directory.GetDirectories(_root, "~*"));
 
@@ -610,7 +610,7 @@ public sealed class EngineInstallerTests : IDisposable
         var folder = Path.Combine(_root, "ffmpeg");
         Assert.Equal("working encoder", File.ReadAllText(Path.Combine(folder, "bin", programs[0])));
         Assert.Equal("working probe", File.ReadAllText(Path.Combine(folder, "bin", programs[1])));
-        Assert.Equal(previousComponent.Sha256, File.ReadAllText(Path.Combine(folder, ".filee-component")));
+        Assert.Equal(previousComponent.Sha256, File.ReadAllText(Path.Combine(folder, ".morph-component")));
         Assert.True(previousInstaller.IsUpToDate(package));
         Assert.True(installer.IsInstalled(package));
         Assert.False(installer.IsUpToDate(package));
@@ -778,7 +778,7 @@ public sealed class EngineInstallerTests : IDisposable
         await installer.InstallAsync(package, null, TestContext.Current.CancellationToken);
 
         Assert.True(File.Exists(Path.Combine(_root, "whisper-model", "whisper-model.model")));
-        Assert.True(File.Exists(Path.Combine(_root, "whisper-model", ".filee-component")));
+        Assert.True(File.Exists(Path.Combine(_root, "whisper-model", ".morph-component")));
         Assert.True(installer.IsInstalled(package));
         Assert.True(installer.IsUpToDate(package));
     }
@@ -996,7 +996,7 @@ public sealed class EngineInstallerTests : IDisposable
         var server = new FakeServer(new() { [toolComponent.Url] = tool, [filterComponent.Url] = filter });
         var installer = Installer(server, toolComponent, filterComponent);
         var package = new EnginePackage("tool", ["tool", "filter"], 1, ["tool"]);
-        var folder = Path.Combine(_files, "Filee engines");
+        var folder = Path.Combine(_files, "Morph engines");
         var reports = new List<EngineInstallProgress>();
 
         var saved = await installer.SaveFilesAsync(package, folder, new SyncProgress(reports.Add), TestContext.Current.CancellationToken);
@@ -1050,7 +1050,7 @@ public sealed class EngineInstallerTests : IDisposable
     [Fact]
     public void ExifTools_Windows_build_is_renamed_so_it_doesnt_wait_for_a_key_and_its_folder_is_found()
     {
-        var root = Directory.CreateTempSubdirectory("filee-exiftool-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-exiftool-").FullName;
         try
         {
             File.WriteAllText(Path.Combine(root, "exiftool(-k).exe"), "");

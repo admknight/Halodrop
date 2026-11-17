@@ -36,7 +36,7 @@ public class GerberTests(EngineFixture fx) : IClassFixture<EngineFixture>
     /// <summary>The colour at (x, y) millimetres from the drawing's top left, rendered by the vector engine at 20 px/mm.</summary>
     private static IMagickColor<byte> PixelAt(string svg, double x, double y)
     {
-        var path = Path.Combine(Path.GetTempPath(), $"filee-gerber-{Guid.NewGuid():N}.svg");
+        var path = Path.Combine(Path.GetTempPath(), $"morph-gerber-{Guid.NewGuid():N}.svg");
         File.WriteAllText(path, svg);
         try
         {

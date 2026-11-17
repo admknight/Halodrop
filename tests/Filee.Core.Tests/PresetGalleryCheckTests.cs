@@ -149,7 +149,7 @@ public sealed class PresetGalleryCheckTests
     [Fact]
     public void Other_metadata_may_be_written_and_bad_field_names_fail()
     {
-        Assert.True(Check(GalleryFiles.With(p => p["metadata"] = JsonNode.Parse("{\"set\":{\"XMP-dc:Title\":[\"Scan\"],\"EXIF:Software\":[\"Filee\"]}}"))).Ok);
+        Assert.True(Check(GalleryFiles.With(p => p["metadata"] = JsonNode.Parse("{\"set\":{\"XMP-dc:Title\":[\"Scan\"],\"EXIF:Software\":[\"Morph\"]}}"))).Ok);
         AssertFails(GalleryFiles.With(p => p["metadata"] = JsonNode.Parse("{\"set\":{\"-all=\":[\"x\"]}}")), "field.value");
         AssertFails(GalleryFiles.With(p => p["metadata"] = JsonNode.Parse("{\"set\":{\"XMP-dc:Title\":[\"see https://evil.example\"]}}")), "text.url");
     }

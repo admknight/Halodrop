@@ -118,8 +118,8 @@ public sealed class CliTests : IDisposable
         Assert.True(File.Exists(input));
     }
 
-    private readonly string _folder = Directory.CreateTempSubdirectory("filee-cli-").FullName;
-    private readonly string _settings = Directory.CreateTempSubdirectory("filee-cli-settings-").FullName;
+    private readonly string _folder = Directory.CreateTempSubdirectory("morph-cli-").FullName;
+    private readonly string _settings = Directory.CreateTempSubdirectory("morph-cli-settings-").FullName;
 
     public void Dispose()
     {
@@ -1000,13 +1000,13 @@ public sealed class CliTests : IDisposable
     public async Task Data_files_convert_to_each_other()
     {
         var json = Path.Combine(_folder, "config.json");
-        await File.WriteAllTextAsync(json, """{"name": "Filee", "ports": [80, 443]}""", TestContext.Current.CancellationToken);
+        await File.WriteAllTextAsync(json, """{"name": "Morph", "ports": [80, 443]}""", TestContext.Current.CancellationToken);
 
         var (code, output, errors) = await Run("convert", json, "--to", "yaml");
 
         Assert.Equal(Cli.Success, code);
         Assert.Equal("", errors);
-        Assert.Equal("name: Filee\nports:\n  - 80\n  - 443\n", await File.ReadAllTextAsync(Path.Combine(_folder, "config.yaml"), TestContext.Current.CancellationToken));
+        Assert.Equal("name: Morph\nports:\n  - 80\n  - 443\n", await File.ReadAllTextAsync(Path.Combine(_folder, "config.yaml"), TestContext.Current.CancellationToken));
 
         (code, output, _) = await Run("formats", "json");
         Assert.Equal(Cli.Success, code);
@@ -1022,7 +1022,7 @@ public sealed class CliTests : IDisposable
 
         (code, output, _) = await Run("--version");
         Assert.Equal(Cli.Success, code);
-        Assert.StartsWith("filee ", output);
+        Assert.StartsWith("morph ", output);
     }
 
     [Fact]
@@ -1751,7 +1751,7 @@ public sealed class CliTests : IDisposable
     public async Task Engine_less_cli_discovery_is_verified()
     {
         var packageIds = EngineDownloads.Packages.SelectMany(p => p.ConverterIds).ToHashSet();
-        if (Environment.GetEnvironmentVariable("FILEE_753_VERIFY_NO_ENGINES") == "1")
+        if (Environment.GetEnvironmentVariable("MORPH_753_VERIFY_NO_ENGINES") == "1")
         {
             await using var host = CliHost.Create(_settings);
             TestContext.Current.TestOutputHelper!.WriteLine($"BaseDirectory={AppContext.BaseDirectory}; Data={host.Store.Directory}; " +

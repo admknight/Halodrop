@@ -123,7 +123,7 @@ internal static class Gma
             var reader = new BinaryReader(stream, Encoding.UTF8, leaveOpen: true);
             var version = reader.ReadByte();
             if (version is 0 or > Version)
-                throw new InvalidDataException($"{archiveName} is a GMA of version {version}; Filee reads versions 1 to {Version}.");
+                throw new InvalidDataException($"{archiveName} is a GMA of version {version}; Morph reads versions 1 to {Version}.");
             reader.ReadUInt64(); // SteamID
             var timestamp = reader.ReadUInt64();
             if (version > 1)
@@ -143,7 +143,7 @@ internal static class Gma
             while (reader.ReadUInt32() != 0)
             {
                 if (entries.Count >= ArchiveSafety.MaxEntries)
-                    throw new InvalidDataException($"{archiveName} has more than {ArchiveSafety.MaxEntries:N0} files; Filee does not unpack it.");
+                    throw new InvalidDataException($"{archiveName} has more than {ArchiveSafety.MaxEntries:N0} files; Morph does not unpack it.");
                 var name = ReadString(stream, archiveName);
                 var size = reader.ReadInt64();
                 var crc = reader.ReadUInt32();

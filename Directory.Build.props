@@ -14,14 +14,17 @@
          parameters of a member is fine (CS1573). -->
     <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
 
-    <Version>2.5.0</Version>
-    <Product>Filee</Product>
+    <Version>0.7.0</Version>
+    <Product>Morph</Product>
     <Authors>Filee contributors</Authors>
     <Copyright>Copyright (c) Filee contributors</Copyright>
 
     <!-- Single source of truth for the GitHub repository (used by the updater and the About page). -->
-    <FileeRepositoryUrl>https://github.com/KnifeLemon/Filee</FileeRepositoryUrl>
+    <!-- Morph: the repository Morph's releases come from (the updater and the About page). Empty would turn the
+         updater off (it never asks Filee's repository). Filee itself, which Morph is based on, is UpstreamUrl. -->
+    <FileeRepositoryUrl>https://github.com/admknight/Morph</FileeRepositoryUrl>
     <RepositoryUrl>$(FileeRepositoryUrl)</RepositoryUrl>
+    <UpstreamUrl>https://github.com/KnifeLemon/Filee</UpstreamUrl>
 
     <!-- What an official build (-p:FileeRelease=true) checks before it installs an update (UpdateService).
          FileeUpdatePublicKey: the public half of Filee's update key (base64; build/new-update-key.ps1 makes the pair,

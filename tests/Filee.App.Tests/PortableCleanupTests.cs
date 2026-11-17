@@ -6,7 +6,7 @@ namespace Filee.App.Tests;
 
 public sealed class PortableCleanupTests : IDisposable
 {
-    private readonly string _data = Directory.CreateTempSubdirectory("filee-cleanup-decision-").FullName;
+    private readonly string _data = Directory.CreateTempSubdirectory("morph-cleanup-decision-").FullName;
 
     [Theory]
     [InlineData(true)]

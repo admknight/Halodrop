@@ -89,14 +89,25 @@ public sealed partial class UpdateService : ObservableObject
         // the small files (SHA256SUMS and its signature, a few hundred bytes). Waiting longer for those doesn't help: one
         // that hasn't come in 20 s is stuck, and the mirror is tried instead (FetchAsync).
         _http = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(20) };
-        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Filee", CurrentVersion));
+        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Morph", CurrentVersion));
         _http.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
     }
 
     /// <summary>GitHub repository from Directory.Build.props (FileeRepositoryUrl).</summary>
     public static string RepositoryUrl =>
         typeof(UpdateService).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
-            .FirstOrDefault(a => a.Key == "RepositoryUrl")?.Value ?? "https://github.com/KnifeLemon/Filee";
+            .FirstOrDefault(a => a.Key == "RepositoryUrl")?.Value ?? "";
+
+    /// <summary>
+    /// Morph change: whether this build has a release repository to update from. Until Morph publishes releases there is
+    /// none, and Morph never asks Filee's repository (that would "update" Morph into Filee).
+    /// </summary>
+    public static bool HasReleaseRepository =>
+        RepositoryUrl.StartsWith("https://github.com/", StringComparison.OrdinalIgnoreCase)
+        && !RepositoryUrl.Contains("KnifeLemon/Filee", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>Morph change: Filee's download mirror is never used for Morph's releases.</summary>
+    internal static bool UseFileeMirror => false;
 
     public static string CurrentVersion =>
         typeof(UpdateService).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0]
@@ -126,10 +137,10 @@ public sealed partial class UpdateService : ObservableObject
 
     internal static bool IsLinuxInstalled(string baseDirectory)
     {
-        var marker = Path.Combine(baseDirectory, ".filee-package");
+        var marker = Path.Combine(baseDirectory, ".morph-package");
         try
         {
-            return File.Exists(marker) && File.ReadAllText(marker).Trim() == "com.filee.app";
+            return File.Exists(marker) && File.ReadAllText(marker).Trim() == "app.morph";
         }
         catch (Exception)
         {
@@ -213,14 +224,14 @@ public sealed partial class UpdateService : ObservableObject
     /// <see cref="UpdateSignature"/>), or null in a build without one. With a key, an update whose checksum file has
     /// no valid signature is refused on every platform. Tests set it.
     /// </summary>
-    internal string? UpdatePublicKey { get; init; } = BuildValue("FileeUpdatePublicKey");
+    internal string? UpdatePublicKey { get; init; } = BuildValue("MorphUpdatePublicKey");
 
     /// <summary>
     /// The publisher an official build takes installers from (FileeExpectedPublisher and its issuer), whether this
     /// copy is signed or not; null compares with whoever signed this copy. Tests set it.
     /// </summary>
     internal PublisherPin? ExpectedPublisher { get; init; } = PublisherPin.From(
-        BuildValue("FileeExpectedPublisher"), BuildValue("FileeExpectedIssuer"), BuildValue("FileeExpectedSignerKeys"));
+        BuildValue("MorphExpectedPublisher"), BuildValue("MorphExpectedIssuer"), BuildValue("MorphExpectedSignerKeys"));
 
     /// <summary>The newer version found by the last check (e.g. "1.0.2"), or null when up to date / unknown.</summary>
     [ObservableProperty]
@@ -259,7 +270,7 @@ public sealed partial class UpdateService : ObservableObject
     /// </summary>
     public static bool IsReleaseBuild =>
         typeof(UpdateService).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
-            .Any(a => a.Key == "FileeRelease" && a.Value == "true");
+            .Any(a => a.Key == "MorphRelease" && a.Value == "true");
 
     /// <summary>A value the build put into the assembly (AssemblyMetadata, Filee.App.csproj), or null when empty.</summary>
     private static string? BuildValue(string key) =>
@@ -280,6 +291,8 @@ public sealed partial class UpdateService : ObservableObject
     /// </summary>
     internal async Task<bool> RefreshAsync(bool announce, CancellationToken cancellationToken = default)
     {
+        if (!HasReleaseRepository)
+            return false;   // Morph change: no release repository yet, so nothing to ask
         try
         {
             var api = RepositoryUrl.TrimEnd('/').Replace("https://github.com/", "https://api.github.com/repos/", StringComparison.OrdinalIgnoreCase)
@@ -403,7 +416,7 @@ public sealed partial class UpdateService : ObservableObject
 
         if (IsWindowsTarget(TargetPlatform))
         {
-            var folder = Path.Combine(Path.GetTempPath(), "Filee-update");
+            var folder = Path.Combine(Path.GetTempPath(), "Morph-update");
             string installer;
             try
             {
@@ -482,11 +495,11 @@ public sealed partial class UpdateService : ObservableObject
 
             var scriptPath = Path.Combine(payloadDir, "install.sh");
             var targetInstallDir = LinuxInstallDirectoryOverride ?? GetLinuxInstallDirectory();
-            var newExe = Path.Combine(targetInstallDir, "Filee");
+            var newExe = Path.Combine(targetInstallDir, "Morph");
             var currentPid = Environment.ProcessId;
             var logDir = Path.Combine(UserDataStore.DefaultDirectory, "logs");
             Directory.CreateDirectory(logDir);
-            var logFile = Path.Combine(logDir, $"filee-{DateTime.Now:yyyyMMdd}.log");
+            var logFile = Path.Combine(logDir, $"morph-{DateTime.Now:yyyyMMdd}.log");
             var markerFile = FailureMarkerPathOverride ?? Path.Combine(UserDataStore.DefaultDirectory, ".update-failed");
 
             Process? helper;
@@ -500,7 +513,7 @@ public sealed partial class UpdateService : ObservableObject
                 startInfo.ArgumentList.Add("-c");
                 startInfo.ArgumentList.Add(
                     "for _ in $(seq 1 600); do if ! kill -0 \"$1\" 2>/dev/null; then break; fi; sleep 0.1; done; " +
-                    "if kill -0 \"$1\" 2>/dev/null; then echo \"Update aborted: Filee (PID $1) did not exit within timeout\" >> \"$4\"; rm -rf \"$5\" 2>/dev/null; exit 1; fi; " +
+                    "if kill -0 \"$1\" 2>/dev/null; then echo \"Update aborted: Morph (PID $1) did not exit within timeout\" >> \"$4\"; rm -rf \"$5\" 2>/dev/null; exit 1; fi; " +
                     "\"$2\" --upgrade >> \"$4\" 2>&1; " +
                     "status=$?; " +
                     "rm -rf \"$5\" 2>/dev/null; " +
@@ -509,7 +522,7 @@ public sealed partial class UpdateService : ObservableObject
                     "else " +
                     "echo \"Update failed with status $status\" >> \"$4\"; " +
                     "echo \"$4\" > \"$6.tmp\" 2>/dev/null && mv -f \"$6.tmp\" \"$6\" 2>/dev/null || true; " +
-                    "if [ -x \"$3\" ]; then exec \"$3\" --background; else echo \"Cannot restart Filee: '$3' is not executable after rollback\" >> \"$4\"; exit $status; fi; " +
+                    "if [ -x \"$3\" ]; then exec \"$3\" --background; else echo \"Cannot restart Morph: '$3' is not executable after rollback\" >> \"$4\"; exit $status; fi; " +
                     "fi"
                 );
                 startInfo.ArgumentList.Add("_");
@@ -606,15 +619,15 @@ public sealed partial class UpdateService : ObservableObject
             throw new UpdateVerificationException($"The release has no {name}");
         }
         if (!UpdateSignature.Verify(sums, Encoding.ASCII.GetString(signature), publicKey))
-            throw new UpdateVerificationException($"{name} is not a valid signature of {checksums.Name} by Filee's update key");
+            throw new UpdateVerificationException($"{name} is not a valid signature of {checksums.Name} by Morph's update key");
         var version = VersionInName().Match(installer.Name);
         if (!version.Success || !IsNewer(version.Groups[1].Value, CurrentVersion))
             throw new UpdateVerificationException($"{installer.Name} is not a newer version than {CurrentVersion}");
-        _log.LogInformation("{Name} is signed with Filee's update key", checksums.Name);
+        _log.LogInformation("{Name} is signed with Morph's update key", checksums.Name);
     }
 
     /// <summary>"Filee-2.4.0-win-Setup.exe" → 2.4.0.</summary>
-    [GeneratedRegex(@"^Filee-(\d+\.\d+\.\d+)-")]
+    [GeneratedRegex(@"^Morph-(\d+\.\d+\.\d+)-")]
     private static partial Regex VersionInName();
 
     /// <summary>
@@ -641,7 +654,7 @@ public sealed partial class UpdateService : ObservableObject
         }
         else
         {
-            _log.LogInformation("This copy of Filee is not signed: the installer is checked by its SHA-256 only");
+            _log.LogInformation("This copy of Morph is not signed: the installer is checked by its SHA-256 only");
             return;
         }
         var signer = SignerOf(installer, true);
@@ -684,7 +697,8 @@ public sealed partial class UpdateService : ObservableObject
     /// </summary>
     internal string? MirrorUrl(string name)
     {
-        if (!IsWindowsTarget(TargetPlatform))
+        // Morph change: dl.filee.sh mirrors Filee's releases, never Morph's.
+        if (!UseFileeMirror || !IsWindowsTarget(TargetPlatform))
             return null;
         var version = VersionInName().Match(name);
         return version.Success ? MirrorRoot + version.Groups[1].Value + "/" + Uri.EscapeDataString(name) : null;
@@ -1085,22 +1099,22 @@ public sealed partial class UpdateService : ObservableObject
             }
             else
             {
-                throw new InvalidDataException("Archive does not contain a single valid Filee payload with install.sh");
+                throw new InvalidDataException("Archive does not contain a single valid Morph payload with install.sh");
             }
         }
 
         var installSh = Path.Combine(payloadDir, "install.sh");
-        var fileeExe = Path.Combine(payloadDir, "Filee");
+        var fileeExe = Path.Combine(payloadDir, "Morph");
         if (!File.Exists(installSh) || !File.Exists(fileeExe))
         {
-            throw new InvalidDataException("Archive is missing install.sh or Filee executable in the payload directory.");
+            throw new InvalidDataException("Archive is missing install.sh or Morph executable in the payload directory.");
         }
 
         if (OperatingSystem.IsLinux())
         {
             EnsureExecutable(installSh);
             EnsureExecutable(fileeExe);
-            var cli = Path.Combine(payloadDir, "filee-cli");
+            var cli = Path.Combine(payloadDir, "morph-cli");
             if (File.Exists(cli))
                 EnsureExecutable(cli);
             var uninstall = Path.Combine(payloadDir, "uninstall.sh");
@@ -1185,7 +1199,7 @@ public sealed partial class UpdateService : ObservableObject
             var root = !string.IsNullOrWhiteSpace(dataHome)
                 ? dataHome
                 : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            return Path.Combine(root, "filee");
+            return Path.Combine(root, "morph");
         }
         return Path.GetTempPath();
     }
@@ -1366,7 +1380,7 @@ public sealed partial class UpdateService : ObservableObject
         var root = !string.IsNullOrWhiteSpace(dataHome)
             ? dataHome
             : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        return Path.Combine(root, "filee", "application");
+        return Path.Combine(root, "morph", "application");
     }
 
     /// <summary>True when release tag <paramref name="tag"/> ("v1.2.0") is a higher version than <paramref name="current"/>.</summary>

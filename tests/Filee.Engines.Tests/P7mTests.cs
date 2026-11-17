@@ -32,7 +32,7 @@ public sealed class P7mTests(EngineFixture fx) : IClassFixture<EngineFixture>, I
     private static X509Certificate2 SelfSigned()
     {
         using var key = RSA.Create(2048);
-        var request = new CertificateRequest("CN=Filee test signer", key, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        var request = new CertificateRequest("CN=Morph test signer", key, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         return request.CreateSelfSigned(DateTimeOffset.UtcNow.AddDays(-1), DateTimeOffset.UtcNow.AddDays(1));
     }
 

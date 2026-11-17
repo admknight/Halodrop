@@ -13,8 +13,8 @@ namespace Filee.Cli.Tests;
 [Collection("Cli")] // EngineEnvironment.OwnCopies and SearchSystem are process-wide, as in CliTests
 public sealed class EnginesCommandTests : IDisposable
 {
-    private readonly string _settings = Directory.CreateTempSubdirectory("filee-engines-settings-").FullName;
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-engines-root-").FullName;
+    private readonly string _settings = Directory.CreateTempSubdirectory("morph-engines-settings-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-engines-root-").FullName;
     private readonly bool _searchSystem = EngineEnvironment.SearchSystem;
     private readonly FakeServer _server = new();
     private readonly Dictionary<string, EngineComponent> _components = [];
@@ -109,7 +109,7 @@ public sealed class EnginesCommandTests : IDisposable
         (code, output, _) = await Run("engines");
         Assert.Equal(0, code);
         Assert.Contains(output.Split('\n'), l => l.StartsWith("pandoc ", StringComparison.Ordinal) && l.Contains("not installed") && l.Contains("1.0"));
-        Assert.Contains("filee engines install <id>", output);
+        Assert.Contains("morph engines install <id>", output);
     }
 
     [Fact]
@@ -183,13 +183,13 @@ public sealed class EnginesCommandTests : IDisposable
             var result = JsonDocument.Parse(output).RootElement;
             Assert.Equal(["id", "state", "error"], Names(result));
             Assert.Equal("failed", result.GetProperty("state").GetString());
-            Assert.Equal("pandoc is being installed by another Filee. Try again when it has finished.", result.GetProperty("error").GetString());
+            Assert.Equal("pandoc is being installed by another Morph. Try again when it has finished.", result.GetProperty("error").GetString());
             Assert.Empty(errors);
 
             (code, output, errors) = await Run("engines", "install", "pandoc");
             Assert.Equal(1, code);
             Assert.Empty(output);
-            Assert.Equal("filee: pandoc is being installed by another Filee. Try again when it has finished.", errors.Trim());
+            Assert.Equal("morph: pandoc is being installed by another Morph. Try again when it has finished.", errors.Trim());
         }
         Assert.Empty(_server.Requests);
         Assert.Equal(0, (await Run("engines", "install", "pandoc")).Code);
@@ -215,7 +215,7 @@ public sealed class EnginesCommandTests : IDisposable
     [Fact]
     public async Task The_users_own_copy_is_listed_and_neither_replaced_nor_removed()
     {
-        var own = Directory.CreateTempSubdirectory("filee-own-pandoc-").FullName;
+        var own = Directory.CreateTempSubdirectory("morph-own-pandoc-").FullName;
         try
         {
             var program = Path.Combine(own, EngineEnvironment.OwnCopyPrograms["pandoc"][0]);
@@ -318,7 +318,7 @@ public sealed class EnginesCommandTests : IDisposable
         var (code, output, errors) = await Run(args);
         Assert.Equal(2, code);
         Assert.Empty(output);
-        Assert.StartsWith("filee: ", errors);
+        Assert.StartsWith("morph: ", errors);
         Assert.Empty(_server.Requests);
     }
 

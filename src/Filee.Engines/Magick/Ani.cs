@@ -285,7 +285,7 @@ internal static class Ani
             throw new InvalidDataException("This animated cursor has no header (anih chunk): the file is damaged.");
         if ((flags & IconFlag) == 0)
             throw new InvalidDataException(
-                "This animated cursor stores its frames as raw bitmaps, which Filee can't read. Open it in a cursor " +
+                "This animated cursor stores its frames as raw bitmaps, which Morph can't read. Open it in a cursor " +
                 "editor and save it again, or save its frames as .cur files.");
         if (frames.Count == 0)
             throw new InvalidDataException("This animated cursor has no frames (icon chunks): the file is damaged.");

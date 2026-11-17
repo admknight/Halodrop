@@ -18,7 +18,7 @@ public class UninstallCopyTests
         Assert.SkipUnless(OperatingSystem.IsWindows(), "The uninstaller is for Windows.");
         using var temp = new TempFolder();
         var paths = SetupPaths.Sandbox(temp.Sub("pc"));
-        var exe = temp.Write(@"Filee\uninstall.exe", "uninstaller");
+        var exe = temp.Write(@"Morph\uninstall.exe", "uninstaller");
 
         var copy = Program.CopyUninstaller(exe, paths, elevated: false);
         var folder = Path.GetDirectoryName(copy)!;
@@ -36,7 +36,7 @@ public class UninstallCopyTests
         Assert.SkipUnless(OperatingSystem.IsWindows() && NativeMethods.IsElevated(), "Needs administrator rights, like the CI runner.");
         using var temp = new TempFolder();
         var paths = SetupPaths.Sandbox(temp.Sub("pc"));
-        var exe = temp.Write(@"Filee\uninstall.exe", "uninstaller");
+        var exe = temp.Write(@"Morph\uninstall.exe", "uninstaller");
 
         var copy = Program.CopyUninstaller(exe, paths, elevated: true);
         var folder = Path.GetDirectoryName(copy)!;
@@ -86,11 +86,11 @@ public class UninstallCopyTests
     public void The_copy_waits_for_every_uninstaller_in_the_install_folder()
     {
         string[] args = ["/SILENT", "/DIR=old", "/LOG=old.log", "/FIRSTPHASE=9", "/UNINSTALL", "/LANG=ko"];
-        var child = Program.SecondPhaseArgs(args, @"C:\Program Files\Filee", @"C:\Users\a b\Temp\u.log", [12, 34]).ToArray();
-        Assert.Equal(["/SILENT", "/LANG=ko", "/UNINSTALL", @"/DIR=C:\Program Files\Filee", @"/LOG=C:\Users\a b\Temp\u.log", "/FIRSTPHASE=12,34"], child);
+        var child = Program.SecondPhaseArgs(args, @"C:\Program Files\Morph", @"C:\Users\a b\Temp\u.log", [12, 34]).ToArray();
+        Assert.Equal(["/SILENT", "/LANG=ko", "/UNINSTALL", @"/DIR=C:\Program Files\Morph", @"/LOG=C:\Users\a b\Temp\u.log", "/FIRSTPHASE=12,34"], child);
         var options = SetupOptions.Parse(child);
         Assert.Equal([12, 34], options.FirstPhase);
-        Assert.Equal(@"C:\Program Files\Filee", options.Directory);
+        Assert.Equal(@"C:\Program Files\Morph", options.Directory);
     }
 
     /// <summary>

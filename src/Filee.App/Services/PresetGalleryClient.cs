@@ -48,7 +48,7 @@ public sealed class PresetGalleryClient : IDisposable
     public PresetGalleryClient(HttpMessageHandler? handler = null, string? cacheFolder = null)
     {
         _http = new HttpClient(handler ?? new HttpClientHandler(), disposeHandler: true) { Timeout = RequestTimeout + TimeSpan.FromSeconds(5) };
-        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Filee", UpdateService.CurrentVersion));
+        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Morph", UpdateService.CurrentVersion));
         _cache = cacheFolder ?? Path.Combine(WorkFolders.Root, "gallery");
         if (_cache.Length == 0)
             _cache = null;

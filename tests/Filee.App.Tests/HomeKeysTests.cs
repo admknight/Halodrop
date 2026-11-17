@@ -35,7 +35,7 @@ public class HomeKeysTests
     public void Arrows_select_the_queued_cards_only_while_the_queue_has_the_focus()
     {
         TestServices.EnsureInitialized("en");
-        var folder = Directory.CreateTempSubdirectory("filee-home-keys-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-home-keys-").FullName;
         var paths = new List<string>();
         for (var i = 1; i <= 6; i++)
         {

@@ -159,7 +159,7 @@ public class UiZoomTests
     public void The_size_is_written_once_after_a_moment_without_applying_the_other_settings()
     {
         TestServices.EnsureInitialized("en");
-        var directory = Directory.CreateTempSubdirectory("filee-zoom-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-zoom-").FullName;
         var window = Tracked();
         try
         {
@@ -203,7 +203,7 @@ public class UiZoomTests
     [Fact]
     public void Settings_from_before_the_zoom_read_as_100_percent()
     {
-        var directory = Directory.CreateTempSubdirectory("filee-zoom-old-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-zoom-old-").FullName;
         try
         {
             File.WriteAllText(Path.Combine(directory, "settings.json"), "{\"SchemaVersion\": 38}");
@@ -288,7 +288,7 @@ public class UiZoomTests
     public void Theme_page_shows_the_window_size_and_resets_it(string language)
     {
         TestServices.EnsureInitialized(language);
-        var directory = Directory.CreateTempSubdirectory("filee-zoom-theme-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-zoom-theme-").FullName;
         var store = new UserDataStore(directory);
         store.Load();
         UiZoom.Configure(1, save: null);

@@ -111,7 +111,7 @@ public class UpscalerTests
             using (var img = new MagickImage(MagickColors.Blue, 200, 100))
             {
                 var exif = new ExifProfile();
-                exif.SetValue(ExifTag.Make, "FileePhone");
+                exif.SetValue(ExifTag.Make, "MorphPhone");
                 exif.SetValue(ExifTag.Orientation, (ushort)Orientation.RightTop);
                 img.SetProfile(exif);
                 img.SetProfile(ColorProfiles.AdobeRGB1998);
@@ -135,7 +135,7 @@ public class UpscalerTests
             }
 
             Assert.NotNull(exifProfile);
-            Assert.Equal("FileePhone", exifProfile.GetValue(ExifTag.Make)?.Value);
+            Assert.Equal("MorphPhone", exifProfile.GetValue(ExifTag.Make)?.Value);
             Assert.NotNull(iccProfile);
 
             // 2. FinishImage must write out the finished picture preserving metadata and upright dimensions
@@ -151,7 +151,7 @@ public class UpscalerTests
                 Assert.True(result.Orientation is Orientation.TopLeft or Orientation.Undefined);
                 var resultExif = result.GetExifProfile();
                 Assert.NotNull(resultExif);
-                Assert.Equal("FileePhone", resultExif.GetValue(ExifTag.Make)?.Value);
+                Assert.Equal("MorphPhone", resultExif.GetValue(ExifTag.Make)?.Value);
                 Assert.NotNull(result.GetColorProfile());
             }
         }

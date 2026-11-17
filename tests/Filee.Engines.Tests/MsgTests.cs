@@ -24,13 +24,13 @@ public class MsgTests(EngineFixture fx) : IClassFixture<EngineFixture>
             SenderEmail = "sender@example.com",
             Body = "안녕하세요. 자료를 보냅니다.\r\n둘째 줄",
             Html = "<html><head><style>p { color: #C00000; }</style></head><body><p>안녕하세요. 자료를 보냅니다.</p>" +
-                   "<img src=\"cid:logo@filee\"></body></html>",
+                   "<img src=\"cid:logo@morph\"></body></html>",
             MessageId = "<meeting-1@example.com>",
             Recipients = { ("Receiver", "receiver@example.com", 1), ("Copy", "copy@example.com", 2) },
             Attachments =
             {
                 ("보고서.pdf", Report, "application/pdf", null),
-                ("logo.png", logo.ToByteArray(MagickFormat.Png), "image/png", "logo@filee"),
+                ("logo.png", logo.ToByteArray(MagickFormat.Png), "image/png", "logo@morph"),
             },
             AttachedMessages = { new MsgBuilder { Subject = "Earlier mail", SenderName = "Old", SenderEmail = "old@example.com", Body = "older text" } },
         };
@@ -61,7 +61,7 @@ public class MsgTests(EngineFixture fx) : IClassFixture<EngineFixture>
         Assert.Equal("meeting-1@example.com", mime.MessageId);
         // MimeKit writes the EML with the platform's line endings (LF on macOS and Linux).
         Assert.Equal("안녕하세요. 자료를 보냅니다.\n둘째 줄", mime.TextBody.TrimEnd().ReplaceLineEndings("\n"));
-        Assert.Contains("<img src=\"cid:logo@filee\">", mime.HtmlBody);
+        Assert.Contains("<img src=\"cid:logo@morph\">", mime.HtmlBody);
 
         var attachments = mime.Attachments.ToList();
         Assert.Equal(2, attachments.Count); // the PDF and the attached message; the logo is part of the body
@@ -73,7 +73,7 @@ public class MsgTests(EngineFixture fx) : IClassFixture<EngineFixture>
         var attached = Assert.IsType<MessagePart>(attachments[1]);
         Assert.Equal("Earlier mail", attached.Message.Subject);
         Assert.Equal("older text", attached.Message.TextBody.TrimEnd());
-        Assert.Contains(mime.BodyParts.OfType<MimePart>(), p => p.ContentId == "logo@filee");
+        Assert.Contains(mime.BodyParts.OfType<MimePart>(), p => p.ContentId == "logo@morph");
     }
 
     [Fact]

@@ -459,7 +459,7 @@ public class HideWindowTests
         // Each test starts from the built-in choice, unless it looks at what the last one kept.
         if (resetTool)
             HideTool.Remember(tool, HideStyle.Pixelate, HideTool.DefaultStrength);
-        var folder = Directory.CreateTempSubdirectory("filee-hide-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-hide-").FullName;
         HideWindow? window = null;
         var exported = new List<(string, Preset)>();
         try

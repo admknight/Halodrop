@@ -82,9 +82,19 @@ public partial class RadialWindow : Window
         Donut.SetExternalHit(hit, at);
 
         // Always COPY. Reporting MOVE would make Explorer delete the source files after the drop.
-        e.DragEffects = _dragOffersFiles && Donut.Converts(hit) ? DragDropEffects.Copy : DragDropEffects.None;
+        // Morph change: the riding bubble takes the drop anywhere (the donut opens where it lands).
+        e.DragEffects = _dragOffersFiles && (Donut.HubOnly || Donut.Converts(hit)) ? DragDropEffects.Copy : DragDropEffects.None;
         e.Handled = true;
+        // Morph change: where the cursor is against the hub, for a donut that rides with it.
+        if (_dragOffersFiles)
+            DragMoved?.Invoke(at - Donut.HubCenter);
     }
+
+    /// <summary>
+    /// Morph change: during a drag with files, how far the cursor is from the hub's centre (in the window's units), for a
+    /// donut that rides with the cursor (Settings → Shortcuts → Open the donut).
+    /// </summary>
+    public event Action<Vector>? DragMoved;
 
     private void OnDragLeave(object? sender, DragEventArgs e)
     {
@@ -99,7 +109,7 @@ public partial class RadialWindow : Window
         DragSummary?.Invoke(_dragOverEvents, hit, Donut.LitAmount(hit.Index), true);
         Donut.CollapseGroup();
         Donut.SetExternalHighlight(-1);
-        e.DragEffects = Donut.Converts(hit) ? DragDropEffects.Copy : DragDropEffects.None;
+        e.DragEffects = Donut.HubOnly || Donut.Converts(hit) ? DragDropEffects.Copy : DragDropEffects.None;
         var dropped = DraggedFiles.Read(e.DataTransfer, forDrop: true);
         if (Dropped is { } handler)
             handler(hit, dropped);

@@ -38,6 +38,16 @@ public sealed partial class AboutPageViewModel : ObservableObject, IDisposable
 
     public string RepositoryUrl { get; } = UpdateService.RepositoryUrl;
 
+    /// <summary>Morph change: links to the project only once Morph has a repository of its own.</summary>
+    public bool HasRepository { get; } = UpdateService.HasReleaseRepository;
+
+    /// <summary>Morph change: who makes Morph, and where to find them.</summary>
+    public string DeveloperName => MorphDeveloper.Name;
+
+    public string DeveloperUrl => MorphDeveloper.Url;
+
+    public string DeveloperLinkText => MorphDeveloper.Url.Replace("https://", "", StringComparison.Ordinal);
+
     /// <summary>"What's new in Filee 2.0": the slides of the newest version up to this one; null when there are none.</summary>
     public string? WhatsNewText { get; }
 
@@ -100,7 +110,7 @@ public sealed partial class AboutPageViewModel : ObservableObject, IDisposable
 
     private static string ReadNotices()
     {
-        var uri = new Uri("avares://Filee/Assets/THIRD-PARTY-NOTICES.md");
+        var uri = new Uri("avares://Morph/Assets/THIRD-PARTY-NOTICES.md");
         if (!AssetLoader.Exists(uri))
             return "";
         using var reader = new StreamReader(AssetLoader.Open(uri));

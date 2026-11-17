@@ -82,7 +82,7 @@ public class RenderTests
     public void General_page_icon_rows_follow_platform_and_saved_values()
     {
         TestServices.EnsureInitialized("en");
-        var directory = Directory.CreateTempSubdirectory("filee-icons-render-").FullName;
+        var directory = Directory.CreateTempSubdirectory("morph-icons-render-").FullName;
         try
         {
             var store = new UserDataStore(directory);
@@ -177,7 +177,7 @@ public class RenderTests
         TestServices.EnsureInitialized(language);
         var store = AppHost.Get<Filee.Core.Settings.UserDataStore>();
         var conversions = AppHost.Get<ConversionService>();
-        var folder = Directory.CreateTempSubdirectory("filee-watch-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-watch-").FullName;
         var broken = Path.Combine(folder, "scan-0412.heic");
         File.WriteAllBytes(broken, [0]);
         var rule = new Filee.Core.Watching.WatchRule { Folder = folder, PresetId = "to-pdf", Enabled = false };
@@ -242,7 +242,7 @@ public class RenderTests
     {
         TestServices.EnsureInitialized(language);
         var store = AppHost.Get<Filee.Core.Settings.UserDataStore>();
-        var folder = Directory.CreateTempSubdirectory("filee-watch-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-watch-").FullName;
         File.WriteAllBytes(Path.Combine(folder, "notes.txt"), [0x41]);
         File.WriteAllBytes(Path.Combine(folder, "IMG_0412.jpg"), [0xFF, 0xD8]);
         var rule = new Filee.Core.Watching.WatchRule
@@ -333,7 +333,7 @@ public class RenderTests
     {
         TestServices.EnsureInitialized(language);
         var store = AppHost.Get<Filee.Core.Settings.UserDataStore>();
-        var folder = Directory.CreateTempSubdirectory("filee-home-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-home-").FullName;
         var scan = Path.Combine(folder, "scan-0412.heic");
         File.WriteAllBytes(scan, [0]);
         var entry = new Filee.Core.History.HistoryEntry

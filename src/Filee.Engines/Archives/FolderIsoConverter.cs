@@ -42,9 +42,9 @@ public sealed class FolderIsoConverter : IConverter
             var output = step.Output.Allocate("iso");
             if (output is null) return [];
             output = Path.GetFullPath(output);
-            var builder = new CDBuilder { UseJoliet = true, VolumeIdentifier = "FILEE" };
+            var builder = new CDBuilder { UseJoliet = true, VolumeIdentifier = "MORPH" };
             var udf = step.Preset.Archive.IsoFileSystem == IsoFileSystem.Udf201
-                ? new UdfBuilder { VolumeIdentifier = "FILEE" } : null;
+                ? new UdfBuilder { VolumeIdentifier = "MORPH" } : null;
             if (!Enum.IsDefined(step.Preset.Archive.IsoFileSystem))
                 throw new ArgumentException("Unknown ISO filesystem.");
             var sources = new List<(string Path, long Length, DateTime Modified)>();
@@ -86,7 +86,7 @@ public sealed class FolderIsoConverter : IConverter
             // Build the manifest before opening the temporary output, including when the destination is in the source.
             Add(root, "");
             ct.ThrowIfCancellationRequested();
-            var temporary = Path.Combine(Path.GetDirectoryName(output)!, ".filee-iso-" + Guid.NewGuid().ToString("N") + ".tmp");
+            var temporary = Path.Combine(Path.GetDirectoryName(output)!, ".morph-iso-" + Guid.NewGuid().ToString("N") + ".tmp");
             try
             {
                 using (var image = udf is null ? builder.Build() : udf.Build())

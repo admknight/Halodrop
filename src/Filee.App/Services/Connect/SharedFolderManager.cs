@@ -34,7 +34,7 @@ public sealed class SharedFolderManager
         _log = log;
         var baseDir = store?.Directory ?? UserDataStore.DefaultDirectory;
         _storageDir = storageDir ?? Path.Combine(baseDir, "ConnectShared");
-        _tempDir = tempDir ?? Path.Combine(Path.GetTempPath(), "FileeConnect_" + Guid.NewGuid().ToString("N"));
+        _tempDir = tempDir ?? Path.Combine(Path.GetTempPath(), "MorphConnect_" + Guid.NewGuid().ToString("N"));
     }
 
     public SharedFolderManager(ILogger<SharedFolderManager> log, string? storageDir, string? tempDir)
@@ -73,7 +73,7 @@ public sealed class SharedFolderManager
             try
             {
                 var tempRoot = Path.GetTempPath();
-                foreach (var dir in Directory.EnumerateDirectories(tempRoot, "FileeConnect_*"))
+                foreach (var dir in Directory.EnumerateDirectories(tempRoot, "MorphConnect_*"))
                 {
                     if (!string.Equals(dir, _tempDir, StringComparison.OrdinalIgnoreCase))
                     {

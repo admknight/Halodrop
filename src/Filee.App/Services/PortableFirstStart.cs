@@ -12,10 +12,10 @@ internal static class PortableFirstStart
     public static async Task RunAsync()
     {
         if (!PortableMode.IsEnabled || PortableMode.DataDirectory is not { } destination) return;
-        var source = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Filee");
+        var source = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Morph");
         if (PortableImport.CanOffer(source, destination))
         {
-            var engines = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Filee", "engines");
+            var engines = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Morph", "engines");
             var selection = new PortableImport.Selection { Engines = Directory.Exists(engines) };
             var engineBytes = await Task.Run(() => PortableImport.EngineSize(engines));
             var prompt = string.Format(System.Globalization.CultureInfo.CurrentCulture,
@@ -54,7 +54,7 @@ internal static class PortableFirstStart
         var answer = new TaskCompletionSource<bool>();
         var window = new Window
         {
-            Title = "Filee",
+            Title = "Morph",
             Width = 640,
             SizeToContent = SizeToContent.Height,
             CanResize = false,

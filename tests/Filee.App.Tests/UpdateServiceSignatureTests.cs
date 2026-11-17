@@ -16,7 +16,7 @@ namespace Filee.App.Tests;
 public class UpdateServiceSignatureTests
 {
     private const string Base = "https://example.test/v9.9.9/";
-    private const string Setup = "Filee-9.9.9-win-Setup.exe";
+    private const string Setup = "Morph-9.9.9-win-Setup.exe";
 
     // ───────── SHA256SUMS signed with the update key ─────────
 
@@ -96,11 +96,11 @@ public class UpdateServiceSignatureTests
         // A real, signed checksum file of an old release, attached to a release with a higher tag.
         using var key = ECDsa.Create(ECCurve.NamedCurves.nistP256);
         var installer = RandomNumberGenerator.GetBytes(1_000);
-        var sums = Sums(installer, "Filee-1.0.0-win-Setup.exe");
+        var sums = Sums(installer, "Morph-1.0.0-win-Setup.exe");
         var network = new SignedRelease(installer, sums, Sign(key, sums));
 
         var error = await Assert.ThrowsAsync<UpdateVerificationException>(() =>
-            Updates(network, PublicKey(key), installer.Length, "Filee-1.0.0-win-Setup.exe")
+            Updates(network, PublicKey(key), installer.Length, "Morph-1.0.0-win-Setup.exe")
                 .DownloadInstallerAsync(TempFolder(), null, TestContext.Current.CancellationToken));
         Assert.Contains("not a newer version", error.Message);
     }
@@ -123,7 +123,7 @@ public class UpdateServiceSignatureTests
     {
         using var key = ECDsa.Create(ECCurve.NamedCurves.nistP256);
         var archive = RandomNumberGenerator.GetBytes(1_000);
-        var name = "Filee-9.9.9-linux-x64.tar.gz";
+        var name = "Morph-9.9.9-linux-x64.tar.gz";
         var network = new SignedRelease(archive, Sums(archive, name), signature: null);
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, network)
         {
@@ -132,7 +132,7 @@ public class UpdateServiceSignatureTests
             UpdatePublicKey = PublicKey(key),
         };
         updates.UseRelease(new UpdateService.ReleaseFile(name, Base + name, archive.Length),
-            new UpdateService.ReleaseFile("Filee-9.9.9-linux-x64-SHA256SUMS.txt", Base + "Filee-9.9.9-linux-x64-SHA256SUMS.txt", 100));
+            new UpdateService.ReleaseFile("Morph-9.9.9-linux-x64-SHA256SUMS.txt", Base + "Morph-9.9.9-linux-x64-SHA256SUMS.txt", 100));
         var started = new List<ProcessStartInfo>();
         updates.StartProcess = psi =>
         {
@@ -178,12 +178,12 @@ public class UpdateServiceSignatureTests
         List<string>? asked = null) =>
         new(NullLogger<UpdateService>.Instance, new SignedRelease([], [], null))
         {
-            OwnProgram = "Filee.exe",
+            OwnProgram = "Morph.exe",
             ExpectedPublisher = pin,
             SignerOf = (path, _) =>
             {
                 asked?.Add(path);
-                return path == "Filee.exe" ? own : installer;
+                return path == "Morph.exe" ? own : installer;
             },
         };
 
@@ -196,7 +196,7 @@ public class UpdateServiceSignatureTests
         var kept = InstallerFile();
         Pinned(Pin(), own: null, Publisher, asked).CheckPublisher(kept);
         Assert.True(File.Exists(kept));
-        Assert.DoesNotContain("Filee.exe", asked); // the pin, not this copy, says who the publisher is
+        Assert.DoesNotContain("Morph.exe", asked); // the pin, not this copy, says who the publisher is
 
         var refused = InstallerFile();
         Assert.Throws<UpdateVerificationException>(() =>
@@ -239,11 +239,11 @@ public class UpdateServiceSignatureTests
     {
         Assert.Null(UpdateService.PublisherPin.From(null, "CN=CA", null));
 
-        var pin = UpdateService.PublisherPin.From("CN=Filee", "CN=Old CA | CN=New CA", null)!;
+        var pin = UpdateService.PublisherPin.From("CN=Morph", "CN=Old CA | CN=New CA", null)!;
 
         Assert.Equal(["CN=Old CA", "CN=New CA"], pin.Issuers);
         Assert.Empty(pin.Keys);
-        Assert.True(pin.Accepts(new AuthenticodeSigner("CN=Filee", "CN=New CA", new string('d', 64))));
+        Assert.True(pin.Accepts(new AuthenticodeSigner("CN=Morph", "CN=New CA", new string('d', 64))));
     }
 
     [Fact]
@@ -259,7 +259,7 @@ public class UpdateServiceSignatureTests
     // ───────── Helpers ─────────
 
     private static byte[] Sums(byte[] installer, string name = Setup) =>
-        Encoding.ASCII.GetBytes($"{new string('1', 64)}  Filee-9.9.9-win-Portable.zip\n" +
+        Encoding.ASCII.GetBytes($"{new string('1', 64)}  Morph-9.9.9-win-Portable.zip\n" +
                                 $"{Convert.ToHexStringLower(SHA256.HashData(installer))}  {name}\n");
 
     private static string Sign(ECDsa key, byte[] data) => Convert.ToBase64String(key.SignData(data, HashAlgorithmName.SHA256)) + "\n";
@@ -270,13 +270,13 @@ public class UpdateServiceSignatureTests
     {
         var updates = new UpdateService(NullLogger<UpdateService>.Instance, network) { UpdatePublicKey = publicKey };
         updates.UseRelease(new UpdateService.ReleaseFile(name, Base + name, size),
-            new UpdateService.ReleaseFile("Filee-9.9.9-SHA256SUMS.txt", Base + "Filee-9.9.9-SHA256SUMS.txt", 100));
+            new UpdateService.ReleaseFile("Morph-9.9.9-SHA256SUMS.txt", Base + "Morph-9.9.9-SHA256SUMS.txt", 100));
         return updates;
     }
 
     private static string TempFolder()
     {
-        var folder = Path.Combine(Path.GetTempPath(), "filee-update-test-" + Guid.NewGuid().ToString("N"));
+        var folder = Path.Combine(Path.GetTempPath(), "morph-update-test-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(folder);
         return folder;
     }

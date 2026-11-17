@@ -10,7 +10,7 @@ namespace Filee.Platform.Tests;
 public sealed class MacOSAliasTests : IDisposable
 {
     // The temporary folder is under /var, a symbolic link to /private/var, and a resolved alias gives the real path.
-    private readonly string _folder = RealPath(Directory.CreateTempSubdirectory("filee-alias-").FullName);
+    private readonly string _folder = RealPath(Directory.CreateTempSubdirectory("morph-alias-").FullName);
 
     private static string RealPath(string path) =>
         path.StartsWith("/var/", StringComparison.Ordinal) ? "/private" + path : path;

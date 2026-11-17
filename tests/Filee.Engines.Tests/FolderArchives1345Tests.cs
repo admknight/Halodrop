@@ -8,7 +8,7 @@ namespace Filee.Engines.Tests;
 
 public sealed class FolderArchives1345Tests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-folder-archives-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-folder-archives-").FullName;
     public void Dispose() => Directory.Delete(_root, true);
 
     private string Folder(string name)

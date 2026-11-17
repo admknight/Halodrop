@@ -1111,7 +1111,7 @@ public class CropOverlayTests
         var theme = AppHost.Get<ThemeService>();
         if (dark)
             theme.Apply(new ThemeSettings { Mode = ThemeMode.Dark }, language);
-        var folder = Directory.CreateTempSubdirectory("filee-crop-perspective-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-crop-perspective-").FullName;
         CropOverlayWindow? window = null;
         try
         {
@@ -1179,7 +1179,7 @@ public class CropOverlayTests
         var theme = AppHost.Get<ThemeService>();
         if (dark)
             theme.Apply(new ThemeSettings { Mode = ThemeMode.Dark }, language);
-        var folder = Directory.CreateTempSubdirectory("filee-crop-overlay-").FullName;
+        var folder = Directory.CreateTempSubdirectory("morph-crop-overlay-").FullName;
         CropOverlayWindow? window = null;
         try
         {

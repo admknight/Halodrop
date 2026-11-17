@@ -8,9 +8,9 @@ namespace Filee.Platform.Tests;
 
 public sealed class UnixPortableIntegrationTests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-portable-integration-").FullName;
-    private const string Executable = "/opt/Filee's portable % $ copy/Filee";
-    private const string Other = "/opt/Installed Filee/Filee";
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-portable-integration-").FullName;
+    private const string Executable = "/opt/Morph's portable % $ copy/Morph";
+    private const string Other = "/opt/Installed Morph/Morph";
 
     [Theory]
     [InlineData(true, true)]
@@ -35,8 +35,8 @@ public sealed class UnixPortableIntegrationTests : IDisposable
         Assert.Equal(ownStartup || ownMenu, cleanup.HasOwnedEntries(Executable));
         cleanup.RemoveOwnedEntries(Executable);
         Assert.False(cleanup.HasOwnedEntries(Executable));
-        Assert.Equal(!ownStartup, File.Exists(Path.Combine(config, "autostart", "filee.desktop")));
-        foreach (var path in new[] { "Thunar/sendto/filee.desktop", "nautilus/scripts/Filee", "nemo/actions/filee.nemo_action", "kio/servicemenus/filee.desktop" })
+        Assert.Equal(!ownStartup, File.Exists(Path.Combine(config, "autostart", "morph.desktop")));
+        foreach (var path in new[] { "Thunar/sendto/morph.desktop", "nautilus/scripts/Morph", "nemo/actions/morph.nemo_action", "kio/servicemenus/morph.desktop" })
             Assert.Equal(!ownMenu, File.Exists(Path.Combine(data, path)));
         document = XDocument.Load(thunar);
         Assert.Contains(document.Root!.Elements("action"), a => (string?)a.Element("command") == "echo keep");
@@ -53,8 +53,8 @@ public sealed class UnixPortableIntegrationTests : IDisposable
         var data = Path.Combine(_root, "data");
         var normal = new LinuxDesktopIntegration(config, data);
         normal.SetAutostart(true, Executable);
-        var startup = Path.Combine(config, "autostart", "filee.desktop");
-        File.AppendAllText(startup, "Exec=\"/opt/Other/Filee\" --background\n");
+        var startup = Path.Combine(config, "autostart", "morph.desktop");
+        File.AppendAllText(startup, "Exec=\"/opt/Other/Morph\" --background\n");
         var thunar = Path.Combine(config, "Thunar", "uca.xml");
         Directory.CreateDirectory(Path.GetDirectoryName(thunar)!);
         File.WriteAllText(thunar, "<actions><broken");
@@ -69,8 +69,8 @@ public sealed class UnixPortableIntegrationTests : IDisposable
     public void Linux_portable_paths_that_cannot_be_registered_do_not_break_first_start()
     {
         var cleanup = new LinuxPortableIntegration(Path.Combine(_root, "config"), Path.Combine(_root, "data"));
-        Assert.False(cleanup.HasOwnedEntries("/opt/portable=copy/Filee"));
-        cleanup.RemoveOwnedEntries("/opt/portable=copy/Filee");
+        Assert.False(cleanup.HasOwnedEntries("/opt/portable=copy/Morph"));
+        cleanup.RemoveOwnedEntries("/opt/portable=copy/Morph");
     }
 
     [Theory]
@@ -80,7 +80,7 @@ public sealed class UnixPortableIntegrationTests : IDisposable
     [InlineData(false, true)]
     public void Mac_cleanup_preserves_entries_for_other_executables(bool ownAgent, bool ownWorkflow)
     {
-        var agent = Write("Library/LaunchAgents/com.filee.app.plist", MacOSIntegrationFiles.LaunchAgent(ownAgent ? Executable : Other));
+        var agent = Write("Library/LaunchAgents/app.morph.plist", MacOSIntegrationFiles.LaunchAgent(ownAgent ? Executable : Other));
         var workflow = WriteWorkflow(ownWorkflow ? Executable : Other);
         var sharedPreferences = Write("Library/Preferences/pbs.plist", "shared Finder service preferences");
         var cleanup = new MacOSPortableIntegration(Path.Combine(_root, "Library"));
@@ -96,7 +96,7 @@ public sealed class UnixPortableIntegrationTests : IDisposable
     [Fact]
     public void Mac_bundle_workflow_is_matched_using_its_exact_quoted_open_command()
     {
-        const string executable = "/Users/a & b/Portable 'copy'/Filee.app/Contents/MacOS/Filee";
+        const string executable = "/Users/a & b/Portable 'copy'/Morph.app/Contents/MacOS/Morph";
         var workflow = WriteWorkflow(executable);
         var cleanup = new MacOSPortableIntegration(Path.Combine(_root, "Library"));
         Assert.False(cleanup.HasOwnedEntries(executable + ".old"));
@@ -108,12 +108,12 @@ public sealed class UnixPortableIntegrationTests : IDisposable
     [Fact]
     public void Mac_does_not_match_an_executable_passed_as_an_argument_to_another_program()
     {
-        Write("Library/LaunchAgents/com.filee.app.plist", MacOSIntegrationFiles.LaunchAgent(Other).Replace("--background", Executable));
-        Write("Library/Services/Filee.workflow/Contents/document.wflow", "not a property list");
+        Write("Library/LaunchAgents/app.morph.plist", MacOSIntegrationFiles.LaunchAgent(Other).Replace("--background", Executable));
+        Write("Library/Services/Morph.workflow/Contents/document.wflow", "not a property list");
         var cleanup = new MacOSPortableIntegration(Path.Combine(_root, "Library"));
         Assert.False(cleanup.HasOwnedEntries(Executable));
         cleanup.RemoveOwnedEntries(Executable);
-        Assert.True(File.Exists(Path.Combine(_root, "Library/LaunchAgents/com.filee.app.plist")));
+        Assert.True(File.Exists(Path.Combine(_root, "Library/LaunchAgents/app.morph.plist")));
     }
 
     [Fact]
@@ -135,7 +135,7 @@ public sealed class UnixPortableIntegrationTests : IDisposable
     {
         Assert.SkipWhen(OperatingSystem.IsWindows(), "Unix symbolic links.");
         var original = Write("original.plist", MacOSIntegrationFiles.LaunchAgent(Executable));
-        var agent = Path.Combine(_root, "Library/LaunchAgents/com.filee.app.plist");
+        var agent = Path.Combine(_root, "Library/LaunchAgents/app.morph.plist");
         Directory.CreateDirectory(Path.GetDirectoryName(agent)!);
         File.CreateSymbolicLink(agent, original);
         var cleanup = new MacOSPortableIntegration(Path.Combine(_root, "Library"));
@@ -150,7 +150,7 @@ public sealed class UnixPortableIntegrationTests : IDisposable
         var config = Path.Combine(_root, "config");
         var data = Path.Combine(_root, "data");
         var desktop = Write("original.desktop", $"[Desktop Entry]\nExec={LinuxDesktopIntegration.DesktopArgument(Executable)} --background\n");
-        var startup = Path.Combine(config, "autostart", "filee.desktop");
+        var startup = Path.Combine(config, "autostart", "morph.desktop");
         Directory.CreateDirectory(Path.GetDirectoryName(startup)!);
         File.CreateSymbolicLink(startup, desktop);
         new LinuxPortableIntegration(config, data).RemoveOwnedEntries(Executable);
@@ -158,7 +158,7 @@ public sealed class UnixPortableIntegrationTests : IDisposable
         Assert.True(File.Exists(desktop));
     }
 
-    private string WriteWorkflow(string executable) => Write("Library/Services/Filee.workflow/Contents/document.wflow",
+    private string WriteWorkflow(string executable) => Write("Library/Services/Morph.workflow/Contents/document.wflow",
         new XDocument(new XElement("plist", new XElement("dict", new XElement("key", "COMMAND_STRING"),
             new XElement("string", MacOSPortableIntegration.ConversionCommand(executable))))).ToString());
 

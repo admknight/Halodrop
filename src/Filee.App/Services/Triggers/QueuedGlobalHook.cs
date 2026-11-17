@@ -18,7 +18,7 @@ internal sealed class QueuedGlobalHook(IGlobalHookProvider? provider = null) : G
     protected override void BeforeRun()
     {
         if (Interlocked.Exchange(ref _loopStarted, 1) == 0)
-            new Thread(RunEventLoop) { IsBackground = true, Name = "Filee input events" }.Start();
+            new Thread(RunEventLoop) { IsBackground = true, Name = "Morph input events" }.Start();
     }
 
     // The OS hook thread: Windows holds the cursor until this returns, so it only queues.

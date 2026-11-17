@@ -36,7 +36,7 @@ internal sealed class SevenZip(string executable)
     /// Password passed when reading, so 7-Zip never waits for one on the console. Unencrypted archives ignore it; for
     /// encrypted ones 7-Zip reports "Wrong password", which becomes the "password-protected" message.
     /// </summary>
-    private const string NoPassword = "-pfilee-no-password";
+    private const string NoPassword = "-pmorph-no-password";
 
     public string Executable { get; } = executable;
 

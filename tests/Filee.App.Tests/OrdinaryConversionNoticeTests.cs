@@ -263,7 +263,7 @@ public class OrdinaryConversionNoticeTests
         using var live = new Live(f, click: false, "photo.png", "unknown.notice-unknown");
         live.PointAt(0);
         Assert.Equal(f.Loc["donut.ordinary_conversion.all"], live.Donut.CenterNotice);
-        var folder = Directory.CreateTempSubdirectory("filee-notice-");
+        var folder = Directory.CreateTempSubdirectory("morph-notice-");
         try
         {
             live.Vm.Load(["photo.png", folder.FullName], clickMode: false);

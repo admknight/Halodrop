@@ -141,7 +141,7 @@ public class OcrPdfFontTests(EngineFixture fx) : IClassFixture<EngineFixture>
     [Fact]
     public void The_prefix_comes_first_then_the_executable_then_the_system_folders_each_once()
     {
-        var root = Path.Combine(Path.GetTempPath(), "filee-font-" + Guid.NewGuid().ToString("N")[..6]);
+        var root = Path.Combine(Path.GetTempPath(), "morph-font-" + Guid.NewGuid().ToString("N")[..6]);
         var prefix = Path.Combine(root, "prefix");
         var executable = Path.Combine(root, "bin", "tesseract");
         var debian = Path.GetFullPath("/usr/share/tesseract-ocr/4.00/tessdata");
@@ -294,7 +294,7 @@ public class OcrTests(EngineFixture fx) : IClassFixture<EngineFixture>
     public async Task A_picture_becomes_a_searchable_pdf()
     {
         Assert.SkipUnless(Installed, Skip);
-        var scan = Scan(fx.NewFolder(), "letter.png", "Filee reads scanned pages", "into searchable documents");
+        var scan = Scan(fx.NewFolder(), "letter.png", "Morph reads scanned pages", "into searchable documents");
 
         var job = await fx.ConvertAsync([scan], Ocr("pdf"));
 
@@ -310,7 +310,7 @@ public class OcrTests(EngineFixture fx) : IClassFixture<EngineFixture>
         Assert.SkipUnless(Installed, Skip);
         var folder = Path.Combine(fx.NewFolder(), "김민수 Документы");
         Directory.CreateDirectory(folder);
-        var picture = Scan(folder, "스캔.png", "Filee reads scanned pages");
+        var picture = Scan(folder, "스캔.png", "Morph reads scanned pages");
         var scanPdf = (await fx.ConvertAsync([Scan(folder, "Скан.png", "The quarterly report is ready")], new Preset { TargetFormat = "pdf" })).Outputs.Single();
 
         var job = await fx.ConvertAsync([picture, scanPdf], Ocr("pdf"));

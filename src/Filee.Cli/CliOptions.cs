@@ -215,19 +215,19 @@ internal sealed record CliOptions
             "convert" or "watch" when (options.SplitEvery ?? options.SplitEverySeconds) is not null && options.SplitParts is not null =>
                 "Use either --split-every or --split-parts.",
             "watch" when options.Inputs.Count != 1 => "Give exactly one folder to watch.",
-            "watch" when options.Sort is not null => "--sort only works with 'filee convert'.",
+            "watch" when options.Sort is not null => "--sort only works with 'morph convert'.",
             "presets" when options.Inputs.Count > 0 && options.Inputs[0].ToLowerInvariant() != "check" =>
-                $"Unknown presets command '{options.Inputs[0]}'. Use 'filee presets' or 'filee presets check <folder>'.",
-            "presets" when options.Inputs.Count == 1 => "Give the folder of the shared preset to check, e.g. 'filee presets check presets/my-preset'.",
+                $"Unknown presets command '{options.Inputs[0]}'. Use 'morph presets' or 'morph presets check <folder>'.",
+            "presets" when options.Inputs.Count == 1 => "Give the folder of the shared preset to check, e.g. 'morph presets check presets/my-preset'.",
             "presets" when options.Inputs.Count > 2 => "Give one folder at a time.",
             "engines" when options.Inputs.Count > 0 && options.Inputs[0].ToLowerInvariant() is not ("install" or "remove" or "download") =>
-                $"Unknown engines command '{options.Inputs[0]}'. Use 'filee engines', 'filee engines install <id>', 'filee engines download <id> -o <folder>' or 'filee engines remove <id>'.",
-            "engines" when options.Inputs.Count == 1 => $"Give the engine to {options.Inputs[0].ToLowerInvariant()}, e.g. 'filee engines {options.Inputs[0].ToLowerInvariant()} pandoc'.",
+                $"Unknown engines command '{options.Inputs[0]}'. Use 'morph engines', 'morph engines install <id>', 'morph engines download <id> -o <folder>' or 'morph engines remove <id>'.",
+            "engines" when options.Inputs.Count == 1 => $"Give the engine to {options.Inputs[0].ToLowerInvariant()}, e.g. 'morph engines {options.Inputs[0].ToLowerInvariant()} pandoc'.",
             "engines" when options.Inputs.Count > 2 => "Give one engine at a time.",
             "engines" when options.From.Count > 0 && (options.Inputs.Count == 0 || options.Inputs[0].ToLowerInvariant() != "install") =>
-                "--from only works with 'filee engines install'.",
+                "--from only works with 'morph engines install'.",
             "engines" when options.Inputs.Count > 0 && options.Inputs[0].ToLowerInvariant() == "download" && options.Output is null =>
-                "Give the folder to save the files in, e.g. 'filee engines download pandoc -o Engines'.",
+                "Give the folder to save the files in, e.g. 'morph engines download pandoc -o Engines'.",
             _ => null,
         };
         return options;

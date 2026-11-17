@@ -121,8 +121,8 @@ public sealed class WindowService(ILocalizer loc, IServiceProvider services, Mem
         }
         catch (Exception ex)
         {
-            services.GetService<ILogger<WindowService>>()?.LogError(ex, "Could not start Filee Connect session");
-            await MessageAsync(null, loc["connect.no_network_message"] ?? "Could not start Filee Connect. Please ensure this device is connected to a local Wi-Fi or Ethernet network.");
+            services.GetService<ILogger<WindowService>>()?.LogError(ex, "Could not start Morph Connect session");
+            await MessageAsync(null, loc["connect.no_network_message"] ?? "Could not start Morph Connect. Please ensure this device is connected to a local Wi-Fi or Ethernet network.");
         }
         finally
         {
@@ -341,7 +341,7 @@ public sealed class WindowService(ILocalizer loc, IServiceProvider services, Mem
             ShowActivated = !OperatingSystem.IsMacOS(),
             WindowDecorations = WindowDecorations.None,
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            Title = "Filee",
+            Title = "Morph",
         };
         var platform = services.GetRequiredService<Filee.Core.Platform.IPlatformServices>();
         // Move to active Space before Show() so collection behavior is set before Avalonia maps the NSWindow onto WindowServer (#596).
@@ -1088,6 +1088,8 @@ public sealed class WindowService(ILocalizer loc, IServiceProvider services, Mem
     /// <summary>Shows the one-time "Is Filee helping you?" card in the bottom-right corner.</summary>
     public void ShowFeedbackNotice()
     {
+        if (!UpdateService.HasReleaseRepository)
+            return; // Morph change: it asks for a star or an issue on Morph's repository, which doesn't exist yet
         if (_feedbackNotice is not null)
             return;
         _feedbackNotice = new FeedbackNoticeWindow();

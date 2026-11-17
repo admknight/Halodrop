@@ -28,7 +28,7 @@ namespace Filee.App.Tests;
 
 public sealed class PresetGalleryTests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-gallery-tests-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-gallery-tests-").FullName;
 
     public void Dispose()
     {
@@ -203,7 +203,7 @@ public sealed class PresetGalleryTests : IDisposable
                 days: 1, hot: 4, likes: 30, downloads: 90),
             Share(gallery, "photo-desk", "Photo desk donut", Bundle([turn, left, right], donut), SKColors.MediumAquamarine, ["convert", "toolbar"], [],
                 ["images"], ["ko"], days: 10, hot: 2, likes: 5, downloads: 20),
-            Share(gallery, "from-the-future", "Needs a newer Filee", Bundle([Insta()]), SKColors.Gray, ["convert"], ["jpg"], ["images"], ["en"],
+            Share(gallery, "from-the-future", "Needs a newer Morph", Bundle([Insta()]), SKColors.Gray, ["convert"], ["jpg"], ["images"], ["en"],
                 minVersion: "99.0.0"));
         return gallery;
     }

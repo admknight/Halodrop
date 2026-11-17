@@ -26,7 +26,7 @@ public sealed class PortableModeUiTests
     public void Portable_settings_show_the_data_location_and_disable_integration(string language)
     {
         TestServices.EnsureInitialized(language);
-        var root = Directory.CreateTempSubdirectory("filee-portable-ui-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-portable-ui-").FullName;
         var previous = Environment.GetEnvironmentVariable(UserDataStore.DirectoryVariable);
         Environment.SetEnvironmentVariable(UserDataStore.DirectoryVariable, null);
         try

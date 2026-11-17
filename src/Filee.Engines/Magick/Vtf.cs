@@ -127,11 +127,11 @@ internal static class Vtf
         if (width == 0 || height == 0)
             throw new InvalidDataException("The VTF file has no pixels.");
         if (width > MaxSide || height > MaxSide)
-            throw new InvalidDataException($"The texture is too large to read ({width} × {height}; Filee reads up to {MaxSide} px a side).");
+            throw new InvalidDataException($"The texture is too large to read ({width} × {height}; Morph reads up to {MaxSide} px a side).");
         if (format > (uint)Format.Uvlx8888)
             throw new InvalidDataException($"The VTF file uses an unknown image format ({format}).");
         if ((Format)format == Format.P8)
-            throw new InvalidDataException("The VTF file uses the palette format P8, which Filee can't read.");
+            throw new InvalidDataException("The VTF file uses the palette format P8, which Morph can't read.");
         frames = Math.Max(1, frames);
         mipmaps = Math.Max(1, mipmaps);
         // Every mipmap halves the sides down to 1 × 1: a file claiming more is damaged (and the shifts below would wrap).

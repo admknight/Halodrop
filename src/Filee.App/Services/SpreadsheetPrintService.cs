@@ -66,7 +66,7 @@ public sealed class SpreadsheetPrintService(IReadOnlyList<IConverter> converters
         }
         var overwrite = !onePerSheet || conflict == ConflictPolicy.Overwrite;
         var rendered = new List<(string PdfPath, string TemporaryDirectory)>();
-        var temporaryOutputs = targets.Select(target => target + ".filee-tmp").ToArray();
+        var temporaryOutputs = targets.Select(target => target + ".morph-tmp").ToArray();
         try
         {
             for (var index = 0; index < parts.Count; index++)

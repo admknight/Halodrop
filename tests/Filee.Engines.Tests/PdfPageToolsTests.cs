@@ -30,7 +30,7 @@ public class PdfPageToolsTests(EngineFixture fx) : IClassFixture<EngineFixture>
         var first = document.AddPage();
         document.AddPage();
         document.Info.Title = "Preserve this title";
-        document.Info.Author = "Filee tests";
+        document.Info.Author = "Morph tests";
         document.Outlines.Add("First page", first);
         var field = new PdfDictionary(document);
         field.Elements.SetName("/FT", "/Tx");
@@ -40,7 +40,7 @@ public class PdfPageToolsTests(EngineFixture fx) : IClassFixture<EngineFixture>
         var fields = new PdfArray(document);
         fields.Elements.Add(field.Reference!);
         var form = new PdfDictionary(document);
-        form.Elements.SetString("/FileeFormMarker", "form stays");
+        form.Elements.SetString("/MorphFormMarker", "form stays");
         form.Elements["/Fields"] = fields;
         document.Internals.AddObject(form);
         document.Internals.Catalog.Elements["/AcroForm"] = form.Reference;
@@ -51,7 +51,7 @@ public class PdfPageToolsTests(EngineFixture fx) : IClassFixture<EngineFixture>
         numbers.Elements.Add(new PdfInteger(0));
         numbers.Elements.Add(labelStyle);
         var labels = new PdfDictionary(document);
-        labels.Elements.SetString("/FileeLabelMarker", "labels stay");
+        labels.Elements.SetString("/MorphLabelMarker", "labels stay");
         labels.Elements["/Nums"] = numbers;
         document.Internals.AddObject(labels);
         document.Internals.Catalog.Elements["/PageLabels"] = labels.Reference;
@@ -63,12 +63,12 @@ public class PdfPageToolsTests(EngineFixture fx) : IClassFixture<EngineFixture>
     {
         using var result = PdfReader.Open(path, PdfDocumentOpenMode.Import);
         Assert.Equal("Preserve this title", result.Info.Title);
-        Assert.Equal("Filee tests", result.Info.Author);
+        Assert.Equal("Morph tests", result.Info.Author);
         Assert.Equal("First page", Assert.Single(result.Outlines).Title);
-        Assert.Equal("form stays", result.AcroForm.Elements.GetString("/FileeFormMarker"));
+        Assert.Equal("form stays", result.AcroForm.Elements.GetString("/MorphFormMarker"));
         Assert.Equal("Customer", Assert.Single(result.AcroForm.Fields.Names));
         Assert.Equal("labels stay", result.Internals.Catalog.Elements
-            .GetDictionary("/PageLabels")!.Elements.GetString("/FileeLabelMarker"));
+            .GetDictionary("/PageLabels")!.Elements.GetString("/MorphLabelMarker"));
     }
 
     [Fact]

@@ -38,7 +38,7 @@ public class SetupWindowTests
     {
         public InstallChoices? Installed { get; private set; }
         public bool? DeletedSettings { get; private set; }
-        public InstallResult Result { get; set; } = new(new LaunchRequest(@"C:\Program Files\Filee\Filee.exe", "--background"), []);
+        public InstallResult Result { get; set; } = new(new LaunchRequest(@"C:\Program Files\Morph\Morph.exe", "--background"), []);
         public TaskCompletionSource? Hold { get; set; }
         public int DeletedAtRestart { get; set; }
         public bool CleanupFailed { get; set; }
@@ -75,15 +75,15 @@ public class SetupWindowTests
         App.ApplyLook(Application.Current!, texts);
         var runner = new FakeRunner();
         var previous = update
-            ? new PreviousInstall(@"C:\Program Files\Filee", "1.12.0", InstallScope.Machine, true, SetupTasks.Defaults, "en", null)
+            ? new PreviousInstall(@"C:\Program Files\Morph", "1.12.0", InstallScope.Machine, true, SetupTasks.Defaults, "en", null)
             : null;
-        var choices = new InstallChoices(@"C:\Program Files\Filee", InstallScope.Machine, SetupTasks.Defaults, ["pandoc"], texts.Language);
+        var choices = new InstallChoices(@"C:\Program Files\Morph", InstallScope.Machine, SetupTasks.Defaults, ["pandoc"], texts.Language);
         var engines = update || uninstall ? [] : Offers.Select(o => (o, o.Id == "ffmpeg")).ToList();
         var model = new SetupViewModel(texts, runner, "2.0.0", choices, previous, engines, modernMenuSupported: true,
             neededSpace: 420_000_000, uninstall: uninstall)
         {
-            LogFile = @"C:\Users\me\AppData\Local\Temp\Filee-Setup-20261020-101500.log",
-            SettingsFolder = @"C:\Users\me\AppData\Roaming\Filee",
+            LogFile = @"C:\Users\me\AppData\Local\Temp\Morph-Setup-20261020-101500.log",
+            SettingsFolder = @"C:\Users\me\AppData\Roaming\Morph",
         };
         return (model, texts, runner);
     }
@@ -131,7 +131,7 @@ public class SetupWindowTests
         }
         Check(window, $"setup-3-installing-{language}.png");
 
-        runner.Result = new InstallResult(new LaunchRequest(@"C:\Program Files\Filee\Filee.exe", "--install-engines=pandoc"),
+        runner.Result = new InstallResult(new LaunchRequest(@"C:\Program Files\Morph\Morph.exe", "--install-engines=pandoc"),
             [new RuntimeWarning([new MissingRuntime(@"engines\rhwp\rhwp.exe", "vcruntime140.dll")])]);
         runner.Hold.SetResult();
         await install;
@@ -206,7 +206,7 @@ public class SetupWindowTests
             var window = Show(model);
             Assert.True(model.IsUninstallPage);
             Assert.False(model.DeleteSettings);
-            Assert.Contains(@"C:\Users\me\AppData\Roaming\Filee", model.SettingsText);
+            Assert.Contains(@"C:\Users\me\AppData\Roaming\Morph", model.SettingsText);
             Check(window, $"uninstall-1-confirm-{language}.png");
             await model.UninstallAsync();
             Pump();
@@ -251,10 +251,10 @@ public class SetupWindowTests
     public async Task Uninstall_says_where_renamed_files_stay()
     {
         var (model, texts, runner) = Model("en", uninstall: true);
-        runner.FilesLeftIn = @"D:\Apps\Filee";
+        runner.FilesLeftIn = @"D:\Apps\Morph";
         await model.UninstallAsync();
         Assert.True(model.IsUninstalled);
-        Assert.Contains(texts.Format("installer.uninstall.files_kept", @"D:\Apps\Filee"), model.UninstalledText);
+        Assert.Contains(texts.Format("installer.uninstall.files_kept", @"D:\Apps\Morph"), model.UninstalledText);
 
         var (plain, _, _) = Model("en", uninstall: true);
         await plain.UninstallAsync();
@@ -267,12 +267,12 @@ public class SetupWindowTests
         foreach (var language in new[] { "en", "ko" })
         {
             var (model, texts, runner) = Model(language, uninstall: true);
-            runner.UninstallError = new SetupException("installer.uninstall.files_left", "Could not remove", @"C:\Program Files\Filee");
+            runner.UninstallError = new SetupException("installer.uninstall.files_left", "Could not remove", @"C:\Program Files\Morph");
             await model.UninstallAsync();
             Assert.True(model.IsFailed);
             Assert.Equal(1, model.ExitCode);
-            Assert.Equal(texts.Format("installer.uninstall.files_left", @"C:\Program Files\Filee"), model.ErrorText);
-            Assert.Contains(@"C:\Program Files\Filee", model.ErrorText);
+            Assert.Equal(texts.Format("installer.uninstall.files_left", @"C:\Program Files\Morph"), model.ErrorText);
+            Assert.Contains(@"C:\Program Files\Morph", model.ErrorText);
         }
     }
 

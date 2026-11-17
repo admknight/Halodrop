@@ -11,8 +11,8 @@ public sealed class MacOSPortableIntegration(string userLibrary)
     /// <summary>Integration in the current user's Library.</summary>
     public static MacOSPortableIntegration Current => new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library"));
 
-    private string Agent => Path.Combine(userLibrary, "LaunchAgents", "com.filee.app.plist");
-    private string Workflow => Path.Combine(userLibrary, "Services", "Filee.workflow");
+    private string Agent => Path.Combine(userLibrary, "LaunchAgents", "app.morph.plist");
+    private string Workflow => Path.Combine(userLibrary, "Services", "Morph.workflow");
 
     /// <summary>Whether a LaunchAgent or legacy workflow belongs to this executable.</summary>
     public bool HasOwnedEntries(string executable) => OwnsAgent(executable) || OwnsWorkflow(executable);
@@ -59,7 +59,7 @@ public sealed class MacOSPortableIntegration(string userLibrary)
         const string contents = "/Contents/MacOS/";
         var index = executable.LastIndexOf(contents, StringComparison.Ordinal);
         return index > 0 && executable[..index].EndsWith(".app", StringComparison.OrdinalIgnoreCase)
-            && executable[(index + contents.Length)..] == "Filee"
+            && executable[(index + contents.Length)..] == "Morph"
             ? $"exec /usr/bin/open -n -a {Quote(executable[..index])} --args --convert \"$@\""
             : $"exec {Quote(executable)} --convert \"$@\"";
     }

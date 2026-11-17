@@ -19,23 +19,23 @@ public sealed class LinuxDesktopIntegrationTests : IDisposable
         File.WriteAllText(path, "<actions>" + existing + "</actions>");
         var integration = new LinuxDesktopIntegration(configuration, data);
 
-        integration.SetContextMenu(true, "/opt/Filee's app/Filee.App", "Filee로 변환 & test");
-        integration.SetContextMenu(true, "/opt/new/Filee.App", "Updated");
+        integration.SetContextMenu(true, "/opt/Morph's app/Morph.App", "Morph로 변환 & test");
+        integration.SetContextMenu(true, "/opt/new/Morph.App", "Updated");
 
         var document = XDocument.Load(path);
         Assert.Equal(2, document.Root!.Elements("action").Count());
         Assert.Equal("echo unchanged", document.Root.Elements("action")
             .Single(action => (string?)action.Element("unique-id") == "other").Element("command")!.Value);
-        Assert.Equal("'/opt/new/Filee.App' --convert %F", document.Root.Elements("action")
+        Assert.Equal("'/opt/new/Morph.App' --convert %F", document.Root.Elements("action")
             .Single(action => (string?)action.Element("unique-id") == LinuxDesktopIntegration.ThunarActionId).Element("command")!.Value);
-        Assert.Contains("exec '/opt/new/Filee.App' --convert \"$@\"", File.ReadAllText(Path.Combine(data, "nautilus", "scripts", "Filee")));
+        Assert.Contains("exec '/opt/new/Morph.App' --convert \"$@\"", File.ReadAllText(Path.Combine(data, "nautilus", "scripts", "Morph")));
 
         integration.SetContextMenu(false, "", "");
 
         document = XDocument.Load(path);
         Assert.Single(document.Root!.Elements("action"));
         Assert.Equal("other", document.Root.Element("action")!.Element("unique-id")!.Value);
-        Assert.False(File.Exists(Path.Combine(data, "kio", "servicemenus", "filee.desktop")));
+        Assert.False(File.Exists(Path.Combine(data, "kio", "servicemenus", "morph.desktop")));
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public sealed class LinuxDesktopIntegrationTests : IDisposable
 
         Assert.Throws<System.Xml.XmlException>(() =>
             new LinuxDesktopIntegration(configuration, Path.Combine(_root, "data"))
-                .SetContextMenu(true, "/opt/Filee.App", "Convert"));
+                .SetContextMenu(true, "/opt/Morph.App", "Convert"));
         Assert.Equal("<actions><action>", File.ReadAllText(path));
         Assert.False(Directory.Exists(Path.Combine(_root, "data")));
     }
@@ -57,11 +57,11 @@ public sealed class LinuxDesktopIntegrationTests : IDisposable
     public void AutostartEscapesLineBreaksAndKeepsTheExecutableAsOneArgument()
     {
         var integration = new LinuxDesktopIntegration(_root, Path.Combine(_root, "data"));
-        integration.SetAutostart(true, "/opt/Filee test/Filee.App");
-        var path = Path.Combine(_root, "autostart", "filee.desktop");
-        Assert.Contains("Exec=\"/opt/Filee test/Filee.App\" --background\n", File.ReadAllText(path));
-        Assert.Throws<ArgumentException>(() => integration.SetAutostart(true, "/opt/Filee\nExec=bad"));
-        Assert.Contains("Exec=\"/opt/Filee test/Filee.App\" --background\n", File.ReadAllText(path));
+        integration.SetAutostart(true, "/opt/Morph test/Morph.App");
+        var path = Path.Combine(_root, "autostart", "morph.desktop");
+        Assert.Contains("Exec=\"/opt/Morph test/Morph.App\" --background\n", File.ReadAllText(path));
+        Assert.Throws<ArgumentException>(() => integration.SetAutostart(true, "/opt/Morph\nExec=bad"));
+        Assert.Contains("Exec=\"/opt/Morph test/Morph.App\" --background\n", File.ReadAllText(path));
         integration.SetAutostart(false, "");
         Assert.False(File.Exists(path));
     }

@@ -12,7 +12,7 @@ public sealed record SponsorLink(string Id, string Name, string Url, string Icon
 public static class SponsorLinks
 {
     public const string GitHubSponsorsUrl = "https://github.com/sponsors/KnifeLemon";
-    public const string FairyUrl = "https://fairy.hada.io/@filee";
+    public const string FairyUrl = "https://fairy.hada.io/@morph";
     public const string PatreonUrl = "https://patreon.com/KnifeLemon";
     public const string KoFiUrl = "https://ko-fi.com/knifelemon";
     public const string PayPalUrl = "https://paypal.me/knifelemon";

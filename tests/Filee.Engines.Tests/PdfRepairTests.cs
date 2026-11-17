@@ -56,7 +56,7 @@ public class PdfRepairTests
         document.Save(path);
     }
 
-    private static string TempPdf() => Path.Combine(Path.GetTempPath(), $"filee-test-{Guid.NewGuid():N}.pdf");
+    private static string TempPdf() => Path.Combine(Path.GetTempPath(), $"morph-test-{Guid.NewGuid():N}.pdf");
 
     [Fact]
     public void Repair_overwrites_the_surplus_close_and_moves_nothing()

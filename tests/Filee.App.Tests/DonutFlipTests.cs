@@ -133,7 +133,7 @@ public class DonutFlipTests
         var vm = AppHost.Get<RadialViewModel>();
         var radial = new RadialController(vm, AppHost.Get<ConversionService>(), AppHost.Get<WindowService>(), Store,
             AppHost.Get<IPlatformServices>(), triggers, NullLogger<RadialController>.Instance);
-        var folder = Directory.CreateTempSubdirectory("filee-wave-drop-");
+        var folder = Directory.CreateTempSubdirectory("morph-wave-drop-");
         var conversions = AppHost.Get<ConversionService>();
         ConversionJob? started = null;
         try
@@ -865,7 +865,7 @@ public class DonutFlipTests
         var vm = AppHost.Get<RadialViewModel>();
         var radial = new RadialController(vm, AppHost.Get<ConversionService>(), AppHost.Get<WindowService>(), Store,
             AppHost.Get<IPlatformServices>(), triggers, NullLogger<RadialController>.Instance);
-        var folder = Directory.CreateTempSubdirectory("filee-flip-");
+        var folder = Directory.CreateTempSubdirectory("morph-flip-");
         try
         {
             var file = Path.Combine(folder.FullName, "photo.jpg");
@@ -954,7 +954,7 @@ public class DonutFlipTests
         var platform = new TriggerServiceLifecycleTests.NullPlatformServicesForHooks();
         var radial = new RadialController(vm, AppHost.Get<ConversionService>(), AppHost.Get<WindowService>(), Store,
             platform, triggers, NullLogger<RadialController>.Instance);
-        var folder = Directory.CreateTempSubdirectory("filee-flip-");
+        var folder = Directory.CreateTempSubdirectory("morph-flip-");
         try
         {
             var file = Path.Combine(folder.FullName, "photo.jpg");
@@ -1096,7 +1096,7 @@ public class DonutFlipTests
             var vm = AppHost.Get<RadialViewModel>();
             var radial = new RadialController(vm, AppHost.Get<ConversionService>(), AppHost.Get<WindowService>(), Store,
                 AppHost.Get<IPlatformServices>(), triggers, NullLogger<RadialController>.Instance);
-            var folder = Directory.CreateTempSubdirectory("filee-flip-");
+            var folder = Directory.CreateTempSubdirectory("morph-flip-");
             try
             {
                 var file = Path.Combine(folder.FullName, "photo.jpg");
@@ -1427,7 +1427,7 @@ public class DonutFlipTests
         var radial = new RadialController(vm, AppHost.Get<ConversionService>(), AppHost.Get<WindowService>(), Store,
             platform, triggers, NullLogger<RadialController>.Instance);
         var conversions = AppHost.Get<ConversionService>();
-        var folder = Directory.CreateTempSubdirectory("filee-flip-");
+        var folder = Directory.CreateTempSubdirectory("morph-flip-");
         ConversionJob? started = null;
         try
         {

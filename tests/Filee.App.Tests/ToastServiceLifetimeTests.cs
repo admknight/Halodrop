@@ -25,7 +25,7 @@ public sealed class ToastServiceLifetimeTests
     {
         TestServices.EnsureInitialized("en");
         AppHost.Get<ThemeService>().Apply(new ThemeSettings { ReduceMotion = true }, "en");
-        var root = Directory.CreateTempSubdirectory("filee-toast-window-lifetime-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-toast-window-lifetime-").FullName;
         ToastWindow? window = null;
         try
         {
@@ -71,7 +71,7 @@ public sealed class ToastServiceLifetimeTests
     public async Task Completed_jobs_wait_for_presentation_and_ring_handoff_pauses_an_existing_timer(bool showInToast)
     {
         TestServices.EnsureInitialized("en");
-        var root = Directory.CreateTempSubdirectory("filee-toast-service-").FullName;
+        var root = Directory.CreateTempSubdirectory("morph-toast-service-").FullName;
         try
         {
             await using var queue = new JobQueue(new ConverterCatalog([]));

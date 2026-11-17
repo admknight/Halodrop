@@ -11,7 +11,7 @@ public class SingleInstanceTests
     {
         // The installer's --quit (or a second launch) came 8 s after Filee started, on a computer where Filee took 12 s
         // to start listening: one 3-second try gave up and the request was lost.
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
         Assert.True(first.IsFirst);
         var received = new TaskCompletionSource<string[]>();
@@ -34,7 +34,7 @@ public class SingleInstanceTests
     public async Task A_burst_of_later_launches_loses_nothing()
     {
         // Explorer starts one Filee per selected file (issue #767): they all queue for the one pipe at the same time.
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
         var received = new System.Collections.Concurrent.ConcurrentBag<string>();
         first.ArgumentsReceived += args => received.Add(args[^1]);
@@ -62,7 +62,7 @@ public class SingleInstanceTests
     {
         // Launches behind the error have heard Delivered already: on macOS and Linux they wait on the listening socket,
         // which has to stay open for them. The thrown error stands in for one that takes no launch along.
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
         var received = new System.Collections.Concurrent.ConcurrentBag<string>();
         first.ArgumentsReceived += args => received.Add(args[^1]);
@@ -101,7 +101,7 @@ public class SingleInstanceTests
     [Fact]
     public async Task A_launch_that_never_sends_its_arguments_does_not_hold_up_the_next()
     {
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
         var arrived = new TaskCompletionSource<string>();
         first.ArgumentsReceived += args => arrived.TrySetResult(args[^1]);
@@ -121,7 +121,7 @@ public class SingleInstanceTests
     [InlineData(true)]
     public async Task A_handler_that_throws_does_not_end_listening(bool cancellation)
     {
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
         var received = new System.Collections.Concurrent.ConcurrentBag<string>();
         var failures = new System.Collections.Concurrent.ConcurrentBag<Exception>();
@@ -148,7 +148,7 @@ public class SingleInstanceTests
     public void A_filee_that_starts_after_the_last_one_closed_gets_the_launches()
     {
         // Not async: the mutex belongs to the thread that took it, and a restart releases it there.
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         for (var run = 0; run < 2; run++)
         {
             var arrived = new ManualResetEventSlim();
@@ -178,7 +178,7 @@ public class SingleInstanceTests
     public void A_filee_that_closed_takes_no_more_launches()
     {
         // Not async: the mutex belongs to the thread that took it. A socket left open would keep saying Delivered.
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
         var arrived = new ManualResetEventSlim();
         first.ArgumentsReceived += _ => arrived.Set();
@@ -215,18 +215,18 @@ public class SingleInstanceTests
     public void A_copy_with_its_own_data_folder_never_reaches_the_users_filee()
     {
         // The name without a data folder must stay the same: a new version forwards to an older one that runs.
-        var usual = "Filee-" + Convert.ToHexString(System.Security.Cryptography.SHA256.HashData("someone"u8.ToArray()))[..12];
+        var usual = "Morph-" + Convert.ToHexString(System.Security.Cryptography.SHA256.HashData("someone"u8.ToArray()))[..12];
         Assert.Equal(usual, SingleInstance.NameFor("someone", null));
-        var test = SingleInstance.NameFor("someone", Path.Combine(Path.GetTempPath(), "filee-a"));
+        var test = SingleInstance.NameFor("someone", Path.Combine(Path.GetTempPath(), "morph-a"));
         Assert.NotEqual(usual, test);
-        Assert.NotEqual(test, SingleInstance.NameFor("someone", Path.Combine(Path.GetTempPath(), "filee-b")));
-        Assert.Equal(test, SingleInstance.NameFor("someone", Path.Combine(Path.GetTempPath(), "filee-a")));
+        Assert.NotEqual(test, SingleInstance.NameFor("someone", Path.Combine(Path.GetTempPath(), "morph-b")));
+        Assert.Equal(test, SingleInstance.NameFor("someone", Path.Combine(Path.GetTempPath(), "morph-a")));
     }
 
     [Fact]
     public async Task Forwarding_gives_up_when_nobody_listens()
     {
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
 
         var delivered = await Task.Run(() =>
@@ -241,7 +241,7 @@ public class SingleInstanceTests
     [Fact]
     public async Task Forwarding_tells_that_nobody_answered()
     {
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
 
         var result = await Task.Run(() =>
@@ -257,7 +257,7 @@ public class SingleInstanceTests
     public void Releasing_twice_is_harmless()
     {
         // A restart without administrator rights releases the lock early; Program releases it again at exit.
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         var first = SingleInstance.Acquire(name);
         first.Dispose();
         first.Dispose();
@@ -281,7 +281,7 @@ public class SingleInstanceAccessTests
     public async Task A_pipe_that_refuses_this_process_is_given_up_on_quickly()
     {
         Assert.SkipUnless(OperatingSystem.IsWindows(), "Windows pipe security.");
-        var name = "Filee-test-" + Guid.NewGuid().ToString("N")[..8];
+        var name = "Morph-test-" + Guid.NewGuid().ToString("N")[..8];
         using var first = SingleInstance.Acquire(name);
         // Only SYSTEM may write: what a pipe of an elevated Filee looks like to a normal process.
         var security = new System.IO.Pipes.PipeSecurity();

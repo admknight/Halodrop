@@ -65,7 +65,7 @@ public sealed class PortableImportTests : IDisposable
         Assert.Empty(Directory.EnumerateFileSystemEntries(Destination));
     }
 
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-import-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-import-").FullName;
     private string Source => Path.Combine(_root, "profile");
     private string Destination => Path.Combine(_root, "portable");
     private string Engines => Path.Combine(_root, "downloaded");

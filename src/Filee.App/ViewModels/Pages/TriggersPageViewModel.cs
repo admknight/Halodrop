@@ -173,6 +173,7 @@ public sealed partial class FlipOptionsViewModel : ObservableObject
         _save = save;
         _loading = true;
         FlipWithWheel = store.Settings.Donut.FlipWithWheel;
+        OpenAtIndex = (int)store.Settings.Donut.OpenAt;
         _loading = false;
     }
 
@@ -184,6 +185,20 @@ public sealed partial class FlipOptionsViewModel : ObservableObject
     [ObservableProperty] private string? _error;
 
     [ObservableProperty] private bool _flipWithWheel;
+
+    /// <summary>
+    /// Morph change: where a drag's donut opens, as the list's index: where the drag starts, where the files are let go,
+    /// or following the cursor until it rests (<see cref="DonutOpenAt"/>).
+    /// </summary>
+    [ObservableProperty] private int _openAtIndex;
+
+    partial void OnOpenAtIndexChanged(int value)
+    {
+        if (_loading || !Enum.IsDefined(typeof(DonutOpenAt), value))
+            return;
+        Donut.OpenAt = (DonutOpenAt)value;
+        _save();
+    }
 
     /// <summary>The key that flips now ("Tab", "F2"), "Press a key…" while recording, or "—" for none.</summary>
     public string KeyText => IsRecording ? _loc["triggers.recording_key"]

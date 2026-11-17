@@ -10,7 +10,7 @@ public sealed class PortableEnvironmentCollection;
 [Collection("Portable environment")]
 public sealed class PortableModeTests : IDisposable
 {
-    private readonly string _root = Directory.CreateTempSubdirectory("filee-portable-tests-").FullName;
+    private readonly string _root = Directory.CreateTempSubdirectory("morph-portable-tests-").FullName;
     private readonly string? _data = Environment.GetEnvironmentVariable(UserDataStore.DirectoryVariable);
     private readonly string? _cache = Environment.GetEnvironmentVariable("XDG_CACHE_HOME");
 
@@ -65,7 +65,7 @@ public sealed class PortableModeTests : IDisposable
     [Fact]
     public void A_mac_bundle_uses_the_marker_and_data_outside_its_signed_contents()
     {
-        var executable = Directory.CreateDirectory(Path.Combine(_root, "Filee.app", "Contents", "MacOS")).FullName;
+        var executable = Directory.CreateDirectory(Path.Combine(_root, "Morph.app", "Contents", "MacOS")).FullName;
         Assert.Null(PortableMode.Resolve(executable, null));
         Mark();
         Assert.Equal(Path.Combine(_root, "data"), PortableMode.Resolve(executable, null));

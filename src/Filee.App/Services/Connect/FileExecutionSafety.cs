@@ -60,7 +60,7 @@ public static class FileExecutionSafety
         try
         {
             // Standard macOS Gatekeeper quarantine string format: 0083;date;Filee;UUID
-            var value = $"0083;00000000;Filee;{Guid.NewGuid()}";
+            var value = $"0083;00000000;Morph;{Guid.NewGuid()}";
             var bytes = Encoding.UTF8.GetBytes(value);
             _ = SetXAttr(path, "com.apple.quarantine", bytes, (nuint)bytes.Length, 0, 0);
         }
