@@ -3,13 +3,13 @@
 # the X11 input hook back end (libuiohook-xrecord.so) to prove its libraries and glibc requirement resolve.
 # Used by .github/workflows/portable.yml on the build machine and on the oldest supported Ubuntu.
 #
-# In GitHub Actions it sets FILEE_SMOKE_APP (the desktop app, for build/smoke-launch-app.py) and FILEE_SMOKE_PACKAGE
+# In GitHub Actions it sets MORPH_SMOKE_APP (the desktop app, for build/smoke-launch-app.py) and MORPH_SMOKE_PACKAGE
 # (the unpacked package folder).
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidateSet('linux-x64', 'linux-arm64', 'osx-x64', 'osx-arm64')][string]$Runtime,
     [string]$Packages = (Join-Path $PSScriptRoot '../Releases'),
-    [string]$WorkDir = (Join-Path ($env:RUNNER_TEMP ?? [IO.Path]::GetTempPath()) 'filee-smoke')
+    [string]$WorkDir = (Join-Path ($env:RUNNER_TEMP ?? [IO.Path]::GetTempPath()) 'morph-smoke')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -31,14 +31,14 @@ New-Item -ItemType Directory -Path $WorkDir | Out-Null
 $smoke = (Resolve-Path -LiteralPath $WorkDir).Path
 Invoke-Checked 'Archive extraction' { tar -xzf $archive.FullName -C $smoke }
 $package = Join-Path $smoke ($archive.Name.Replace('.tar.gz', ''))
-if (-not (Test-Path -LiteralPath (Join-Path $package 'filee.portable') -PathType Leaf)) {
-    throw 'Portable archive is missing filee.portable.'
+if (-not (Test-Path -LiteralPath (Join-Path $package 'morph.portable') -PathType Leaf)) {
+    throw 'Portable archive is missing morph.portable.'
 }
 if ($IsMacOS) {
-    Invoke-Checked 'Extracted app signature' { codesign --verify --deep --strict (Join-Path $package 'Filee.app') }
+    Invoke-Checked 'Extracted app signature' { codesign --verify --deep --strict (Join-Path $package 'Morph.app') }
 }
-$bin = if ($IsMacOS) { Join-Path $package 'Filee.app/Contents/MacOS' } else { $package }
-$cli = Join-Path $bin 'filee-cli'
+$bin = if ($IsMacOS) { Join-Path $package 'Morph.app/Contents/MacOS' } else { $package }
+$cli = Join-Path $bin 'morph-cli'
 
 Invoke-Checked 'CLI start' { & $cli version }
 Invoke-Checked 'rhwp start' { & (Join-Path $bin 'engines/rhwp/rhwp') --version }
@@ -58,7 +58,7 @@ function Convert-Smoke([string]$source, [string]$target) {
 }
 
 $inputFile = Join-Path $smoke 'sample.txt'
-'Filee 한글 conversion smoke test' | Set-Content -LiteralPath $inputFile -Encoding utf8NoBOM
+'Morph 한글 conversion smoke test' | Set-Content -LiteralPath $inputFile -Encoding utf8NoBOM
 $hwpx = Convert-Smoke $inputFile 'hwpx'
 # HWPX -> HWP and HWP -> PDF are rhwp's routes: they run the bundled rhwp from the package.
 $hwp = Convert-Smoke $hwpx 'hwp'
@@ -73,14 +73,14 @@ if ($IsLinux) {
     Invoke-Checked 'Load libuiohook-xrecord.so' {
         python3 -c 'import ctypes, sys; ctypes.CDLL(sys.argv[1]); print("Loaded " + sys.argv[1])' $backend
     }
-    # Unhwp: from its package on x64, Filee's own build on ARM64 (build/build-native.py, -UnhwpOverride).
+    # Unhwp: from its package on x64, Morph's own build on ARM64 (build/build-native.py, -UnhwpOverride).
     Invoke-Checked 'Load libunhwp.so' {
         python3 -c 'import ctypes, sys; f = ctypes.CDLL(sys.argv[1]).unhwp_version; f.restype = ctypes.c_char_p; print("Loaded " + sys.argv[1] + ", unhwp " + f().decode())' (Join-Path $bin 'libunhwp.so')
     }
 }
 
 if ($env:GITHUB_ENV) {
-    "FILEE_SMOKE_APP=$(Join-Path $bin 'Filee')" >> $env:GITHUB_ENV
-    "FILEE_SMOKE_PACKAGE=$package" >> $env:GITHUB_ENV
+    "MORPH_SMOKE_APP=$(Join-Path $bin 'Morph')" >> $env:GITHUB_ENV
+    "MORPH_SMOKE_PACKAGE=$package" >> $env:GITHUB_ENV
 }
 Write-Host "Package checks passed: $package"

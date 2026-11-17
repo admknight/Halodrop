@@ -2,7 +2,7 @@
 """Load the real extension in an isolated headless GNOME session, including Shell's metadata compatibility check.
 
 Requires gnome-shell, Xwayland, dbus-run-session, gsettings and Python GObject bindings. No changes to the desktop
-or the installed Filee. Unlike extension-smoke.js, this checks real Shell loading rather than mocking the Shell.
+or the installed Morph. Unlike extension-smoke.js, this checks real Shell loading rather than mocking the Shell.
 """
 
 import argparse
@@ -19,7 +19,7 @@ import tempfile
 import time
 
 
-UUID = "filee-donut@filee.sh"
+UUID = "morph-donut@admknight.github.io"
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -39,7 +39,7 @@ def inside(output, extension):
 
     bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
     # Unix socket paths have a 108-byte limit; keep the runtime short even when reports live deep in a checkout.
-    runtime = Path(tempfile.mkdtemp(prefix="filee-runtime-"))
+    runtime = Path(tempfile.mkdtemp(prefix="morph-runtime-"))
     for key, folder in [("XDG_RUNTIME_DIR", "runtime"), ("XDG_CONFIG_HOME", "config"),
                         ("XDG_DATA_HOME", "data"), ("XDG_CACHE_HOME", "cache")]:
         path = runtime if key == "XDG_RUNTIME_DIR" else output / folder
@@ -51,11 +51,11 @@ def inside(output, extension):
     shutil.copytree(extension, output / "data/gnome-shell/extensions" / UUID)
     subprocess.run(["gsettings", "set", "org.gnome.shell", "enabled-extensions", f"['{UUID}']"], check=True)
     version = subprocess.check_output(["gnome-shell", "--version"], text=True).strip()
-    address = runtime / "filee-gnome/pointer.sock"
+    address = runtime / "morph-gnome/pointer.sock"
     with (output / "gnome-shell.log").open("w") as log:
         shell = subprocess.Popen(
             ["gnome-shell", "--headless", "--wayland", "--virtual-monitor", "1280x720",
-             "--wayland-display=filee-smoke-wayland"], stdout=log, stderr=subprocess.STDOUT,
+             "--wayland-display=morph-smoke-wayland"], stdout=log, stderr=subprocess.STDOUT,
         )
         try:
             last = {}
@@ -112,7 +112,7 @@ def main():
     if args.inside_session:
         inside(args.output.resolve(), args.extension.resolve())
         return
-    output = args.output.resolve() if args.output else Path(tempfile.mkdtemp(prefix="filee-gnome-smoke-"))
+    output = args.output.resolve() if args.output else Path(tempfile.mkdtemp(prefix="morph-gnome-smoke-"))
     if args.output:
         output.mkdir(parents=True, exist_ok=False)
     print(f"Session evidence: {output}", flush=True)

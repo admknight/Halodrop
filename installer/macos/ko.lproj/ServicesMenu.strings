@@ -1,2 +1,2 @@
-/* Finder's right-click menu: the title of Filee's service (NSServices in Info.plist). */
-"Convert with Filee" = "Filee로 변환";
+/* Finder's right-click menu: the title of Morph's service (NSServices in Info.plist). */
+"Convert with Morph" = "Morph로 변환";

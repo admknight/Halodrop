@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-  Makes Filee's update key: the ECDSA P-256 key pair that signs every release's SHA256SUMS files. Run it once.
+  Makes Morph's update key: the ECDSA P-256 key pair that signs every release's SHA256SUMS files. Run it once.
 
 .DESCRIPTION
   Writes the private key to -PrivateKeyPath (PKCS#8 PEM, encrypted with a passphrase typed twice) and prints the
-  public key. Put the public key into Directory.Build.props as FileeUpdatePublicKey: official builds then refuse an
+  public key. Put the public key into Directory.Build.props as MorphUpdatePublicKey: official builds then refuse an
   update whose checksum file is not signed with this key, on every platform. build/sign-release.ps1 signs each release
   with the private key (build/sign-checksums.ps1).
 
@@ -16,7 +16,7 @@
   Writes the private key unencrypted. Only for a key kept on encrypted storage that nobody else can read.
 
 .EXAMPLE
-  pwsh build/new-update-key.ps1 -PrivateKeyPath D:\keys\filee-update.pem
+  pwsh build/new-update-key.ps1 -PrivateKeyPath D:\keys\morph-update.pem
 #>
 [CmdletBinding()]
 param(
@@ -76,5 +76,5 @@ finally {
 
 Write-Host "private key: $target (keep it, and a backup, outside the repository)"
 Write-Host ''
-Write-Host 'public key, for <FileeUpdatePublicKey> in Directory.Build.props:'
+Write-Host 'public key, for <MorphUpdatePublicKey> in Directory.Build.props:'
 Write-Output $publicKey

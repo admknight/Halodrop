@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Builds the Rust native pieces of Filee's packages that upstream doesn't build for a platform Filee supports.
+"""Builds the Rust native pieces of Morph's packages that upstream doesn't build for a platform Morph supports.
 
 Linux packages must start on Ubuntu 22.04 (glibc 2.35). The rhwp CLI (HWP/HWPX -> PDF) release binary is linked on
 Ubuntu 24.04 (GLIBC_2.39), so CI builds it from its pinned source on Ubuntu 22.04 and build/build-portable.ps1 puts it
@@ -256,7 +256,7 @@ def pe_imports(path):
 
 def write_source_note(output, name, repository, commit, details):
     with open(os.path.join(output, "SOURCE.txt"), "w", encoding="utf-8") as stream:
-        stream.write(f"{name} built from source by Filee's CI on {distribution()}.\n"
+        stream.write(f"{name} built from source by Morph's CI on {distribution()}.\n"
                      f"Source: {repository}/tree/{commit}\n{details}\n")
 
 
@@ -288,7 +288,7 @@ def main(argv=None):
         output = os.path.abspath(options.output)
         if os.path.exists(output):
             raise BuildError(f"{output} already exists. Use a fresh output folder.")
-        work = os.path.abspath(options.work) if options.work else tempfile.mkdtemp(prefix=f"filee-{options.component}-")
+        work = os.path.abspath(options.work) if options.work else tempfile.mkdtemp(prefix=f"morph-{options.component}-")
         os.makedirs(work, exist_ok=True)
         if options.component == "rhwp":
             build_rhwp(output, work)

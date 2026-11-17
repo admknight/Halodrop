@@ -4,7 +4,7 @@
   only; the app downloads the large engines on demand, see src/Filee.Engines/Infrastructure/EngineInstaller.cs).
 
 .DESCRIPTION
-  Produces this layout (next to Filee.exe in a published build, or in the repo root for development):
+  Produces this layout (next to Morph.exe in a published build, or in the repo root for development):
 
     engines/
       libreoffice/   LibreOffice (MPL-2.0), extracted from the official MSI via an administrative install
@@ -31,7 +31,7 @@
   The Microsoft C++ runtime (the "vcruntime" component: MSVCP140.dll, VCRUNTIME140.dll, ...) is copied next to the
   programs built with Visual C++ that do not ship it themselves (rhwp.exe, gswin64c.exe; LibreOffice's own copy goes
   into its program folder), so they also run on PCs without the Visual C++ Redistributable. -RuntimeTo copies it into
-  more folders (build-installer.ps1: next to Filee.exe, for unhwp.dll).
+  more folders (build-installer.ps1: next to Morph.exe, for unhwp.dll).
 
   Windows on ARM64 (-Runtime win-arm64): rhwp and 7-Zip are ARM64 builds, and "unhwp" is Unhwp's ARM64 library
   (unhwp\unhwp.dll; the build passes it to dotnet with -p:UnhwpNativeLibrary, see build-installer.ps1). rhwp and Unhwp
@@ -147,13 +147,13 @@ function Get-Engine([string]$name, [switch]$X64) {
         Write-Host "ok   $name (cached)"
         return $file
     }
-    # Filee's own copy (EngineDownloads.MirrorUrl), for when the pinned URL is gone, e.g. a retired LibreOffice (#1474).
+    # Morph's own copy (EngineDownloads.MirrorUrl), for when the pinned URL is gone, e.g. a retired LibreOffice (#1474).
     $mirror = 'https://dl.filee.sh/engines/' + $info.Sha256.ToLowerInvariant() + '/' + [Uri]::EscapeDataString([Uri]::UnescapeDataString(($info.Url -split '/')[-1]))
     foreach ($url in @($info.Url, $mirror)) {
         Write-Host "get  $name  $url"
         try {
             # GitHub's release downloads answer 504 for minutes at a time, which stopped whole CI runs: try again a few times.
-            Invoke-WebRequest -Uri $url -OutFile $file -UseBasicParsing -UserAgent 'Filee-build' -MaximumRetryCount 5 -RetryIntervalSec 20
+            Invoke-WebRequest -Uri $url -OutFile $file -UseBasicParsing -UserAgent 'Morph-build' -MaximumRetryCount 5 -RetryIntervalSec 20
         }
         catch {
             Write-Warning "$name could not be downloaded from $url ($($_.Exception.Message))"

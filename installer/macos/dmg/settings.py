@@ -1,4 +1,4 @@
-# dmgbuild settings for the macOS disk image (build/build-portable.ps1 passes -D app=<Filee.app> -D dir=<this folder>).
+# dmgbuild settings for the macOS disk image (build/build-portable.ps1 passes -D app=<Morph.app> -D dir=<this folder>).
 # The window shows 600x456 points under its title bar; background.png is drawn for it and background@2x.png for Retina
 # screens (dmgbuild combines the two). The design sits in the top 600x400: the bottom 56 points are plain background,
 # covered when Finder shows its path and status bars (a Finder-wide choice the disk image can't turn off).
@@ -27,14 +27,14 @@ text_size = 12
 # dmgbuild doesn't check that its ditto copies succeeded: check them before the image is closed.
 def create_hook(mount_point, options):
     subprocess.check_call(
-        ["/usr/bin/codesign", "--verify", "--deep", "--strict", os.path.join(mount_point, "Filee.app")]
+        ["/usr/bin/codesign", "--verify", "--deep", "--strict", os.path.join(mount_point, "Morph.app")]
     )
     if not filecmp.cmp(os.path.join(here, "INSTALL.txt"), os.path.join(mount_point, "INSTALL.txt"), shallow=False):
         raise RuntimeError("INSTALL.txt was not copied into the disk image")
 
 
 icon_locations = {
-    "Filee.app": (124, 194),
+    "Morph.app": (124, 194),
     "Applications": (269, 194),
     "INSTALL.txt": (124, 312),
 }

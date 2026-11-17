@@ -37,7 +37,7 @@ public static class ExplorerMenuPackage
     public static readonly Version ManifestVersion = new(1, 0, 0, 0);
 
     /// <summary>CLSID of the IExplorerCommand in FileeExplorerMenu.dll (kClsidCommand in FileeExplorerMenu.c).</summary>
-    public static readonly Guid ClassId = new("6DB0E670-807F-4D22-BE3F-20492D0F4AB1");
+    public static readonly Guid ClassId = new("A41A4815-E265-4183-8938-37B1D62B817C");
 
     /// <summary>The native COM server next to Filee.exe.</summary>
     public const string DllFileName = "MorphExplorerMenu.dll";

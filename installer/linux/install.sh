@@ -8,7 +8,7 @@ import os, shutil, sys
 source, target = sys.argv[1:]
 os.makedirs(target, exist_ok=True)
 for name in os.listdir(source):
-    if name in ('data', 'filee.portable'):
+    if name in ('data', 'morph.portable'):
         continue
     src, dst = os.path.join(source, name), os.path.join(target, name)
     if os.path.islink(src):
@@ -20,9 +20,9 @@ for name in os.listdir(source):
 PY
 }
 
-# Filee Linux standalone installer.
+# Morph Linux standalone installer.
 # Supports first-time installation and in-place upgrade (--upgrade).
-# Preserves downloaded conversion engines (~/.local/share/Filee/engines) and user settings (~/.config/Filee).
+# Preserves downloaded conversion engines (~/.local/share/Morph/engines) and user settings (~/.config/Morph).
 
 upgrade=0
 
@@ -45,29 +45,29 @@ done
 
 source_dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd -P)
 data_dir=${XDG_DATA_HOME:-"$HOME/.local/share"}
-install_dir="$data_dir/filee/application"
+install_dir="$data_dir/morph/application"
 bin_dir="$HOME/.local/bin"
-desktop_file="$data_dir/applications/com.filee.app.desktop"
-gnome_extension_id="filee-donut@filee.sh"
+desktop_file="$data_dir/applications/app.morph.desktop"
+gnome_extension_id="morph-donut@admknight.github.io"
 gnome_extension_dir="$data_dir/gnome-shell/extensions/$gnome_extension_id"
 is_gnome=false
 if printf '%s' "${XDG_CURRENT_DESKTOP:-}" | tr ':' '\n' | grep -qi '^GNOME$'; then
     is_gnome=true
 fi
 
-# The GNOME Shell extension folder is ours when it is a real folder whose .filee-package marker says com.filee.app.
+# The GNOME Shell extension folder is ours when it is a real folder whose .morph-package marker says app.morph.
 gnome_extension_is_ours() {
     [ -d "$gnome_extension_dir" ] && [ ! -L "$gnome_extension_dir" ] \
-        && [ -f "$gnome_extension_dir/.filee-package" ] && [ ! -L "$gnome_extension_dir/.filee-package" ] \
-        && [ "$(tr -d '\r\n' < "$gnome_extension_dir/.filee-package" 2>/dev/null || true)" = 'com.filee.app' ]
+        && [ -f "$gnome_extension_dir/.morph-package" ] && [ ! -L "$gnome_extension_dir/.morph-package" ] \
+        && [ "$(tr -d '\r\n' < "$gnome_extension_dir/.morph-package" 2>/dev/null || true)" = 'app.morph' ]
 }
 
 # Puts the extension bundled with the installed app in place, replacing only a folder that carries our marker. The
 # new copy is staged first, so a failed copy leaves the previous extension as it was.
 copy_gnome_extension() {
-    work=$(mktemp -d "$data_dir/filee/.gnome-extension.XXXXXX") || return 1
+    work=$(mktemp -d "$data_dir/morph/.gnome-extension.XXXXXX") || return 1
     if ! cp -R "$install_dir/gnome/$gnome_extension_id" "$work/new" \
-        || ! printf '%s\n' 'com.filee.app' > "$work/new/.filee-package" \
+        || ! printf '%s\n' 'app.morph' > "$work/new/.morph-package" \
         || ! mkdir -p "$(dirname -- "$gnome_extension_dir")"; then
         rm -rf "$work"
         return 1
@@ -115,25 +115,25 @@ PY
 
 # Validate required tools and incoming payload files before doing anything.
 command -v python3 >/dev/null 2>&1 || {
-    printf '%s\n' "Python 3 is required to install Filee." >&2
+    printf '%s\n' "Python 3 is required to install Morph." >&2
     exit 1
 }
 
 
-if [ ! -f "$source_dir/Filee" ] || [ ! -x "$source_dir/Filee" ]; then
-    printf '%s\n' "Payload validation failed: $source_dir/Filee is missing or not executable." >&2
+if [ ! -f "$source_dir/Morph" ] || [ ! -x "$source_dir/Morph" ]; then
+    printf '%s\n' "Payload validation failed: $source_dir/Morph is missing or not executable." >&2
     exit 1
 fi
 
-if [ ! -f "$source_dir/filee-cli" ] || [ ! -x "$source_dir/filee-cli" ]; then
-    printf '%s\n' "Payload validation failed: $source_dir/filee-cli is missing or not executable." >&2
+if [ ! -f "$source_dir/morph-cli" ] || [ ! -x "$source_dir/morph-cli" ]; then
+    printf '%s\n' "Payload validation failed: $source_dir/morph-cli is missing or not executable." >&2
     exit 1
 fi
 
 # A first install on GNOME replaces an extension folder only when it carries our marker.
 if [ "$upgrade" -eq 0 ] && [ "$is_gnome" = true ] && [ -d "$source_dir/gnome/$gnome_extension_id" ] \
     && { [ -e "$gnome_extension_dir" ] || [ -L "$gnome_extension_dir" ]; } && ! gnome_extension_is_ours; then
-    printf '%s\n' "A GNOME extension that Filee didn't install exists at $gnome_extension_dir. Remove or rename it before installing Filee."
+    printf '%s\n' "A GNOME extension that Morph didn't install exists at $gnome_extension_dir. Remove or rename it before installing Morph."
     exit 1
 fi
 
@@ -143,22 +143,22 @@ if [ "$upgrade" -eq 0 ]; then
         printf '%s\n' "An installation already exists at $install_dir. Run its uninstall.sh first."
         exit 1
     fi
-    if [ -e "$bin_dir/filee" ] || [ -L "$bin_dir/filee" ]; then
-        printf '%s\n' "$bin_dir/filee already exists. Remove or rename it before installing Filee."
+    if [ -e "$bin_dir/morph" ] || [ -L "$bin_dir/morph" ]; then
+        printf '%s\n' "$bin_dir/morph already exists. Remove or rename it before installing Morph."
         exit 1
     fi
     if [ -e "$desktop_file" ] || [ -L "$desktop_file" ]; then
-        printf '%s\n' "$desktop_file already exists. Remove or rename it before installing Filee."
+        printf '%s\n' "$desktop_file already exists. Remove or rename it before installing Morph."
         exit 1
     fi
 
-    mkdir -p "$data_dir/filee" "$bin_dir" "$data_dir/applications"
+    mkdir -p "$data_dir/morph" "$bin_dir" "$data_dir/applications"
     copy_application "$install_dir"
     # The archive is portable; an installed copy uses the ordinary user profile.
-    rm -f "$install_dir/filee.portable"
-    printf '%s\n' 'com.filee.app' > "$install_dir/.filee-package"
-    rm -f "$install_dir/.filee-upgrade-token"
-    ln -s "$install_dir/filee-cli" "$bin_dir/filee"
+    rm -f "$install_dir/morph.portable"
+    printf '%s\n' 'app.morph' > "$install_dir/.morph-package"
+    rm -f "$install_dir/.morph-upgrade-token"
+    ln -s "$install_dir/morph-cli" "$bin_dir/morph"
 else
     # Upgrade existing installation: verify it is genuine and safely swap in place.
     if [ ! -d "$install_dir" ] || [ -L "$install_dir" ]; then
@@ -166,22 +166,22 @@ else
         exit 1
     fi
 
-    marker_file="$install_dir/.filee-package"
+    marker_file="$install_dir/.morph-package"
     if [ ! -f "$marker_file" ]; then
-        printf '%s\n' "Cannot upgrade: $install_dir is missing the .filee-package marker." >&2
+        printf '%s\n' "Cannot upgrade: $install_dir is missing the .morph-package marker." >&2
         exit 1
     fi
 
     marker=$(tr -d '\r\n' < "$marker_file" 2>/dev/null || true)
-    if [ "$marker" != "com.filee.app" ]; then
-        printf '%s\n' "Cannot upgrade: $install_dir was not installed by Filee." >&2
+    if [ "$marker" != "app.morph" ]; then
+        printf '%s\n' "Cannot upgrade: $install_dir was not installed by Morph." >&2
         exit 1
     fi
 
     # Tell running instance to save and exit cleanly before touching files.
-    if [ -x "$install_dir/Filee" ]; then
-        if ! "$install_dir/Filee" --quit; then
-            printf '%s\n' "Could not gracefully shut down the running Filee instance. Please exit Filee and try again." >&2
+    if [ -x "$install_dir/Morph" ]; then
+        if ! "$install_dir/Morph" --quit; then
+            printf '%s\n' "Could not gracefully shut down the running Morph instance. Please exit Morph and try again." >&2
             exit 1
         fi
     fi
@@ -190,30 +190,30 @@ else
     # This prevents collisions with any concurrent installer or pre-existing backup artifacts.
     token_rand=$(od -vN 8 -An -tx1 /dev/urandom 2>/dev/null | tr -d ' \n' || true)
     tx_id="$$-${token_rand:-$(date +%s)}"
-    staging_dir="$data_dir/filee/.staging-$tx_id"
-    backup_dir="$data_dir/filee/.backup-$tx_id"
-    failed_dir="$data_dir/filee/.failed-$tx_id"
-    upgrade_token="filee-upgrade-$tx_id"
+    staging_dir="$data_dir/morph/.staging-$tx_id"
+    backup_dir="$data_dir/morph/.backup-$tx_id"
+    failed_dir="$data_dir/morph/.failed-$tx_id"
+    upgrade_token="morph-upgrade-$tx_id"
     activated=0
 
     # Ensure transaction paths are completely distinct and do not collide with pre-existing files.
     if [ -e "$staging_dir" ] || [ -e "$backup_dir" ] || [ -e "$failed_dir" ]; then
-        printf '%s\n' "Transaction path conflict detected at $data_dir/filee. Please retry." >&2
+        printf '%s\n' "Transaction path conflict detected at $data_dir/morph. Please retry." >&2
         exit 1
     fi
 
-    mkdir -p "$data_dir/filee" "$bin_dir" "$data_dir/applications"
+    mkdir -p "$data_dir/morph" "$bin_dir" "$data_dir/applications"
     mkdir "$staging_dir"
 
     # Copy incoming payload into staging (preserves source_dir without moving/deleting it).
     copy_application "$staging_dir"
-    rm -f "$staging_dir/filee.portable"
-    printf '%s\n' 'com.filee.app' > "$staging_dir/.filee-package"
-    printf '%s\n' "$upgrade_token" > "$staging_dir/.filee-upgrade-token"
-    chmod +x "$staging_dir/Filee" "$staging_dir/filee-cli"
+    rm -f "$staging_dir/morph.portable"
+    printf '%s\n' 'app.morph' > "$staging_dir/.morph-package"
+    printf '%s\n' "$upgrade_token" > "$staging_dir/.morph-upgrade-token"
+    chmod +x "$staging_dir/Morph" "$staging_dir/morph-cli"
 
     # Validate the staged files before moving the existing installation aside.
-    if [ ! -x "$staging_dir/Filee" ] || [ ! -x "$staging_dir/filee-cli" ]; then
+    if [ ! -x "$staging_dir/Morph" ] || [ ! -x "$staging_dir/morph-cli" ]; then
         rm -rf "$staging_dir"
         printf '%s\n' "Staged payload validation failed." >&2
         exit 1
@@ -229,7 +229,7 @@ else
             # This prevents another process or symlink swap from causing cleanup
             # to remove anything other than this process's failed payload.
             if [ "$activated" -eq 1 ] && [ -d "$install_dir" ] && [ ! -L "$install_dir" ]; then
-                token_file="$install_dir/.filee-upgrade-token"
+                token_file="$install_dir/.morph-upgrade-token"
                 if [ -f "$token_file" ] && [ ! -L "$token_file" ]; then
                     token=$(tr -d '\r\n' < "$token_file" 2>/dev/null || true)
                     if [ "$token" = "$upgrade_token" ]; then
@@ -239,7 +239,7 @@ else
                         if [ ! -e "$failed_dir" ] && mv "$install_dir" "$failed_dir" 2>/dev/null; then
                             # Re-verify token inside quarantined directory before deletion (TOCTOU mitigation).
                             # If ownership, symlink checks, or token match fail, keep $failed_dir intact.
-                            q_token_file="$failed_dir/.filee-upgrade-token"
+                            q_token_file="$failed_dir/.morph-upgrade-token"
                             if [ -d "$failed_dir" ] && [ ! -L "$failed_dir" ] && [ -f "$q_token_file" ] && [ ! -L "$q_token_file" ]; then
                                 q_token=$(tr -d '\r\n' < "$q_token_file" 2>/dev/null || true)
                                 if [ "$q_token" = "$upgrade_token" ]; then
@@ -252,7 +252,7 @@ else
             fi
 
             if [ ! -d "$install_dir" ] && mv "$backup_dir" "$install_dir" 2>/dev/null; then
-                printf '%s\n' "Update failed. Restored the previous Filee installation." >&2
+                printf '%s\n' "Update failed. Restored the previous Morph installation." >&2
                 if [ -d "$failed_dir" ]; then
                     printf '%s\n' "Quarantined failed update files preserved at: $failed_dir" >&2
                 fi
@@ -299,7 +299,7 @@ else
     activated=1
 
     # Post-swap validation: ensure new installation is active and healthy.
-    if [ ! -x "$install_dir/Filee" ] || [ ! -x "$install_dir/filee-cli" ] || [ ! -f "$install_dir/.filee-package" ]; then
+    if [ ! -x "$install_dir/Morph" ] || [ ! -x "$install_dir/morph-cli" ] || [ ! -f "$install_dir/.morph-package" ]; then
         printf '%s\n' "Activated installation failed post-swap validation. Rolling back..." >&2
         exit 1
     fi
@@ -307,14 +307,14 @@ else
     # Success: disarm the rollback trap before removing the old version backup.
     trap - EXIT INT TERM HUP
     rm -rf "$backup_dir"
-    rm -f "$install_dir/.filee-upgrade-token"
+    rm -f "$install_dir/.morph-upgrade-token"
 
     # Refresh launcher symlink (using -f to overwrite existing link atomically).
-    ln -sf "$install_dir/filee-cli" "$bin_dir/filee"
+    ln -sf "$install_dir/morph-cli" "$bin_dir/morph"
 fi
 
 # GNOME Shell extension. A first install puts it in place on GNOME and asks GNOME to enable it. An upgrade refreshes
-# a copy that Filee installed, and on GNOME adds a missing one without enabling it (the Triggers page says how).
+# a copy that Morph installed, and on GNOME adds a missing one without enabling it (the Triggers page says how).
 gnome_extension_note=''
 if [ -d "$install_dir/gnome/$gnome_extension_id" ]; then
     if gnome_extension_is_ours; then
@@ -322,7 +322,7 @@ if [ -d "$install_dir/gnome/$gnome_extension_id" ]; then
     elif [ "$is_gnome" = true ] && [ ! -e "$gnome_extension_dir" ] && [ ! -L "$gnome_extension_dir" ]; then
         gnome_extension_note=added
     elif [ "$is_gnome" = true ]; then
-        printf '%s\n' "Left $gnome_extension_dir as it is: Filee didn't install it." >&2
+        printf '%s\n' "Left $gnome_extension_dir as it is: Morph didn't install it." >&2
     fi
     if [ -n "$gnome_extension_note" ]; then
         if copy_gnome_extension; then
@@ -352,11 +352,11 @@ def desktop_value(value):
     return str(value).replace('\\', '\\\\').replace('\n', '\\n').replace('\r', '\\r')
 
 desktop.write_text(
-    '[Desktop Entry]\nType=Application\nName=Filee\n'
-    'Comment=Convert files with Filee\n'
-    f'Exec={quoted_exec(str(app / "Filee"))} --convert %F\n'
-    f'Icon={desktop_value(app / "filee.png")}\n'
-    'Terminal=false\nCategories=Utility;\nX-Filee-Managed=true\n', encoding='utf-8')
+    '[Desktop Entry]\nType=Application\nName=Morph\n'
+    'Comment=Convert files with Morph\n'
+    f'Exec={quoted_exec(str(app / "Morph"))} --convert %F\n'
+    f'Icon={desktop_value(app / "morph.png")}\n'
+    'Terminal=false\nCategories=Utility;\nX-Morph-Managed=true\n', encoding='utf-8')
 PY
 
 if command -v update-desktop-database >/dev/null 2>&1; then
@@ -364,17 +364,17 @@ if command -v update-desktop-database >/dev/null 2>&1; then
 fi
 
 if [ "$upgrade" -eq 1 ]; then
-    printf '%s\n' "Upgraded Filee at $install_dir."
+    printf '%s\n' "Upgraded Morph at $install_dir."
 else
-    printf '%s\n' "Installed Filee at $install_dir" "CLI: $bin_dir/filee (add $bin_dir to PATH if needed)."
+    printf '%s\n' "Installed Morph at $install_dir" "CLI: $bin_dir/morph (add $bin_dir to PATH if needed)."
 fi
 
 if [ -n "$gnome_extension_note" ] && [ "$upgrade" -eq 0 ] && [ "$is_gnome" = true ]; then
-    printf '%s\n' 'GNOME Wayland: enable "Filee donut at the cursor" in Extensions.' \
+    printf '%s\n' 'GNOME Wayland: enable "Morph donut at the cursor" in Extensions.' \
         'Sign out and sign in if the extension is not listed yet. Then hold Ctrl and drag a file in Files.' \
         'No administrator access or input group is required. See GNOME-WAYLAND.md.'
 elif [ "$gnome_extension_note" = added ]; then
-    printf '%s\n' 'GNOME Wayland: added the "Filee donut at the cursor" extension. Sign out and sign in, then enable it in Extensions.'
+    printf '%s\n' 'GNOME Wayland: added the "Morph donut at the cursor" extension. Sign out and sign in, then enable it in Extensions.'
 elif [ "$gnome_extension_note" = updated ]; then
-    printf '%s\n' 'GNOME: updated the "Filee donut at the cursor" extension. Sign out and sign in so GNOME Shell loads it.'
+    printf '%s\n' 'GNOME: updated the "Morph donut at the cursor" extension. Sign out and sign in so GNOME Shell loads it.'
 fi

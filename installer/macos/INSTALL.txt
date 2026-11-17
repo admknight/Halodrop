@@ -1,6 +1,6 @@
 This package requires macOS 13 or later and contains a separate build for
 Apple Silicon or Intel Macs. The .NET runtime is included.
-The tar.gz includes filee.portable beside Filee.app: running there keeps settings,
+The tar.gz includes morph.portable beside Morph.app: running there keeps settings,
 downloaded engines and logs in an adjacent data folder. Existing profile data is
 offered for import on first start when portable data is unused. Originals are kept.
 Installation and the .dmg use the normal user profile.
@@ -8,11 +8,11 @@ For portable use, move the extracted folder to a writable location. Finder may
 launch a quarantined app from a temporary App Translocation path, hiding the marker.
 After verifying the download's source and checksum, remove quarantine from the
 extracted app in Terminal before launching it:
-    xattr -dr com.apple.quarantine /path/to/Filee.app
-Keep filee.portable beside Filee.app. Do not run portable mode from the read-only .dmg.
-Run ./install.sh to copy Filee.app to ~/Applications and add ~/.local/bin/filee.
-From the .dmg, drag Filee.app onto Applications instead (no filee command then).
-You can also move Filee.app into Applications manually. Keep its location stable
+    xattr -dr com.apple.quarantine /path/to/Morph.app
+Keep morph.portable beside Morph.app. Do not run portable mode from the read-only .dmg.
+Run ./install.sh to copy Morph.app to ~/Applications and add ~/.local/bin/morph.
+From the .dmg, drag Morph.app onto Applications instead (no morph command then).
+You can also move Morph.app into Applications manually. Keep its location stable
 so Accessibility and Finder Automation permissions continue to identify it.
 
 Test packages are ad-hoc signed and are not notarized. For a downloaded test
@@ -21,23 +21,23 @@ Open Anyway when macOS blocks the first launch (install.sh clears the download
 flag of the copy it installs). Only open a build whose source and checksum you
 trust.
 
-Allow Filee in System Settings > Privacy & Security > Accessibility for global
-gestures. Filee asks once; until it is allowed, its Home page says so.
+Allow Morph in System Settings > Privacy & Security > Accessibility for global
+gestures. Morph asks once; until it is allowed, its Home page says so.
 After an update or a reinstall, from the .dmg or with install.sh, macOS may
-still list Filee switched on while gestures wait for the permission: it belongs
-to the earlier copy, which was signed differently. Select Filee there, remove it
-with the - button, then add Filee.app again with + and switch it on.
+still list Morph switched on while gestures wait for the permission: it belongs
+to the earlier copy, which was signed differently. Select Morph there, remove it
+with the - button, then add Morph.app again with + and switch it on.
 Allow Finder under Automation when using a selection shortcut.
-Enable the Finder Quick Action in Filee settings. Services can also be managed
+Enable the Finder Quick Action in Morph settings. Services can also be managed
 under System Settings > Keyboard > Keyboard Shortcuts > Services.
 
 Run ./uninstall.sh to remove the ~/Applications installation, integration and
-Filee-downloaded engines. Your settings and conversion results are kept.
+Morph-downloaded engines. Your settings and conversion results are kept.
 If integration cleanup fails, the installation is kept so you can fix the error
 and run the uninstaller again. A manually placed app in
-/Applications can be removed after running its Filee executable with
+/Applications can be removed after running its Morph executable with
 --uninstall-cleanup.
 
-rhwp and 7-Zip are bundled. Other engines can be installed in Filee settings or
+rhwp and 7-Zip are bundled. Other engines can be installed in Morph settings or
 discovered in the system. Public distribution requires Developer ID signing
 and notarization; neither is supplied by this test package.

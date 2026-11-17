@@ -1,33 +1,33 @@
 <#
 .SYNOPSIS
-  Signs every SHA256SUMS file of a release folder with Filee's update key: writes <name>.sig next to each one.
+  Signs every SHA256SUMS file of a release folder with Morph's update key: writes <name>.sig next to each one.
 
 .DESCRIPTION
   The signature is ECDSA P-256 over the SHA-256 of the file's bytes, as base64 of r and s (64 bytes) on one line. The
-  in-app updater of an official build checks it with the public key the build carries (FileeUpdatePublicKey in
+  in-app updater of an official build checks it with the public key the build carries (MorphUpdatePublicKey in
   Directory.Build.props) and refuses an update without it. build/sign-release.ps1 runs this; the key comes from
   build/new-update-key.ps1. Every signature is checked again before the script ends; with -PublicKey, also that the
   private key is the one that public key belongs to. Outputs the paths of the .sig files.
 
 .PARAMETER PrivateKeyPath
-  The private key (PEM). Defaults to $env:FILEE_UPDATE_KEY. An encrypted key asks for its passphrase.
+  The private key (PEM). Defaults to $env:MORPH_UPDATE_KEY. An encrypted key asks for its passphrase.
 
 .PARAMETER PublicKey
   The public key the build carries (base64), to check that the signatures are made with the matching key.
 
 .EXAMPLE
-  pwsh build/sign-checksums.ps1 -Folder build\.cache\release-2.4.0\sums -PrivateKeyPath D:\keys\filee-update.pem
+  pwsh build/sign-checksums.ps1 -Folder build\.cache\release-2.4.0\sums -PrivateKeyPath D:\keys\morph-update.pem
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)]
     [string]$Folder,
-    [string]$PrivateKeyPath = $env:FILEE_UPDATE_KEY,
+    [string]$PrivateKeyPath = $env:MORPH_UPDATE_KEY,
     [string]$PublicKey
 )
 
 $ErrorActionPreference = 'Stop'
-if (-not $PrivateKeyPath) { throw 'Pass -PrivateKeyPath or set FILEE_UPDATE_KEY.' }
+if (-not $PrivateKeyPath) { throw 'Pass -PrivateKeyPath or set MORPH_UPDATE_KEY.' }
 if (-not (Test-Path -LiteralPath $PrivateKeyPath -PathType Leaf)) { throw "No private key at $PrivateKeyPath." }
 $sums = @(Get-ChildItem -LiteralPath $Folder -File -Filter '*SHA256SUMS.txt')
 if (-not $sums.Count) { throw "No SHA256SUMS file in $Folder." }
@@ -48,7 +48,7 @@ try {
     }
     $own = [Convert]::ToBase64String($key.ExportSubjectPublicKeyInfo())
     if ($PublicKey -and $PublicKey.Trim() -ne $own) {
-        throw "$PrivateKeyPath does not belong to the public key the build carries (FileeUpdatePublicKey)."
+        throw "$PrivateKeyPath does not belong to the public key the build carries (MorphUpdatePublicKey)."
     }
     $verifier.ImportSubjectPublicKeyInfo([Convert]::FromBase64String($own), [ref]$null)
 

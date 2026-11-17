@@ -11,16 +11,16 @@
   1. downloads those builds, exactly as they were tested;
   2. checks out the tag in a worktree and runs its build-installer.ps1 with -CertificateThumbprint for each, which
      signs the unsigned programs and the Setup program, packs Setup.exe, signs it, zips the portable copy and writes
-     the SHA-256 sums (x64: Filee-<version>-win-Setup.exe and -win-Portable.zip; ARM64:
-     Filee-<version>-win-arm64-Setup.exe and -win-arm64-Portable.zip). The ARM64 sums are added to
-     Filee-<version>-SHA256SUMS.txt, the one Windows checksum file: Filee 2.4.0 and older take the last Windows-looking
+     the SHA-256 sums (x64: Morph-<version>-win-Setup.exe and -win-Portable.zip; ARM64:
+     Morph-<version>-win-arm64-Setup.exe and -win-arm64-Portable.zip). The ARM64 sums are added to
+     Morph-<version>-SHA256SUMS.txt, the one Windows checksum file: Morph 2.4.0 and older take the last Windows-looking
      SHA256SUMS file of a release, and a separate ARM64 one would leave them without their Setup's hash;
-  3. installs the signed Setup into a sandbox (nothing on the PC is touched) and checks that Filee.exe and
+  3. installs the signed Setup into a sandbox (nothing on the PC is touched) and checks that Morph.exe and
      uninstall.exe come out signed, then uninstalls it. An x64 PC can't run the ARM64 Setup: there it checks the
      signatures of the ARM64 Setup.exe and of the signed files that went into it instead (the release workflow ran
      the ARM64 Setup program in a sandbox on Windows on ARM, around a stub app);
   4. signs every SHA256SUMS file of the release (the Windows one, and the Linux and macOS ones from the draft) with
-     Filee's update key (build/sign-checksums.ps1, -UpdateKey), which writes a .sig file next to each;
+     Morph's update key (build/sign-checksums.ps1, -UpdateKey), which writes a .sig file next to each;
   5. uploads the Windows files and the .sig files to the draft;
   6. copies the Windows files and their checksum signature to the download mirror, Cloudflare R2 behind
      https://dl.filee.sh/<version>/, and checks that each one is served there as is (no redirect, the same size). The
@@ -29,25 +29,25 @@
 
   A tag whose release workflow keeps no ARM64 build (2.4.0 and earlier) gets the x64 files only.
 
-  When the tag's Directory.Build.props carries an update key (FileeUpdatePublicKey), its builds refuse an update
+  When the tag's Directory.Build.props carries an update key (MorphUpdatePublicKey), its builds refuse an update
   without signed checksums: the script then stops early without -UpdateKey, checks that the private key belongs to
   that public key, and doesn't publish while a SHA256SUMS file on the draft has no .sig next to it.
 
-  Needs gh (signed in), git, the .NET SDK, and Node.js with Wrangler signed in to Filee's Cloudflare account
+  Needs gh (signed in), git, the .NET SDK, and Node.js with Wrangler signed in to Morph's Cloudflare account
   (npx wrangler login, once) unless -NoMirror. Output: build/.cache/release-<version>/out.
 
 .EXAMPLE
-  pwsh build/sign-release.ps1 -Version 2.1.0 -CertificateThumbprint <sha1> -UpdateKey D:\keys\filee-update.pem
+  pwsh build/sign-release.ps1 -Version 2.1.0 -CertificateThumbprint <sha1> -UpdateKey D:\keys\morph-update.pem
   pwsh build/sign-release.ps1 -Version 2.1.0 -Publish
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)]
     [string]$Version,
-    # Defaults to $env:FILEE_SIGNING_CERT (see sign-windows.ps1).
-    [string]$CertificateThumbprint = $env:FILEE_SIGNING_CERT,
-    # The private update key (build/new-update-key.ps1). Defaults to $env:FILEE_UPDATE_KEY (the path, not the key).
-    [string]$UpdateKey = $env:FILEE_UPDATE_KEY,
+    # Defaults to $env:MORPH_SIGNING_CERT (see sign-windows.ps1).
+    [string]$CertificateThumbprint = $env:MORPH_SIGNING_CERT,
+    # The private update key (build/new-update-key.ps1). Defaults to $env:MORPH_UPDATE_KEY (the path, not the key).
+    [string]$UpdateKey = $env:MORPH_UPDATE_KEY,
     [switch]$Publish,
     # Skips the copy to the download mirror (dl.filee.sh).
     [switch]$NoMirror
@@ -55,7 +55,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 if (-not $IsWindows) { throw 'Windows releases are signed on Windows.' }
-if (-not $CertificateThumbprint) { throw 'Pass -CertificateThumbprint or set FILEE_SIGNING_CERT.' }
+if (-not $CertificateThumbprint) { throw 'Pass -CertificateThumbprint or set MORPH_SIGNING_CERT.' }
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $Version = $Version.TrimStart('v')
 $tag = "v$Version"
@@ -75,10 +75,10 @@ if ($run.status -ne 'completed' -or $run.conclusion -ne 'success') { throw "The 
 # The update key the tag's builds carry: their updater refuses checksum files that aren't signed with it.
 Invoke-Checked 'git fetch' { git -C $root fetch --quiet origin "refs/tags/${tag}:refs/tags/$tag" }
 $props = [xml](git -C $root show "${tag}:Directory.Build.props" | Out-String)
-$publicKey = @($props.Project.PropertyGroup | ForEach-Object { $_.FileeUpdatePublicKey } | Where-Object { $_ -is [string] -and $_.Trim() }) |
+$publicKey = @($props.Project.PropertyGroup | ForEach-Object { $_.MorphUpdatePublicKey } | Where-Object { $_ -is [string] -and $_.Trim() }) |
     Select-Object -First 1
 if ($publicKey -and -not $UpdateKey) {
-    throw "$tag carries an update key (FileeUpdatePublicKey): pass -UpdateKey <private key file> or set FILEE_UPDATE_KEY."
+    throw "$tag carries an update key (MorphUpdatePublicKey): pass -UpdateKey <private key file> or set MORPH_UPDATE_KEY."
 }
 if ($UpdateKey -and -not (Test-Path -LiteralPath $UpdateKey -PathType Leaf)) { throw "No private update key at $UpdateKey." }
 
@@ -121,17 +121,17 @@ finally {
     Remove-Source
 }
 
-$setup = Join-Path $out "Filee-$Version-win-Setup.exe"
-$windowsSums = Join-Path $out "Filee-$Version-SHA256SUMS.txt"
-$files = @($setup, (Join-Path $out "Filee-$Version-win-Portable.zip"), $windowsSums)
-$setupArm64 = Join-Path $out "Filee-$Version-win-arm64-Setup.exe"
+$setup = Join-Path $out "Morph-$Version-win-Setup.exe"
+$windowsSums = Join-Path $out "Morph-$Version-SHA256SUMS.txt"
+$files = @($setup, (Join-Path $out "Morph-$Version-win-Portable.zip"), $windowsSums)
+$setupArm64 = Join-Path $out "Morph-$Version-win-arm64-Setup.exe"
 if ($arm64) {
-    $files += @($setupArm64, (Join-Path $out "Filee-$Version-win-arm64-Portable.zip"))
+    $files += @($setupArm64, (Join-Path $out "Morph-$Version-win-arm64-Portable.zip"))
 }
 foreach ($file in $files) { if (-not (Test-Path $file)) { throw "$file was not written." } }
 if ($arm64) {
     # One checksum file for both (see the description): the ARM64 lines after the x64 ones, which stay as they were.
-    $arm64Sums = Join-Path $out "Filee-$Version-win-arm64-SHA256SUMS.txt"
+    $arm64Sums = Join-Path $out "Morph-$Version-win-arm64-SHA256SUMS.txt"
     Add-Content $windowsSums (Get-Content $arm64Sums) -Encoding ascii
     Remove-Item $arm64Sums
     Write-Host "added the ARM64 checksums to $(Split-Path $windowsSums -Leaf)"
@@ -144,7 +144,7 @@ function Invoke-Setup([string]$exe) {
     if ($process.ExitCode -ne 0) { throw "$(Split-Path $exe -Leaf) failed in the sandbox with exit code $($process.ExitCode) (logs: $sandbox\Temp)" }
 }
 # Programs Setup installs that must come out signed: the app's own, and rhwp, which comes unsigned.
-$programs = 'Filee.exe', 'filee-cli.exe', 'engines\rhwp\rhwp.exe'
+$programs = 'Morph.exe', 'morph-cli.exe', 'engines\rhwp\rhwp.exe'
 function Assert-Signed([string]$folder, [string[]]$names, [string]$where) {
     foreach ($file in $names) {
         $signature = Get-AuthenticodeSignature (Join-Path $folder $file)
@@ -154,7 +154,7 @@ function Assert-Signed([string]$folder, [string[]]$names, [string]$where) {
 function Test-Setup([string]$exe) {
     Write-Host "install the signed $(Split-Path $exe -Leaf) into a sandbox"
     Invoke-Setup $exe
-    $installed = Join-Path $sandbox 'Program Files\Filee'
+    $installed = Join-Path $sandbox 'Program Files\Morph'
     Assert-Signed $installed ($programs + 'uninstall.exe') 'after installing'
     Invoke-Setup (Join-Path $installed 'uninstall.exe')
     Remove-Item $sandbox -Recurse -Force -ErrorAction SilentlyContinue
@@ -186,13 +186,13 @@ if ($UpdateKey) {
 Write-Host "upload to the draft of $tag"
 Invoke-Checked 'gh release upload' { gh release upload $tag @files @signatures --clobber }
 
-# The download mirror: R2 bucket filee-downloads, served at dl.filee.sh. Wrangler is pinned like the engines.
+# The download mirror: R2 bucket morph-downloads, served at dl.filee.sh. Wrangler is pinned like the engines.
 if (-not $NoMirror) {
-    $bucket = 'filee-downloads'
+    $bucket = 'morph-downloads'
     $mirror = "https://dl.filee.sh/$Version"
     $types = @{ '.exe' = 'application/vnd.microsoft.portable-executable'; '.zip' = 'application/zip'; '.txt' = 'text/plain; charset=utf-8'
         '.sig' = 'text/plain; charset=utf-8' }
-    $mirrored = $files + @($signatures | Where-Object { (Split-Path $_ -Leaf) -eq "Filee-$Version-SHA256SUMS.txt.sig" })
+    $mirrored = $files + @($signatures | Where-Object { (Split-Path $_ -Leaf) -eq "Morph-$Version-SHA256SUMS.txt.sig" })
     foreach ($file in $mirrored) {
         $name = Split-Path $file -Leaf
         Write-Host "copy $name to $mirror"
@@ -214,10 +214,10 @@ if ($publicKey) {
     $unsigned = @($assets | Where-Object { $_ -like '*SHA256SUMS.txt' -and "$_.sig" -notin $assets })
     if ($unsigned.Count) { throw "Not signed on the draft of ${tag}: $($unsigned -join ', '). Run again with -UpdateKey." }
 }
-# A Windows checksum file besides Filee-<version>-SHA256SUMS.txt (uploaded by hand) could be the one Filee 2.4.0 and
+# A Windows checksum file besides Morph-<version>-SHA256SUMS.txt (uploaded by hand) could be the one Morph 2.4.0 and
 # older pick, without the hash of their Setup.
-$extraSums = @((gh release view $tag --json assets | ConvertFrom-Json).assets.name | Where-Object { $_ -like 'Filee-*-win-*SHA256SUMS.txt*' })
-if ($extraSums.Count) { throw "Remove from the draft of ${tag}: $($extraSums -join ', '). The Windows hashes all go in Filee-$Version-SHA256SUMS.txt." }
+$extraSums = @((gh release view $tag --json assets | ConvertFrom-Json).assets.name | Where-Object { $_ -like 'Morph-*-win-*SHA256SUMS.txt*' })
+if ($extraSums.Count) { throw "Remove from the draft of ${tag}: $($extraSums -join ', '). The Windows hashes all go in Morph-$Version-SHA256SUMS.txt." }
 if ($Publish) {
     Invoke-Checked 'gh release edit' { gh release edit $tag --draft=false --latest }
     Write-Host "published $tag"

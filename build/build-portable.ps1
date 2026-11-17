@@ -1,5 +1,5 @@
 # Builds the Linux or macOS portable package (tar.gz + SHA256SUMS) on its own operating system. macOS also gets a
-# disk image (the signed Filee.app next to an Applications link, to drag it there, on the background and window
+# disk image (the signed Morph.app next to an Applications link, to drag it there, on the background and window
 # layout of installer/macos/dmg, built with dmgbuild, pinned in installer/macos/dmg/requirements.txt). The image
 # itself is not signed, and neither it nor the app is notarized here.
 #
@@ -71,7 +71,7 @@ if ($Version -notmatch '^\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?$') {
     throw 'Version must be a three-part version with an optional prerelease suffix.'
 }
 $bundleVersion = ($Version -split '-')[0]
-$packageName = "Filee-$Version-$Runtime"
+$packageName = "Morph-$Version-$Runtime"
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 $OutputDir = (Resolve-Path -LiteralPath $OutputDir).Path
 $archive = Join-Path $OutputDir "$packageName.tar.gz"
@@ -82,7 +82,7 @@ if ((Test-Path -LiteralPath $archive) -or (Test-Path -LiteralPath $sums) -or (Te
 }
 $stage = Join-Path $root ('build/.cache/portable/' + [Guid]::NewGuid().ToString('N'))
 $package = Join-Path $stage $packageName
-$appBundle = Join-Path $package 'Filee.app'
+$appBundle = Join-Path $package 'Morph.app'
 $publish = if ($Runtime.StartsWith('osx-')) { Join-Path $appBundle 'Contents/MacOS' } else { $package }
 New-Item -ItemType Directory -Force -Path $publish | Out-Null
 
@@ -95,7 +95,7 @@ if (-not $SkipFonts) { & (Join-Path $PSScriptRoot 'fetch-fonts.ps1') }
 foreach ($project in @('Filee.App', 'Filee.Cli')) {
     Invoke-Checked "Publish $project" {
         dotnet publish (Join-Path $root "src/$project/$project.csproj") -c Release -r $Runtime --self-contained true `
-            "-p:Version=$Version" -p:FileeRelease=true -p:PublishReadyToRun=false @native -o $publish
+            "-p:Version=$Version" -p:MorphRelease=true -p:PublishReadyToRun=false @native -o $publish
     }
 }
 $engines = Join-Path $publish 'engines'
@@ -108,7 +108,7 @@ if ($RhwpOverride) {
 else {
     & (Join-Path $PSScriptRoot 'fetch-portable-engines.ps1') -Runtime $Runtime -Destination $engines
 }
-foreach ($name in @('Filee', 'filee-cli')) {
+foreach ($name in @('Morph', 'morph-cli')) {
     $executable = Join-Path $publish $name
     if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) { throw "Publish did not produce $name" }
     Invoke-Checked 'Executable permissions' { chmod +x $executable }
@@ -138,9 +138,9 @@ if ($Runtime.StartsWith('osx-')) {
     $info.Replace('__VERSION__', $bundleVersion).Replace('__BUNDLE_VERSION__', $bundleVersion) |
         Set-Content -LiteralPath (Join-Path $contents 'Info.plist') -Encoding utf8NoBOM
     Invoke-Checked 'Validate Info.plist' { plutil -lint (Join-Path $contents 'Info.plist') }
-    $iconset = Join-Path $stage 'filee.iconset'
+    $iconset = Join-Path $stage 'morph.iconset'
     New-Item -ItemType Directory -Path $iconset | Out-Null
-    $sourceIcon = Join-Path $root 'src/Filee.App/Assets/Icons/filee.png'
+    $sourceIcon = Join-Path $root 'src/Filee.App/Assets/Icons/morph.png'
     foreach ($size in @(16, 32, 128, 256, 512)) {
         foreach ($scale in @(1, 2)) {
             $pixels = $size * $scale
@@ -149,8 +149,8 @@ if ($Runtime.StartsWith('osx-')) {
             Invoke-Checked 'Render app icon' { sips -z $pixels $pixels $sourceIcon --out $target | Out-Null }
         }
     }
-    Invoke-Checked 'Create app icon' { iconutil -c icns $iconset -o (Join-Path $resources 'filee.icns') }
-    # Translations of the service title ("Convert with Filee") in Finder's right-click menu.
+    Invoke-Checked 'Create app icon' { iconutil -c icns $iconset -o (Join-Path $resources 'morph.icns') }
+    # Translations of the service title ("Convert with Morph") in Finder's right-click menu.
     foreach ($localization in Get-ChildItem -LiteralPath (Join-Path $root 'installer/macos') -Directory -Filter '*.lproj') {
         foreach ($stringsFile in Get-ChildItem -LiteralPath $localization.FullName -File -Filter '*.strings') {
             Invoke-Checked 'Validate localized strings' { plutil -lint $stringsFile.FullName }
@@ -162,7 +162,7 @@ if ($Runtime.StartsWith('osx-')) {
     if ($SigningIdentity -ne '-') { $signOptions += @('--timestamp', '--options', 'runtime') }
     # Every file in Contents/MacOS is code to codesign, the .NET assemblies too (their signature goes into extended
     # attributes): signing the main executable checks all of them. Deepest paths first, the main executable last.
-    $mainExecutable = Join-Path $publish 'Filee'
+    $mainExecutable = Join-Path $publish 'Morph'
     $files = Get-ChildItem -LiteralPath $publish -Recurse -File | Where-Object { $_.FullName -ne $mainExecutable } |
         Sort-Object { $_.FullName.Length } -Descending
     foreach ($file in $files) {
@@ -176,7 +176,7 @@ if ($Runtime.StartsWith('osx-')) {
     Copy-Item -LiteralPath (Join-Path $root 'installer/macos/INSTALL.txt') -Destination $package
 }
 else {
-    Copy-Item -LiteralPath (Join-Path $root 'src/Filee.App/Assets/Icons/filee.png') -Destination $package
+    Copy-Item -LiteralPath (Join-Path $root 'src/Filee.App/Assets/Icons/morph.png') -Destination $package
     Copy-Item -LiteralPath (Join-Path $root 'installer/linux/install.sh') -Destination $package
     Copy-Item -LiteralPath (Join-Path $root 'installer/linux/uninstall.sh') -Destination $package
     Copy-Item -LiteralPath (Join-Path $root 'installer/linux/INSTALL.txt') -Destination $package
@@ -188,20 +188,20 @@ else {
 }
 Invoke-Checked 'Installer permissions' { chmod +x (Join-Path $package 'install.sh') (Join-Path $package 'uninstall.sh') }
 # Keep the marker outside the signed macOS bundle. The install scripts keep installed copies separate.
-New-Item -ItemType File -Path (Join-Path $package 'filee.portable') | Out-Null
+New-Item -ItemType File -Path (Join-Path $package 'morph.portable') | Out-Null
 $temporaryArchive = "$archive.$([Guid]::NewGuid().ToString('N')).partial"
 Invoke-Checked 'Create tar.gz' { tar -czf $temporaryArchive -C $stage $packageName }
 Move-Item -LiteralPath $temporaryArchive -Destination $archive
 $packages = @($archive)
 if ($Runtime.StartsWith('osx-')) {
-    # The same signed Filee.app, next to a link to /Applications to drag it onto, on the background and window
+    # The same signed Morph.app, next to a link to /Applications to drag it onto, on the background and window
     # layout of installer/macos/dmg/settings.py. dmgbuild copies the app with ditto, which keeps the signature's
-    # extended attributes; settings.py checks the copies. install.sh (in the tar.gz) is still the way to get the filee
+    # extended attributes; settings.py checks the copies. install.sh (in the tar.gz) is still the way to get the morph
     # command.
     $temporaryImage = "$diskImage.$([Guid]::NewGuid().ToString('N')).partial.dmg"
     $dmgFolder = Join-Path $root 'installer/macos/dmg'
     Invoke-Checked 'Create dmg' {
-        python3 -m dmgbuild -s (Join-Path $dmgFolder 'settings.py') -D "app=$appBundle" -D "dir=$dmgFolder" Filee $temporaryImage | Out-Null
+        python3 -m dmgbuild -s (Join-Path $dmgFolder 'settings.py') -D "app=$appBundle" -D "dir=$dmgFolder" Morph $temporaryImage | Out-Null
     }
     Move-Item -LiteralPath $temporaryImage -Destination $diskImage
     $packages += $diskImage

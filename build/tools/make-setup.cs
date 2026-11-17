@@ -22,13 +22,13 @@ var runtime = args.FirstOrDefault(a => a.StartsWith("--runtime=", StringComparis
 var positional = args.Where(a => !a.StartsWith("--", StringComparison.Ordinal)).ToArray();
 if (positional.Length != 4 || runtime is not ("win-x64" or "win-arm64"))
 {
-    Console.Error.WriteLine("usage: dotnet run build/tools/make-setup.cs -- <Filee.Setup.exe> <publish folder> <version> <output .exe> [--fast] [--runtime=win-x64|win-arm64]");
+    Console.Error.WriteLine("usage: dotnet run build/tools/make-setup.cs -- <Morph.Setup.exe> <publish folder> <version> <output .exe> [--fast] [--runtime=win-x64|win-arm64]");
     return 2;
 }
 var (program, app, version, output) = (positional[0], positional[1], positional[2], positional[3]);
-if (!File.Exists(Path.Combine(app, "Filee.exe")))
+if (!File.Exists(Path.Combine(app, "Morph.exe")))
 {
-    Console.Error.WriteLine($"Filee.exe is missing in {app}");
+    Console.Error.WriteLine($"Morph.exe is missing in {app}");
     return 1;
 }
 
