@@ -35,7 +35,7 @@ public sealed class Installer(SetupContext context, SetupPayload payload)
     {
         var folder = Path.TrimEndingDirectorySeparator(Path.GetFullPath(choices.Folder));
         var update = previous is not null && string.Equals(previous.Folder, folder, StringComparison.OrdinalIgnoreCase);
-        Log.Info($"{(update ? "Update" : choices.Portable ? "Portable copy" : "Install")} of Filee {payload.Manifest.Version} " +
+        Log.Info($"{(update ? "Update" : choices.Portable ? "Portable copy" : "Install")} of Morph {payload.Manifest.Version} " +
                  $"into {folder} for {(choices.Scope == InstallScope.Machine ? "all users" : "this user")}; " +
                  $"previous: {(previous is null ? "none" : $"{previous.Version} in {previous.Folder}{(previous.ByInno ? " (Inno Setup)" : "")}")}; " +
                  $"options: {choices.Tasks.ToInnoString()}; engines: {string.Join(',', choices.Engines)}; language: {choices.Language}");

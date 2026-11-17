@@ -1335,7 +1335,7 @@ public sealed partial class JobQueue : IAsyncDisposable
             return Kept(new Platform.TrashRefusal("trash.no_recycle_bin"), output);
 
         var staged = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(source))!,
-            $".{Path.GetFileName(source)}.{Guid.NewGuid().ToString("N")[..8]}.filee-tmp");
+            $".{Path.GetFileName(source)}.{Guid.NewGuid().ToString("N")[..8]}.morph-tmp");
         try
         {
             File.Move(output, staged);

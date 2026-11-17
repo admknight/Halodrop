@@ -79,7 +79,7 @@ internal static class CsvFormat
         if (File.Exists(path))
             using (new FileStream(path, FileMode.Open, FileAccess.Write, FileShare.ReadWrite)) { }
         var partial = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!,
-            $".{Path.GetFileName(path)}.{Guid.NewGuid().ToString("N")[..8]}.filee-tmp");
+            $".{Path.GetFileName(path)}.{Guid.NewGuid().ToString("N")[..8]}.morph-tmp");
         try
         {
             using (var writer = new StreamWriter(partial, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true)))

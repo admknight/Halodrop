@@ -409,7 +409,7 @@ public partial class App : Application
         // Pairs with "A later launch handed over …": the request reached the UI thread too.
         if (forwarded && Throttle.TryEnter("forwarded-handled", out var held))
             AppHost.Get<ILogger<App>>().LogInformation("Handling a later launch: {Request}{Held}",
-                options.Quit ? "quit" : options.ConvertFiles.Count > 0 ? $"convert {options.ConvertFiles.Count} file(s)" : "show Filee",
+                options.Quit ? "quit" : options.ConvertFiles.Count > 0 ? $"convert {options.ConvertFiles.Count} file(s)" : "show Morph",
                 LogThrottle.HeldText(held));
         if (options.Quit)
         {
