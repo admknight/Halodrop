@@ -122,6 +122,11 @@
       </StackPanel>
     </Border>
 
+    <!-- Morph change: the guided first run, again (it shows on the Home page) -->
+    <Border Classes="card">
+      <Button x:Name="ShowGuideButton" Content="{DynamicResource general.show_guide}" Click="OnShowGuide" HorizontalAlignment="Left" />
+    </Border>
+
     <Border Classes="card">
       <StackPanel Spacing="14">
         <TextBlock Classes="h2" Text="{DynamicResource general.library}" />

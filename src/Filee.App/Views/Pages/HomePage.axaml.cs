@@ -143,6 +143,23 @@ public partial class HomePage : UserControl
         AppHost.Get<StagedFiles>().Add(saved);
     }
 
+    /// <summary>
+    /// Morph change: the guide's practice button. The donut opens at the button for the practice picture, the same donut
+    /// as for any file; the guide moves on when that conversion ends.
+    /// </summary>
+    private void OnPractice(object? sender, RoutedEventArgs e)
+    {
+        if (ViewModel is not { } vm)
+            return;
+        if (vm.Guide.PracticeFile() is not { } practice)
+        {
+            vm.Guide.PracticeFailed = true;
+            return;
+        }
+        var screenPoint = PracticeButton.PointToScreen(new Point(PracticeButton.Bounds.Width / 2, PracticeButton.Bounds.Height / 2));
+        AppHost.Get<RadialController>().ShowForFiles(screenPoint.X, screenPoint.Y, [practice], onJob: vm.Guide.PracticeStarted);
+    }
+
     /// <summary>The queue's button: the donut opens at the button for the queued files, in the order they are in.</summary>
     private void OnConvertQueue(object? sender, RoutedEventArgs e)
     {

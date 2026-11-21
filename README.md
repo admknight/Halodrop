@@ -42,13 +42,14 @@ Morph started as a fork of Filee in November 2026. So far it adds:
 - **Engines come only from their official sources**, each checked against its pinned SHA-256.
 - **A Futuristic look** (Settings → Theme): neon accent on deep navy, crisp corners, cards that glow. Light and dark both, so
   it still follows your computer.
+- **A guided first run** on the Home page: four short steps, a practice picture you convert yourself through the real
+  donut, then how to do it with your own files. Skippable; Settings → General shows it again.
 - **Urdu (اردو)**: the whole app, Setup and the macOS menus, right to left in a Nastaliq font. 24 languages in all.
 
 Coming next:
 
 - **Crash-proof conversions**: each conversion in a process of its own, so a broken file or engine can't take Morph
   down, and unfinished work picks up again after a crash.
-- **A guided first run** with a practice conversion, simple enough for anyone.
 
 ## Build from source
 

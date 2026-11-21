@@ -65,4 +65,13 @@ public partial class GeneralPage : UserControl
         if (await AppHost.Get<WindowService>().ConfirmAsync(owner, loc["general.reset_confirm"]))
             Vm.ResetLibrary();
     }
+
+    /// <summary>Morph change: shows the guided first run again, on the Home page.</summary>
+    private void OnShowGuide(object? sender, RoutedEventArgs e)
+    {
+        var store = AppHost.Get<Filee.Core.Settings.UserDataStore>();
+        store.Settings.WelcomeGuideDone = false;
+        store.SaveSettings();
+        AppHost.Get<WindowService>().ShowMain("home");
+    }
 }

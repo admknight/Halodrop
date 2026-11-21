@@ -213,7 +213,7 @@ public sealed partial class HomePageViewModel : ObservableObject, IDisposable
 
     public HomePageViewModel(UserDataStore store, ILocalizer loc, IPlatformServices platform, StagedFiles staged,
         Services.Triggers.TriggerService? triggers = null,
-        ConversionService? conversions = null, ElevationService? elevation = null)
+        ConversionService? conversions = null, ElevationService? elevation = null, JobQueue? queue = null)
     {
         _store = store;
         _loc = loc;
@@ -228,6 +228,8 @@ public sealed partial class HomePageViewModel : ObservableObject, IDisposable
             elevation.PropertyChanged += OnElevationChanged;
         var drag = store.Settings.Triggers.FirstOrDefault(t => t.Enabled && t.Kind == TriggerKind.Drag);
         DropHint = loc.Format(OperatingSystem.IsMacOS() ? "home.drop_hint_macos" : OperatingSystem.IsLinux() ? "home.drop_hint_linux" : "home.drop_hint", drag is null ? "—" : GestureText.Modifiers(drag.Modifiers));
+        // Morph change: the guided first run.
+        Guide = new WelcomeGuideViewModel(store, loc, platform, queue, DropHint);
         store.HistoryChanged += OnHistoryChanged;
         // The queue outlives this page (it is the service's), so these are unsubscribed in Dispose.
         Queue.CollectionChanged += OnQueueChanged;
@@ -250,8 +252,12 @@ public sealed partial class HomePageViewModel : ObservableObject, IDisposable
         Reload();
     });
 
+    /// <summary>Morph change: the guided first run shown above the drop zone until it is finished or skipped.</summary>
+    public WelcomeGuideViewModel Guide { get; }
+
     public void Dispose()
     {
+        Guide.Dispose();
         _thumbnails?.Cancel();
         _store.HistoryChanged -= OnHistoryChanged;
         Queue.CollectionChanged -= OnQueueChanged;

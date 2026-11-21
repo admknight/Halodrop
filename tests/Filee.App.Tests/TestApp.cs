@@ -48,6 +48,8 @@ internal static class TestServices
             // Existing app tests expect every format, like an existing user's settings.
             // Field-switch tests set their own switches and restore them afterwards.
             AppHost.Get<UserDataStore>().Settings.TurnedOffFields.Clear();
+            // Morph change: the Home page's tests (Filee's) expect no welcome guide; WelcomeGuideTests turn it on.
+            AppHost.Get<UserDataStore>().Settings.WelcomeGuideDone = true;
             AppHost.Get<LocalizationService>().Attach(app);
             _initializedFor = app;
         }
