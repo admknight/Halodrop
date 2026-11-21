@@ -144,6 +144,15 @@ public partial class App : Application
                 }
                 var files = OperatingSystem.IsMacOS()
                     ? await Task.Run(platform.GetFileManagerSelection) : platform.GetFileManagerSelection();
+                // Morph change: Explorer's Gallery and Home, and VS Code, keep their selection to themselves; their
+                // own copy command gives it (the clipboard is put back as it was).
+                if (files.Count == 0 && !store.Settings.Paused)
+                {
+                    files = await platform.ReadSelectionByCopyingAsync();
+                    if (files.Count > 0)
+                        log.LogInformation("The selection shortcut copied {Count} selected item(s) from {Window}", files.Count,
+                            platform.DescribeForegroundWindow());
+                }
                 if (files.Count > 0 && !store.Settings.Paused)
                     radial.ShowForFiles(e.X, e.Y, files, backFace: OpensBack(e));
                 else if (files.Count == 0 && Throttle.TryEnter("empty-selection", out var held))

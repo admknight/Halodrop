@@ -364,7 +364,10 @@ public sealed class WindowsPlatformServices : IPlatformServices
     private static void RemoveClassicVerb() =>
         Registry.CurrentUser.DeleteSubKeyTree(ContextMenuKey, throwOnMissingSubKey: false);
 
-    // Morph change: Windows' Share panel and the Start menu's apps.
+    // Morph change: the selection in Explorer's Gallery and Home, and in VS Code (by copying it), the Share panel and
+    // the Start menu's apps.
+    public Task<IReadOnlyList<string>> ReadSelectionByCopyingAsync() => CopySelection.ReadAsync();
+
     public bool SupportsShare => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763);
 
     public bool Share(IReadOnlyList<string> paths, nint window) => ModernShare.Show(paths, window);

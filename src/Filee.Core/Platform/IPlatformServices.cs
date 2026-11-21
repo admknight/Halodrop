@@ -103,6 +103,13 @@ public interface IPlatformServices
     /// </summary>
     bool CopyToClipboard(IReadOnlyList<string> paths) => false;
 
+    /// <summary>
+    /// Morph change: the selection where <see cref="GetFileManagerSelection"/> can't see it, read by the app's own copy
+    /// command with the clipboard put back after (Windows: File Explorer's Gallery and Home views, VS Code and the
+    /// editors built on it). Empty elsewhere. Call it on the UI thread after the shortcut found nothing.
+    /// </summary>
+    Task<IReadOnlyList<string>> ReadSelectionByCopyingAsync() => Task.FromResult<IReadOnlyList<string>>([]);
+
     /// <summary>Morph change: whether <see cref="Share"/> opens the system's share sheet here.</summary>
     bool SupportsShare => false;
 
