@@ -24,9 +24,10 @@ $devanagari = "$noto/NotoSansDevanagari/hinted/ttf"
 $bengali = "$noto/NotoSansBengali/hinted/ttf"
 $arabic = "$noto/NotoSansArabic/hinted/ttf"
 $thai = "$noto/NotoSansThai/hinted/ttf"
+$urdu = "$noto/NotoNastaliqUrdu/hinted/ttf"   # Morph change: Urdu in its own Nastaliq script
 $cjk = 'https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/SubsetOTF'
 
-# The same files on Morph's download mirror (R2 bucket morph-downloads), kept under their SHA-256 so that a new version
+# The same files on Filee's download mirror (R2 bucket filee-downloads), kept under their SHA-256 so that a new version
 # never replaces one an older branch pins. Copy a new or bumped file there too:
 #   npx wrangler r2 object put morph-downloads/fonts/<SHA-256>/<name> --file <file> --remote
 $mirror = 'https://dl.filee.sh/fonts'
@@ -45,6 +46,8 @@ $fonts = [ordered]@{
     'NotoSansBengali-Regular.ttf'    = @("$bengali/NotoSansBengali-Regular.ttf", '9F8B4DD091F19B111D24EA18DAAE81BEA8684CC67DE17EA1ACD797E144BF20BA')
     'NotoSansBengali-Medium.ttf'     = @("$bengali/NotoSansBengali-Medium.ttf", '4140BD8ED66C2130D9341E2D92B32B3450D72BBB3A2BCECF735EC7C6BD2A449B')
     'NotoSansBengali-Bold.ttf'       = @("$bengali/NotoSansBengali-Bold.ttf", '90E7A495C4F8A3690D02074DCEEC4204571098F6FF3486BEE64316F2398F2BA1')
+    'NotoNastaliqUrdu-Regular.ttf'   = @("$urdu/NotoNastaliqUrdu-Regular.ttf", '4D05B6821862CA1F3C80C47C80A352B47DD349AB73814F60E377EEA311E0E42C')
+    'NotoNastaliqUrdu-Bold.ttf'      = @("$urdu/NotoNastaliqUrdu-Bold.ttf", '7C9E53EB934043ADDA6A5DA5D993FA61D64DD1123D5227C4B63A5B36AE46AB77')
     'NotoSansThai-Regular.ttf'       = @("$thai/NotoSansThai-Regular.ttf", '61CF814EEC46B294D6EA4401AC295D0CECD5207BD2331DCC5A15E7301D30EE44')
     'NotoSansThai-Medium.ttf'        = @("$thai/NotoSansThai-Medium.ttf", '11BC8F6CF3523241995F07225FCC7D8E25EB55064FBFA39281A5E44DCD59F5F5')
     'NotoSansThai-Bold.ttf'          = @("$thai/NotoSansThai-Bold.ttf", '2AC6C6E8A478E23B15F76E4894AF1FA2210F8F350E4E6E54AAD530BEC03EFBFB')

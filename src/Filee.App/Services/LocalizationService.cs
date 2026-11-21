@@ -148,6 +148,9 @@ public sealed class LocalizationService : ILocalizer
         // "fa" and every region ("fa-IR", "fa-AF", …), but not Fang "fan".
         if (ui.Equals("fa", StringComparison.OrdinalIgnoreCase) || ui.StartsWith("fa-", StringComparison.OrdinalIgnoreCase))
             return "fa";
+        // Morph change: "ur" and every region ("ur-PK", "ur-IN"), but not other codes starting with "ur".
+        if (ui.Equals("ur", StringComparison.OrdinalIgnoreCase) || ui.StartsWith("ur-", StringComparison.OrdinalIgnoreCase))
+            return "ur";
         // "fr" and every region ("fr-FR", "fr-CA", …), but not North Frisian "frr".
         if (ui.Equals("fr", StringComparison.OrdinalIgnoreCase) || ui.StartsWith("fr-", StringComparison.OrdinalIgnoreCase))
             return "fr";

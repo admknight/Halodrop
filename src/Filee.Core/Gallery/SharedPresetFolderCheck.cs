@@ -48,7 +48,7 @@ public static partial class SharedPresetFolderCheck
     public static readonly IReadOnlyList<string> Languages =
     [
         "ar", "bn-BD", "de", "en", "es", "fa", "fr", "hi", "id", "it", "ja", "ko", "mn", "ne", "pl", "pt-BR", "pt-PT", "ru",
-        "th", "tr", "vi", "zh-CN", "zh-TW",
+        "th", "tr", "ur", "vi", "zh-CN", "zh-TW", // Morph change: Urdu
     ];
 
     /// <summary>The kinds meta.json may list (see <see cref="PresetCheckDerived.Kinds"/>).</summary>

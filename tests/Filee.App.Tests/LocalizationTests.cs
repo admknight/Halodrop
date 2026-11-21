@@ -39,7 +39,7 @@ public partial class LocalizationTests
         Assert.Equal("ar", LocalizationService.Resolve("AR"));
         Assert.Contains("fonts:Morph#Noto Sans Arabic", ThemeService.FontFamilies("ar"));
         Assert.True(SoftPalette.IsRightToLeft("ar"));
-        Assert.All(LocalizationService.Languages.Where(l => l.Code != "ar" && l.Code != "fa"), l => Assert.False(SoftPalette.IsRightToLeft(l.Code)));
+        Assert.All(LocalizationService.Languages.Where(l => l.Code is not ("ar" or "fa" or "ur")), l => Assert.False(SoftPalette.IsRightToLeft(l.Code)));
     }
 
     [Fact]
@@ -48,6 +48,21 @@ public partial class LocalizationTests
         Assert.Contains(("fa", "فارسی"), LocalizationService.Languages);
         Assert.Equal("fa", LocalizationService.Resolve("FA"));
         Assert.True(SoftPalette.IsRightToLeft("fa"));
+    }
+
+    // Morph change: Urdu, right to left, drawn in Nastaliq ahead of the Arabic (Naskh) font.
+    [Fact]
+    public void Urdu_is_offered_under_its_own_name_reads_right_to_left_and_uses_nastaliq()
+    {
+        Assert.Contains(("ur", "اردو"), LocalizationService.Languages);
+        Assert.Equal("ur", LocalizationService.Resolve("UR"));
+        Assert.Equal("ur", LocalizationService.Resolve("auto", () => "ur-PK"));
+        Assert.Equal("ur", LocalizationService.Resolve("auto", () => "ur-IN"));
+        Assert.Equal("en", LocalizationService.Resolve("auto", () => "uri-PG"));
+        Assert.True(SoftPalette.IsRightToLeft("ur"));
+        var fonts = ThemeService.FontFamilies("ur");
+        Assert.True(fonts.IndexOf("Noto Nastaliq Urdu", StringComparison.Ordinal) < fonts.IndexOf("Noto Sans Arabic", StringComparison.Ordinal));
+        Assert.DoesNotContain("Nastaliq", ThemeService.FontFamilies("ar"));
     }
 
     [Fact]

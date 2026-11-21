@@ -21,6 +21,7 @@ internal static class AppLanguages
         ("ru", "Русский"),
         ("ar", "العربية"),
         ("fa", "فارسی"),
+        ("ur", "اردو"),   // Morph change
         ("pt-PT", "Português (Portugal)"),
         ("pt-BR", "Português (Brasil)"),
         ("fr", "Français"),

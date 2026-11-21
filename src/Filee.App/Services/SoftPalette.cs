@@ -24,6 +24,9 @@ internal static class SoftPalette
     private const string Bengali = "fonts:Morph#Noto Sans Bengali";
     private const string Thai = "fonts:Morph#Noto Sans Thai";
 
+    /// <summary>Morph change: Urdu is written in Nastaliq; Noto Sans Arabic (Naskh) stays the fallback.</summary>
+    private const string Urdu = "fonts:Morph#Noto Nastaliq Urdu";
+
     /// <summary>
     /// The installed fonts as SystemUiFontCollection serves them, a letter matched only in the family asked for. Plain
     /// names go to Avalonia's system collection, which answers any letter with the platform's fallback font.
@@ -232,7 +235,9 @@ internal static class SoftPalette
         var cjk = CjkOrder(language);
         var traditional = AppLanguages.IsTraditionalChinese(language) ? $"{TraditionalChineseSystem}, " : "";
         // Noto Sans comes first: the first face also draws the trimming ellipsis, which Noto Sans Arabic lacks.
-        var embedded = $"{Latin}, {Arabic}, {Devanagari}, {Bengali}, {Thai}, {traditional}{string.Join(", ", cjk.Select(f => f.Embedded))}, Segoe UI, Nirmala UI, Leelawadee UI, "
+        // Morph change: in Urdu its letters take Nastaliq first; system fallbacks follow (Urdu Typesetting on Windows).
+        var arabicScript = language == "ur" ? $"{Urdu}, {Arabic}" : Arabic;
+        var embedded = $"{Latin}, {arabicScript}, {Devanagari}, {Bengali}, {Thai}, {traditional}{string.Join(", ", cjk.Select(f => f.Embedded))}, Segoe UI, Nirmala UI, Leelawadee UI, "
             + $"{string.Join(", ", cjk.Select(f => f.System))}, Kohinoor Devanagari, Geeza Pro, Thonburi, sans-serif";
         if (!systemFont)
             return embedded;

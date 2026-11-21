@@ -333,7 +333,11 @@ public sealed class TranslationService : ITranslationService
         ["fa"] = "fa",
         ["persian"] = "fa",
         ["farsi"] = "fa",
-        ["فارسی"] = "fa"
+        ["فارسی"] = "fa",
+        // Morph change: Urdu
+        ["ur"] = "ur",
+        ["urdu"] = "ur",
+        ["اردو"] = "ur"
     };
 
     private static readonly Dictionary<string, string> CodeToNameMap = new(StringComparer.OrdinalIgnoreCase)
@@ -359,6 +363,7 @@ public sealed class TranslationService : ITranslationService
         ["uk"] = "Ukrainian",
         ["vi"] = "Vietnamese",
         ["bn"] = "Bengali",
-        ["fa"] = "Persian"
+        ["fa"] = "Persian",
+        ["ur"] = "Urdu" // Morph change
     };
 }

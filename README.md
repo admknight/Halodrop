@@ -40,10 +40,10 @@ Morph started as a fork of Filee in November 2026. So far it adds:
   with your cursor), following you until you pause, or where the drag started.
 - **Its own identity**: Morph and Filee can be installed side by side; settings, folders and menus are separate.
 - **Engines come only from their official sources**, each checked against its pinned SHA-256.
+- **Urdu (اردو)**: the whole app, Setup and the macOS menus, right to left in a Nastaliq font. 24 languages in all.
 
 Coming next:
 
-- **Urdu**, right to left with a Nastaliq font, alongside the 23 languages it already has.
 - **Crash-proof conversions**: each conversion in a process of its own, so a broken file or engine can't take Morph
   down, and unfinished work picks up again after a crash.
 - **A Futuristic look** beside "match my computer".

@@ -308,6 +308,7 @@ public sealed partial class PresetEditorViewModel : ObservableObject
             new Choice<string>("pt", "Português"),
             new Choice<string>("ar", "العربية"),
             new Choice<string>("fa", "فارسی"),
+            new Choice<string>("ur", "اردو"), // Morph change
             new Choice<string>("it", "Italiano"),
             new Choice<string>("nl", "Nederlands"),
             new Choice<string>("pl", "Polski"),
