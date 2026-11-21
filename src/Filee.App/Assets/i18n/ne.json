@@ -2024,5 +2024,18 @@
   "action.no_terminal": "कुनै टर्मिनल एप भेटिएन",
   "action.no_text": "कुनै पाठ भेटिएन",
   "action.wallpaper_set": "वालपेपर सेट भयो",
-  "action.wallpaper_failed": "वालपेपर सेट हुन सकेन"
+  "action.wallpaper_failed": "वालपेपर सेट हुन सकेन",
+  "preset.palette": "रङ प्यालेट",
+  "preset.reverse_search": "वेबमा खोज्नुहोस् (Google मा पठाउँछ)",
+  "preset.group_picture_actions": "तस्बिर कार्यहरू",
+  "preset.group_social_sizes": "सामाजिक साइज",
+  "preset.social_square": "वर्गाकार पोस्ट",
+  "preset.social_story": "स्टोरी",
+  "preset.social_thumbnail": "भिडियो थम्बनेल",
+  "preset.normalize_audio": "आवाज बराबर गर्नुहोस्",
+  "action.palette_copied": "रङ कपी भयो",
+  "action.palette_failed": "रङ पढ्न सकिएन",
+  "action.search_opened": "नतिजा ब्राउजरमा खुल्दैछ",
+  "action.search_by_hand": "खुलेको पेजमा तस्बिर छोड्नुहोस्",
+  "error.audio_only": "अडियोमा मात्र काम गर्छ"
 }

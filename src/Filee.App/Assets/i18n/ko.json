@@ -2044,5 +2044,18 @@
   "action.no_terminal": "터미널 앱을 찾을 수 없습니다",
   "action.no_text": "텍스트를 찾을 수 없습니다",
   "action.wallpaper_set": "배경 화면 설정됨",
-  "action.wallpaper_failed": "배경 화면을 설정할 수 없습니다"
+  "action.wallpaper_failed": "배경 화면을 설정할 수 없습니다",
+  "preset.palette": "색상 팔레트",
+  "preset.reverse_search": "웹에서 검색(Google로 전송)",
+  "preset.group_picture_actions": "이미지 작업",
+  "preset.group_social_sizes": "SNS 크기",
+  "preset.social_square": "정사각형 게시물",
+  "preset.social_story": "스토리",
+  "preset.social_thumbnail": "동영상 썸네일",
+  "preset.normalize_audio": "볼륨 평준화",
+  "action.palette_copied": "색상을 복사했습니다",
+  "action.palette_failed": "색상을 읽을 수 없습니다",
+  "action.search_opened": "브라우저에서 결과가 열립니다",
+  "action.search_by_hand": "열린 페이지에 이미지를 놓으세요",
+  "error.audio_only": "오디오에서만 작동"
 }

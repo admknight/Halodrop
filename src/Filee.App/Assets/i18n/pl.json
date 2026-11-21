@@ -2044,5 +2044,18 @@
   "action.no_terminal": "Nie znaleziono terminala",
   "action.no_text": "Nie znaleziono tekstu",
   "action.wallpaper_set": "Ustawiono tapetę",
-  "action.wallpaper_failed": "Nie udało się ustawić tapety"
+  "action.wallpaper_failed": "Nie udało się ustawić tapety",
+  "preset.palette": "Paleta kolorów",
+  "preset.reverse_search": "Szukaj w sieci (wysyła do Google)",
+  "preset.group_picture_actions": "Akcje na obrazach",
+  "preset.group_social_sizes": "Rozmiary do mediów społecznościowych",
+  "preset.social_square": "Kwadratowy post",
+  "preset.social_story": "Relacja",
+  "preset.social_thumbnail": "Miniatura wideo",
+  "preset.normalize_audio": "Wyrównaj głośność",
+  "action.palette_copied": "Skopiowano kolory",
+  "action.palette_failed": "Nie udało się odczytać kolorów",
+  "action.search_opened": "Wyniki otwierają się w przeglądarce",
+  "action.search_by_hand": "Upuść obraz na otwartej stronie",
+  "error.audio_only": "Działa tylko z dźwiękiem"
 }

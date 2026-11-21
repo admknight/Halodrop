@@ -2024,5 +2024,18 @@
   "action.no_terminal": "ไม่พบแอปเทอร์มินัล",
   "action.no_text": "ไม่พบข้อความ",
   "action.wallpaper_set": "ตั้งภาพพื้นหลังแล้ว",
-  "action.wallpaper_failed": "ตั้งภาพพื้นหลังไม่ได้"
+  "action.wallpaper_failed": "ตั้งภาพพื้นหลังไม่ได้",
+  "preset.palette": "จานสี",
+  "preset.reverse_search": "ค้นหาบนเว็บ (ส่งไปยัง Google)",
+  "preset.group_picture_actions": "การทำงานกับรูปภาพ",
+  "preset.group_social_sizes": "ขนาดโซเชียล",
+  "preset.social_square": "โพสต์สี่เหลี่ยม",
+  "preset.social_story": "สตอรี่",
+  "preset.social_thumbnail": "ภาพขนาดย่อวิดีโอ",
+  "preset.normalize_audio": "ปรับระดับเสียงให้เท่ากัน",
+  "action.palette_copied": "คัดลอกสีแล้ว",
+  "action.palette_failed": "อ่านสีไม่ได้",
+  "action.search_opened": "ผลลัพธ์เปิดในเบราว์เซอร์",
+  "action.search_by_hand": "วางรูปภาพลงในหน้าที่เปิดขึ้น",
+  "error.audio_only": "ใช้กับเสียงเท่านั้น"
 }

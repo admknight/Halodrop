@@ -2044,5 +2044,18 @@
   "action.no_terminal": "找不到終端機應用程式",
   "action.no_text": "找不到文字",
   "action.wallpaper_set": "已設定桌布",
-  "action.wallpaper_failed": "無法設定桌布"
+  "action.wallpaper_failed": "無法設定桌布",
+  "preset.palette": "調色盤",
+  "preset.reverse_search": "在網路上搜尋（傳送至 Google）",
+  "preset.group_picture_actions": "圖片動作",
+  "preset.group_social_sizes": "社群尺寸",
+  "preset.social_square": "方形貼文",
+  "preset.social_story": "限時動態",
+  "preset.social_thumbnail": "影片縮圖",
+  "preset.normalize_audio": "音量標準化",
+  "action.palette_copied": "已複製顏色",
+  "action.palette_failed": "無法讀取顏色",
+  "action.search_opened": "結果將在瀏覽器中開啟",
+  "action.search_by_hand": "請將圖片拖到開啟的頁面上",
+  "error.audio_only": "僅適用於音訊"
 }

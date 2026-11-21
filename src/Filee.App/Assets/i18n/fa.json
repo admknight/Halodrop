@@ -2020,5 +2020,18 @@
   "action.no_terminal": "برنامه ترمینالی پیدا نشد",
   "action.no_text": "متنی پیدا نشد",
   "action.wallpaper_set": "پس‌زمینه تنظیم شد",
-  "action.wallpaper_failed": "پس‌زمینه تنظیم نشد"
+  "action.wallpaper_failed": "پس‌زمینه تنظیم نشد",
+  "preset.palette": "پالت رنگ",
+  "preset.reverse_search": "جستجو در وب (به Google ارسال می‌شود)",
+  "preset.group_picture_actions": "کارهای تصویر",
+  "preset.group_social_sizes": "اندازه‌های شبکه اجتماعی",
+  "preset.social_square": "پست مربعی",
+  "preset.social_story": "استوری",
+  "preset.social_thumbnail": "تصویر بندانگشتی ویدیو",
+  "preset.normalize_audio": "یکسان‌سازی صدا",
+  "action.palette_copied": "رنگ‌ها کپی شد",
+  "action.palette_failed": "رنگ‌ها خوانده نشد",
+  "action.search_opened": "نتایج در مرورگر باز می‌شود",
+  "action.search_by_hand": "تصویر را روی صفحه بازشده رها کنید",
+  "error.audio_only": "فقط روی صدا کار می‌کند"
 }

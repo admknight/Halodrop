@@ -2024,5 +2024,18 @@
   "action.no_terminal": "No se encontró ninguna terminal",
   "action.no_text": "No se encontró texto",
   "action.wallpaper_set": "Fondo aplicado",
-  "action.wallpaper_failed": "No se pudo poner el fondo"
+  "action.wallpaper_failed": "No se pudo poner el fondo",
+  "preset.palette": "Paleta de colores",
+  "preset.reverse_search": "Buscar en la web (se envía a Google)",
+  "preset.group_picture_actions": "Acciones de imagen",
+  "preset.group_social_sizes": "Tamaños para redes",
+  "preset.social_square": "Publicación cuadrada",
+  "preset.social_story": "Historia",
+  "preset.social_thumbnail": "Miniatura de vídeo",
+  "preset.normalize_audio": "Normalizar volumen",
+  "action.palette_copied": "Colores copiados",
+  "action.palette_failed": "No se pudieron leer los colores",
+  "action.search_opened": "Los resultados se abren en tu navegador",
+  "action.search_by_hand": "Suelta la imagen en la página que se abrió",
+  "error.audio_only": "Solo funciona con audio"
 }

@@ -407,8 +407,9 @@ public class ToolbarPageTests
             Assert.Equal("", vm.PaletteSearch);
             Assert.Equal(PaletteTab.Image, vm.SelectedTab!.Id);
             // The unplaced built-in groups ("Crop video" is on the video donut only) stay available ahead of the new one.
-            // Morph change: Morph's "File actions" group is one of them, ready to put on a donut.
-            Assert.Equal(["pdf-edit", "pdf-nup", "flip", "crop-video", "file-actions", "test-new-group"], vm.VisiblePalette.Take(6).Select(c => c.PresetId));
+            // Morph change: Morph's own groups are among them, ready to put on a donut.
+            Assert.Equal(["pdf-edit", "pdf-nup", "flip", "crop-video", "file-actions", "picture-actions", "social-sizes", "test-new-group"],
+                vm.VisiblePalette.Take(8).Select(c => c.PresetId));
             // Up with the groups at the top, above every conversion: not below ~80 presets.
             var chips = vm.VisiblePalette.Select(c => store.FindPreset(c.PresetId)!).ToList();
             var at = chips.FindIndex(p => p.Id == "test-new-group");

@@ -173,6 +173,7 @@ internal static class SharedPresetRules
                 ("height", new IntRule(1, CustomImageSize.MaxSide)),
                 ("lockAspect", Flag),
                 ("shrinkOnly", Flag),
+                ("fill", Flag), // Morph change
                 ("unit", Enum<SizeUnit>()),
                 ("dpi", new IntRule(CustomImageSize.MinDpi, CustomImageSize.MaxDpi))) with
             { Nullable = true }),
@@ -265,6 +266,7 @@ internal static class SharedPresetRules
             ("caption", Flag),
             ("spokenLanguage", new StringRule(16, SharedText.SpokenLanguage)),
             ("livePhoto", Enum<LivePhotoKind>()),
+            ("normalizeLoudness", Flag), // Morph change
             ("livePhotoStart", new NumberRule(0, 86_400)),
             ("livePhotoLength", new NumberRule(0, 60)),
             ("livePhotoCover", new NumberRule(0, 60)),

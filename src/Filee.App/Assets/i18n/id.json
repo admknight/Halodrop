@@ -2022,5 +2022,18 @@
   "action.no_terminal": "Aplikasi terminal tidak ditemukan",
   "action.no_text": "Tidak ada teks ditemukan",
   "action.wallpaper_set": "Wallpaper dipasang",
-  "action.wallpaper_failed": "Wallpaper tidak bisa dipasang"
+  "action.wallpaper_failed": "Wallpaper tidak bisa dipasang",
+  "preset.palette": "Palet warna",
+  "preset.reverse_search": "Cari di web (dikirim ke Google)",
+  "preset.group_picture_actions": "Aksi gambar",
+  "preset.group_social_sizes": "Ukuran media sosial",
+  "preset.social_square": "Postingan persegi",
+  "preset.social_story": "Story",
+  "preset.social_thumbnail": "Thumbnail video",
+  "preset.normalize_audio": "Samakan volume",
+  "action.palette_copied": "Warna disalin",
+  "action.palette_failed": "Warna tidak bisa dibaca",
+  "action.search_opened": "Hasil terbuka di browser",
+  "action.search_by_hand": "Letakkan gambar di halaman yang terbuka",
+  "error.audio_only": "Hanya untuk audio"
 }

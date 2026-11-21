@@ -42,7 +42,8 @@ public sealed class PresetGalleryCheckTests
     {
         // Copies of the built-in presets are what most users start from: the allow-list's ranges must take them all.
         // Morph change: the file actions run on one's own computer and aren't shared (SharedPresetRules.Tools).
-        var shareable = BuiltInData.CreatePresets().Where(p => !p.IsFileAction && p.Id != BuiltInData.FileActionsId).ToList();
+        var shareable = BuiltInData.CreatePresets()
+            .Where(p => !p.IsFileAction && p.Id is not (BuiltInData.FileActionsId or BuiltInData.PictureActionsId)).ToList();
         foreach (var chunk in shareable.Chunk(SharedPresetRules.MaxPresets))
         {
             // A group with its members, so the references resolve.

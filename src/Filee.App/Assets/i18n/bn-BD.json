@@ -2020,5 +2020,18 @@
   "action.no_terminal": "কোনো টার্মিনাল অ্যাপ পাওয়া যায়নি",
   "action.no_text": "কোনো লেখা পাওয়া যায়নি",
   "action.wallpaper_set": "ওয়ালপেপার সেট হয়েছে",
-  "action.wallpaper_failed": "ওয়ালপেপার সেট করা যায়নি"
+  "action.wallpaper_failed": "ওয়ালপেপার সেট করা যায়নি",
+  "preset.palette": "রঙের প্যালেট",
+  "preset.reverse_search": "ওয়েবে খুঁজুন (Google-এ পাঠায়)",
+  "preset.group_picture_actions": "ছবির অ্যাকশন",
+  "preset.group_social_sizes": "সোশ্যাল সাইজ",
+  "preset.social_square": "বর্গাকার পোস্ট",
+  "preset.social_story": "স্টোরি",
+  "preset.social_thumbnail": "ভিডিও থাম্বনেইল",
+  "preset.normalize_audio": "ভলিউম সমান করুন",
+  "action.palette_copied": "রং কপি হয়েছে",
+  "action.palette_failed": "রং পড়া যায়নি",
+  "action.search_opened": "ফলাফল ব্রাউজারে খুলছে",
+  "action.search_by_hand": "খোলা পাতায় ছবিটি ছেড়ে দিন",
+  "error.audio_only": "শুধু অডিওতে কাজ করে"
 }

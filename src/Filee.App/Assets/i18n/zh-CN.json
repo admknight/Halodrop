@@ -2044,5 +2044,18 @@
   "action.no_terminal": "未找到终端应用",
   "action.no_text": "未找到文字",
   "action.wallpaper_set": "已设置壁纸",
-  "action.wallpaper_failed": "无法设置壁纸"
+  "action.wallpaper_failed": "无法设置壁纸",
+  "preset.palette": "调色板",
+  "preset.reverse_search": "在网上搜索（发送到 Google）",
+  "preset.group_picture_actions": "图片操作",
+  "preset.group_social_sizes": "社交尺寸",
+  "preset.social_square": "方形帖子",
+  "preset.social_story": "快拍",
+  "preset.social_thumbnail": "视频缩略图",
+  "preset.normalize_audio": "音量标准化",
+  "action.palette_copied": "已复制颜色",
+  "action.palette_failed": "无法读取颜色",
+  "action.search_opened": "结果将在浏览器中打开",
+  "action.search_by_hand": "请将图片拖到打开的页面上",
+  "error.audio_only": "仅适用于音频"
 }

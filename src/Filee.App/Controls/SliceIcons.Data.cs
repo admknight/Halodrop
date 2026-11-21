@@ -148,7 +148,14 @@ internal static partial class SliceIcons
     /// </summary>
     private static readonly Dictionary<string, string> DefaultData = new()
     {
-        ["file-actions"] = "lightning-bolt-outline", // Morph change
+        // Morph change: Morph's own presets.
+        ["file-actions"] = "lightning-bolt-outline",
+        ["picture-actions"] = "image-outline",
+        ["social-sizes"] = "aspect-ratio",
+        ["social-square"] = "crop-square",
+        ["social-story"] = "crop-portrait",
+        ["social-thumbnail"] = "crop-landscape",
+        ["normalize-audio"] = "volume-high",
         ["half-size"] = "resize",
         ["grayscale"] = "image-filter-black-white",
         ["remove-background"] = "auto-fix",

@@ -2020,5 +2020,18 @@
   "action.no_terminal": "Терминал апп олдсонгүй",
   "action.no_text": "Текст олдсонгүй",
   "action.wallpaper_set": "Ханын зураг тохирлоо",
-  "action.wallpaper_failed": "Ханын зураг тохируулж чадсангүй"
+  "action.wallpaper_failed": "Ханын зураг тохируулж чадсангүй",
+  "preset.palette": "Өнгөний палитр",
+  "preset.reverse_search": "Вэбээс хайх (Google руу илгээнэ)",
+  "preset.group_picture_actions": "Зургийн үйлдлүүд",
+  "preset.group_social_sizes": "Сошиал хэмжээ",
+  "preset.social_square": "Дөрвөлжин пост",
+  "preset.social_story": "Стори",
+  "preset.social_thumbnail": "Видеоны жижиг зураг",
+  "preset.normalize_audio": "Дууны түвшин тэнцүүлэх",
+  "action.palette_copied": "Өнгө хуулагдлаа",
+  "action.palette_failed": "Өнгийг уншиж чадсангүй",
+  "action.search_opened": "Үр дүн хөтөч дээр нээгдэнэ",
+  "action.search_by_hand": "Нээгдсэн хуудсанд зургаа чирж оруулна уу",
+  "error.audio_only": "Зөвхөн аудиод ажиллана"
 }

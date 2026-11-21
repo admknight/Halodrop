@@ -343,6 +343,17 @@ internal static class ImageEncoder
                 if (scale != 1)
                     image.Resize((uint)Math.Max(1, Math.Round(image.Width * scale)), (uint)Math.Max(1, Math.Round(image.Height * scale)));
             }
+            else if (custom.Fill && (image.Width != (uint)customWidth || image.Height != (uint)customHeight))
+            {
+                // Morph change: cover the box in proportion, then cut what sticks out evenly from both sides (a square
+                // or a story from any photo, never squashed).
+                var scale = custom.FillScale(image.Width, image.Height);
+                image.Resize(new MagickGeometry((uint)Math.Max(customWidth, Math.Ceiling(image.Width * scale)),
+                    (uint)Math.Max(customHeight, Math.Ceiling(image.Height * scale)))
+                { IgnoreAspectRatio = true });
+                image.Crop(new MagickGeometry((uint)customWidth, (uint)customHeight), Gravity.Center);
+                image.ResetPage();
+            }
             else if (image.Width != (uint)customWidth || image.Height != (uint)customHeight)
             {
                 // No lock: exactly the asked size, stretching or squeezing the picture on purpose (issue #576). Resize

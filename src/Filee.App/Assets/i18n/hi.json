@@ -2024,5 +2024,18 @@
   "action.no_terminal": "कोई टर्मिनल ऐप नहीं मिला",
   "action.no_text": "कोई टेक्स्ट नहीं मिला",
   "action.wallpaper_set": "वॉलपेपर लग गया",
-  "action.wallpaper_failed": "वॉलपेपर नहीं लग सका"
+  "action.wallpaper_failed": "वॉलपेपर नहीं लग सका",
+  "preset.palette": "रंग पैलेट",
+  "preset.reverse_search": "वेब पर खोजें (Google को भेजता है)",
+  "preset.group_picture_actions": "चित्र क्रियाएँ",
+  "preset.group_social_sizes": "सोशल साइज़",
+  "preset.social_square": "चौकोर पोस्ट",
+  "preset.social_story": "स्टोरी",
+  "preset.social_thumbnail": "वीडियो थंबनेल",
+  "preset.normalize_audio": "आवाज़ बराबर करें",
+  "action.palette_copied": "रंग कॉपी हुए",
+  "action.palette_failed": "रंग नहीं पढ़े जा सके",
+  "action.search_opened": "नतीजे ब्राउज़र में खुल रहे हैं",
+  "action.search_by_hand": "खुले पेज पर चित्र छोड़ें",
+  "error.audio_only": "केवल ऑडियो पर काम करता है"
 }

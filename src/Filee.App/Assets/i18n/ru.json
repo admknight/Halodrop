@@ -2044,5 +2044,18 @@
   "action.no_terminal": "Терминал не найден",
   "action.no_text": "Текст не найден",
   "action.wallpaper_set": "Обои установлены",
-  "action.wallpaper_failed": "Не удалось установить обои"
+  "action.wallpaper_failed": "Не удалось установить обои",
+  "preset.palette": "Палитра цветов",
+  "preset.reverse_search": "Искать в интернете (отправляется в Google)",
+  "preset.group_picture_actions": "Действия с картинками",
+  "preset.group_social_sizes": "Размеры для соцсетей",
+  "preset.social_square": "Квадратный пост",
+  "preset.social_story": "История",
+  "preset.social_thumbnail": "Обложка видео",
+  "preset.normalize_audio": "Выровнять громкость",
+  "action.palette_copied": "Цвета скопированы",
+  "action.palette_failed": "Не удалось прочитать цвета",
+  "action.search_opened": "Результаты откроются в браузере",
+  "action.search_by_hand": "Перетащите картинку на открывшуюся страницу",
+  "error.audio_only": "Только для аудио"
 }

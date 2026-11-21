@@ -374,10 +374,19 @@ public sealed class Preset
     /// </summary>
     public const string RunTool = "run";
 
+    /// <summary><see cref="Tool"/> of "Colour palette": the picture's main colours, their hex codes on the clipboard.</summary>
+    public const string PaletteTool = "palette";
+
+    /// <summary>
+    /// <see cref="Tool"/> of "Search the web for this picture": a smaller copy without its metadata goes to Google Lens
+    /// and the results open in the browser. The only file action that sends anything off the computer; its name says so.
+    /// </summary>
+    public const string ReverseSearchTool = "reverse-search";
+
     /// <summary>The file actions: tools that do their thing at once, without a window.</summary>
     public static readonly IReadOnlySet<string> FileActionTools = new HashSet<string>(StringComparer.Ordinal)
     {
-        CopyPathTool, CopyNameTool, RevealTool, TerminalTool, WallpaperTool, CopyTextTool, RunTool,
+        CopyPathTool, CopyNameTool, RevealTool, TerminalTool, WallpaperTool, CopyTextTool, RunTool, PaletteTool, ReverseSearchTool,
     };
 
     /// <summary>True for a file action (<see cref="FileActionTools"/>).</summary>
@@ -1166,6 +1175,15 @@ public sealed class CustomImageSize
     public bool ShrinkOnly { get; set; }
 
     /// <summary>
+    /// Morph change: without <see cref="LockAspect"/>, fill the box and cut off what sticks out (centred) instead of
+    /// stretching: a square or a story from any photo without squashing it. An older version skips the field and stretches.
+    /// </summary>
+    public bool Fill { get; set; }
+
+    /// <summary>The scale that makes a width x height picture cover the box (<see cref="Fill"/>), cropped after.</summary>
+    public double FillScale(double width, double height) => Math.Max(ClampedWidth / width, ClampedHeight / height);
+
+    /// <summary>
     /// The side the editors store for a width or height left empty with <see cref="LockAspect"/> (#1270): the largest
     /// one, so the other side is what limits the picture (the free side still never goes past the largest side the
     /// editors offer). Stored as a real size rather than 0: an older version ignores a box with a side of 0, and its
@@ -1598,6 +1616,12 @@ public sealed class MediaOptions
     /// </summary>
     [JsonConverter(typeof(LenientEnumJsonConverter<LivePhotoKind>))]
     public LivePhotoKind LivePhoto { get; set; }
+
+    /// <summary>
+    /// Morph change: "Normalize volume": the sound brought to an even loudness (EBU R128, −16 LUFS) with its peaks kept
+    /// below −1.5 dB, so a quiet recording comes out as loud as it can be without clipping. Audio targets only.
+    /// </summary>
+    public bool NormalizeLoudness { get; set; }
 
     /// <summary>The photo formats a <paramref name="kind"/> of Live / Motion Photo is written as.</summary>
     public static IReadOnlyList<string> LivePhotoTargets(LivePhotoKind kind) => kind switch

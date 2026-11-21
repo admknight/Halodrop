@@ -2024,5 +2024,18 @@
   "action.no_terminal": "ターミナルアプリが見つかりません",
   "action.no_text": "テキストが見つかりません",
   "action.wallpaper_set": "壁紙を設定しました",
-  "action.wallpaper_failed": "壁紙を設定できませんでした"
+  "action.wallpaper_failed": "壁紙を設定できませんでした",
+  "preset.palette": "カラーパレット",
+  "preset.reverse_search": "Web で検索 (Google に送信)",
+  "preset.group_picture_actions": "画像の操作",
+  "preset.group_social_sizes": "SNS サイズ",
+  "preset.social_square": "正方形の投稿",
+  "preset.social_story": "ストーリー",
+  "preset.social_thumbnail": "動画サムネイル",
+  "preset.normalize_audio": "音量を均一化",
+  "action.palette_copied": "色をコピーしました",
+  "action.palette_failed": "色を読み取れませんでした",
+  "action.search_opened": "結果をブラウザーで開きます",
+  "action.search_by_hand": "開いたページに画像をドロップしてください",
+  "error.audio_only": "音声のみ対応"
 }

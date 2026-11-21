@@ -41,6 +41,8 @@ internal static partial class SliceIcons
         [Preset.CopyTextTool] = "text-recognition",
         [Preset.WallpaperTool] = "image-frame",
         [Preset.RunTool] = "application-outline",
+        [Preset.PaletteTool] = "palette-outline",
+        [Preset.ReverseSearchTool] = "magnify",
     };
 
     // Built on first use: the data is in another file of this class, and static fields of a class split over files

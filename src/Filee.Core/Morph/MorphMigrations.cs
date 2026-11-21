@@ -9,7 +9,7 @@ namespace Filee.Core.Morph;
 public static class MorphMigrations
 {
     /// <summary>The newest of Morph's library changes.</summary>
-    public const int Current = 1;
+    public const int Current = 2;
 
     /// <summary>Applies Morph's library changes after <paramref name="from"/>; true when something changed.</summary>
     public static bool Apply(int from, List<Preset> presets)
@@ -20,6 +20,19 @@ public static class MorphMigrations
         if (from < 1)
         {
             foreach (var preset in BuiltInData.FileActionPresets())
+            {
+                if (presets.Any(p => p.Id == preset.Id))
+                    continue;
+                presets.Add(preset);
+                changed = true;
+            }
+        }
+        // 2: colour palette and search the web for a picture (with copy text and wallpaper in a "Picture actions" group),
+        //    the social sizes and "Normalize volume".
+        if (from < 2)
+        {
+            foreach (var preset in BuiltInData.FileActionPresets().Where(p => p.Id != BuiltInData.FileActionsId)
+                         .Concat(BuiltInData.SocialPresets()).Append(BuiltInData.NormalizeAudioPreset()))
             {
                 if (presets.Any(p => p.Id == preset.Id))
                     continue;

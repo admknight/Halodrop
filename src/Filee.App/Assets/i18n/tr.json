@@ -2022,5 +2022,18 @@
   "action.no_terminal": "Terminal uygulaması bulunamadı",
   "action.no_text": "Metin bulunamadı",
   "action.wallpaper_set": "Duvar kâğıdı ayarlandı",
-  "action.wallpaper_failed": "Duvar kâğıdı ayarlanamadı"
+  "action.wallpaper_failed": "Duvar kâğıdı ayarlanamadı",
+  "preset.palette": "Renk paleti",
+  "preset.reverse_search": "Web'de ara (Google'a gönderir)",
+  "preset.group_picture_actions": "Resim işlemleri",
+  "preset.group_social_sizes": "Sosyal medya boyutları",
+  "preset.social_square": "Kare gönderi",
+  "preset.social_story": "Hikâye",
+  "preset.social_thumbnail": "Video küçük resmi",
+  "preset.normalize_audio": "Sesi dengele",
+  "action.palette_copied": "Renkler kopyalandı",
+  "action.palette_failed": "Renkler okunamadı",
+  "action.search_opened": "Sonuçlar tarayıcıda açılıyor",
+  "action.search_by_hand": "Resmi açılan sayfaya bırakın",
+  "error.audio_only": "Yalnızca ses için"
 }

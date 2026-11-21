@@ -2044,5 +2044,18 @@
   "action.no_terminal": "No terminal app was found",
   "action.no_text": "No text was found",
   "action.wallpaper_set": "Wallpaper set",
-  "action.wallpaper_failed": "Couldn't set the wallpaper"
+  "action.wallpaper_failed": "Couldn't set the wallpaper",
+  "preset.palette": "Colour palette",
+  "preset.reverse_search": "Search the web (sends to Google)",
+  "preset.group_picture_actions": "Picture actions",
+  "preset.group_social_sizes": "Social sizes",
+  "preset.social_square": "Square post",
+  "preset.social_story": "Story",
+  "preset.social_thumbnail": "Video thumbnail",
+  "preset.normalize_audio": "Normalize volume",
+  "action.palette_copied": "Colours copied",
+  "action.palette_failed": "Couldn't read the colours",
+  "action.search_opened": "Results open in your browser",
+  "action.search_by_hand": "Drop the picture onto the page that opened",
+  "error.audio_only": "Works on audio only"
 }

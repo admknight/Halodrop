@@ -2022,5 +2022,18 @@
   "action.no_terminal": "Keine Terminal-App gefunden",
   "action.no_text": "Kein Text gefunden",
   "action.wallpaper_set": "Hintergrund festgelegt",
-  "action.wallpaper_failed": "Hintergrund ließ sich nicht festlegen"
+  "action.wallpaper_failed": "Hintergrund ließ sich nicht festlegen",
+  "preset.palette": "Farbpalette",
+  "preset.reverse_search": "Im Web suchen (sendet an Google)",
+  "preset.group_picture_actions": "Bildaktionen",
+  "preset.group_social_sizes": "Social-Media-Größen",
+  "preset.social_square": "Quadratischer Beitrag",
+  "preset.social_story": "Story",
+  "preset.social_thumbnail": "Video-Vorschaubild",
+  "preset.normalize_audio": "Lautstärke angleichen",
+  "action.palette_copied": "Farben kopiert",
+  "action.palette_failed": "Farben ließen sich nicht lesen",
+  "action.search_opened": "Ergebnisse öffnen sich im Browser",
+  "action.search_by_hand": "Ziehen Sie das Bild auf die geöffnete Seite",
+  "error.audio_only": "Nur für Audio"
 }

@@ -138,6 +138,8 @@ public sealed class PresetAvailability
     {
         switch (preset.Tool)
         {
+            case Preset.PaletteTool:
+            case Preset.ReverseSearchTool:
             case Preset.WallpaperTool:
                 return formats.Count == 1 && HideService.CanOpen(formats[0].Id)
                     ? new(PresetUse.Usable, null)
@@ -254,6 +256,14 @@ public sealed class PresetAvailability
             formats = [.. formats.Where(f => f.Category == FormatCategory.Image)];
             if (formats.Count == 0)
                 return new(PresetUse.Unusable, _loc["error.images_only"]);
+        }
+
+        // Morph change: "Normalize volume" changes sound: only sound files have it.
+        if (preset.Media.NormalizeLoudness)
+        {
+            formats = [.. formats.Where(f => f.Category == FormatCategory.Audio)];
+            if (formats.Count == 0)
+                return new(PresetUse.Unusable, _loc["error.audio_only"]);
         }
 
         // "Crop video" cuts the frame of a video: a picture or a song has none to cut.

@@ -20,6 +20,8 @@
       <StackPanel Spacing="4" VerticalAlignment="Center">
         <TextBlock x:Name="TitleText" FontWeight="SemiBold" TextWrapping="Wrap" />
         <TextBlock x:Name="DetailText" Classes="caption" TextWrapping="Wrap" MaxHeight="80" TextTrimming="CharacterEllipsis" IsVisible="False" />
+        <!-- The colours of "Colour palette", each with its hex code. -->
+        <WrapPanel x:Name="Swatches" IsVisible="False" Margin="0,4,0,0" />
       </StackPanel>
     </DockPanel>
   </Border>

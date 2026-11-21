@@ -870,6 +870,10 @@ public sealed partial class JobQueue : IAsyncDisposable
             : runWith.TargetFormat == BuiltInData.SameAsSource ? runWith.CropsVideo ? VideoCrop.TargetFor(from.Id) : from.Id
             : runWith.TargetFormat;
 
+        // Morph change: "Normalize volume" works on sound files; a picture among them is left out with a reason.
+        if (finalOutput && runWith.Media.NormalizeLoudness && from.Category != FormatCategory.Audio)
+            return Fail(file, "error.audio_only", null);
+
         // "Same format as the audio" (#1490): the format that holds the video's sound as it is, read from the file.
         if (target == BuiltInData.SameAsAudio)
         {

@@ -647,7 +647,7 @@ internal static partial class MediaEncoding
     /// as they are.
     /// </summary>
     internal static bool CanCopyAudio(string target, AudioStreamInfo audio, MediaOptions options) =>
-        options.Quality != MediaQuality.Small && options.AudioBitrateKbps <= 0
+        options.Quality != MediaQuality.Small && options.AudioBitrateKbps <= 0 && !options.NormalizeLoudness // Morph change
         && (options.AudioChannels is not (1 or 2) || options.AudioChannels == audio.Channels)
         && Remuxable.TryGetValue(target, out var codecs) && audio.Codec is { } codec && codecs.Audio.Contains(codec);
 
@@ -927,11 +927,32 @@ internal static partial class MediaEncoding
             var codec = AudioEncoder(target, spec.AudioCodec, options);
             args.AddRange(AudioCodecArguments(target, codec, options, audio, inVideo: false));
             args.AddRange(ChannelAndRateArguments(target, codec, options, audio.SampleRate));
+            args.AddRange(NormalizeArguments(args, options, audio.SampleRate));
         }
         args.AddRange(MetadataArguments(extras?.MetadataFile is null ? 0 : 1));
         args.AddRange(ContainerArguments(target));
         args.AddRange(["-f", spec.Muxer, "-progress", "pipe:1", output]);
         return args;
+    }
+
+    /// <summary>Morph change: the loudness filter of <see cref="MediaOptions.NormalizeLoudness"/>.</summary>
+    internal const string LoudnessFilter = "loudnorm=I=-16:TP=-1.5:LRA=11";
+
+    /// <summary>
+    /// Morph change: "Normalize volume" (<see cref="MediaOptions.NormalizeLoudness"/>). loudnorm works at 192 kHz
+    /// inside, so the source's rate is asked for again unless the arguments already set one.
+    /// </summary>
+    internal static IEnumerable<string> NormalizeArguments(IReadOnlyList<string> args, MediaOptions options, int sourceSampleRate)
+    {
+        if (!options.NormalizeLoudness)
+            yield break;
+        yield return "-af";
+        yield return LoudnessFilter;
+        if (!args.Contains("-ar"))
+        {
+            yield return "-ar";
+            yield return (sourceSampleRate is >= 8000 and <= 192000 ? sourceSampleRate : 48000).ToString(CultureInfo.InvariantCulture);
+        }
     }
 
     /// <summary>
@@ -976,6 +997,7 @@ internal static partial class MediaEncoding
     internal static bool CanCopyIntoAudio(string target, AudioStreamInfo audio, MediaOptions options)
     {
         if (!options.CopyAudioWhenPossible || options.Quality == MediaQuality.Small || options.AudioBitrateKbps > 0
+            || options.NormalizeLoudness // Morph change: the sound is changed, so it's encoded
             || options.AudioChannels is 1 or 2 && options.AudioChannels != audio.Channels
             || audio.Codec is not { } codec || !CopyableAudio.TryGetValue(target, out var codecs) || !codecs.Contains(codec))
             return false;

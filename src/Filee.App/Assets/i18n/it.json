@@ -2021,5 +2021,18 @@
   "action.no_terminal": "Nessun terminale trovato",
   "action.no_text": "Nessun testo trovato",
   "action.wallpaper_set": "Sfondo impostato",
-  "action.wallpaper_failed": "Impossibile impostare lo sfondo"
+  "action.wallpaper_failed": "Impossibile impostare lo sfondo",
+  "preset.palette": "Tavolozza colori",
+  "preset.reverse_search": "Cerca sul web (inviata a Google)",
+  "preset.group_picture_actions": "Azioni sulle immagini",
+  "preset.group_social_sizes": "Formati social",
+  "preset.social_square": "Post quadrato",
+  "preset.social_story": "Storia",
+  "preset.social_thumbnail": "Miniatura video",
+  "preset.normalize_audio": "Normalizza volume",
+  "action.palette_copied": "Colori copiati",
+  "action.palette_failed": "Impossibile leggere i colori",
+  "action.search_opened": "I risultati si aprono nel browser",
+  "action.search_by_hand": "Trascina l'immagine nella pagina aperta",
+  "error.audio_only": "Funziona solo con l'audio"
 }

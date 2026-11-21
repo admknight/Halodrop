@@ -138,6 +138,40 @@ public class MorphFileActionTests
     }
 
     [Fact]
+    public void A_library_at_Morph_step_1_gets_the_picture_actions_social_sizes_and_normalize()
+    {
+        using var dir = new TempDir();
+        var first = new UserDataStore(dir.Path);
+        first.Load();
+        string[] step2 = ["action-palette", "action-reverse-search", BuiltInData.PictureActionsId, BuiltInData.SocialSizesId,
+            "social-square", "social-story", "social-thumbnail", "normalize-audio"];
+        first.Presets.RemoveAll(p => step2.Contains(p.Id));
+        first.Settings.MorphSchema = 1;
+        first.SaveSettings();
+        first.SaveLibrary();
+
+        var migrated = new UserDataStore(dir.Path);
+        migrated.Load();
+        Assert.All(step2, id => Assert.NotNull(migrated.FindPreset(id)));
+        Assert.Equal(2, migrated.Settings.MorphSchema);
+        Assert.All(migrated.Presets.Where(p => p.IsGroup), g => Assert.InRange(g.SubPresetIds.Count, 1, Preset.MaxSubPresets));
+        Assert.Equal(migrated.Presets.Count, migrated.Presets.Select(p => p.Id).Distinct().Count());
+    }
+
+    [Fact]
+    public void Normalize_and_fill_survive_saving()
+    {
+        using var dir = new TempDir();
+        var store = new UserDataStore(dir.Path);
+        store.Load();
+        store.SaveLibrary();
+        var reloaded = new UserDataStore(dir.Path);
+        reloaded.Load();
+        Assert.True(reloaded.FindPreset("normalize-audio")!.Media.NormalizeLoudness);
+        Assert.True(reloaded.FindPreset("social-story")!.Image.CustomSize!.Fill);
+    }
+
+    [Fact]
     public void An_imported_bundle_never_brings_a_program_to_run()
     {
         using var dir = new TempDir();

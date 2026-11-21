@@ -2023,5 +2023,18 @@
   "action.no_terminal": "لم يُعثر على تطبيق طرفية",
   "action.no_text": "لم يُعثر على نص",
   "action.wallpaper_set": "تم تعيين الخلفية",
-  "action.wallpaper_failed": "تعذّر تعيين الخلفية"
+  "action.wallpaper_failed": "تعذّر تعيين الخلفية",
+  "preset.palette": "لوحة الألوان",
+  "preset.reverse_search": "بحث على الويب (يُرسل إلى Google)",
+  "preset.group_picture_actions": "إجراءات الصور",
+  "preset.group_social_sizes": "مقاسات التواصل",
+  "preset.social_square": "منشور مربع",
+  "preset.social_story": "قصة",
+  "preset.social_thumbnail": "صورة مصغرة للفيديو",
+  "preset.normalize_audio": "توحيد مستوى الصوت",
+  "action.palette_copied": "تم نسخ الألوان",
+  "action.palette_failed": "تعذّرت قراءة الألوان",
+  "action.search_opened": "تُفتح النتائج في متصفحك",
+  "action.search_by_hand": "أفلت الصورة على الصفحة التي فُتحت",
+  "error.audio_only": "يعمل على الصوت فقط"
 }

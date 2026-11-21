@@ -2044,5 +2044,18 @@
   "action.no_terminal": "Aucun terminal trouvé",
   "action.no_text": "Aucun texte trouvé",
   "action.wallpaper_set": "Fond d’écran défini",
-  "action.wallpaper_failed": "Impossible de définir le fond d’écran"
+  "action.wallpaper_failed": "Impossible de définir le fond d’écran",
+  "preset.palette": "Palette de couleurs",
+  "preset.reverse_search": "Rechercher sur le web (envoyé à Google)",
+  "preset.group_picture_actions": "Actions sur les images",
+  "preset.group_social_sizes": "Formats réseaux sociaux",
+  "preset.social_square": "Publication carrée",
+  "preset.social_story": "Story",
+  "preset.social_thumbnail": "Miniature vidéo",
+  "preset.normalize_audio": "Normaliser le volume",
+  "action.palette_copied": "Couleurs copiées",
+  "action.palette_failed": "Impossible de lire les couleurs",
+  "action.search_opened": "Les résultats s’ouvrent dans votre navigateur",
+  "action.search_by_hand": "Déposez l’image sur la page ouverte",
+  "error.audio_only": "Fonctionne uniquement avec l’audio"
 }

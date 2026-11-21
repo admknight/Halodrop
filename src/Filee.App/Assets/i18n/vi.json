@@ -2044,5 +2044,18 @@
   "action.no_terminal": "Không tìm thấy ứng dụng terminal",
   "action.no_text": "Không tìm thấy chữ",
   "action.wallpaper_set": "Đã đặt hình nền",
-  "action.wallpaper_failed": "Không thể đặt hình nền"
+  "action.wallpaper_failed": "Không thể đặt hình nền",
+  "preset.palette": "Bảng màu",
+  "preset.reverse_search": "Tìm trên web (gửi đến Google)",
+  "preset.group_picture_actions": "Thao tác ảnh",
+  "preset.group_social_sizes": "Kích thước mạng xã hội",
+  "preset.social_square": "Bài đăng vuông",
+  "preset.social_story": "Tin",
+  "preset.social_thumbnail": "Ảnh thu nhỏ video",
+  "preset.normalize_audio": "Cân bằng âm lượng",
+  "action.palette_copied": "Đã sao chép màu",
+  "action.palette_failed": "Không đọc được màu",
+  "action.search_opened": "Kết quả mở trong trình duyệt",
+  "action.search_by_hand": "Thả ảnh vào trang vừa mở",
+  "error.audio_only": "Chỉ dùng cho âm thanh"
 }

@@ -2044,5 +2044,18 @@
   "action.no_terminal": "کوئی ٹرمینل ایپ نہیں ملی",
   "action.no_text": "کوئی تحریر نہیں ملی",
   "action.wallpaper_set": "وال پیپر لگ گیا",
-  "action.wallpaper_failed": "وال پیپر نہیں لگ سکا"
+  "action.wallpaper_failed": "وال پیپر نہیں لگ سکا",
+  "preset.palette": "رنگوں کی پیلیٹ",
+  "preset.reverse_search": "ویب پر تلاش (گوگل کو بھیجتا ہے)",
+  "preset.group_picture_actions": "تصویر ایکشنز",
+  "preset.group_social_sizes": "سوشل سائزز",
+  "preset.social_square": "مربع پوسٹ",
+  "preset.social_story": "اسٹوری",
+  "preset.social_thumbnail": "ویڈیو تھمب نیل",
+  "preset.normalize_audio": "آواز برابر کریں",
+  "action.palette_copied": "رنگ کاپی ہو گئے",
+  "action.palette_failed": "رنگ نہیں پڑھے جا سکے",
+  "action.search_opened": "نتائج براؤزر میں کھل رہے ہیں",
+  "action.search_by_hand": "کھلنے والے صفحے پر تصویر ڈالیں",
+  "error.audio_only": "صرف آڈیو پر کام کرتا ہے"
 }

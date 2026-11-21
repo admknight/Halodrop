@@ -15,6 +15,8 @@ using Filee.Core.Localization;
 using Filee.Core.Platform;
 using Filee.Core.Presets;
 using Filee.Core.Settings;
+using Filee.Engines.Magick;
+using ImageMagick;
 using Microsoft.Extensions.Logging;
 
 namespace Filee.App.Services;
@@ -48,6 +50,8 @@ public sealed partial class FileActions(UserDataStore store, ILocalizer loc, IPl
             Preset.WallpaperTool => WallpaperAsync(files),
             Preset.CopyTextTool => CopyTextAsync(files),
             Preset.RunTool => RunProgramAsync(files, preset),
+            Preset.PaletteTool => PaletteAsync(files[0], preset),
+            Preset.ReverseSearchTool => ReverseSearchAsync(files[0], preset),
             _ => Task.CompletedTask,
         };
     }
@@ -275,6 +279,114 @@ public sealed partial class FileActions(UserDataStore store, ILocalizer loc, IPl
     [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool SystemParametersInfoW(uint action, uint param, string value, uint winIni);
+
+    // ---- colour palette ----
+
+    private async Task PaletteAsync(string file, Preset preset)
+    {
+        IReadOnlyList<string> colours;
+        try
+        {
+            var (preview, _, _) = await HideService.LoadPreviewAsync(file, preset);
+            using (preview)
+                colours = ColourPalette.Extract(preview);
+        }
+        catch (Exception ex) when (ex is MagickException or NotSupportedException or IOException or UnauthorizedAccessException)
+        {
+            log.LogWarning(ex, "No palette for {File}", file);
+            Notice(loc["action.palette_failed"], ex.Message, problem: true);
+            return;
+        }
+        if (colours.Count == 0)
+        {
+            Notice(loc["action.palette_failed"], null, problem: true);
+            return;
+        }
+        await Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            var card = Notice(loc["action.palette_copied"]);
+            card.ShowSwatches(colours);
+            if (card.Clipboard is { } clipboard)
+                await TrySetTextAsync(clipboard, string.Join(" ", colours));
+        });
+    }
+
+    // ---- search the web for a picture ----
+
+    /// <summary>Where the picture is sent: Google Lens, which answers with the page of its results.</summary>
+    internal static readonly Uri LensUpload = new("https://lens.google.com/v3/upload?hl=en");
+
+    /// <summary>Opened when the upload gives no results page: Lens itself, where the picture can be dropped by hand.</summary>
+    internal static readonly Uri LensHome = new("https://lens.google.com/");
+
+    /// <summary>The longest side of the copy that is sent: enough to be found, small, and without the file's metadata.</summary>
+    internal const int SearchSide = 1280;
+
+    private async Task ReverseSearchAsync(string file, Preset preset)
+    {
+        Uri? results = null;
+        try
+        {
+            var picture = await SearchCopyAsync(file, preset);
+            results = await UploadToLensAsync(picture);
+        }
+        catch (Exception ex) when (ex is MagickException or NotSupportedException or IOException or HttpRequestException
+                                       or TaskCanceledException or UnauthorizedAccessException)
+        {
+            log.LogWarning(ex, "Searching the web for {File} failed", file);
+        }
+        await Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            var card = results is null ? Notice(loc["action.search_by_hand"], null, problem: true) : Notice(loc["action.search_opened"]);
+            if (results is null)
+                platform.RevealInFileManager(file); // to drag onto the page
+            await card.Launcher.LaunchUriAsync(results ?? LensHome);
+        });
+    }
+
+    /// <summary>A JPG of the picture at most <see cref="SearchSide"/> across, without EXIF, GPS or any other metadata.</summary>
+    private static async Task<byte[]> SearchCopyAsync(string file, Preset preset)
+    {
+        var (preview, _, _) = await HideService.LoadPreviewAsync(file, preset);
+        using (preview)
+        {
+            preview.Resize(new MagickGeometry(SearchSide, SearchSide) { Greater = true });
+            preview.Strip();
+            preview.BackgroundColor = MagickColors.White;
+            preview.Alpha(AlphaAction.Remove);
+            preview.Quality = 85;
+            preview.Format = MagickFormat.Jpeg;
+            return preview.ToByteArray();
+        }
+    }
+
+    /// <summary>Sends <paramref name="jpeg"/> to Google Lens; the page of its results, or null when none came back.</summary>
+    private static async Task<Uri?> UploadToLensAsync(byte[] jpeg)
+    {
+        using var http = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false }) { Timeout = TimeSpan.FromSeconds(40) };
+        http.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36");
+        using var form = new MultipartFormDataContent();
+        var image = new ByteArrayContent(jpeg);
+        image.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+        form.Add(image, "encoded_image", "image.jpg");
+        using var response = await http.PostAsync(LensUpload, form);
+        if (response.Headers.Location is { } location)
+            return location.IsAbsoluteUri ? location : new Uri(LensUpload, location);
+        return ResultsPage(await response.Content.ReadAsStringAsync());
+    }
+
+    /// <summary>The results page a Lens answer points to (a meta refresh or a link in it), or null.</summary>
+    internal static Uri? ResultsPage(string html)
+    {
+        var match = ResultsLink().Match(html);
+        if (!match.Success)
+            return null;
+        var url = System.Net.WebUtility.HtmlDecode(match.Value).Replace("\\u0026", "&").Replace("\\x26", "&");
+        return Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Host.EndsWith("google.com", StringComparison.OrdinalIgnoreCase) ? uri : null;
+    }
+
+    [System.Text.RegularExpressions.GeneratedRegex(@"https://lens\.google\.com/search\?[^""'\s<>]+")]
+    private static partial System.Text.RegularExpressions.Regex ResultsLink();
 
     // ---- the user's own program ----
 

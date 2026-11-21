@@ -170,7 +170,10 @@ public static class BuiltInData
         .. ModelPresets(),
         .. GeoPresets(),
         .. TracePresets(),
-        .. FileActionPresets(), // Morph change: last, so Filee's presets keep their order
+        // Morph change: last, so Filee's presets keep their order.
+        .. FileActionPresets(),
+        .. SocialPresets(),
+        NormalizeAudioPreset(),
     ];
 
     /// <summary>
@@ -388,12 +391,60 @@ public static class BuiltInData
         Action("action-terminal", "preset.terminal", Preset.TerminalTool),
         Action("action-copy-text", "preset.copy_text", Preset.CopyTextTool),
         Action("action-wallpaper", "preset.wallpaper", Preset.WallpaperTool),
+        Action("action-palette", "preset.palette", Preset.PaletteTool),
+        Action("action-reverse-search", "preset.reverse_search", Preset.ReverseSearchTool),
         new()
         {
             Id = FileActionsId, NameKey = "preset.group_file_actions", TargetFormat = Preset.GroupTarget, Kind = PresetKind.Group,
-            SubPresetIds = ["action-copy-path", "action-copy-name", "action-reveal", "action-terminal", "action-copy-text", "action-wallpaper"],
+            SubPresetIds = ["action-copy-path", "action-copy-name", "action-reveal", "action-terminal"],
+        },
+        new()
+        {
+            Id = PictureActionsId, NameKey = "preset.group_picture_actions", TargetFormat = Preset.GroupTarget, Kind = PresetKind.Group,
+            SubPresetIds = ["action-copy-text", "action-palette", "action-wallpaper", "action-reverse-search"],
         },
     ];
+
+    /// <summary>Morph change: id of the "Picture actions" group (copy text, palette, wallpaper, search the web).</summary>
+    public const string PictureActionsId = "picture-actions";
+
+    /// <summary>Morph change: id of the "Social sizes" group.</summary>
+    public const string SocialSizesId = "social-sizes";
+
+    /// <summary>
+    /// Morph change: pictures cut to the sizes social sites ask for (an idea from OrbitDrop): filled and centred, never
+    /// squashed, as JPG. Square post 1080 x 1080, story 1080 x 1920, video thumbnail 1280 x 720.
+    /// </summary>
+    public static List<Preset> SocialPresets() =>
+    [
+        Social("social-square", "preset.social_square", 1080, 1080, "square"),
+        Social("social-story", "preset.social_story", 1080, 1920, "story"),
+        Social("social-thumbnail", "preset.social_thumbnail", 1280, 720, "thumbnail"),
+        new()
+        {
+            Id = SocialSizesId, NameKey = "preset.group_social_sizes", TargetFormat = Preset.GroupTarget, Kind = PresetKind.Group,
+            SubPresetIds = ["social-square", "social-story", "social-thumbnail"],
+        },
+    ];
+
+    private static Preset Social(string id, string nameKey, int width, int height, string suffix) => new()
+    {
+        Id = id,
+        NameKey = nameKey,
+        TargetFormat = "jpg",
+        Image = { Quality = 90, CustomSize = new CustomImageSize { Width = width, Height = height, Fill = true } },
+        Output = { FileNamePattern = "{name}_" + suffix },
+    };
+
+    /// <summary>Morph change: "Normalize volume" (an idea from OrbitDrop): even loudness, no clipping, same format.</summary>
+    public static Preset NormalizeAudioPreset() => new()
+    {
+        Id = "normalize-audio",
+        NameKey = "preset.normalize_audio",
+        TargetFormat = SameAsSource,
+        Media = { NormalizeLoudness = true },
+        Output = { FileNamePattern = "{name}_normalized" },
+    };
 
     private static Preset Action(string id, string nameKey, string tool) => new()
     {

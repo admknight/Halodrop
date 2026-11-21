@@ -2044,5 +2044,18 @@
   "action.no_terminal": "Nenhum terminal encontrado",
   "action.no_text": "Nenhum texto encontrado",
   "action.wallpaper_set": "Fundo definido",
-  "action.wallpaper_failed": "Não foi possível definir o fundo"
+  "action.wallpaper_failed": "Não foi possível definir o fundo",
+  "preset.palette": "Paleta de cores",
+  "preset.reverse_search": "Pesquisar na web (envia para a Google)",
+  "preset.group_picture_actions": "Ações de imagem",
+  "preset.group_social_sizes": "Tamanhos para redes",
+  "preset.social_square": "Publicação quadrada",
+  "preset.social_story": "Story",
+  "preset.social_thumbnail": "Miniatura de vídeo",
+  "preset.normalize_audio": "Normalizar volume",
+  "action.palette_copied": "Cores copiadas",
+  "action.palette_failed": "Não foi possível ler as cores",
+  "action.search_opened": "Os resultados abrem no navegador",
+  "action.search_by_hand": "Largue a imagem na página que abriu",
+  "error.audio_only": "Funciona só com áudio"
 }
