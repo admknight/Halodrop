@@ -234,9 +234,14 @@ public partial class App : Application
             AppHost.Get<MemoryTrimmer>().Dispose();
             AppHost.Get<TriggerService>().Dispose();
             AppHost.Get<TrayService>().Dispose();
+            AppHost.Get<EngineIsolation>().Dispose(); // Morph change: ends the engine workers
             AppHost.Get<WatchFolderService>().DisposeAsync().AsTask().Wait(TimeSpan.FromSeconds(5));
             Filee.App.ViewModels.OllamaModelManagerViewModel.StopFileeStartedServer();
         };
+
+        // Morph change: follow conversions from the start (UnfinishedWork), and offer what the last run left unfinished.
+        if (AppHost.Get<UnfinishedWork>().Left.Jobs.Count > 0)
+            DispatcherTimer.RunOnce(() => AppHost.Get<WindowService>().ShowResumeNotice(), TimeSpan.FromSeconds(2));
 
         // Before HandleCommandLine marks the first run complete: a fresh install gets no slides (an update by the
         // installer does, even when its settings are gone). Without the main window (sign-in, the Explorer menu) they

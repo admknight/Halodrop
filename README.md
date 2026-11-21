@@ -44,12 +44,11 @@ Morph started as a fork of Filee in November 2026. So far it adds:
   it still follows your computer.
 - **A guided first run** on the Home page: four short steps, a practice picture you convert yourself through the real
   donut, then how to do it with your own files. Skippable; Settings → General shows it again.
+- **Crash-proof conversions.** The engines that run inside Morph (ImageMagick, PDFium, the HWP, CAD, font, office and
+  e-book engines…) run in separate worker processes. If one crashes on a broken file, only that file fails, with a clear
+  message; Morph and your other conversions carry on. If Morph itself stops mid-way (a power cut, say), it offers to
+  finish the unfinished files at the next start, and leaves out a file it stopped on twice.
 - **Urdu (اردو)**: the whole app, Setup and the macOS menus, right to left in a Nastaliq font. 24 languages in all.
-
-Coming next:
-
-- **Crash-proof conversions**: each conversion in a process of its own, so a broken file or engine can't take Morph
-  down, and unfinished work picks up again after a crash.
 
 ## Build from source
 

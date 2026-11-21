@@ -81,6 +81,9 @@ public sealed class ConversionService
     /// </param>
     /// <param name="toClipboard">The results go on the clipboard when the job has finished (the clipboard shortcut).</param>
     /// <returns>The job's view model, or null when there was nothing to convert.</returns>
+    /// <summary>Morph change: true for a job a watch folder started (UnfinishedWork leaves those to the watch folder).</summary>
+    public bool IsFromWatchFolder(string jobId) => _watchJobs.ContainsKey(jobId);
+
     public JobViewModel? Start(IReadOnlyList<string> files, Preset preset, bool showInToast = true, WebDrop? web = null,
         bool toClipboard = false)
     {

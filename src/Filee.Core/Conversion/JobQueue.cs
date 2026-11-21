@@ -64,6 +64,12 @@ public sealed partial class JobQueue : IAsyncDisposable
     /// <summary>Raised (on a background thread) once when a job reaches a final state.</summary>
     public event EventHandler<ConversionJob>? JobFinished;
 
+    /// <summary>
+    /// Morph change: runs each engine step. Null runs it in this process; the app sets an
+    /// <see cref="Isolation.IsolatedStepRunner"/> so an engine that crashes takes down only its worker, not Morph.
+    /// </summary>
+    public IStepRunner? StepRunner { get; set; }
+
     /// <summary>True while a job waits in the queue or runs (the app frees memory only when this is false).</summary>
     public bool IsBusy => Volatile.Read(ref _busy) > 0;
 
@@ -1016,7 +1022,9 @@ public sealed partial class JobQueue : IAsyncDisposable
                                     .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
                                 Notify(job);
                             }, file.SourcePath, Caption: step.Caption, Translate: step.Translate);
-                        outputs.AddRange(await step.Converter.ConvertAsync(stepInfo, progress, ct));
+                        outputs.AddRange(StepRunner is { } runner
+                            ? await runner.RunAsync(step.Converter, stepInfo, progress, ct)
+                            : await step.Converter.ConvertAsync(stepInfo, progress, ct));
                     }
                     finally
                     {

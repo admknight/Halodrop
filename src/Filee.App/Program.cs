@@ -48,6 +48,10 @@ internal static class Program
     [STAThread]
     public static int Main(string[] args)
     {
+        // Morph change: started as an engine worker (Core/Conversion/Isolation). Before anything else: no window, no
+        // single-instance lock, no portable prompt; the data folder comes on the command line.
+        if (args.Length > 0 && args[0] == Filee.Core.Conversion.Isolation.WorkerProtocol.Switch)
+            return EngineWorkerHost.Run(args);
         IDisposable? portable;
         try { portable = PortableMode.Initialize(); }
         catch (PortableStorageException ex)

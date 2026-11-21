@@ -58,7 +58,15 @@ public static class AppHost
             EngineRegistry.FindFileCombiner(sp.GetRequiredService<IReadOnlyList<IConverter>>()),
             EngineRegistry.FindTiffMerger(sp.GetRequiredService<IReadOnlyList<IConverter>>()),
             EngineRegistry.FindMediaJoiner(sp.GetRequiredService<IReadOnlyList<IConverter>>()),
-            sp.GetRequiredService<IPlatformServices>().MoveToTrash));
+            sp.GetRequiredService<IPlatformServices>().MoveToTrash)
+        {
+            // Morph change: engines inside Morph's process run in worker processes, so one that crashes can't close Morph.
+            StepRunner = sp.GetRequiredService<EngineIsolation>().Runner,
+        });
+        services.AddSingleton(sp => new EngineIsolation(dataDir, sp.GetRequiredService<ILogger<Filee.Core.Conversion.Isolation.IsolatedStepRunner>>()));
+        // Morph change: conversions that didn't finish are offered again at the next start.
+        services.AddSingleton(sp => new UnfinishedWork(dataDir, sp.GetRequiredService<JobQueue>(),
+            id => sp.GetRequiredService<ConversionService>().IsFromWatchFolder(id), sp.GetRequiredService<ILogger<UnfinishedWork>>()));
 
         // Files dragged from a browser with only an address are downloaded without the browser's cookies.
         services.AddSingleton(_ => new WebDownloader(userAgent: $"Morph/{typeof(AppHost).Assembly.GetName().Version?.ToString(3)}"));

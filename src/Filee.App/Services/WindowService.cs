@@ -1112,6 +1112,21 @@ public sealed class WindowService(ILocalizer loc, IServiceProvider services, Mem
     private bool _elevationNoticeShown;
 
     /// <summary>
+    /// Morph change: offers what the last run didn't finish (UnfinishedWork) once, in the corner. "Convert again" starts
+    /// each job with the preset it had.
+    /// </summary>
+    public void ShowResumeNotice()
+    {
+        var work = services.GetRequiredService<UnfinishedWork>();
+        if (work.ToResume().Count == 0 && work.LeftOut.Count == 0)
+            return;
+        var conversions = services.GetRequiredService<ConversionService>();
+        var notice = new ResumeNoticeWindow(work, loc, job => conversions.Start(job.Files, UnfinishedWork.PresetOf(job.Job)));
+        PrepareWindow(notice);
+        notice.Show();
+    }
+
+    /// <summary>
     /// Shows the "Filee can't convert .ncm files yet" card with "Request this format", replacing an earlier one.
     /// </summary>
     public void ShowFormatRequestNotice(IReadOnlyList<string> extensions)
