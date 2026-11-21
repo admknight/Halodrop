@@ -131,8 +131,8 @@ public class ExplorerMenuTests
         // Setup switches an install between x64 and ARM64 in place: same folder, same package version.
         const string folder = @"C:\Program Files\Morph";
         var version = ExplorerMenuPackage.ManifestVersion;
-        var x64 = new ExplorerMenuRegistration.RegisteredPackage($"Morph.ExplorerMenu_{version}_x64__c73vxh346rtay", version, folder, "x64");
-        var arm64 = x64 with { FullName = $"Morph.ExplorerMenu_{version}_arm64__c73vxh346rtay", Architecture = "arm64" };
+        var x64 = new ExplorerMenuRegistration.RegisteredPackage($"Morph.ExplorerMenu_{version}_x64__jyrfsxvq45vp8", version, folder, "x64");
+        var arm64 = x64 with { FullName = $"Morph.ExplorerMenu_{version}_arm64__jyrfsxvq45vp8", Architecture = "arm64" };
 
         Assert.Equal(ModernContextMenuState.On, ExplorerMenuRegistration.StateOf(x64, folder, "x64"));
         Assert.Equal(ModernContextMenuState.On, ExplorerMenuRegistration.StateOf(arm64, folder, "arm64"));

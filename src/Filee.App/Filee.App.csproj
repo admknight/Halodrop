@@ -6,6 +6,8 @@
     <OutputType>WinExe</OutputType>
     <AssemblyName>Morph</AssemblyName>
     <RootNamespace>Filee.App</RootNamespace>
+    <!-- Morph change: LibraryImport (the wallpaper call in FileActions) generates unsafe marshalling code. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\Icons\morph.ico</ApplicationIcon>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>

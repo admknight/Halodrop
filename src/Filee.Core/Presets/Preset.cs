@@ -348,6 +348,49 @@ public sealed class Preset
     /// </summary>
     public const string UpscaleTool = "upscale";
 
+    // Morph change: file actions. They convert nothing and open no window: each does one thing with the files at once.
+
+    /// <summary><see cref="Tool"/> of "Copy path": the files' full paths on the clipboard, one per line.</summary>
+    public const string CopyPathTool = "copy-path";
+
+    /// <summary><see cref="Tool"/> of "Copy name": the files' names on the clipboard, one per line.</summary>
+    public const string CopyNameTool = "copy-name";
+
+    /// <summary><see cref="Tool"/> of "Show in folder": the file manager opens with the file selected.</summary>
+    public const string RevealTool = "reveal";
+
+    /// <summary><see cref="Tool"/> of "Open terminal here": a terminal in the file's folder (or the folder itself).</summary>
+    public const string TerminalTool = "terminal";
+
+    /// <summary><see cref="Tool"/> of "Set as wallpaper": the picture becomes the desktop background.</summary>
+    public const string WallpaperTool = "wallpaper";
+
+    /// <summary><see cref="Tool"/> of "Copy text": the text recognised in pictures and PDFs (OCR) on the clipboard.</summary>
+    public const string CopyTextTool = "copy-text";
+
+    /// <summary>
+    /// <see cref="Tool"/> of "Run a program": the user's own program or command with the files (<see cref="Run"/>).
+    /// Never shared (SharedPresetRules.Tools leaves it out) and never imported: only actions the user made run.
+    /// </summary>
+    public const string RunTool = "run";
+
+    /// <summary>The file actions: tools that do their thing at once, without a window.</summary>
+    public static readonly IReadOnlySet<string> FileActionTools = new HashSet<string>(StringComparer.Ordinal)
+    {
+        CopyPathTool, CopyNameTool, RevealTool, TerminalTool, WallpaperTool, CopyTextTool, RunTool,
+    };
+
+    /// <summary>True for a file action (<see cref="FileActionTools"/>).</summary>
+    [JsonIgnore]
+    public bool IsFileAction => IsTool && Tool is not null && FileActionTools.Contains(Tool);
+
+    /// <summary>True for "Run a program".</summary>
+    [JsonIgnore]
+    public bool IsRunTool => IsTool && Tool == RunTool;
+
+    /// <summary>The program "Run a program" starts, and how (<see cref="RunTool"/>); null for every other preset.</summary>
+    public RunOptions? Run { get; set; }
+
     /// <summary>
     /// <see cref="PresetKind.Tool"/>: which window it opens, <see cref="CropTool"/> (or null, as saved before there
     /// were other tools), <see cref="ClipTool"/>, <see cref="ImageEditTool"/>, <see cref="HideTool"/>,
@@ -475,6 +518,7 @@ public sealed class Preset
         Gallery = Gallery,
         Tool = Tool,
         SubPresetIds = [.. SubPresetIds],
+        Run = Run?.Clone(), // Morph change
     };
 }
 

@@ -144,6 +144,7 @@ internal static class SharedPresetRules
         ("direction", Enum<LabelDirection>() with { Nullable = true }),
         ("askCompression", Flag),
         ("gallery", new LeftOutRule("set by the app on a preset installed from the gallery")),
+        ("run", new LeftOutRule("runs a program on one's own computer; never shared")), // Morph change
         ("image", Obj(
             ("quality", new IntRule(1, 100)),
             ("maxSizeMb", new NumberRule(0, 10_000)),

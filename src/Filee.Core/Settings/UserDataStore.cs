@@ -87,10 +87,16 @@ public sealed class UserDataStore
         if (PortableMode.IsEnabled)
             PortableMode.DisableIntegration(Settings);
         var libraryChanged = File.Exists(ProfilesPath) && SettingsMigrations.ApplyToLibrary(schema, Presets, Profiles);
+        // Morph change: Morph's own library changes, counted apart from Filee's (Morph.MorphMigrations). A new library is
+        // already up to date (as is one without settings, as Filee's schema counts it); one from before the count is at 0.
+        var morphFrom = fresh || !File.Exists(ProfilesPath) ? Morph.MorphMigrations.Current : Settings.MorphSchema ?? 0;
+        libraryChanged |= Morph.MorphMigrations.Apply(morphFrom, Presets);
+        var morphChanged = Settings.MorphSchema != Morph.MorphMigrations.Current;
+        Settings.MorphSchema = Morph.MorphMigrations.Current;
         EnsureConsistency();
 
         // Persist upgrades right away so they run once, even if the user never changes a setting.
-        if (schema < AppSettings.CurrentSchemaVersion && File.Exists(SettingsPath))
+        if ((schema < AppSettings.CurrentSchemaVersion || morphChanged) && File.Exists(SettingsPath))
             Write(SettingsPath, Settings, FileeJsonContext.Default.AppSettings);
         if (libraryChanged)
         {
@@ -285,6 +291,9 @@ public sealed class UserDataStore
         var bundle = JsonSerializer.Deserialize(stream, FileeJsonContext.Default.PresetBundle)
                      ?? throw new InvalidDataException("Empty preset bundle.");
 
+        // Morph change: "Run a program" runs whatever it names: only actions made on this computer run, never one that
+        // arrived in a file (nor a preset that carries a program by any other kind).
+        bundle.Presets.RemoveAll(p => p.Tool == Preset.RunTool || p.Run is not null);
         foreach (var preset in bundle.Presets)
         {
             // A path to a picture in someone else's bundle is not one of ours to open (a network share, say).

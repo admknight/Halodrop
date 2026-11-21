@@ -28,7 +28,9 @@ public static class BuiltInData
 
     /// <summary>Whether a preset accepts folders without converting their individual files.</summary>
     public static bool AcceptsFolders(Preset preset) => !preset.IsGroup
-        && (preset.IsCopyToFolder || SupportsFolderTarget(preset.TargetFormat));
+        && (preset.IsCopyToFolder || SupportsFolderTarget(preset.TargetFormat)
+            // Morph change: the file actions that work on a folder as on a file.
+            || preset.IsTool && preset.Tool is Preset.CopyPathTool or Preset.CopyNameTool or Preset.RevealTool or Preset.TerminalTool or Preset.RunTool);
 
     /// <summary>Creates the default preset list.</summary>
     public static List<Preset> CreatePresets() =>
@@ -168,6 +170,7 @@ public static class BuiltInData
         .. ModelPresets(),
         .. GeoPresets(),
         .. TracePresets(),
+        .. FileActionPresets(), // Morph change: last, so Filee's presets keep their order
     ];
 
     /// <summary>
@@ -368,6 +371,38 @@ public static class BuiltInData
             Kind = PresetKind.Tool, Tool = Preset.MetadataTool, Output = { FileNamePattern = "{name}_metadata" },
         },
     ];
+
+    /// <summary>Morph change: id of the "File actions" group (FileActionPresets), ready to put on a donut.</summary>
+    public const string FileActionsId = "file-actions";
+
+    /// <summary>
+    /// Morph change: the file actions (Preset.FileActionTools) and their group. They do one thing at once, with no
+    /// window and no conversion: copy the paths or names, show the file in its folder, open a terminal there, copy the
+    /// text of a picture or PDF, make a picture the wallpaper. "Run a program" isn't built in: each is the user's own.
+    /// </summary>
+    public static List<Preset> FileActionPresets() =>
+    [
+        Action("action-copy-path", "preset.copy_path", Preset.CopyPathTool),
+        Action("action-copy-name", "preset.copy_name", Preset.CopyNameTool),
+        Action("action-reveal", "preset.reveal", Preset.RevealTool),
+        Action("action-terminal", "preset.terminal", Preset.TerminalTool),
+        Action("action-copy-text", "preset.copy_text", Preset.CopyTextTool),
+        Action("action-wallpaper", "preset.wallpaper", Preset.WallpaperTool),
+        new()
+        {
+            Id = FileActionsId, NameKey = "preset.group_file_actions", TargetFormat = Preset.GroupTarget, Kind = PresetKind.Group,
+            SubPresetIds = ["action-copy-path", "action-copy-name", "action-reveal", "action-terminal", "action-copy-text", "action-wallpaper"],
+        },
+    ];
+
+    private static Preset Action(string id, string nameKey, string tool) => new()
+    {
+        Id = id,
+        NameKey = nameKey,
+        TargetFormat = SameAsSource,
+        Kind = PresetKind.Tool,
+        Tool = tool,
+    };
 
     /// <summary>Id of the built-in "Upscale" tool (settings schema 73): in the palette, on no donut.</summary>
     public const string UpscaleId = "tool-upscale";

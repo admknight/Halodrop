@@ -390,6 +390,12 @@ public sealed class WindowService(ILocalizer loc, IServiceProvider services, Mem
     /// </summary>
     public void ShowTool(IReadOnlyList<string> files, Preset preset, PixelPoint? near = null)
     {
+        // Morph change: a file action does its thing at once, without a window.
+        if (preset.IsFileAction)
+        {
+            _ = services.GetRequiredService<FileActions>().RunAsync(files, preset);
+            return;
+        }
         if (preset.IsClipTool)
             ShowClipWindow(files, preset, near);
         else if (preset.IsHideTool)

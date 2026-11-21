@@ -33,6 +33,14 @@ internal static partial class SliceIcons
         [Preset.ClipTool] = "content-cut",
         [Preset.ImageEditTool] = "image-edit-outline",
         [Preset.HideTool] = "blur",
+        // Morph change: the file actions.
+        [Preset.CopyPathTool] = "content-copy",
+        [Preset.CopyNameTool] = "format-text",
+        [Preset.RevealTool] = "folder-open-outline",
+        [Preset.TerminalTool] = "console",
+        [Preset.CopyTextTool] = "text-recognition",
+        [Preset.WallpaperTool] = "image-frame",
+        [Preset.RunTool] = "application-outline",
     };
 
     // Built on first use: the data is in another file of this class, and static fields of a class split over files

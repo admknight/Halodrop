@@ -138,6 +138,17 @@ public sealed partial class PresetsPageViewModel : ObservableObject, IFitsWindow
     [RelayCommand]
     private void Add() => AddPreset(new Preset { Name = _loc["toolbar.new_preset"], TargetFormat = "png" });
 
+    /// <summary>Morph change: a new "Run a program" action (it runs nothing until the user names a program or command).</summary>
+    [RelayCommand]
+    private void AddRun() => AddPreset(new Preset
+    {
+        Name = _loc["preset.run"],
+        TargetFormat = BuiltInData.SameAsSource,
+        Kind = PresetKind.Tool,
+        Tool = Preset.RunTool,
+        Run = new RunOptions(),
+    });
+
     /// <summary>The ready-made presets Add offers besides an empty one (<see cref="BuiltInData.PlacePresets"/>).</summary>
     public IReadOnlyList<PresetListItem> PlacePresets { get; }
 

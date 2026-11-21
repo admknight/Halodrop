@@ -148,6 +148,7 @@ internal static partial class SliceIcons
     /// </summary>
     private static readonly Dictionary<string, string> DefaultData = new()
     {
+        ["file-actions"] = "lightning-bolt-outline", // Morph change
         ["half-size"] = "resize",
         ["grayscale"] = "image-filter-black-white",
         ["remove-background"] = "auto-fix",

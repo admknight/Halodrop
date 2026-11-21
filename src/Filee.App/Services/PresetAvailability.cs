@@ -129,6 +129,36 @@ public sealed class PresetAvailability
         }
     }
 
+    /// <summary>
+    /// Morph change: whether a file action works on these files. Paths, names, the folder, a terminal and the user's own
+    /// program take anything; the wallpaper takes pictures; copying text takes pictures and PDFs an OCR engine reads.
+    /// </summary>
+    private PresetJudgement FileAction(Preset preset, IReadOnlyList<FileFormat> formats,
+        Func<RoutePlanner> installedPlanner, Func<Func<RoutePlanner, bool>, EnginePackageState?> packageEnabling)
+    {
+        switch (preset.Tool)
+        {
+            case Preset.WallpaperTool:
+                return formats.Count == 1 && HideService.CanOpen(formats[0].Id)
+                    ? new(PresetUse.Usable, null)
+                    : new(PresetUse.Unusable, _loc["error.images_only"]);
+            case Preset.CopyTextTool:
+                if (!formats.Any(f => f.Id == "pdf" || HideService.CanOpen(f.Id)))
+                    return new(PresetUse.Unusable, _loc["error.unsupported_source"]);
+                return Evaluate(FileActions.CopyTextConversion(), formats.Where(f => f.Id == "pdf" || HideService.CanOpen(f.Id)).ToList(),
+                    installedPlanner, packageEnabling);
+            case Preset.RunTool:
+                if (preset.Run is not { } run || run.Problem() is not null)
+                    return new(PresetUse.Unusable, _loc["run.problem_nothing"]);
+                var wanted = run.ExtensionSet();
+                return wanted.Count == 0 || formats.Count > 0 && formats.All(f => f.Extensions.Any(e => wanted.Contains(e.TrimStart('.').ToLowerInvariant())))
+                    ? new(PresetUse.Usable, null)
+                    : new(PresetUse.Unusable, _loc["error.unsupported_source"]);
+            default:
+                return new(PresetUse.Usable, null);
+        }
+    }
+
     private PresetJudgement Evaluate(Preset preset, IReadOnlyList<FileFormat> formats,
         Func<RoutePlanner> installedPlanner, Func<Func<RoutePlanner, bool>, EnginePackageState?> packageEnabling)
     {
@@ -173,6 +203,9 @@ public sealed class PresetAvailability
             return formats.Any(f => HideService.CanOpen(f.Id))
                 ? new(PresetUse.Usable, null)
                 : new(PresetUse.Unusable, _loc["error.images_only"]);
+        // Morph change: the file actions.
+        if (preset.IsFileAction)
+            return FileAction(preset, formats, installedPlanner, packageEnabling);
         if (preset.IsUpscaleTool)
             return formats.Any(f => UpscaleTool.CanUpscale(f.Id))
                 ? new(PresetUse.Usable, null)

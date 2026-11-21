@@ -74,6 +74,7 @@ public static class AppHost
         services.AddSingleton<PresetAvailability>();
         services.AddSingleton<RadialViewModel>();
         services.AddSingleton<ConversionService>();
+        services.AddSingleton<FileActions>(); // Morph change
         services.AddSingleton<SpreadsheetPrintService>();
         services.AddSingleton<WatchFolderService>();
         services.AddSingleton<Filee.App.Services.Connect.SharedFolderManager>();

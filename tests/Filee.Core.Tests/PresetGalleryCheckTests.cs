@@ -41,7 +41,8 @@ public sealed class PresetGalleryCheckTests
     public void Every_built_in_preset_can_be_shared()
     {
         // Copies of the built-in presets are what most users start from: the allow-list's ranges must take them all.
-        var shareable = BuiltInData.CreatePresets();
+        // Morph change: the file actions run on one's own computer and aren't shared (SharedPresetRules.Tools).
+        var shareable = BuiltInData.CreatePresets().Where(p => !p.IsFileAction && p.Id != BuiltInData.FileActionsId).ToList();
         foreach (var chunk in shareable.Chunk(SharedPresetRules.MaxPresets))
         {
             // A group with its members, so the references resolve.
@@ -182,7 +183,7 @@ public sealed class PresetGalleryCheckTests
         var leftOut = SharedPresetRules.Paths(SharedPresetRules.PresetFields).Where(p => p.LeftOut).Select(p => p.Path).ToHashSet();
         Assert.Equal(["gallery", "image.backdrop.picture", "image.backdrop.pictureLength", "image.backdrop.pictureWritten",
             "image.backdropLook.picture", "image.backdropLook.pictureLength", "image.backdropLook.pictureWritten",
-            "media.clip.music.path", "output.customFolder", "output.keepFoldersFrom", "pdf.password"], leftOut.Order());
+            "media.clip.music.path", "output.customFolder", "output.keepFoldersFrom", "pdf.password", "run"], leftOut.Order());
     }
 
     /// <summary>The allow-list has every field of <paramref name="type"/>, but none inside a field it leaves out.</summary>

@@ -200,6 +200,12 @@ public sealed class AppSettings
 
     public int SchemaVersion { get; set; } = CurrentSchemaVersion;
 
+    /// <summary>
+    /// Morph change: Morph's own library changes (Morph.MorphMigrations), counted apart from Filee's
+    /// <see cref="SchemaVersion"/> so a Filee migration merged later is never skipped. Null in settings from before it.
+    /// </summary>
+    public int? MorphSchema { get; set; }
+
     /// <summary><c>"auto"</c>, <c>"en"</c>, <c>"ko"</c> or <c>"zh-CN"</c>.</summary>
     public string Language { get; set; } = "auto";
 

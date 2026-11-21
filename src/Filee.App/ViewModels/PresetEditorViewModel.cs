@@ -248,6 +248,13 @@ public sealed partial class PresetEditorViewModel : ObservableObject
         _compressionLevel = CompressionLevels.FirstOrDefault(c => c.Value == _edit.Pdf.Compression) ?? CompressionLevels[0];
         _compressWithGhostscript = _edit.Pdf.CompressWithGhostscript;
         _watermark = _edit.Pdf.Watermark;
+        // Morph change: "Run a program".
+        var run = _edit.Run ?? new RunOptions();
+        _runProgram = run.Program;
+        _runArguments = run.Arguments;
+        _runPerFile = run.PerFile;
+        _runShowWindow = run.ShowWindow;
+        _runExtensions = run.Extensions;
         _pageNumbers = _edit.Pdf.PageNumbers;
         _pdfPassword = _edit.Pdf.Password;
         _ocr = _edit.Pdf.Ocr;
@@ -419,6 +426,14 @@ public sealed partial class PresetEditorViewModel : ObservableObject
         ? _loc["presets.copy_choose_folder"] : null;
 
     public bool IsTool => _original.IsTool;
+
+    // Morph change: "Run a program" (Preset.RunTool): the program, what it gets, and for which files.
+    public bool IsRunTool => _original.IsRunTool;
+    [ObservableProperty] private string _runProgram = "";
+    [ObservableProperty] private string _runArguments = "";
+    [ObservableProperty] private bool _runPerFile;
+    [ObservableProperty] private bool _runShowWindow;
+    [ObservableProperty] private string _runExtensions = "";
     public bool CanChangeTarget => !IsTool;
     /// <summary>Folder actions only offer directory-capable targets and preserve the source directory.</summary>
     public bool FolderInput { get; }
@@ -1353,6 +1368,17 @@ public sealed partial class PresetEditorViewModel : ObservableObject
         Labels.Apply(_original);
 
         _original.TargetFormat = TargetId;
+        if (_original.IsRunTool)
+        {
+            _original.Run = new RunOptions
+            {
+                Program = RunProgram.Trim(),
+                Arguments = RunArguments.Trim(),
+                PerFile = RunPerFile,
+                ShowWindow = RunShowWindow,
+                Extensions = RunExtensions.Trim(),
+            };
+        }
         var image = _original.Image;
         image.Quality = Math.Clamp(Quality, 1, 100);
         // Only where the field is shown, as with SaveEveryFrame below: a limit left behind by a JPG target fits nothing.

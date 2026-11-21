@@ -23,6 +23,7 @@
               <!-- The ready-made presets are added below the heading from PlacePresets (code-behind). -->
               <MenuFlyout Placement="BottomEdgeAlignedLeft">
                 <MenuItem Header="{DynamicResource presets.add_empty}" Command="{Binding AddCommand}" />
+                <MenuItem Header="{DynamicResource presets.add_run}" Command="{Binding AddRunCommand}" /><!-- Morph change -->
                 <Separator />
                 <MenuItem Header="{DynamicResource presets.add_ready}" IsEnabled="False" />
               </MenuFlyout>

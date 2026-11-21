@@ -1,0 +1,26 @@
+<!-- Morph change: a short card in the bottom-right corner saying what a file action did ("3 paths copied"). It closes
+     by itself; it never takes the focus. -->
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Filee.App.Views.QuickNoticeWindow"
+        Title="Morph"
+        Width="340"
+        SizeToContent="Height"
+        WindowDecorations="None"
+        Background="Transparent"
+        TransparencyLevelHint="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        CanResize="False">
+  <Border Classes="card" Margin="12" Padding="14,12">
+    <DockPanel>
+      <Image DockPanel.Dock="Left" Source="avares://Morph/Assets/Icons/morph.png" Width="28" Height="28"
+             VerticalAlignment="Top" Margin="0,0,10,0" />
+      <StackPanel Spacing="4" VerticalAlignment="Center">
+        <TextBlock x:Name="TitleText" FontWeight="SemiBold" TextWrapping="Wrap" />
+        <TextBlock x:Name="DetailText" Classes="caption" TextWrapping="Wrap" MaxHeight="80" TextTrimming="CharacterEllipsis" IsVisible="False" />
+      </StackPanel>
+    </DockPanel>
+  </Border>
+</Window>

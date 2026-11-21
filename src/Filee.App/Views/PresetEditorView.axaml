@@ -306,6 +306,33 @@
       </StackPanel>
     </Border>
 
+    <!-- Morph change: "Run a program" -->
+    <Border x:Name="RunCard" Classes="card" IsVisible="{Binding IsRunTool}" Padding="14">
+      <StackPanel Spacing="10">
+        <StackPanel>
+          <TextBlock Classes="label" Text="{DynamicResource presets.run_program}" />
+          <DockPanel>
+            <Button DockPanel.Dock="Right" Margin="8,0,0,0" Content="{DynamicResource presets.browse}" Click="OnBrowseProgram" />
+            <TextBox Text="{Binding RunProgram}" PlaceholderText="code" FlowDirection="LeftToRight" />
+          </DockPanel>
+          <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource presets.run_program_hint}" />
+        </StackPanel>
+        <StackPanel>
+          <TextBlock Classes="label" Text="{DynamicResource presets.run_arguments}" />
+          <TextBox Text="{Binding RunArguments}" PlaceholderText="{}{files}" FlowDirection="LeftToRight" />
+          <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource presets.run_arguments_hint}" />
+        </StackPanel>
+        <StackPanel>
+          <TextBlock Classes="label" Text="{DynamicResource presets.run_extensions}" />
+          <TextBox Text="{Binding RunExtensions}" PlaceholderText="psd ai" FlowDirection="LeftToRight" />
+          <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource presets.run_extensions_hint}" />
+        </StackPanel>
+        <ToggleSwitch Content="{DynamicResource presets.run_per_file}" IsChecked="{Binding RunPerFile}" />
+        <ToggleSwitch Content="{DynamicResource presets.run_show_window}" IsChecked="{Binding RunShowWindow}" />
+        <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource presets.run_safety}" />
+      </StackPanel>
+    </Border>
+
     <!-- Upscale options -->
     <Border x:Name="UpscaleCard" Classes="card" IsVisible="{Binding ShowUpscale}" Padding="14">
       <StackPanel Spacing="10">
