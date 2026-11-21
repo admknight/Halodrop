@@ -140,6 +140,9 @@ public class DonutFlipTests
         {
             var file = Path.Combine(folder.FullName, "photo.jpg");
             File.WriteAllBytes(file, [0xFF, 0xD8, 0xFF]);
+            // Morph change: this drops on a slice during the drag, the donut-at-drag-start way (Morph's default opens
+            // the donut where the files are let go).
+            Store.Settings.Donut.OpenAt = DonutOpenAt.DragStart;
             radial.ShowForDrag(400, 400);
             var window = radial.Window!;
             RenderTests.Pump();
@@ -168,6 +171,7 @@ public class DonutFlipTests
         finally
         {
             radial.Close(animate: false);
+            Store.Settings.Donut.OpenAt = DonutOpenAt.LetGo;
             // The cancelled conversion may still be reading photo.jpg: the folder goes once it has stopped.
             if (started is not null)
                 ClipWindowTests.WaitFor(() => started.State is not (JobState.Queued or JobState.Running));
