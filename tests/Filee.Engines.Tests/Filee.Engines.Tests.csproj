@@ -33,5 +33,6 @@
     <None Update="Fonts\*.ttf;Fonts\*.otf;Fonts\*.woff2" CopyToOutputDirectory="PreserveNewest" />
     <!-- Small Shapefiles written by GDAL for the geospatial tests (synthetic data; Geo/make-test-geo.py recreates them). -->
     <None Update="Geo\*" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="CorelDraw\*.cdr" CopyToOutputDirectory="PreserveNewest" /><!-- Morph change -->
   </ItemGroup>
 </Project>

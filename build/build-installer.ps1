@@ -105,6 +105,15 @@ elseif (-not $PublishDir) {
     # Next to Morph.exe: the Explorer menu package's external location is the install folder.
     $architecture = $Runtime.Substring(4)
     & (Join-Path $PSScriptRoot 'build-explorer-menu.ps1') -Destination $PublishDir -Version $Version -Architecture $architecture
+    # Morph change: the CorelDRAW reader (engines\cdr). Without it CorelDRAW files go through LibreOffice as before, so
+    # a failed build only warns.
+    try {
+        & (Join-Path $PSScriptRoot 'build-cdr-reader.ps1') -Destination (Join-Path $PublishDir 'engines\cdr') -Architecture $architecture
+    }
+    catch {
+        Write-Warning "The CorelDRAW reader wasn't built: $_"
+        if ($env:GITHUB_ACTIONS) { Write-Host "::warning::The CorelDRAW reader wasn't built: $_" }
+    }
     # Only the small rhwp and 7-Zip are bundled; the app downloads the others when the user picks them. The Microsoft
     # C++ runtime goes next to rhwp.exe and next to Morph.exe (unhwp.dll imports VCRUNTIME140.dll), so neither needs
     # the Visual C++ Redistributable (#248). The ARM64 builds need none.

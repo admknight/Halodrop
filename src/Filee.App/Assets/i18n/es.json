@@ -2066,5 +2066,6 @@
   "action.share_failed": "No se abrió el panel de compartir; el archivo se muestra en su carpeta",
   "action.share_unsupported": "Este sistema no tiene panel de compartir",
   "error.engine_memory": "Este archivo necesitaba más memoria de la segura para tu equipo, así que Morph lo detuvo. Tus otros archivos no se ven afectados.",
-  "general.install_when_idle": "Instalar actualizaciones cuando Morph no esté en uso"
+  "general.install_when_idle": "Instalar actualizaciones cuando Morph no esté en uso",
+  "error.cdr_unreadable": "No se pudo leer este dibujo de CorelDRAW (puede estar dañado, cifrado o ser de una versión desconocida)"
 }

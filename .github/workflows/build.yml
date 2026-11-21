@@ -49,6 +49,22 @@ jobs:
         shell: pwsh
         run: ./build/build-explorer-menu.ps1
 
+      # Morph change: the CorelDRAW reader (src/Morph.CdrReader, libcdr) into engines\cdr, where its tests find it.
+      # Sources and the built reader are cached; without it the tests skip and CorelDRAW files use LibreOffice.
+      - name: Restore CorelDRAW reader
+        uses: actions/cache@v5
+        with:
+          path: |
+            build/.cache/cdr-src
+            build/.cache/cdr-x64
+          key: cdr-reader-x64-${{ hashFiles('build/build-cdr-reader.ps1', 'src/Morph.CdrReader/**') }}
+
+      - name: Build CorelDRAW reader
+        continue-on-error: true
+        timeout-minutes: 30
+        shell: pwsh
+        run: ./build/build-cdr-reader.ps1 -Architecture x64
+
       - name: Save Zig toolchain
         if: steps.zig.outputs.cache-hit != 'true'
         uses: actions/cache/save@v5
@@ -155,6 +171,22 @@ jobs:
       - name: Build Explorer menu extension
         timeout-minutes: 30
         run: ./build/build-explorer-menu.ps1 -Architecture arm64
+
+      # Morph change: the CorelDRAW reader (src/Morph.CdrReader, libcdr) into engines\cdr, where its tests find it.
+      # Sources and the built reader are cached; without it the tests skip and CorelDRAW files use LibreOffice.
+      - name: Restore CorelDRAW reader
+        uses: actions/cache@v5
+        with:
+          path: |
+            build/.cache/cdr-src
+            build/.cache/cdr-arm64
+          key: cdr-reader-arm64-${{ hashFiles('build/build-cdr-reader.ps1', 'src/Morph.CdrReader/**') }}
+
+      - name: Build CorelDRAW reader
+        continue-on-error: true
+        timeout-minutes: 30
+        shell: pwsh
+        run: ./build/build-cdr-reader.ps1 -Architecture arm64
 
       - name: Test UI on its own
         run: dotnet test tests/Filee.App.Tests --no-build -c Release --blame-crash --blame-hang-timeout 5m --logger "console;verbosity=normal" --results-directory TestResults/app

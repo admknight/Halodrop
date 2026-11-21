@@ -2066,5 +2066,6 @@
   "action.share_failed": "共有パネルが開きませんでした。ファイルをフォルダーで表示します",
   "action.share_unsupported": "このシステムには共有パネルがありません",
   "error.engine_memory": "このファイルはコンピューターにとって安全な量を超えるメモリーを必要としたため、Morph が停止しました。ほかのファイルには影響ありません。",
-  "general.install_when_idle": "Morph を使っていないときに更新をインストール"
+  "general.install_when_idle": "Morph を使っていないときに更新をインストール",
+  "error.cdr_unreadable": "この CorelDRAW 図面を読み込めませんでした (破損、暗号化、または未対応のバージョンの可能性があります)"
 }

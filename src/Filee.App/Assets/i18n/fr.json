@@ -2086,5 +2086,6 @@
   "action.share_failed": "Le panneau de partage ne s’est pas ouvert ; le fichier est affiché dans son dossier",
   "action.share_unsupported": "Ce système n’a pas de panneau de partage",
   "error.engine_memory": "Ce fichier demandait plus de mémoire que ce qui est sûr pour votre ordinateur, Morph l’a donc arrêté. Vos autres fichiers ne sont pas touchés.",
-  "general.install_when_idle": "Installer les mises à jour quand Morph n’est pas utilisé"
+  "general.install_when_idle": "Installer les mises à jour quand Morph n’est pas utilisé",
+  "error.cdr_unreadable": "Ce dessin CorelDRAW n’a pas pu être lu (endommagé, chiffré ou d’une version inconnue)"
 }

@@ -2064,5 +2064,6 @@
   "action.share_failed": "Panel berbagi tidak terbuka; file ditampilkan di foldernya",
   "action.share_unsupported": "Sistem ini tidak punya panel berbagi",
   "error.engine_memory": "File ini butuh memori lebih dari batas aman komputer Anda, jadi Morph menghentikannya. File lain tidak terpengaruh.",
-  "general.install_when_idle": "Pasang pembaruan saat Morph tidak dipakai"
+  "general.install_when_idle": "Pasang pembaruan saat Morph tidak dipakai",
+  "error.cdr_unreadable": "Gambar CorelDRAW ini tidak bisa dibaca (mungkin rusak, terenkripsi, atau versinya tidak dikenal)"
 }
