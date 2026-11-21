@@ -52,7 +52,7 @@ public class AccentContrastTests
 
     private static IEnumerable<(ThemeSettings Theme, ThemeVariant Variant)> EveryLook()
     {
-        foreach (var style in new[] { ThemeStyle.Soft, ThemeStyle.MaterialYou })
+        foreach (var style in new[] { ThemeStyle.Soft, ThemeStyle.MaterialYou, ThemeStyle.Futuristic }) // Morph change: Futuristic
             foreach (var accent in Accents())
                 foreach (var dark in new[] { false, true })
                 {

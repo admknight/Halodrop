@@ -139,7 +139,7 @@
 
                           <!-- Message Content -->
                           <SelectableTextBlock Text="{Binding Text}" TextWrapping="Wrap"
-                                               FontSize="13.5" LineHeight="19"
+                                               FontSize="13.5" LineHeight="{DynamicResource ConnectMessageLineHeight}"
                                                Foreground="{DynamicResource TextPrimaryBrush}" />
                         </DockPanel>
                       </Border>

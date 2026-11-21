@@ -1341,6 +1341,8 @@
   "theme.style.MaterialYou": "Material You",
   "theme.style.soft_hint": "Apparence classique de Morph avec des coins arrondis doux et des surfaces pastel.",
   "theme.style.material_you_hint": "Design Google Material 3 avec des surfaces tonales dynamiques et des rôles d'accent adaptatifs.",
+  "theme.style.Futuristic": "Futuriste",
+  "theme.style.futuristic_hint": "Accent néon sur bleu nuit profond, avec des coins nets et des cartes lumineuses.",
   "theme.style.m3_badge": "Material 3",
   "theme.style.m3_tag": "M3",
   "theme.mode": "Apparence",

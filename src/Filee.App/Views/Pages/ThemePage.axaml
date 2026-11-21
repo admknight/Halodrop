@@ -54,7 +54,7 @@
     <Style Selector="Button.choice-card TextBlock.choice-desc">
       <Setter Property="FontSize" Value="12" />
       <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
-      <Setter Property="LineHeight" Value="17" />
+      <Setter Property="LineHeight" Value="{DynamicResource ChoiceDescLineHeight}" />
     </Style>
     <Style Selector="Button.preset-pill">
       <Setter Property="CornerRadius" Value="{DynamicResource SoftRadiusPill}" />
@@ -95,7 +95,7 @@
       <TextBlock Grid.ColumnSpan="3" Classes="h1" Text="{DynamicResource theme.title}" Margin="0,0,0,18" />
 
       <StackPanel Grid.Row="1" Spacing="16">
-        <!-- Theme Style: Filee Soft vs Material You -->
+        <!-- Theme Style: Morph Soft, Material You or Futuristic (Morph change) -->
         <Border Classes="card">
           <StackPanel Spacing="12">
             <DockPanel>
@@ -106,9 +106,9 @@
               <TextBlock Classes="label" Text="{DynamicResource theme.style}" VerticalAlignment="Center" Margin="0" />
             </DockPanel>
 
-            <Grid ColumnDefinitions="*,12,*" RowDefinitions="Auto">
+            <Grid ColumnDefinitions="*,12,*,12,*" RowDefinitions="Auto">
               <Button Classes="choice-card"
-                      Classes.selected="{Binding !IsMaterialYou}"
+                      Classes.selected="{Binding IsSoft}"
                       Command="{Binding SetStyleCommand}"
                       CommandParameter="{x:Static settings:ThemeStyle.Soft}"
                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
@@ -134,6 +134,26 @@
                     </Border>
                   </StackPanel>
                   <TextBlock Classes="choice-desc" Text="{DynamicResource theme.style.material_you_hint}" TextWrapping="Wrap" />
+                </StackPanel>
+              </Button>
+
+              <!-- Morph change: Futuristic -->
+              <Button Grid.Column="4"
+                      Classes="choice-card"
+                      Classes.selected="{Binding IsFuturistic}"
+                      Command="{Binding SetStyleCommand}"
+                      CommandParameter="{x:Static settings:ThemeStyle.Futuristic}"
+                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                      VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <StackPanel Spacing="6" VerticalAlignment="Top">
+                  <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                    <TextBlock Classes="choice-title" Text="{DynamicResource theme.style.Futuristic}" />
+                    <Border CornerRadius="2" Background="#0B1222" BorderBrush="#22D3EE" BorderThickness="1" Padding="6,1"
+                            BoxShadow="0 0 8 0 #8022D3EE">
+                      <TextBlock Text="◆" FontSize="10" FontWeight="Bold" Foreground="#22D3EE" />
+                    </Border>
+                  </StackPanel>
+                  <TextBlock Classes="choice-desc" Text="{DynamicResource theme.style.futuristic_hint}" TextWrapping="Wrap" />
                 </StackPanel>
               </Button>
             </Grid>

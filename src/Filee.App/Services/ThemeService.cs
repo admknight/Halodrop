@@ -16,8 +16,15 @@ public sealed class ThemeService(IPlatformServices platform)
 {
     private readonly IPlatformServices _platform = platform;
 
-    /// <summary>Applies or removes the "material-you" style class on a window.</summary>
-    public void ApplyWindowClass(Window window) => window.Classes.Set("material-you", IsMaterialYou);
+    /// <summary>Applies or removes the "material-you" and "futuristic" style classes on a window.</summary>
+    public void ApplyWindowClass(Window window) => SetWindowClasses(window, CurrentStyle);
+
+    // Morph change: Futuristic shares Material You's control styles (they read the palette's keys) and adds its own.
+    private static void SetWindowClasses(Window window, ThemeStyle style)
+    {
+        window.Classes.Set("material-you", style is ThemeStyle.MaterialYou or ThemeStyle.Futuristic);
+        window.Classes.Set("futuristic", style == ThemeStyle.Futuristic);
+    }
 
     /// <summary>Accent swatches offered in the Theme page.</summary>
     public static readonly IReadOnlyList<string> Swatches =
@@ -49,6 +56,9 @@ public sealed class ThemeService(IPlatformServices platform)
 
     /// <summary>True when Material You is currently applied.</summary>
     public bool IsMaterialYou => CurrentStyle == ThemeStyle.MaterialYou;
+
+    /// <summary>Morph change: true when Futuristic is currently applied.</summary>
+    public bool IsFuturistic => CurrentStyle == ThemeStyle.Futuristic;
 
     /// <summary>
     /// theme.json colour names → the brushes in Styles/Soft.axaml they replace. Must cover exactly
@@ -98,13 +108,26 @@ public sealed class ThemeService(IPlatformServices platform)
         var top = new ResourceDictionary();
 
         // Radii, fonts, flow direction
-        SoftPalette.ApplyCornerRadius(top, theme.CornerRadius);
+        // Morph change: Futuristic is crisper, so its corners are 60% of the chosen softness.
+        SoftPalette.ApplyCornerRadius(top, theme.Style == ThemeStyle.Futuristic ? theme.CornerRadius * 0.6 : theme.CornerRadius);
         top["AppFontFamily"] = SoftPalette.FontFamilyFor(language, theme.UseSystemFont);
         // Annotate draws its labels in the same fonts (read when a label is first drawn).
         AnnotationFonts.Use(language, theme.UseSystemFont);
         SoftPalette.ApplyFlowDirection(top, language);
 
-        if (theme.Style == ThemeStyle.MaterialYou)
+        if (theme.Style == ThemeStyle.Futuristic)
+        {
+            // Morph change: the signature cyan unless the user picked a preset or a colour other than the default.
+            var useSignature = preset is null && (baseColor == defaultColor || baseColor == Color.Parse(FuturisticPalette.SignatureAccent));
+            var lightDict = FuturisticPalette.Generate(lightAccent, isDark: false, useSignature).ToResourceDictionary();
+            var darkDict = FuturisticPalette.Generate(darkAccent, isDark: true, useSignature).ToResourceDictionary();
+            ApplyCustomOverrides(lightDict, custom?.Light);
+            ApplyCustomOverrides(darkDict, custom?.Dark);
+            res.ThemeDictionaries[ThemeVariant.Light] = lightDict;
+            res.ThemeDictionaries[ThemeVariant.Dark] = darkDict;
+            SoftPalette.ClearTopLevelAccent(res);
+        }
+        else if (theme.Style == ThemeStyle.MaterialYou)
         {
             var lightPalette = MaterialYouPalette.Generate(lightAccent, isDark: false);
             var darkPalette = MaterialYouPalette.Generate(darkAccent, isDark: true);
@@ -165,11 +188,10 @@ public sealed class ThemeService(IPlatformServices platform)
             foreach (var (key, value) in top)
                 res[key] = value;
 
-        var isMaterialYou = theme.Style == ThemeStyle.MaterialYou;
         if (app.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
         {
             foreach (var window in desktop.Windows)
-                window.Classes.Set("material-you", isMaterialYou);
+                SetWindowClasses(window, theme.Style);
         }
 
         Motion.Configure(theme.ReduceMotion, () => _platform.PrefersReducedMotion);

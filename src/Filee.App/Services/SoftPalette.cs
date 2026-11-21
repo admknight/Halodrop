@@ -305,6 +305,13 @@ internal static class SoftPalette
         var rightToLeft = IsRightToLeft(language);
         res[FlowDirectionKey] = rightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         res[ForwardArrowKey] = rightToLeft ? "←" : "→";
+
+        // Morph change: Nastaliq stands far taller than its size, so in Urdu the few fixed line heights give way to
+        // the font's own spacing (NaN), which keeps stacked lines from overlapping.
+        var natural = language == "ur";
+        res["ChoiceDescLineHeight"] = natural ? double.NaN : 17d;
+        res["ConnectMessageLineHeight"] = natural ? double.NaN : 19d;
+        res["ToastLineHeight"] = natural ? double.NaN : 16d;
     }
 
     /// <summary>True for a language written right to left.</summary>

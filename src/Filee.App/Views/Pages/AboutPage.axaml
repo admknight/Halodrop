@@ -62,10 +62,11 @@
             </Button>
             <TextBlock Classes="muted" Text="{DynamicResource about.license}" TextWrapping="Wrap" Margin="0,4,0,0" />
             <Button Classes="ghost" Padding="0" Click="OnOpenRepository" Margin="0,4,0,0" IsVisible="{Binding HasRepository}">
-              <StackPanel Orientation="Horizontal" Spacing="6">
-                <PathIcon Width="13" Height="13" Data="{StaticResource Icon.Link}" Foreground="{DynamicResource AccentBrush}" />
-                <TextBlock Text="{Binding RepositoryUrl}" Foreground="{DynamicResource AccentBrush}" TextWrapping="Wrap" />
-              </StackPanel>
+              <!-- Morph change: a DockPanel, so a long link wraps inside the card; the address stays left to right -->
+              <DockPanel>
+                <PathIcon DockPanel.Dock="Left" Width="13" Height="13" Margin="0,0,6,0" Data="{StaticResource Icon.Link}" Foreground="{DynamicResource AccentBrush}" />
+                <TextBlock Text="{Binding RepositoryDisplay}" Foreground="{DynamicResource AccentBrush}" TextWrapping="Wrap" FlowDirection="LeftToRight" />
+              </DockPanel>
             </Button>
             <!-- This version's "What's new" slides again -->
             <Button x:Name="WhatsNewLink" Classes="ghost" Padding="0" Command="{Binding ShowWhatsNewCommand}" IsVisible="{Binding HasWhatsNew}">

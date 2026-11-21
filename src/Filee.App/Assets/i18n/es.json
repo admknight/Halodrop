@@ -1325,6 +1325,8 @@
   "theme.style.MaterialYou": "Material You",
   "theme.style.soft_hint": "Aspecto clásico de Morph con esquinas redondeadas suaves y superficies pastel.",
   "theme.style.material_you_hint": "Diseño Google Material 3 con superficies tonales dinámicas y roles de acento adaptables.",
+  "theme.style.Futuristic": "Futurista",
+  "theme.style.futuristic_hint": "Acento neón sobre azul marino profundo, con esquinas nítidas y tarjetas que brillan.",
   "theme.style.m3_badge": "Material 3",
   "theme.style.m3_tag": "M3",
   "theme.mode": "Aspecto",

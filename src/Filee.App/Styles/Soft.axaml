@@ -690,4 +690,16 @@
       </Animation>
     </Style.Animations>
   </Style>
+
+  <!-- Morph change: the Futuristic look (ThemeStyle.Futuristic). Its colours and card glow come from FuturisticPalette;
+       these add only what a palette can't: wider headings and labels, and the selected choice glowing in the accent. -->
+  <Style Selector="Window.futuristic TextBlock.h1">
+    <Setter Property="LetterSpacing" Value="0.8" />
+  </Style>
+  <Style Selector="Window.futuristic TextBlock.label">
+    <Setter Property="LetterSpacing" Value="0.4" />
+  </Style>
+  <Style Selector="Window.futuristic Button.choice-card.selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="BoxShadow" Value="0 0 14 0 #6022D3EE" />
+  </Style>
 </Styles>

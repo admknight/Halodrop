@@ -84,6 +84,10 @@ public sealed partial class ThemePageViewModel : ObservableObject, IDisposable
 
     public bool IsMaterialYou => Style?.Value == ThemeStyle.MaterialYou;
 
+    // Morph change: the third style.
+    public bool IsSoft => Style?.Value == ThemeStyle.Soft;
+    public bool IsFuturistic => Style?.Value == ThemeStyle.Futuristic;
+
     [ObservableProperty] private Choice<ThemeStyle> _style = null!;
     [ObservableProperty] private Choice<ThemeMode> _mode = null!;
     [ObservableProperty, NotifyPropertyChangedFor(nameof(AccentBrush), nameof(PreviewBackdrop))] private Color _accent;
@@ -156,8 +160,30 @@ public sealed partial class ThemePageViewModel : ObservableObject, IDisposable
     partial void OnStyleChanged(Choice<ThemeStyle>? oldValue, Choice<ThemeStyle> newValue)
     {
         OnPropertyChanged(nameof(IsMaterialYou));
+        OnPropertyChanged(nameof(IsSoft));
+        OnPropertyChanged(nameof(IsFuturistic));
         if (!Choices.Restore(oldValue, newValue, v => Style = v))
+        {
             Save(t => t.Style = newValue.Value);
+            SwapSignatureAccent(oldValue?.Value, newValue.Value);
+        }
+    }
+
+    /// <summary>
+    /// Morph change: Futuristic's own colour is neon cyan. Choosing it while the accent is still Soft's default shows
+    /// the cyan in the swatches and preview (it is the colour the app now uses); leaving it with the cyan untouched
+    /// brings the default back.
+    /// </summary>
+    private void SwapSignatureAccent(ThemeStyle? from, ThemeStyle to)
+    {
+        if (_loading || !string.IsNullOrEmpty(_store.Settings.Theme.PresetKey))
+            return;
+        var hex = $"#{Accent.R:X2}{Accent.G:X2}{Accent.B:X2}";
+        if (to == ThemeStyle.Futuristic && string.Equals(hex, SoftPalette.DefaultAccent, StringComparison.OrdinalIgnoreCase))
+            Accent = Color.Parse(FuturisticPalette.SignatureAccent);
+        else if (from == ThemeStyle.Futuristic && to != ThemeStyle.Futuristic
+                 && string.Equals(hex, FuturisticPalette.SignatureAccent, StringComparison.OrdinalIgnoreCase))
+            Accent = Color.Parse(SoftPalette.DefaultAccent);
     }
 
     partial void OnModeChanged(Choice<ThemeMode>? oldValue, Choice<ThemeMode> newValue)

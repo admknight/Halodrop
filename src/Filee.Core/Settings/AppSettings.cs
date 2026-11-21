@@ -17,6 +17,9 @@ public enum ThemeStyle
 {
     Soft,
     MaterialYou,
+
+    /// <summary>Morph change: neon accent on deep navy, cards outlined by a glow (FuturisticPalette).</summary>
+    Futuristic,
 }
 
 /// <summary>What closing the main window does (Settings → General).</summary>

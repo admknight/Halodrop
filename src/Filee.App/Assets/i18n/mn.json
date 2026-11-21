@@ -1324,6 +1324,8 @@
   "theme.style.MaterialYou": "Material You",
   "theme.style.soft_hint": "Зөөлөн дугуйрсан булан болон цайвар гадаргуутай сонгодог Morph харагдац.",
   "theme.style.material_you_hint": "Динамик өнгөний гадаргуу болон дасан зохицох онцлох өнгө бүхий Google Material 3 дизайн.",
+  "theme.style.Futuristic": "Футурист",
+  "theme.style.futuristic_hint": "Гүн хар хөх дээр неон өнгө, тод булан, гэрэлтэх картууд.",
   "theme.style.m3_badge": "Material 3",
   "theme.style.m3_tag": "M3",
   "theme.mode": "Харагдац",

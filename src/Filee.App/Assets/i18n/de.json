@@ -1325,6 +1325,8 @@
   "theme.style.MaterialYou": "Material You",
   "theme.style.soft_hint": "Klassisches Morph-Design mit weich abgerundeten Ecken und Pastellflächen.",
   "theme.style.material_you_hint": "Google-Material-3-Design mit dynamisch abgestimmten Flächenfarben und angepassten Akzentfarben.",
+  "theme.style.Futuristic": "Futuristisch",
+  "theme.style.futuristic_hint": "Neonakzent auf tiefem Marineblau, mit klaren Ecken und leuchtenden Karten.",
   "theme.style.m3_badge": "Material 3",
   "theme.style.m3_tag": "M3",
   "theme.mode": "Darstellung",

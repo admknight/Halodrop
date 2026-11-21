@@ -38,6 +38,9 @@ public sealed partial class AboutPageViewModel : ObservableObject, IDisposable
 
     public string RepositoryUrl { get; } = UpdateService.RepositoryUrl;
 
+    /// <summary>Morph change: the link as shown, without the scheme (github.com/admknight/Morph).</summary>
+    public string RepositoryDisplay => RepositoryUrl.Replace("https://", "", StringComparison.OrdinalIgnoreCase);
+
     /// <summary>Morph change: links to the project only once Morph has a repository of its own.</summary>
     public bool HasRepository { get; } = UpdateService.HasReleaseRepository;
 

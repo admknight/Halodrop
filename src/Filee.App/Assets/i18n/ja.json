@@ -1325,6 +1325,8 @@
   "theme.style.MaterialYou": "Material You",
   "theme.style.soft_hint": "やわらかな角丸とパステル調のサーフェスを持つクラシックな外観。",
   "theme.style.material_you_hint": "動的な色調サーフェスと適応型アクセントを備えたGoogle Material 3デザイン。",
+  "theme.style.Futuristic": "フューチャリスティック",
+  "theme.style.futuristic_hint": "深いネイビーにネオンのアクセント。シャープな角と光るカード。",
   "theme.style.m3_badge": "Material 3",
   "theme.style.m3_tag": "M3",
   "theme.mode": "外観",
