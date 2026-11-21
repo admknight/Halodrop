@@ -2065,5 +2065,12 @@
   "action.share_unsupported": "Dieses System hat kein Teilen-Fenster",
   "error.engine_memory": "Diese Datei brauchte mehr Speicher, als für Ihren Computer sicher ist, daher hat Morph sie gestoppt. Ihre anderen Dateien sind nicht betroffen.",
   "general.install_when_idle": "Updates installieren, wenn Morph nicht benutzt wird",
-  "error.cdr_unreadable": "Diese CorelDRAW-Zeichnung ließ sich nicht lesen (beschädigt, verschlüsselt oder aus einer unbekannten Version)"
+  "error.cdr_unreadable": "Diese CorelDRAW-Zeichnung ließ sich nicht lesen (beschädigt, verschlüsselt oder aus einer unbekannten Version)",
+  "preset.shelf": "Ins Regal legen",
+  "shelf.title": "Regal",
+  "shelf.empty": "Dateien hier ablegen, um sie griffbereit zu haben, und dann dorthin ziehen, wo sie gebraucht werden.",
+  "shelf.drag_all": "Alle herausziehen",
+  "shelf.convert": "Donut für diese Dateien öffnen",
+  "shelf.close": "Regal schließen (die Dateien bleiben, wo sie sind)",
+  "shelf.remove": "Aus dem Regal nehmen"
 }

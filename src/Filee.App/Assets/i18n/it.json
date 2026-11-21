@@ -2064,5 +2064,12 @@
   "action.share_unsupported": "Questo sistema non ha un pannello di condivisione",
   "error.engine_memory": "Questo file richiedeva più memoria di quanta sia sicura per il tuo computer, quindi Morph l'ha fermato. Gli altri file non sono interessati.",
   "general.install_when_idle": "Installa gli aggiornamenti quando Morph non è in uso",
-  "error.cdr_unreadable": "Impossibile leggere questo disegno CorelDRAW (danneggiato, cifrato o di una versione sconosciuta)"
+  "error.cdr_unreadable": "Impossibile leggere questo disegno CorelDRAW (danneggiato, cifrato o di una versione sconosciuta)",
+  "preset.shelf": "Metti sulla mensola",
+  "shelf.title": "Mensola",
+  "shelf.empty": "Trascina qui i file per tenerli a portata, poi trascinali dove servono.",
+  "shelf.drag_all": "Trascinali tutti fuori",
+  "shelf.convert": "Apri la ciambella per questi file",
+  "shelf.close": "Chiudi la mensola (i file restano dove sono)",
+  "shelf.remove": "Togli dalla mensola"
 }

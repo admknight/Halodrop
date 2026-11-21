@@ -2087,5 +2087,12 @@
   "action.share_unsupported": "Ce système n’a pas de panneau de partage",
   "error.engine_memory": "Ce fichier demandait plus de mémoire que ce qui est sûr pour votre ordinateur, Morph l’a donc arrêté. Vos autres fichiers ne sont pas touchés.",
   "general.install_when_idle": "Installer les mises à jour quand Morph n’est pas utilisé",
-  "error.cdr_unreadable": "Ce dessin CorelDRAW n’a pas pu être lu (endommagé, chiffré ou d’une version inconnue)"
+  "error.cdr_unreadable": "Ce dessin CorelDRAW n’a pas pu être lu (endommagé, chiffré ou d’une version inconnue)",
+  "preset.shelf": "Garder sur l’étagère",
+  "shelf.title": "Étagère",
+  "shelf.empty": "Déposez des fichiers ici pour les garder sous la main, puis faites-les glisser là où il faut.",
+  "shelf.drag_all": "Les faire tous glisser",
+  "shelf.convert": "Ouvrir le donut pour ces fichiers",
+  "shelf.close": "Fermer l’étagère (les fichiers restent à leur place)",
+  "shelf.remove": "Retirer de l’étagère"
 }

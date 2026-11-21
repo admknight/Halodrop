@@ -1,0 +1,64 @@
+<!-- Morph change: the shelf ("Keep on shelf", an idea from OrbitDrop, MIT). A small always-on-top window that holds
+     files (references, not copies) until they're dragged where they're needed. Drag one out, or all of them from the
+     header; drop more files on it; open the donut on everything on it. Closing it never touches the files. -->
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="using:Filee.App.Views"
+        x:Class="Filee.App.Views.ShelfWindow"
+        x:DataType="v:ShelfWindow"
+        Title="{DynamicResource shelf.title}"
+        Width="300" SizeToContent="Height" MaxHeight="520"
+        WindowDecorations="None" Background="Transparent" TransparencyLevelHint="Transparent"
+        Topmost="True" ShowInTaskbar="False" ShowActivated="False" CanResize="False"
+        DragDrop.AllowDrop="True">
+  <Border Classes="card" Margin="10" Padding="10">
+    <DockPanel>
+      <!-- Header: drag here to move the shelf; the grip drags every file out at once. -->
+      <DockPanel x:Name="Header" DockPanel.Dock="Top" Margin="0,0,0,6" Background="Transparent">
+        <Button DockPanel.Dock="Right" Classes="subtle" Padding="4" Click="OnClose"
+                ToolTip.Tip="{DynamicResource shelf.close}" AutomationProperties.Name="{DynamicResource shelf.close}">
+          <PathIcon Width="12" Height="12" Data="{StaticResource Icon.Close}" />
+        </Button>
+        <Button DockPanel.Dock="Right" Classes="subtle" Padding="4" Margin="0,0,4,0" Click="OnConvert"
+                ToolTip.Tip="{DynamicResource shelf.convert}" AutomationProperties.Name="{DynamicResource shelf.convert}">
+          <PathIcon Width="14" Height="14" Data="{StaticResource Icon.Donut}" />
+        </Button>
+        <Border x:Name="DragAll" DockPanel.Dock="Right" Classes="chip" Padding="6,2" Margin="0,0,6,0" Cursor="Hand"
+                ToolTip.Tip="{DynamicResource shelf.drag_all}">
+          <StackPanel Orientation="Horizontal" Spacing="4">
+            <PathIcon Width="12" Height="12" Data="{StaticResource Icon.DragVertical}" />
+            <TextBlock x:Name="CountText" Classes="caption" VerticalAlignment="Center" />
+          </StackPanel>
+        </Border>
+        <TextBlock Classes="h2" VerticalAlignment="Center" Text="{DynamicResource shelf.title}" />
+      </DockPanel>
+      <TextBlock x:Name="EmptyText" DockPanel.Dock="Top" Classes="caption" TextWrapping="Wrap" Margin="2,4"
+                 Text="{DynamicResource shelf.empty}" />
+      <ScrollViewer MaxHeight="420">
+        <ItemsControl x:Name="Items">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="v:ShelfItem">
+              <Border Classes="shelf-item" Padding="4" Margin="0,1" CornerRadius="6" Background="Transparent" Cursor="Hand"
+                      ToolTip.Tip="{Binding Path}">
+                <DockPanel>
+                  <Button DockPanel.Dock="Right" Classes="subtle" Padding="3" VerticalAlignment="Center" Tag="{Binding}"
+                          Click="OnRemove" AutomationProperties.Name="{DynamicResource shelf.remove}">
+                    <PathIcon Width="10" Height="10" Data="{StaticResource Icon.Close}" />
+                  </Button>
+                  <Panel DockPanel.Dock="Left" Width="36" Height="36" Margin="0,0,8,0">
+                    <PathIcon Width="20" Height="20" Data="{StaticResource Icon.File}" IsVisible="{Binding Thumbnail, Converter={x:Static ObjectConverters.IsNull}}" />
+                    <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
+                  </Panel>
+                  <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Classes="caption" Text="{Binding Folder}" TextTrimming="CharacterEllipsis" />
+                  </StackPanel>
+                </DockPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+    </DockPanel>
+  </Border>
+</Window>

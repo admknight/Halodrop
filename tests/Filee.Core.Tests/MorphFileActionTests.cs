@@ -180,6 +180,23 @@ public class MorphFileActionTests
     }
 
     [Fact]
+    public void Step_4_adds_keep_on_shelf_and_Morph_default_places_it()
+    {
+        using var dir = new TempDir();
+        var first = new UserDataStore(dir.Path);
+        first.Load();
+        first.Presets.RemoveAll(p => p.Id == "action-shelf");
+        first.Settings.MorphSchema = 3;
+        first.SaveSettings();
+        first.SaveLibrary();
+
+        var migrated = new UserDataStore(dir.Path);
+        migrated.Load();
+        Assert.True(migrated.FindPreset("action-shelf")!.IsFileAction);
+        Assert.All(Filee.Core.Morph.LayoutTemplates.MorphDefault().Profiles, p => Assert.Contains("action-shelf", p.BackPresetIds!));
+    }
+
+    [Fact]
     public void Normalize_and_fill_survive_saving()
     {
         using var dir = new TempDir();

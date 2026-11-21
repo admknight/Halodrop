@@ -2087,5 +2087,12 @@
   "action.share_unsupported": "This system has no share panel",
   "error.engine_memory": "This file needed more memory than is safe for your computer, so Morph stopped it. Your other files aren't affected.",
   "general.install_when_idle": "Install updates while Morph isn't in use",
-  "error.cdr_unreadable": "This CorelDRAW drawing couldn't be read (it may be damaged, encrypted or from a version the reader doesn't know)"
+  "error.cdr_unreadable": "This CorelDRAW drawing couldn't be read (it may be damaged, encrypted or from a version the reader doesn't know)",
+  "preset.shelf": "Keep on shelf",
+  "shelf.title": "Shelf",
+  "shelf.empty": "Drop files here to keep them close, then drag them out where you need them.",
+  "shelf.drag_all": "Drag all of them out",
+  "shelf.convert": "Open the donut for these files",
+  "shelf.close": "Close the shelf (the files stay where they are)",
+  "shelf.remove": "Take off the shelf"
 }

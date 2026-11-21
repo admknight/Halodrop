@@ -86,7 +86,7 @@ public static class LayoutTemplates
                     Add(profile.PresetIds, "normalize-audio");
                     break;
             }
-            Add(profile.BackPresetIds ??= [], BuiltInData.FileActionsId);
+            Add(profile.BackPresetIds ??= [], BuiltInData.FileActionsId, "action-shelf");
         }
         return new() { Id = MorphDefaultId, NameKey = "template.morph_default", OuterRadius = MorphRadius, Profiles = profiles };
     }

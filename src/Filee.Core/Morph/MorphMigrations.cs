@@ -9,7 +9,7 @@ namespace Filee.Core.Morph;
 public static class MorphMigrations
 {
     /// <summary>The newest of Morph's library changes.</summary>
-    public const int Current = 3;
+    public const int Current = 4;
 
     /// <summary>Applies Morph's library changes after <paramref name="from"/>; true when something changed.</summary>
     public static bool Apply(int from, List<Preset> presets)
@@ -54,6 +54,12 @@ public static class MorphMigrations
                     && !group.SubPresetIds.Contains(preset.Id))
                     group.SubPresetIds.Add(preset.Id);
             }
+        }
+        // 4: "Keep on shelf" (on its own: the "File actions" group is full).
+        if (from < 4 && !presets.Any(p => p.Id == "action-shelf"))
+        {
+            presets.Add(BuiltInData.FileActionPresets().Single(p => p.Id == "action-shelf"));
+            changed = true;
         }
         return changed;
     }

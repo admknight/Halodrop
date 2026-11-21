@@ -2065,5 +2065,12 @@
   "action.share_unsupported": "Bu sistemde paylaşım paneli yok",
   "error.engine_memory": "Bu dosya bilgisayarınız için güvenli olandan fazla bellek istedi, bu yüzden Morph onu durdurdu. Diğer dosyalarınız etkilenmedi.",
   "general.install_when_idle": "Morph kullanılmıyorken güncellemeleri yükle",
-  "error.cdr_unreadable": "Bu CorelDRAW çizimi okunamadı (bozuk, şifreli ya da bilinmeyen bir sürümden olabilir)"
+  "error.cdr_unreadable": "Bu CorelDRAW çizimi okunamadı (bozuk, şifreli ya da bilinmeyen bir sürümden olabilir)",
+  "preset.shelf": "Rafa koy",
+  "shelf.title": "Raf",
+  "shelf.empty": "Dosyaları yakında tutmak için buraya bırakın, sonra gereken yere sürükleyin.",
+  "shelf.drag_all": "Hepsini dışarı sürükle",
+  "shelf.convert": "Bu dosyalar için halkayı aç",
+  "shelf.close": "Rafı kapat (dosyalar yerinde kalır)",
+  "shelf.remove": "Raftan kaldır"
 }

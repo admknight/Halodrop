@@ -30,7 +30,7 @@ public static class BuiltInData
     public static bool AcceptsFolders(Preset preset) => !preset.IsGroup
         && (preset.IsCopyToFolder || SupportsFolderTarget(preset.TargetFormat)
             // Morph change: the file actions that work on a folder as on a file.
-            || preset.IsTool && preset.Tool is Preset.CopyPathTool or Preset.CopyNameTool or Preset.RevealTool or Preset.TerminalTool or Preset.RunTool);
+            || preset.IsTool && preset.Tool is Preset.CopyPathTool or Preset.CopyNameTool or Preset.RevealTool or Preset.TerminalTool or Preset.RunTool or Preset.ShelfTool);
 
     /// <summary>Creates the default preset list.</summary>
     public static List<Preset> CreatePresets() =>
@@ -395,6 +395,7 @@ public static class BuiltInData
         Action("action-reverse-search", "preset.reverse_search", Preset.ReverseSearchTool),
         Action("action-print", "preset.print", Preset.PrintTool),
         Action("action-share", "preset.share", Preset.ShareTool),
+        Action("action-shelf", "preset.shelf", Preset.ShelfTool),
         new()
         {
             Id = FileActionsId, NameKey = "preset.group_file_actions", TargetFormat = Preset.GroupTarget, Kind = PresetKind.Group,

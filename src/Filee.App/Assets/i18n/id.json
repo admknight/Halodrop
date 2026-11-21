@@ -2065,5 +2065,12 @@
   "action.share_unsupported": "Sistem ini tidak punya panel berbagi",
   "error.engine_memory": "File ini butuh memori lebih dari batas aman komputer Anda, jadi Morph menghentikannya. File lain tidak terpengaruh.",
   "general.install_when_idle": "Pasang pembaruan saat Morph tidak dipakai",
-  "error.cdr_unreadable": "Gambar CorelDRAW ini tidak bisa dibaca (mungkin rusak, terenkripsi, atau versinya tidak dikenal)"
+  "error.cdr_unreadable": "Gambar CorelDRAW ini tidak bisa dibaca (mungkin rusak, terenkripsi, atau versinya tidak dikenal)",
+  "preset.shelf": "Simpan di rak",
+  "shelf.title": "Rak",
+  "shelf.empty": "Letakkan file di sini agar dekat, lalu seret ke tempat yang dibutuhkan.",
+  "shelf.drag_all": "Seret semuanya",
+  "shelf.convert": "Buka donat untuk file ini",
+  "shelf.close": "Tutup rak (file tetap di tempatnya)",
+  "shelf.remove": "Ambil dari rak"
 }

@@ -2087,5 +2087,12 @@
   "action.share_unsupported": "Hệ thống này không có bảng chia sẻ",
   "error.engine_memory": "Tệp này cần nhiều bộ nhớ hơn mức an toàn cho máy, nên Morph đã dừng nó. Các tệp khác không bị ảnh hưởng.",
   "general.install_when_idle": "Cài cập nhật khi không dùng Morph",
-  "error.cdr_unreadable": "Không đọc được bản vẽ CorelDRAW này (có thể bị hỏng, mã hóa hoặc từ phiên bản lạ)"
+  "error.cdr_unreadable": "Không đọc được bản vẽ CorelDRAW này (có thể bị hỏng, mã hóa hoặc từ phiên bản lạ)",
+  "preset.shelf": "Để lên kệ",
+  "shelf.title": "Kệ",
+  "shelf.empty": "Thả tệp vào đây để giữ gần tay, rồi kéo đến nơi cần.",
+  "shelf.drag_all": "Kéo tất cả ra",
+  "shelf.convert": "Mở vòng cho các tệp này",
+  "shelf.close": "Đóng kệ (tệp vẫn ở chỗ cũ)",
+  "shelf.remove": "Bỏ khỏi kệ"
 }

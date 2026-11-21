@@ -55,6 +55,7 @@ public sealed partial class FileActions(UserDataStore store, ILocalizer loc, IPl
             Preset.ReverseSearchTool => ReverseSearchAsync(files[0], preset),
             Preset.PrintTool => PrintAsync(files),
             Preset.ShareTool => Share(files),
+            Preset.ShelfTool => Shelf(files),
             _ => Task.CompletedTask,
         };
     }
@@ -336,6 +337,18 @@ public sealed partial class FileActions(UserDataStore store, ILocalizer loc, IPl
             else
                 Notice(loc["action.print_failed"], problem, problem: true);
         });
+    }
+
+    // ---- shelf ----
+
+    private ShelfWindow? _shelf;
+
+    private Task Shelf(IReadOnlyList<string> files)
+    {
+        _shelf ??= new ShelfWindow();
+        theme.ApplyWindowClass(_shelf);
+        _shelf.Add(files);
+        return Task.CompletedTask;
     }
 
     // ---- share ----

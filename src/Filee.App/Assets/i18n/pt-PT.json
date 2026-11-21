@@ -2087,5 +2087,12 @@
   "action.share_unsupported": "Este sistema não tem painel de partilha",
   "error.engine_memory": "Este ficheiro precisava de mais memória do que é seguro para o seu computador, por isso o Morph parou-o. Os outros ficheiros não foram afetados.",
   "general.install_when_idle": "Instalar atualizações quando o Morph não estiver a ser usado",
-  "error.cdr_unreadable": "Não foi possível ler este desenho do CorelDRAW (danificado, encriptado ou de uma versão desconhecida)"
+  "error.cdr_unreadable": "Não foi possível ler este desenho do CorelDRAW (danificado, encriptado ou de uma versão desconhecida)",
+  "preset.shelf": "Guardar na prateleira",
+  "shelf.title": "Prateleira",
+  "shelf.empty": "Largue ficheiros aqui para os ter à mão e depois arraste-os para onde precisar.",
+  "shelf.drag_all": "Arrastar todos",
+  "shelf.convert": "Abrir o donut para estes ficheiros",
+  "shelf.close": "Fechar a prateleira (os ficheiros ficam onde estão)",
+  "shelf.remove": "Tirar da prateleira"
 }

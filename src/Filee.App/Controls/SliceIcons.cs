@@ -45,6 +45,7 @@ internal static partial class SliceIcons
         [Preset.ReverseSearchTool] = "magnify",
         [Preset.PrintTool] = "printer-outline",
         [Preset.ShareTool] = "share-variant-outline",
+        [Preset.ShelfTool] = "bookmark-outline",
     };
 
     // Built on first use: the data is in another file of this class, and static fields of a class split over files

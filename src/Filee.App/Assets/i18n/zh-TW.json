@@ -2087,5 +2087,12 @@
   "action.share_unsupported": "此系統沒有分享面板",
   "error.engine_memory": "此檔案所需記憶體超過電腦的安全上限，Morph 已將其停止。其他檔案不受影響。",
   "general.install_when_idle": "在未使用 Morph 時安裝更新",
-  "error.cdr_unreadable": "無法讀取此 CorelDRAW 圖檔（可能已損毀、已加密或版本未知）"
+  "error.cdr_unreadable": "無法讀取此 CorelDRAW 圖檔（可能已損毀、已加密或版本未知）",
+  "preset.shelf": "放到架上",
+  "shelf.title": "架子",
+  "shelf.empty": "把檔案拖到這裡放在手邊，需要時再拖出去。",
+  "shelf.drag_all": "全部拖出",
+  "shelf.convert": "為這些檔案開啟圓環",
+  "shelf.close": "關閉架子（檔案留在原處）",
+  "shelf.remove": "從架上移除"
 }
