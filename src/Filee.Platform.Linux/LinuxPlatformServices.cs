@@ -100,6 +100,10 @@ public sealed class LinuxPlatformServices : IPlatformServices
     public Task<ModernContextMenuResult> SetModernContextMenuAsync(bool enabled, string executablePath) =>
         Task.FromResult(new ModernContextMenuResult(false, Error: "Use the Linux file manager context action."));
 
+    /// <summary>Morph change: the desktop entries of the user and the system (Flatpak's too).</summary>
+    public IReadOnlyList<InstalledApp> InstalledApps() =>
+        Filee.Core.Morph.InstalledApps.FromDesktopFolders(Filee.Core.Morph.InstalledApps.DesktopFolders());
+
     public void RevealInFileManager(string path)
     {
         var fullPath = Path.GetFullPath(path);

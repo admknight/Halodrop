@@ -103,6 +103,22 @@ public interface IPlatformServices
     /// </summary>
     bool CopyToClipboard(IReadOnlyList<string> paths) => false;
 
+    /// <summary>Morph change: whether <see cref="Share"/> opens the system's share sheet here.</summary>
+    bool SupportsShare => false;
+
+    /// <summary>
+    /// Morph change: the system's share sheet for <paramref name="paths"/> (Windows' Share panel, the macOS share
+    /// menu), next to <paramref name="window"/> (its native handle). Call it on the UI thread. False when it couldn't.
+    /// </summary>
+    bool Share(IReadOnlyList<string> paths, nint window) => false;
+
+    /// <summary>
+    /// Morph change: the apps installed for the user, by name, for "Run a program": the Start menu's shortcuts on
+    /// Windows, the .app bundles in the Applications folders on macOS, the desktop entries on Linux. Slow: off the UI
+    /// thread.
+    /// </summary>
+    IReadOnlyList<InstalledApp> InstalledApps() => [];
+
     /// <summary>
     /// For the log when a shortcut found no selected files: the foreground window's class and process
     /// ("CabinetWClass / explorer"). Empty where the platform can't tell.
@@ -233,6 +249,9 @@ public enum ModernContextMenuState
 /// <param name="Succeeded">True when the entry is now in the requested state.</param>
 /// <param name="Cancelled">True when the user declined the administrator prompt.</param>
 /// <param name="Error">Why it failed (English, from the OS), when it failed for another reason.</param>
+/// <summary>Morph change: an installed app: its name and what "Run a program" starts (an .exe, an .app, a command).</summary>
+public sealed record InstalledApp(string Name, string Program);
+
 public sealed record ModernContextMenuResult(bool Succeeded, bool Cancelled = false, string? Error = null);
 
 /// <summary>Fallback used on platforms without an implementation yet. Everything is a no-op.</summary>

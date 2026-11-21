@@ -393,10 +393,12 @@ public static class BuiltInData
         Action("action-wallpaper", "preset.wallpaper", Preset.WallpaperTool),
         Action("action-palette", "preset.palette", Preset.PaletteTool),
         Action("action-reverse-search", "preset.reverse_search", Preset.ReverseSearchTool),
+        Action("action-print", "preset.print", Preset.PrintTool),
+        Action("action-share", "preset.share", Preset.ShareTool),
         new()
         {
             Id = FileActionsId, NameKey = "preset.group_file_actions", TargetFormat = Preset.GroupTarget, Kind = PresetKind.Group,
-            SubPresetIds = ["action-copy-path", "action-copy-name", "action-reveal", "action-terminal"],
+            SubPresetIds = ["action-copy-path", "action-copy-name", "action-reveal", "action-terminal", "action-share", "action-print"],
         },
         new()
         {

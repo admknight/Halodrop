@@ -2052,5 +2052,17 @@
   "template.saved": "「{0}」として保存しました",
   "template.delete_confirm": "テンプレート「{0}」を削除しますか？",
   "template.morph_default": "Morph 標準",
-  "template.filee_classic": "Filee クラシック"
+  "template.filee_classic": "Filee クラシック",
+  "preset.print": "印刷",
+  "preset.share": "共有",
+  "preset.open_in": "{0} で開く",
+  "presets.run_installed": "インストール済みアプリ",
+  "presets.run_installed_hint": "ファイルを開くアプリを選択…",
+  "action.print_open": "開きました。そこから印刷してください (Ctrl+P)",
+  "action.print_no_printer": "印刷システム (CUPS) が見つかりません",
+  "action.printing": "{0} 件のファイルをプリンターに送りました",
+  "action.print_failed": "印刷できませんでした",
+  "action.sharing": "共有先を選んでください",
+  "action.share_failed": "共有パネルが開きませんでした。ファイルをフォルダーで表示します",
+  "action.share_unsupported": "このシステムには共有パネルがありません"
 }

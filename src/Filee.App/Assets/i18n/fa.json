@@ -2048,5 +2048,17 @@
   "template.saved": "با نام «{0}» ذخیره شد",
   "template.delete_confirm": "قالب «{0}» حذف شود؟",
   "template.morph_default": "پیش‌فرض Morph",
-  "template.filee_classic": "Filee کلاسیک"
+  "template.filee_classic": "Filee کلاسیک",
+  "preset.print": "چاپ",
+  "preset.share": "اشتراک‌گذاری",
+  "preset.open_in": "باز کردن در {0}",
+  "presets.run_installed": "برنامهٔ نصب‌شده",
+  "presets.run_installed_hint": "برنامه‌ای برای باز کردن فایل‌ها انتخاب کنید…",
+  "action.print_open": "باز شد: از همان‌جا چاپ کنید (Ctrl+P)",
+  "action.print_no_printer": "سامانهٔ چاپ (CUPS) پیدا نشد",
+  "action.printing": "{0} فایل به چاپگر فرستاده شد",
+  "action.print_failed": "چاپ نشد",
+  "action.sharing": "جای اشتراک‌گذاری را انتخاب کنید",
+  "action.share_failed": "پنل اشتراک باز نشد؛ فایل در پوشه‌اش نشان داده شد",
+  "action.share_unsupported": "این سیستم پنل اشتراک ندارد"
 }

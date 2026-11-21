@@ -2050,5 +2050,17 @@
   "template.saved": "Gespeichert als „{0}“",
   "template.delete_confirm": "Vorlage „{0}“ löschen?",
   "template.morph_default": "Morph-Standard",
-  "template.filee_classic": "Filee klassisch"
+  "template.filee_classic": "Filee klassisch",
+  "preset.print": "Drucken",
+  "preset.share": "Teilen",
+  "preset.open_in": "In {0} öffnen",
+  "presets.run_installed": "Installierte App",
+  "presets.run_installed_hint": "App zum Öffnen der Dateien wählen …",
+  "action.print_open": "Geöffnet: von dort drucken (Strg+P)",
+  "action.print_no_printer": "Kein Drucksystem (CUPS) gefunden",
+  "action.printing": "{0} Datei(en) an den Drucker gesendet",
+  "action.print_failed": "Drucken fehlgeschlagen",
+  "action.sharing": "Wählen Sie, wohin geteilt wird",
+  "action.share_failed": "Das Teilen-Fenster ging nicht auf; die Datei wird im Ordner gezeigt",
+  "action.share_unsupported": "Dieses System hat kein Teilen-Fenster"
 }

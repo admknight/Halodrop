@@ -9,7 +9,7 @@ namespace Filee.Core.Morph;
 public static class MorphMigrations
 {
     /// <summary>The newest of Morph's library changes.</summary>
-    public const int Current = 2;
+    public const int Current = 3;
 
     /// <summary>Applies Morph's library changes after <paramref name="from"/>; true when something changed.</summary>
     public static bool Apply(int from, List<Preset> presets)
@@ -38,6 +38,21 @@ public static class MorphMigrations
                     continue;
                 presets.Add(preset);
                 changed = true;
+            }
+        }
+        // 3: share and print, which join the built-in "File actions" group while it has room.
+        if (from < 3)
+        {
+            var all = BuiltInData.FileActionPresets();
+            foreach (var preset in new[] { "action-share", "action-print" }.Select(id => all.Single(p => p.Id == id)))
+            {
+                if (presets.Any(p => p.Id == preset.Id))
+                    continue;
+                presets.Add(preset);
+                changed = true;
+                if (presets.FirstOrDefault(p => p.Id == BuiltInData.FileActionsId) is { } group && group.SubPresetIds.Count < Preset.MaxSubPresets
+                    && !group.SubPresetIds.Contains(preset.Id))
+                    group.SubPresetIds.Add(preset.Id);
             }
         }
         return changed;

@@ -22,6 +22,9 @@ public sealed class PresetAvailability
     private readonly IReadOnlyList<EnginePackageState> _packages;
     private readonly Func<RoutePlanner> _installedPlanner;
 
+    /// <summary>Morph change: whether this system has a share sheet (IPlatformServices.SupportsShare), set at start.</summary>
+    public static bool ShareSupported { get; set; }
+
     public PresetAvailability(ConverterCatalog catalog, ILocalizer loc, EngineDownloadService downloads)
         : this(catalog, loc, downloads.Packages) { }
 
@@ -149,6 +152,16 @@ public sealed class PresetAvailability
                     return new(PresetUse.Unusable, _loc["error.unsupported_source"]);
                 return Evaluate(FileActions.CopyTextConversion(), formats.Where(f => f.Id == "pdf" || HideService.CanOpen(f.Id)).ToList(),
                     installedPlanner, packageEnabling);
+            case Preset.PrintTool:
+                return formats.Any(f => FileActions.CanPrint(f.Id))
+                    ? new(PresetUse.Usable, null)
+                    : new(PresetUse.Unusable, _loc["error.unsupported_source"]);
+            case Preset.ShareTool:
+                if (!ShareSupported)
+                    return new(PresetUse.Unusable, _loc["action.share_unsupported"]);
+                return formats.Count > 0 && formats.All(f => f.Id != FormatRegistry.Folder)
+                    ? new(PresetUse.Usable, null)
+                    : new(PresetUse.Unusable, _loc["error.unsupported_source"]);
             case Preset.RunTool:
                 if (preset.Run is not { } run || run.Problem() is not null)
                     return new(PresetUse.Unusable, _loc["run.problem_nothing"]);

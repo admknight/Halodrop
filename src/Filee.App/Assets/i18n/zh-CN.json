@@ -2072,5 +2072,17 @@
   "template.saved": "已保存为“{0}”",
   "template.delete_confirm": "删除模板“{0}”？",
   "template.morph_default": "Morph 默认",
-  "template.filee_classic": "Filee 经典"
+  "template.filee_classic": "Filee 经典",
+  "preset.print": "打印",
+  "preset.share": "共享",
+  "preset.open_in": "在 {0} 中打开",
+  "presets.run_installed": "已安装的应用",
+  "presets.run_installed_hint": "选择打开文件的应用…",
+  "action.print_open": "已打开：请在其中打印 (Ctrl+P)",
+  "action.print_no_printer": "未找到打印系统 (CUPS)",
+  "action.printing": "已将 {0} 个文件发送到打印机",
+  "action.print_failed": "无法打印",
+  "action.sharing": "选择共享位置",
+  "action.share_failed": "共享面板未打开，已在文件夹中显示文件",
+  "action.share_unsupported": "此系统没有共享面板"
 }

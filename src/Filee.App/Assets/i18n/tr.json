@@ -2050,5 +2050,17 @@
   "template.saved": "“{0}” olarak kaydedildi",
   "template.delete_confirm": "“{0}” şablonu silinsin mi?",
   "template.morph_default": "Morph varsayılanı",
-  "template.filee_classic": "Klasik Filee"
+  "template.filee_classic": "Klasik Filee",
+  "preset.print": "Yazdır",
+  "preset.share": "Paylaş",
+  "preset.open_in": "{0} ile aç",
+  "presets.run_installed": "Yüklü uygulama",
+  "presets.run_installed_hint": "Dosyaları açacak uygulamayı seçin…",
+  "action.print_open": "Açıldı: oradan yazdırın (Ctrl+P)",
+  "action.print_no_printer": "Yazdırma sistemi (CUPS) bulunamadı",
+  "action.printing": "{0} dosya yazıcıya gönderildi",
+  "action.print_failed": "Yazdırılamadı",
+  "action.sharing": "Nerede paylaşılacağını seçin",
+  "action.share_failed": "Paylaşım paneli açılmadı; dosya klasöründe gösterildi",
+  "action.share_unsupported": "Bu sistemde paylaşım paneli yok"
 }

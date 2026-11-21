@@ -2052,5 +2052,17 @@
   "template.saved": "“{0}” नाम से सहेजा गया",
   "template.delete_confirm": "टेम्पलेट “{0}” हटाएँ?",
   "template.morph_default": "Morph डिफ़ॉल्ट",
-  "template.filee_classic": "Filee क्लासिक"
+  "template.filee_classic": "Filee क्लासिक",
+  "preset.print": "प्रिंट",
+  "preset.share": "शेयर",
+  "preset.open_in": "{0} में खोलें",
+  "presets.run_installed": "इंस्टॉल किया ऐप",
+  "presets.run_installed_hint": "फ़ाइलें खोलने के लिए ऐप चुनें…",
+  "action.print_open": "खुल गया: वहाँ से प्रिंट करें (Ctrl+P)",
+  "action.print_no_printer": "कोई प्रिंटिंग सिस्टम (CUPS) नहीं मिला",
+  "action.printing": "{0} फ़ाइलें प्रिंटर को भेजी गईं",
+  "action.print_failed": "प्रिंट नहीं हो सका",
+  "action.sharing": "शेयर करने की जगह चुनें",
+  "action.share_failed": "शेयर पैनल नहीं खुला; फ़ाइल उसके फ़ोल्डर में दिखा दी गई",
+  "action.share_unsupported": "इस सिस्टम में शेयर पैनल नहीं है"
 }

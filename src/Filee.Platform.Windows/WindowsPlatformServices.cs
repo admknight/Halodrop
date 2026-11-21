@@ -364,6 +364,17 @@ public sealed class WindowsPlatformServices : IPlatformServices
     private static void RemoveClassicVerb() =>
         Registry.CurrentUser.DeleteSubKeyTree(ContextMenuKey, throwOnMissingSubKey: false);
 
+    // Morph change: Windows' Share panel and the Start menu's apps.
+    public bool SupportsShare => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763);
+
+    public bool Share(IReadOnlyList<string> paths, nint window) => ModernShare.Show(paths, window);
+
+    public IReadOnlyList<InstalledApp> InstalledApps() => Filee.Core.Morph.InstalledApps.FromStartMenu(
+    [
+        Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),
+        Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu),
+    ], ShellLinks.TargetOf);
+
     public void RevealInFileManager(string path)
     {
         var args = File.Exists(path) ? $"/select,\"{path}\"" : $"\"{path}\"";

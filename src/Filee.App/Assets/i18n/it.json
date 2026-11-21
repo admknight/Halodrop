@@ -2049,5 +2049,17 @@
   "template.saved": "Salvato come “{0}”",
   "template.delete_confirm": "Eliminare il modello “{0}”?",
   "template.morph_default": "Morph predefinito",
-  "template.filee_classic": "Filee classico"
+  "template.filee_classic": "Filee classico",
+  "preset.print": "Stampa",
+  "preset.share": "Condividi",
+  "preset.open_in": "Apri in {0}",
+  "presets.run_installed": "App installata",
+  "presets.run_installed_hint": "Scegli un'app per aprire i file…",
+  "action.print_open": "Aperto: stampa da lì (Ctrl+P)",
+  "action.print_no_printer": "Nessun sistema di stampa (CUPS) trovato",
+  "action.printing": "{0} file inviati alla stampante",
+  "action.print_failed": "Impossibile stampare",
+  "action.sharing": "Scegli dove condividere",
+  "action.share_failed": "Il pannello di condivisione non si è aperto; il file è mostrato nella sua cartella",
+  "action.share_unsupported": "Questo sistema non ha un pannello di condivisione"
 }

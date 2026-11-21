@@ -153,9 +153,30 @@ public class MorphFileActionTests
         var migrated = new UserDataStore(dir.Path);
         migrated.Load();
         Assert.All(step2, id => Assert.NotNull(migrated.FindPreset(id)));
-        Assert.Equal(2, migrated.Settings.MorphSchema);
+        Assert.Equal(Filee.Core.Morph.MorphMigrations.Current, migrated.Settings.MorphSchema);
         Assert.All(migrated.Presets.Where(p => p.IsGroup), g => Assert.InRange(g.SubPresetIds.Count, 1, Preset.MaxSubPresets));
         Assert.Equal(migrated.Presets.Count, migrated.Presets.Select(p => p.Id).Distinct().Count());
+    }
+
+    [Fact]
+    public void Step_3_adds_share_and_print_to_the_built_in_group_while_it_has_room()
+    {
+        using var dir = new TempDir();
+        var first = new UserDataStore(dir.Path);
+        first.Load();
+        first.Presets.RemoveAll(p => p.Id is "action-share" or "action-print");
+        first.FindPreset(BuiltInData.FileActionsId)!.SubPresetIds.RemoveAll(id => id is "action-share" or "action-print");
+        first.Settings.MorphSchema = 2;
+        first.SaveSettings();
+        first.SaveLibrary();
+
+        var migrated = new UserDataStore(dir.Path);
+        migrated.Load();
+        Assert.NotNull(migrated.FindPreset("action-share"));
+        Assert.NotNull(migrated.FindPreset("action-print"));
+        Assert.Equal(["action-copy-path", "action-copy-name", "action-reveal", "action-terminal", "action-share", "action-print"],
+            migrated.FindPreset(BuiltInData.FileActionsId)!.SubPresetIds);
+        Assert.Equal(Filee.Core.Morph.MorphMigrations.Current, migrated.Settings.MorphSchema);
     }
 
     [Fact]

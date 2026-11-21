@@ -383,10 +383,17 @@ public sealed class Preset
     /// </summary>
     public const string ReverseSearchTool = "reverse-search";
 
+    /// <summary><see cref="Tool"/> of "Print": pictures and PDFs straight to the printer, the system's own way.</summary>
+    public const string PrintTool = "print";
+
+    /// <summary><see cref="Tool"/> of "Share": the system's share sheet (Windows' Share panel, the macOS share menu).</summary>
+    public const string ShareTool = "share";
+
     /// <summary>The file actions: tools that do their thing at once, without a window.</summary>
     public static readonly IReadOnlySet<string> FileActionTools = new HashSet<string>(StringComparer.Ordinal)
     {
         CopyPathTool, CopyNameTool, RevealTool, TerminalTool, WallpaperTool, CopyTextTool, RunTool, PaletteTool, ReverseSearchTool,
+        PrintTool, ShareTool,
     };
 
     /// <summary>True for a file action (<see cref="FileActionTools"/>).</summary>

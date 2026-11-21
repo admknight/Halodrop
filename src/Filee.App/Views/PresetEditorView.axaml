@@ -8,7 +8,8 @@
              xmlns:upscale="using:Filee.Engines.Upscale"
              xmlns:v="using:Filee.App.Views"
              x:Class="Filee.App.Views.PresetEditorView"
-             x:DataType="vm:PresetEditorViewModel">
+             x:DataType="vm:PresetEditorViewModel"
+             xmlns:platform="using:Filee.Core.Platform">
   <UserControl.Styles>
     <Style Selector="TextBlock.label">
       <Setter Property="TextWrapping" Value="Wrap" />
@@ -309,6 +310,18 @@
     <!-- Morph change: "Run a program" -->
     <Border x:Name="RunCard" Classes="card" IsVisible="{Binding IsRunTool}" Padding="14">
       <StackPanel Spacing="10">
+        <StackPanel>
+          <TextBlock Classes="label" Text="{DynamicResource presets.run_installed}" />
+          <ComboBox x:Name="AppPicker" HorizontalAlignment="Stretch" PlaceholderText="{DynamicResource presets.run_installed_hint}"
+                    DropDownOpened="OnAppPickerOpened" SelectionChanged="OnAppPicked" MaxDropDownHeight="360"
+                    AutomationProperties.Name="{DynamicResource presets.run_installed}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="platform:InstalledApp">
+                <TextBlock Text="{Binding Name}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
         <StackPanel>
           <TextBlock Classes="label" Text="{DynamicResource presets.run_program}" />
           <DockPanel>

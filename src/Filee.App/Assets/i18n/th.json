@@ -2052,5 +2052,17 @@
   "template.saved": "บันทึกเป็น “{0}” แล้ว",
   "template.delete_confirm": "ลบเทมเพลต “{0}” หรือไม่",
   "template.morph_default": "ค่าเริ่มต้นของ Morph",
-  "template.filee_classic": "Filee แบบคลาสสิก"
+  "template.filee_classic": "Filee แบบคลาสสิก",
+  "preset.print": "พิมพ์",
+  "preset.share": "แชร์",
+  "preset.open_in": "เปิดใน {0}",
+  "presets.run_installed": "แอปที่ติดตั้ง",
+  "presets.run_installed_hint": "เลือกแอปเพื่อเปิดไฟล์…",
+  "action.print_open": "เปิดแล้ว: พิมพ์จากที่นั่น (Ctrl+P)",
+  "action.print_no_printer": "ไม่พบระบบการพิมพ์ (CUPS)",
+  "action.printing": "ส่ง {0} ไฟล์ไปยังเครื่องพิมพ์แล้ว",
+  "action.print_failed": "พิมพ์ไม่ได้",
+  "action.sharing": "เลือกที่จะแชร์",
+  "action.share_failed": "แผงแชร์ไม่เปิด แสดงไฟล์ในโฟลเดอร์แทน",
+  "action.share_unsupported": "ระบบนี้ไม่มีแผงแชร์"
 }

@@ -2072,5 +2072,17 @@
   "template.saved": "“{0}” کے نام سے محفوظ ہو گیا",
   "template.delete_confirm": "ٹیمپلیٹ “{0}” حذف کریں؟",
   "template.morph_default": "Morph ڈیفالٹ",
-  "template.filee_classic": "Filee کلاسک"
+  "template.filee_classic": "Filee کلاسک",
+  "preset.print": "پرنٹ",
+  "preset.share": "شیئر",
+  "preset.open_in": "{0} میں کھولیں",
+  "presets.run_installed": "انسٹال شدہ ایپ",
+  "presets.run_installed_hint": "فائلیں کھولنے کے لیے ایپ چنیں…",
+  "action.print_open": "فائل کھل گئی: وہاں سے پرنٹ کریں (Ctrl+P)",
+  "action.print_no_printer": "کوئی پرنٹنگ سسٹم (CUPS) نہیں ملا",
+  "action.printing": "{0} فائلیں پرنٹر کو بھیج دی گئیں",
+  "action.print_failed": "پرنٹ نہیں ہو سکا",
+  "action.sharing": "شیئر کرنے کی جگہ چنیں",
+  "action.share_failed": "شیئر پینل نہیں کھلا؛ فائل اس کے فولڈر میں دکھا دی گئی",
+  "action.share_unsupported": "اس سسٹم میں شیئر پینل نہیں ہے"
 }

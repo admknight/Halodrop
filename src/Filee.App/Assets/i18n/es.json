@@ -2052,5 +2052,17 @@
   "template.saved": "Guardada como «{0}»",
   "template.delete_confirm": "¿Eliminar la plantilla «{0}»?",
   "template.morph_default": "Morph predeterminada",
-  "template.filee_classic": "Filee clásica"
+  "template.filee_classic": "Filee clásica",
+  "preset.print": "Imprimir",
+  "preset.share": "Compartir",
+  "preset.open_in": "Abrir en {0}",
+  "presets.run_installed": "App instalada",
+  "presets.run_installed_hint": "Elige una app para abrir los archivos…",
+  "action.print_open": "Se abrió: imprime desde ahí (Ctrl+P)",
+  "action.print_no_printer": "No se encontró un sistema de impresión (CUPS)",
+  "action.printing": "{0} archivo(s) enviado(s) a la impresora",
+  "action.print_failed": "No se pudo imprimir",
+  "action.sharing": "Elige dónde compartir",
+  "action.share_failed": "No se abrió el panel de compartir; el archivo se muestra en su carpeta",
+  "action.share_unsupported": "Este sistema no tiene panel de compartir"
 }

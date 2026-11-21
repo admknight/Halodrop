@@ -2072,5 +2072,17 @@
   "template.saved": "Saved as “{0}”",
   "template.delete_confirm": "Delete the template “{0}”?",
   "template.morph_default": "Morph default",
-  "template.filee_classic": "Filee classic"
+  "template.filee_classic": "Filee classic",
+  "preset.print": "Print",
+  "preset.share": "Share",
+  "preset.open_in": "Open in {0}",
+  "presets.run_installed": "Installed app",
+  "presets.run_installed_hint": "Pick an app to open the files in…",
+  "action.print_open": "It opened: print from there (Ctrl+P)",
+  "action.print_no_printer": "No printing system (CUPS) was found",
+  "action.printing": "Sent {0} file(s) to the printer",
+  "action.print_failed": "Couldn't print",
+  "action.sharing": "Choose where to share",
+  "action.share_failed": "The share panel didn't open; the file is shown in its folder",
+  "action.share_unsupported": "This system has no share panel"
 }

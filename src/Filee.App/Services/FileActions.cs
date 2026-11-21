@@ -11,6 +11,7 @@ using Avalonia.Input.Platform;
 using Avalonia.Threading;
 using Filee.App.Views;
 using Filee.Core.Conversion;
+using Filee.Core.Formats;
 using Filee.Core.Localization;
 using Filee.Core.Platform;
 using Filee.Core.Presets;
@@ -52,6 +53,8 @@ public sealed partial class FileActions(UserDataStore store, ILocalizer loc, IPl
             Preset.RunTool => RunProgramAsync(files, preset),
             Preset.PaletteTool => PaletteAsync(files[0], preset),
             Preset.ReverseSearchTool => ReverseSearchAsync(files[0], preset),
+            Preset.PrintTool => PrintAsync(files),
+            Preset.ShareTool => Share(files),
             _ => Task.CompletedTask,
         };
     }
@@ -279,6 +282,81 @@ public sealed partial class FileActions(UserDataStore store, ILocalizer loc, IPl
     [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool SystemParametersInfoW(uint action, uint param, string value, uint winIni);
+
+    // ---- print ----
+
+    /// <summary>Which files "Print" takes: pictures the image engine reads, and PDFs.</summary>
+    public static bool CanPrint(string formatId) => formatId == "pdf" || HideService.CanOpen(formatId);
+
+    private async Task PrintAsync(IReadOnlyList<string> files)
+    {
+        var printable = files.Where(f => FormatRegistry.Detect(f) is { } format && CanPrint(format.Id)).ToList();
+        if (printable.Count == 0)
+            return;
+        string? problem = null;
+        if (OperatingSystem.IsWindows())
+        {
+            // The app that opens the file prints it (Windows' Photo Printing wizard for pictures, the PDF reader's dialog).
+            foreach (var file in printable)
+            {
+                try
+                {
+                    using var process = Process.Start(new ProcessStartInfo(file) { UseShellExecute = true, Verb = "print" });
+                }
+                catch (Win32Exception ex)
+                {
+                    // No app here prints this kind of file by itself: it opens, to print from there.
+                    log.LogInformation(ex, "No print command for {File}", file);
+                    platform.OpenFile(file);
+                    problem = loc["action.print_open"];
+                }
+            }
+        }
+        else
+        {
+            // macOS and Linux print through CUPS: lp takes pictures and PDFs and sends them to the default printer.
+            problem = await Task.Run(() =>
+            {
+                try
+                {
+                    return RunQuietly("lp", ["--", .. printable]);
+                }
+                catch (Exception ex) when (ex is Win32Exception or InvalidOperationException)
+                {
+                    return loc["action.print_no_printer"];
+                }
+            });
+        }
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            if (problem is null)
+                Notice(loc.Format("action.printing", printable.Count));
+            else if (OperatingSystem.IsWindows())
+                Notice(problem); // opened to print from there
+            else
+                Notice(loc["action.print_failed"], problem, problem: true);
+        });
+    }
+
+    // ---- share ----
+
+    private Task Share(IReadOnlyList<string> files)
+    {
+        var shareable = files.Where(File.Exists).ToList();
+        if (shareable.Count == 0)
+            return Task.CompletedTask;
+        // The card stays while the share sheet is open: on a Mac the menu hangs from it.
+        var card = Notice(loc["action.sharing"]);
+        card.StayFor(TimeSpan.FromSeconds(45));
+        var handle = card.TryGetPlatformHandle()?.Handle ?? 0;
+        if (!platform.SupportsShare || !platform.Share(shareable, handle))
+        {
+            card.Close();
+            Notice(loc["action.share_failed"], null, problem: true);
+            platform.RevealInFileManager(shareable[0]);
+        }
+        return Task.CompletedTask;
+    }
 
     // ---- colour palette ----
 

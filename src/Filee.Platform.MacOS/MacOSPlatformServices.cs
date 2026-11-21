@@ -75,6 +75,17 @@ public sealed class MacOSPlatformServices : IPlatformServices
 
     public bool CopyToClipboard(IReadOnlyList<string> paths) => MacOSClipboard.Write(paths);
 
+    // Morph change: the share menu and the installed apps.
+    public bool SupportsShare => true;
+
+    public bool Share(IReadOnlyList<string> paths, nint window) => MacOSShare.Show(paths, window);
+
+    public IReadOnlyList<InstalledApp> InstalledApps() => Filee.Core.Morph.InstalledApps.FromAppFolders(
+    [
+        "/Applications", "/System/Applications",
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications"),
+    ]);
+
     // AppKit exposes no public system drag-distance preference; match its usual four-point threshold.
     public int SystemDragThreshold => 4;
 

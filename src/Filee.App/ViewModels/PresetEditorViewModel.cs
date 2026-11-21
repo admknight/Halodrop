@@ -434,6 +434,28 @@ public sealed partial class PresetEditorViewModel : ObservableObject
     [ObservableProperty] private bool _runPerFile;
     [ObservableProperty] private bool _runShowWindow;
     [ObservableProperty] private string _runExtensions = "";
+
+    /// <summary>
+    /// Fills "Run a program" from an installed app: its program, the files after it, and a name ("Open in Photoshop")
+    /// while the action still has the default one. A Linux command with options goes whole into the arguments.
+    /// </summary>
+    public void PickApp(Filee.Core.Platform.InstalledApp app)
+    {
+        var program = app.Program.Trim();
+        if (File.Exists(program) || Directory.Exists(program) || !program.Contains(' ', StringComparison.Ordinal))
+        {
+            RunProgram = program;
+            if (string.IsNullOrWhiteSpace(RunArguments))
+                RunArguments = "{files}";
+        }
+        else
+        {
+            RunProgram = "";
+            RunArguments = program + " {files}";
+        }
+        if (string.IsNullOrWhiteSpace(Name) || Name.Trim() == _loc["preset.run"])
+            Name = _loc.Format("preset.open_in", app.Name);
+    }
     public bool CanChangeTarget => !IsTool;
     /// <summary>Folder actions only offer directory-capable targets and preserve the source directory.</summary>
     public bool FolderInput { get; }

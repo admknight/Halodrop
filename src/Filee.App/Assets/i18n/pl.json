@@ -2072,5 +2072,17 @@
   "template.saved": "Zapisano jako „{0}”",
   "template.delete_confirm": "Usunąć szablon „{0}”?",
   "template.morph_default": "Domyślny Morph",
-  "template.filee_classic": "Klasyczny Filee"
+  "template.filee_classic": "Klasyczny Filee",
+  "preset.print": "Drukuj",
+  "preset.share": "Udostępnij",
+  "preset.open_in": "Otwórz w {0}",
+  "presets.run_installed": "Zainstalowana aplikacja",
+  "presets.run_installed_hint": "Wybierz aplikację do otwarcia plików…",
+  "action.print_open": "Otwarto: drukuj stamtąd (Ctrl+P)",
+  "action.print_no_printer": "Nie znaleziono systemu drukowania (CUPS)",
+  "action.printing": "Wysłano do drukarki plików: {0}",
+  "action.print_failed": "Nie udało się wydrukować",
+  "action.sharing": "Wybierz, gdzie udostępnić",
+  "action.share_failed": "Panel udostępniania się nie otworzył; plik pokazano w folderze",
+  "action.share_unsupported": "Ten system nie ma panelu udostępniania"
 }

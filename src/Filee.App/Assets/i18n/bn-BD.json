@@ -2048,5 +2048,17 @@
   "template.saved": "“{0}” নামে সেভ হয়েছে",
   "template.delete_confirm": "টেমপ্লেট “{0}” মুছবেন?",
   "template.morph_default": "Morph ডিফল্ট",
-  "template.filee_classic": "Filee ক্লাসিক"
+  "template.filee_classic": "Filee ক্লাসিক",
+  "preset.print": "প্রিন্ট",
+  "preset.share": "শেয়ার",
+  "preset.open_in": "{0}-এ খুলুন",
+  "presets.run_installed": "ইনস্টল করা অ্যাপ",
+  "presets.run_installed_hint": "ফাইল খোলার জন্য একটি অ্যাপ বাছুন…",
+  "action.print_open": "খুলেছে: সেখান থেকে প্রিন্ট করুন (Ctrl+P)",
+  "action.print_no_printer": "কোনো প্রিন্টিং সিস্টেম (CUPS) পাওয়া যায়নি",
+  "action.printing": "{0}টি ফাইল প্রিন্টারে পাঠানো হয়েছে",
+  "action.print_failed": "প্রিন্ট করা যায়নি",
+  "action.sharing": "কোথায় শেয়ার করবেন বাছুন",
+  "action.share_failed": "শেয়ার প্যানেল খোলেনি; ফাইলটি তার ফোল্ডারে দেখানো হয়েছে",
+  "action.share_unsupported": "এই সিস্টেমে শেয়ার প্যানেল নেই"
 }

@@ -2072,5 +2072,17 @@
   "template.saved": "已儲存為「{0}」",
   "template.delete_confirm": "刪除範本「{0}」？",
   "template.morph_default": "Morph 預設",
-  "template.filee_classic": "Filee 經典"
+  "template.filee_classic": "Filee 經典",
+  "preset.print": "列印",
+  "preset.share": "分享",
+  "preset.open_in": "在 {0} 中開啟",
+  "presets.run_installed": "已安裝的應用程式",
+  "presets.run_installed_hint": "選擇開啟檔案的應用程式…",
+  "action.print_open": "已開啟：請在其中列印 (Ctrl+P)",
+  "action.print_no_printer": "找不到列印系統 (CUPS)",
+  "action.printing": "已將 {0} 個檔案傳送到印表機",
+  "action.print_failed": "無法列印",
+  "action.sharing": "選擇分享位置",
+  "action.share_failed": "分享面板未開啟，已在資料夾中顯示檔案",
+  "action.share_unsupported": "此系統沒有分享面板"
 }

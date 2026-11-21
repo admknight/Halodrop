@@ -42,6 +42,14 @@ public partial class QuickNoticeWindow : Window
         _closer.Start();
     }
 
+    /// <summary>Keeps the card for <paramref name="time"/> (a share sheet hangs from it while open).</summary>
+    public void StayFor(TimeSpan time)
+    {
+        _closer.Stop();
+        _closer.Interval = time;
+        _closer.Start();
+    }
+
     /// <summary>Shows <paramref name="colours"/> (#RRGGBB) as swatches with their codes, and stays a little longer.</summary>
     public void ShowSwatches(IReadOnlyList<string> colours)
     {

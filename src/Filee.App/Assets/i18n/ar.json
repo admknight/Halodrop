@@ -2051,5 +2051,17 @@
   "template.saved": "تم الحفظ باسم “{0}”",
   "template.delete_confirm": "حذف القالب “{0}”؟",
   "template.morph_default": "Morph الافتراضي",
-  "template.filee_classic": "Filee الكلاسيكي"
+  "template.filee_classic": "Filee الكلاسيكي",
+  "preset.print": "طباعة",
+  "preset.share": "مشاركة",
+  "preset.open_in": "فتح في {0}",
+  "presets.run_installed": "تطبيق مثبّت",
+  "presets.run_installed_hint": "اختر تطبيقًا لفتح الملفات…",
+  "action.print_open": "فُتح الملف: اطبع من هناك (Ctrl+P)",
+  "action.print_no_printer": "لم يُعثر على نظام طباعة (CUPS)",
+  "action.printing": "أُرسل {0} ملف إلى الطابعة",
+  "action.print_failed": "تعذّرت الطباعة",
+  "action.sharing": "اختر مكان المشاركة",
+  "action.share_failed": "لم تُفتح لوحة المشاركة؛ عُرض الملف في مجلده",
+  "action.share_unsupported": "لا توجد لوحة مشاركة في هذا النظام"
 }

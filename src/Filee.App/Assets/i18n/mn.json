@@ -2048,5 +2048,17 @@
   "template.saved": "“{0}” нэрээр хадгалагдлаа",
   "template.delete_confirm": "“{0}” загварыг устгах уу?",
   "template.morph_default": "Morph үндсэн",
-  "template.filee_classic": "Filee сонгодог"
+  "template.filee_classic": "Filee сонгодог",
+  "preset.print": "Хэвлэх",
+  "preset.share": "Хуваалцах",
+  "preset.open_in": "{0}-д нээх",
+  "presets.run_installed": "Суулгасан апп",
+  "presets.run_installed_hint": "Файлыг нээх апп сонгох…",
+  "action.print_open": "Нээгдлээ: тэндээс хэвлэнэ үү (Ctrl+P)",
+  "action.print_no_printer": "Хэвлэх систем (CUPS) олдсонгүй",
+  "action.printing": "{0} файл хэвлэгч рүү илгээгдлээ",
+  "action.print_failed": "Хэвлэж чадсангүй",
+  "action.sharing": "Хаана хуваалцахаа сонгоно уу",
+  "action.share_failed": "Хуваалцах самбар нээгдсэнгүй; файлыг хавтсанд нь харууллаа",
+  "action.share_unsupported": "Энэ системд хуваалцах самбар байхгүй"
 }

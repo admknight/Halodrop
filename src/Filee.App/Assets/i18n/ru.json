@@ -2072,5 +2072,17 @@
   "template.saved": "Сохранено как «{0}»",
   "template.delete_confirm": "Удалить шаблон «{0}»?",
   "template.morph_default": "Morph по умолчанию",
-  "template.filee_classic": "Классический Filee"
+  "template.filee_classic": "Классический Filee",
+  "preset.print": "Печать",
+  "preset.share": "Поделиться",
+  "preset.open_in": "Открыть в {0}",
+  "presets.run_installed": "Установленное приложение",
+  "presets.run_installed_hint": "Выберите приложение для открытия файлов…",
+  "action.print_open": "Открыто: печатайте оттуда (Ctrl+P)",
+  "action.print_no_printer": "Система печати (CUPS) не найдена",
+  "action.printing": "Отправлено на печать файлов: {0}",
+  "action.print_failed": "Не удалось напечатать",
+  "action.sharing": "Выберите, куда поделиться",
+  "action.share_failed": "Панель «Поделиться» не открылась; файл показан в папке",
+  "action.share_unsupported": "В этой системе нет панели «Поделиться»"
 }

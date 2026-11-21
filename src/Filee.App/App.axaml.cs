@@ -123,6 +123,7 @@ public partial class App : Application
         var triggers = AppHost.Get<TriggerService>();
         var radial = AppHost.Get<RadialController>();
         var platform = AppHost.Get<IPlatformServices>();
+        PresetAvailability.ShareSupported = platform.SupportsShare; // Morph change
         triggers.DragStarted += (_, e) => radial.ShowForDrag(e.X, e.Y, OpensBack(e));
         triggers.DragEnded += (_, _) => radial.OnDragGestureEnded();
         triggers.SelectionGesture += async (_, e) =>

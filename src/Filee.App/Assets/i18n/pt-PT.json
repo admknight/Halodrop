@@ -2072,5 +2072,17 @@
   "template.saved": "Guardado como “{0}”",
   "template.delete_confirm": "Eliminar o modelo “{0}”?",
   "template.morph_default": "Predefinição do Morph",
-  "template.filee_classic": "Filee clássico"
+  "template.filee_classic": "Filee clássico",
+  "preset.print": "Imprimir",
+  "preset.share": "Partilhar",
+  "preset.open_in": "Abrir no {0}",
+  "presets.run_installed": "App instalada",
+  "presets.run_installed_hint": "Escolha uma app para abrir os ficheiros…",
+  "action.print_open": "Abriu: imprima a partir daí (Ctrl+P)",
+  "action.print_no_printer": "Nenhum sistema de impressão (CUPS) encontrado",
+  "action.printing": "{0} ficheiro(s) enviado(s) para a impressora",
+  "action.print_failed": "Não foi possível imprimir",
+  "action.sharing": "Escolha onde partilhar",
+  "action.share_failed": "O painel de partilha não abriu; o ficheiro está na pasta",
+  "action.share_unsupported": "Este sistema não tem painel de partilha"
 }

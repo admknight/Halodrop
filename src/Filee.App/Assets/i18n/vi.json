@@ -2072,5 +2072,17 @@
   "template.saved": "Đã lưu thành “{0}”",
   "template.delete_confirm": "Xóa mẫu “{0}”?",
   "template.morph_default": "Mặc định Morph",
-  "template.filee_classic": "Filee cổ điển"
+  "template.filee_classic": "Filee cổ điển",
+  "preset.print": "In",
+  "preset.share": "Chia sẻ",
+  "preset.open_in": "Mở bằng {0}",
+  "presets.run_installed": "Ứng dụng đã cài",
+  "presets.run_installed_hint": "Chọn ứng dụng để mở tệp…",
+  "action.print_open": "Đã mở: in từ đó (Ctrl+P)",
+  "action.print_no_printer": "Không tìm thấy hệ thống in (CUPS)",
+  "action.printing": "Đã gửi {0} tệp tới máy in",
+  "action.print_failed": "Không in được",
+  "action.sharing": "Chọn nơi chia sẻ",
+  "action.share_failed": "Bảng chia sẻ không mở; tệp được hiện trong thư mục",
+  "action.share_unsupported": "Hệ thống này không có bảng chia sẻ"
 }
