@@ -20,3 +20,16 @@ dotnet build Filee.slnx && dotnet test Filee.slnx                   # MorphBrand
 The code scripts keep type and resource names (`Filee.App.…`), Filee's website (`filee.sh`) and comments. Check
 their changes with `git diff` before committing: a new text key or stored id that contains "filee" must keep its
 name (the branding test lists keys that no longer exist).
+
+### Files Morph leaves out
+
+A merge may bring these back (as a "deleted by us" conflict); keep them deleted:
+
+- `docs/readme/` – Filee's translated READMEs. Morph has one README, in English.
+- `tests/Filee.App.Tests/UpdateServiceMirrorTests.cs` – Filee's download mirror, which Morph never uses
+  (`MorphUpdateMirrorTests` checks that instead).
+
+### Text Morph adds
+
+New keys Morph adds to every language (`guide.*`, `resume.*`, `error.engine_crashed`, `theme.style.Futuristic`…) are in
+all 24 files; when Filee adds a language, copy them from `en.json` and translate them too.

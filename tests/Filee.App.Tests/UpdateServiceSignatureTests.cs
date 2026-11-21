@@ -93,14 +93,15 @@ public class UpdateServiceSignatureTests
     [Fact]
     public async Task Older_signed_release_under_a_new_tag_is_refused()
     {
-        // A real, signed checksum file of an old release, attached to a release with a higher tag.
+        // A real, signed checksum file of an old release, attached to a release with a higher tag. Morph change: 0.0.1,
+        // older than Morph's own versions (Filee's test used 1.0.0, older than Filee 2).
         using var key = ECDsa.Create(ECCurve.NamedCurves.nistP256);
         var installer = RandomNumberGenerator.GetBytes(1_000);
-        var sums = Sums(installer, "Morph-1.0.0-win-Setup.exe");
+        var sums = Sums(installer, "Morph-0.0.1-win-Setup.exe");
         var network = new SignedRelease(installer, sums, Sign(key, sums));
 
         var error = await Assert.ThrowsAsync<UpdateVerificationException>(() =>
-            Updates(network, PublicKey(key), installer.Length, "Morph-1.0.0-win-Setup.exe")
+            Updates(network, PublicKey(key), installer.Length, "Morph-0.0.1-win-Setup.exe")
                 .DownloadInstallerAsync(TempFolder(), null, TestContext.Current.CancellationToken));
         Assert.Contains("not a newer version", error.Message);
     }

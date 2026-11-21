@@ -106,8 +106,9 @@
         </StackPanel>
       </Border>
     </Grid>
-    <!-- The sponsors right below Filee itself and the updates, while there are any -->
-    <Border Classes="card" IsVisible="False"><!-- Morph change: Filee's sponsors support Filee -->
+    <!-- The sponsors right below Morph itself and the updates, while there are any. Morph change: Morph's own list
+         (Assets/Sponsors/sponsors.json), empty for now, so nothing shows. -->
+    <Border Classes="card" IsVisible="{Binding #Supporters.IsVisible}">
       <StackPanel Spacing="12">
         <TextBlock Classes="h2" Text="{DynamicResource sponsor.thanks}" />
         <v:SupportersView x:Name="Supporters" ShowTitle="False" LogoHeight="40" />

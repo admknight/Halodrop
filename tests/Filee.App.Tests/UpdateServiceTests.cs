@@ -259,7 +259,7 @@ public class UpdateServiceTests
         var sums = $"{new string('1', 64)}  Morph-9.9.9-win-Portable.zip\r\n{hash}  Morph-9.9.9-win-Setup.exe\r\n";
 
         Assert.Equal(hash.ToLowerInvariant(), UpdateService.ParseChecksum(sums, "Morph-9.9.9-win-Setup.exe"));
-        Assert.Equal(hash.ToLowerInvariant(), UpdateService.ParseChecksum($"{hash} *Morph-9.9.9-win-Setup.exe", "Filee-9.9.9-win-Setup.exe"));
+        Assert.Equal(hash.ToLowerInvariant(), UpdateService.ParseChecksum($"{hash} *Morph-9.9.9-win-Setup.exe", "Morph-9.9.9-win-Setup.exe"));
         Assert.Null(UpdateService.ParseChecksum(sums, "Morph-9.9.8-win-Setup.exe"));
         Assert.Null(UpdateService.ParseChecksum("tooshort  Morph-9.9.9-win-Setup.exe", "Morph-9.9.9-win-Setup.exe"));
     }

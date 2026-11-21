@@ -41,7 +41,8 @@ public class SupportersTests
         var folder = Path.Combine(RepoRoot, "src", "Filee.App", "Assets", "Sponsors");
         var list = Supporters.Parse(File.ReadAllText(Path.Combine(folder, "sponsors.json")));
 
-        foreach (var readme in new[] { "README.md", "docs/readme/README.ko.md", "docs/readme/README.zh-CN.md", "docs/readme/README.pt-BR.md", "docs/readme/README.fr.md" })
+        // Morph change: Morph's README is the only one (Filee's translated READMEs describe Filee).
+        foreach (var readme in new[] { "README.md" })
         {
             var text = File.ReadAllText(Path.Combine(RepoRoot, readme));
             Assert.Contains("<!-- sponsors: src/Filee.App/Assets/Sponsors/sponsors.json -->", text);

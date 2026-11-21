@@ -50,6 +50,8 @@ Morph started as a fork of Filee in November 2026. So far it adds:
   finish the unfinished files at the next start, and leaves out a file it stopped on twice.
 - **Urdu (اردو)**: the whole app, Setup and the macOS menus, right to left in a Nastaliq font. 24 languages in all.
 
+<!-- sponsors: src/Filee.App/Assets/Sponsors/sponsors.json -->
+
 ## Build from source
 
 You need the [.NET 10 SDK](https://dotnet.microsoft.com/download).

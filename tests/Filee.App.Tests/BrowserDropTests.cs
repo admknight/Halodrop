@@ -116,7 +116,7 @@ public class BrowserDropTests
             Motion.Set(false);
             var file = VirtualFile.Create("cat.png", Png);
             using var data = ChromePicture(file);
-            radial.ShowForDrag(500, 500);
+            ShowForDragAtStart(radial);
             var window = radial.Window!;
             var root = window.FindControl<Panel>("Root")!;
             var donut = window.DonutControl;
@@ -136,7 +136,7 @@ public class BrowserDropTests
         }
         finally
         {
-            radial.Close(animate: false); Motion.Set(motion);
+            radial.Close(animate: false); AppHost.Get<UserDataStore>().Settings.Donut.OpenAt = DonutOpenAt.LetGo; Motion.Set(motion);
             profile.BackPresetIds = before; store.Presets.Remove(preset);
             Directory.Delete(destination, recursive: true);
         }
@@ -161,6 +161,66 @@ public class BrowserDropTests
         store.Settings.BrowserDrops.Folder = folder;
         store.Settings.BrowserDrops.SaveOnlyConverted = saveOnlyConverted;
         return folder;
+    }
+
+    /// <summary>
+    /// Morph change: these drop the files straight on a slice, as with the donut at the drag's start. Morph opens it
+    /// where the files are let go by default (A_picture_let_go_opens_the_donut_and_a_click_converts_it covers that).
+    /// </summary>
+    private static void ShowForDragAtStart(RadialController radial)
+    {
+        AppHost.Get<UserDataStore>().Settings.Donut.OpenAt = DonutOpenAt.DragStart;
+        radial.ShowForDrag(500, 500);
+    }
+
+    [AvaloniaFact]
+    public void A_picture_let_go_opens_the_donut_and_a_click_converts_it()
+    {
+        // Morph's default: a small bubble rides with the drag; letting go opens the donut there, and the browser's
+        // picture waits until a slice is clicked.
+        TestServices.EnsureInitialized("en");
+        var store = AppHost.Get<UserDataStore>();
+        Assert.Equal(DonutOpenAt.LetGo, store.Settings.Donut.OpenAt);
+        var folder = UseFolder(store, saveOnlyConverted: true);
+        var radial = AppHost.Get<RadialController>();
+        var conversions = AppHost.Get<ConversionService>();
+        try
+        {
+            radial.ShowForDrag(500, 500);
+            var window = radial.Window!;
+            var root = window.FindControl<Panel>("Root")!;
+            Assert.True(window.DonutControl.HubOnly);
+            var file = VirtualFile.Create("cat.png", Png);
+            using var data = ChromePicture(file);
+            root.RaiseEvent(new DragEventArgs(DragDrop.DragEnterEvent, data, root, new Point(5, 5), KeyModifiers.Control));
+            Pump();
+            var dropFile = VirtualFile.Create("cat.png", Png);
+            using var dropData = ChromePicture(dropFile);
+            var before = conversions.Jobs.Count;
+            root.RaiseEvent(new DragEventArgs(DragDrop.DropEvent, dropData, root, new Point(5, 5), KeyModifiers.Control));
+            Pump();
+
+            // Opened for a click, nothing converted yet, the picture kept for it.
+            var model = AppHost.Get<RadialViewModel>();
+            Assert.True(model.IsClickMode);
+            Assert.False(radial.Window!.DonutControl.HubOnly);
+            Assert.Equal(before, conversions.Jobs.Count);
+            Assert.False(dropFile.Disposed);
+
+            var donut = radial.Window!.DonutControl;
+            Assert.True(donut.HandleKey(Avalonia.Input.Key.Right));
+            Assert.True(donut.HandleKey(Avalonia.Input.Key.Enter));
+            Pump();
+            Assert.True(conversions.Jobs.Count > before, "no conversion started after the click");
+            var job = WaitFor(conversions.Jobs[0]);
+            Assert.Equal(JobState.Completed, job.State);
+            Assert.Equal(folder, Path.GetDirectoryName(Assert.Single(job.Outputs)));
+        }
+        finally
+        {
+            radial.Close(animate: false);
+            Reset(store, folder);
+        }
     }
 
     private static void Reset(UserDataStore store, string folder)
@@ -253,7 +313,7 @@ public class BrowserDropTests
         var conversions = AppHost.Get<ConversionService>();
         try
         {
-            radial.ShowForDrag(500, 500);
+            ShowForDragAtStart(radial);
             var window = radial.Window!;
             var root = window.FindControl<Panel>("Root")!;
             var donut = window.DonutControl;
@@ -285,7 +345,7 @@ public class BrowserDropTests
         }
         finally
         {
-            radial.Close(animate: false);
+            radial.Close(animate: false); AppHost.Get<UserDataStore>().Settings.Donut.OpenAt = DonutOpenAt.LetGo;
             Reset(store, folder);
         }
     }
@@ -309,7 +369,7 @@ public class BrowserDropTests
                 : "<rect width='20' height='20' fill='red'/>";
             data.Add(DataTransferItem.CreateText("<svg width='20' height='20'>" + drawing + "</svg>"));
             Assert.True(DraggedFiles.Offered(data));
-            radial.ShowForDrag(500, 500);
+            ShowForDragAtStart(radial);
             var window = radial.Window!;
             var root = window.FindControl<Panel>("Root")!;
             var donut = window.DonutControl;
@@ -350,7 +410,7 @@ public class BrowserDropTests
         }
         finally
         {
-            radial.Close(animate: false);
+            radial.Close(animate: false); AppHost.Get<UserDataStore>().Settings.Donut.OpenAt = DonutOpenAt.LetGo;
             Reset(store, folder);
         }
     }
@@ -416,12 +476,12 @@ public class BrowserDropTests
             Assert.NotEmpty(model.Presets);
             Assert.False(file.Disposed);
 
-            radial.Close(animate: false);
+            radial.Close(animate: false); AppHost.Get<UserDataStore>().Settings.Donut.OpenAt = DonutOpenAt.LetGo;
             Assert.True(file.Disposed);
         }
         finally
         {
-            radial.Close(animate: false);
+            radial.Close(animate: false); AppHost.Get<UserDataStore>().Settings.Donut.OpenAt = DonutOpenAt.LetGo;
             window.Close();
         }
     }
@@ -471,7 +531,7 @@ public class BrowserDropTests
         }
         finally
         {
-            radial.Close(animate: false);
+            radial.Close(animate: false); AppHost.Get<UserDataStore>().Settings.Donut.OpenAt = DonutOpenAt.LetGo;
             window.Close();
             // The queue is shared by the whole app: the test's file must not stay in it for the next test.
             AppHost.Get<StagedFiles>().Clear();
