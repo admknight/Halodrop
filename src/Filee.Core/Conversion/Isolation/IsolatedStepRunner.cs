@@ -227,10 +227,20 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
             {
                 Send(new WorkerMessage
                 {
-                    T = "run", Id = id, Engine = converter.Id,
-                    Input = step.InputPath, From = step.From, To = step.To, Preset = WorkerProtocol.WritePreset(step.Preset),
-                    Work = step.WorkDirectory, Frames = step.FrameSequence, Motion = step.MotionPhoto, Live = step.LivePhoto,
-                    Original = step.OriginalSourcePath, Caption = step.Caption, Translate = step.Translate,
+                    T = "run",
+                    Id = id,
+                    Engine = converter.Id,
+                    Input = step.InputPath,
+                    From = step.From,
+                    To = step.To,
+                    Preset = WorkerProtocol.WritePreset(step.Preset),
+                    Work = step.WorkDirectory,
+                    Frames = step.FrameSequence,
+                    Motion = step.MotionPhoto,
+                    Live = step.LivePhoto,
+                    Original = step.OriginalSourcePath,
+                    Caption = step.Caption,
+                    Translate = step.Translate,
                 });
                 using var cancel = cancellationToken.Register(() =>
                 {

@@ -183,7 +183,8 @@ public sealed class EngineIsolationTests : IDisposable
         await using var queue = new JobQueue(new ConverterCatalog(converters)) { StepRunner = runner };
         var preset = new Preset
         {
-            Name = "To JPG", TargetFormat = "jpg",
+            Name = "To JPG",
+            TargetFormat = "jpg",
             Output = new OutputRule { Location = OutputLocation.SameFolder },
         };
         var job = queue.Enqueue([Practice()], preset, "To JPG");
@@ -191,7 +192,7 @@ public sealed class EngineIsolationTests : IDisposable
         queue.JobFinished += (_, j) => { if (ReferenceEquals(j, job)) finished.TrySetResult(); };
         if (job.State is JobState.Completed or JobState.CompletedWithErrors or JobState.Failed)
             finished.TrySetResult();
-        await finished.Task.WaitAsync(TimeSpan.FromSeconds(60));
+        await finished.Task.WaitAsync(TimeSpan.FromSeconds(60), TestContext.Current.CancellationToken);
 
         Assert.Equal(JobState.Completed, job.State);
         var output = Assert.Single(job.Outputs);

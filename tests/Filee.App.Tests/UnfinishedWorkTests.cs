@@ -128,7 +128,7 @@ public sealed class UnfinishedWorkTests : IDisposable
         var finished = new TaskCompletionSource();
         queue.JobFinished += (_, j) => { if (ReferenceEquals(j, job)) finished.TrySetResult(); };
         engine.Release.TrySetResult();
-        await finished.Task.WaitAsync(TimeSpan.FromSeconds(30));
+        await finished.Task.WaitAsync(TimeSpan.FromSeconds(30), TestContext.Current.CancellationToken);
         Assert.Equal(JobState.Completed, job.State);
         Assert.False(File.Exists(Journal));
         work.Dispose();
