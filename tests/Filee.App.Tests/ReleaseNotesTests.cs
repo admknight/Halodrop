@@ -71,7 +71,7 @@ public class ReleaseNotesTests
             ("v9.9.11", "<!-- update\nlevel: optional\nko: 새 기능\n-->"),
             ("v9.9.10", "<!-- update\nlevel: required\nko: 중요한 수정\n-->"),
             ("v9.9.9", "no block"),
-            ("v1.0.0", "<!-- update\nlevel: required\n-->"),    // older than this version
+            ("v0.0.1", "<!-- update\nlevel: required\n-->"),    // older than this version (Morph change: 0.0.1, below Morph 0.7)
         ], current: "9.9.9", latest: "9.9.11");
 
         Assert.Equal(["9.9.11", "9.9.10"], notes.Select(n => n.Version));
@@ -118,7 +118,7 @@ public class ReleaseNotesTests
                         Release("v9.9.12", "<!-- update\nlevel: optional\n-->", draft: true),
                         Release("v9.9.11", "<!-- update\nlevel: optional\nko: 새 기능\n-->"),
                         Release("v9.9.10", "<!-- update\nlevel: required\nko: 중요한 수정\n-->"),
-                        Release("v1.0.0", "old"),
+                        Release("v0.0.1", "old") /* Morph change: older than Morph 0.7 */,
                     }
                     : null;
             return Task.FromResult(answer is null
