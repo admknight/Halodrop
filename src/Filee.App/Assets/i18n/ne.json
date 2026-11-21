@@ -2037,5 +2037,20 @@
   "action.palette_failed": "रङ पढ्न सकिएन",
   "action.search_opened": "नतिजा ब्राउजरमा खुल्दैछ",
   "action.search_by_hand": "खुलेको पेजमा तस्बिर छोड्नुहोस्",
-  "error.audio_only": "अडियोमा मात्र काम गर्छ"
+  "error.audio_only": "अडियोमा मात्र काम गर्छ",
+  "template.title": "टेम्प्लेटहरू",
+  "template.hint": "टेम्प्लेट भनेको डोनटहरूको पूरा सेट र तिनको आकार हो। जुनसुकै बेला बदल्नुहोस्: हालका डोनटहरू पहिले टेम्प्लेटका रूपमा राखिन्छन्।",
+  "template.apply": "यो टेम्प्लेट प्रयोग गर्नुहोस्",
+  "template.save": "हालका डोनट सुरक्षित गर्नुहोस्",
+  "template.delete": "टेम्प्लेट मेटाउनुहोस्",
+  "template.name_hint": "टेम्प्लेटको नाम",
+  "template.detail": "{0} डोनट · {1} स्लाइस · {2} px",
+  "template.apply_confirm": "“{0}” मा जाने? हालका डोनटहरू टेम्प्लेटका रूपमा राखिनेछन्।",
+  "template.kept_name": "मेरा डोनट, {0}",
+  "template.applied": "टेम्प्लेट लागू भयो",
+  "template.applied_kept": "टेम्प्लेट लागू भयो। अघिल्ला डोनटहरू “{0}” नाममा राखिएका छन्।",
+  "template.saved": "“{0}” नाममा सुरक्षित भयो",
+  "template.delete_confirm": "टेम्प्लेट “{0}” मेटाउने?",
+  "template.morph_default": "Morph पूर्वनिर्धारित",
+  "template.filee_classic": "Filee क्लासिक"
 }

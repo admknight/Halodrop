@@ -2057,5 +2057,20 @@
   "action.palette_failed": "Impossible de lire les couleurs",
   "action.search_opened": "Les résultats s’ouvrent dans votre navigateur",
   "action.search_by_hand": "Déposez l’image sur la page ouverte",
-  "error.audio_only": "Fonctionne uniquement avec l’audio"
+  "error.audio_only": "Fonctionne uniquement avec l’audio",
+  "template.title": "Modèles",
+  "template.hint": "Un modèle est un ensemble complet de donuts et leur taille. Changez quand vous voulez : vos donuts actuels sont d’abord gardés comme modèle.",
+  "template.apply": "Utiliser ce modèle",
+  "template.save": "Enregistrer les donuts actuels",
+  "template.delete": "Supprimer le modèle",
+  "template.name_hint": "Nom du modèle",
+  "template.detail": "{0} donuts · {1} parts · {2} px",
+  "template.apply_confirm": "Passer à « {0} » ? Vos donuts actuels sont gardés comme modèle.",
+  "template.kept_name": "Mes donuts, {0}",
+  "template.applied": "Modèle appliqué",
+  "template.applied_kept": "Modèle appliqué. Vos donuts précédents sont gardés sous « {0} ».",
+  "template.saved": "Enregistré sous « {0} »",
+  "template.delete_confirm": "Supprimer le modèle « {0} » ?",
+  "template.morph_default": "Morph par défaut",
+  "template.filee_classic": "Filee classique"
 }

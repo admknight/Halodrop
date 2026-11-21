@@ -74,6 +74,8 @@ public sealed class UserDataStore
         // A new install is told by the file missing, not by Read returning null: a settings file that can't be read is an
         // existing user's, who keeps every field on. Only a new install gets the fields that are off by default.
         var fresh = !File.Exists(SettingsPath);
+        IsNewLibrary = !File.Exists(ProfilesPath); // Morph change
+        _ownTemplates = null;
         Settings = Read(SettingsPath, FileeJsonContext.Default.AppSettings) ?? new AppSettings();
         Settings.TurnedOffFields ??= [];
         if (fresh)
@@ -193,6 +195,67 @@ public sealed class UserDataStore
             History.Clear();
         Write(HistoryPath, History, FileeJsonContext.Default.ListHistoryEntry);
         HistoryChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    // ---- Morph change: donut layout templates (Morph.LayoutTemplates) ----
+
+    private string TemplatesPath => Path.Combine(Directory, "templates.json");
+
+    /// <summary>True when <see cref="Load"/> found no donuts on disk: a new install, which starts with Morph's layout.</summary>
+    public bool IsNewLibrary { get; private set; }
+
+    /// <summary>The user's own templates, read on first use.</summary>
+    public List<Morph.LayoutTemplate> OwnTemplates =>
+        _ownTemplates ??= Read(TemplatesPath, FileeJsonContext.Default.ListLayoutTemplate) ?? [];
+
+    private List<Morph.LayoutTemplate>? _ownTemplates;
+
+    /// <summary>The built-in templates, then the user's own.</summary>
+    public IReadOnlyList<Morph.LayoutTemplate> Templates => [.. Morph.LayoutTemplates.BuiltIns(), .. OwnTemplates];
+
+    public void SaveTemplates() => Write(TemplatesPath, OwnTemplates, FileeJsonContext.Default.ListLayoutTemplate);
+
+    /// <summary>Keeps the donuts as they are now, with their size, as a template of the user's named <paramref name="name"/>.</summary>
+    public Morph.LayoutTemplate SaveCurrentAsTemplate(string name)
+    {
+        var template = new Morph.LayoutTemplate
+        {
+            Name = name.Trim(),
+            OuterRadius = Settings.Donut.OuterRadius,
+            Saved = DateTime.Now,
+            Profiles = [.. Profiles.Select(p => p.Clone())],
+        };
+        OwnTemplates.Add(template);
+        SaveTemplates();
+        return template;
+    }
+
+    /// <summary>Deletes one of the user's templates (a built-in one stays).</summary>
+    public bool DeleteTemplate(string id)
+    {
+        if (OwnTemplates.RemoveAll(t => t.Id == id) == 0)
+            return false;
+        SaveTemplates();
+        return true;
+    }
+
+    /// <summary>
+    /// Puts <paramref name="template"/>'s donuts and size in place of the current ones. The current donuts are kept as a
+    /// template first (named <paramref name="keptName"/>) unless a template already holds exactly them; a built-in
+    /// preset the template uses that the user deleted comes back. Returns the template the old donuts went to, if any.
+    /// </summary>
+    public Morph.LayoutTemplate? ApplyTemplate(Morph.LayoutTemplate template, string keptName)
+    {
+        Morph.LayoutTemplate? kept = null;
+        if (!Templates.Any(t => Morph.LayoutTemplates.SameLayout(t.Profiles, Profiles)))
+            kept = SaveCurrentAsTemplate(keptName);
+        var profiles = template.Profiles.Select(p => p.Clone()).ToList();
+        RestoreBuiltInPresets(profiles.SelectMany(p => p.PresetIds.Concat(p.BackPresetIds ?? [])));
+        Profiles = profiles;
+        Settings.Donut.OuterRadius = Math.Clamp(template.OuterRadius, 100, Morph.LayoutTemplates.MaxRadius);
+        SaveLibrary();
+        SaveSettings();
+        return kept;
     }
 
     /// <summary>Replaces presets and profiles with factory defaults.</summary>

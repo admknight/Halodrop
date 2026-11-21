@@ -2033,5 +2033,20 @@
   "action.palette_failed": "রং পড়া যায়নি",
   "action.search_opened": "ফলাফল ব্রাউজারে খুলছে",
   "action.search_by_hand": "খোলা পাতায় ছবিটি ছেড়ে দিন",
-  "error.audio_only": "শুধু অডিওতে কাজ করে"
+  "error.audio_only": "শুধু অডিওতে কাজ করে",
+  "template.title": "টেমপ্লেট",
+  "template.hint": "টেমপ্লেট হলো ডোনাটের পুরো সেট ও তার আকার। যেকোনো সময় বদলান: বর্তমান ডোনাটগুলো আগে টেমপ্লেট হিসেবে রাখা হয়।",
+  "template.apply": "এই টেমপ্লেট ব্যবহার করুন",
+  "template.save": "বর্তমান ডোনাট সেভ করুন",
+  "template.delete": "টেমপ্লেট মুছুন",
+  "template.name_hint": "টেমপ্লেটের নাম",
+  "template.detail": "{0}টি ডোনাট · {1}টি স্লাইস · {2} px",
+  "template.apply_confirm": "“{0}”-এ যাবেন? বর্তমান ডোনাটগুলো টেমপ্লেট হিসেবে রাখা হবে।",
+  "template.kept_name": "আমার ডোনাট, {0}",
+  "template.applied": "টেমপ্লেট লাগানো হয়েছে",
+  "template.applied_kept": "টেমপ্লেট লাগানো হয়েছে। আগের ডোনাটগুলো “{0}” নামে রাখা আছে।",
+  "template.saved": "“{0}” নামে সেভ হয়েছে",
+  "template.delete_confirm": "টেমপ্লেট “{0}” মুছবেন?",
+  "template.morph_default": "Morph ডিফল্ট",
+  "template.filee_classic": "Filee ক্লাসিক"
 }

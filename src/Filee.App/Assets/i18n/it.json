@@ -2034,5 +2034,20 @@
   "action.palette_failed": "Impossibile leggere i colori",
   "action.search_opened": "I risultati si aprono nel browser",
   "action.search_by_hand": "Trascina l'immagine nella pagina aperta",
-  "error.audio_only": "Funziona solo con l'audio"
+  "error.audio_only": "Funziona solo con l'audio",
+  "template.title": "Modelli",
+  "template.hint": "Un modello è un insieme completo di ciambelle e la loro dimensione. Cambia quando vuoi: le ciambelle attuali vengono prima salvate come modello.",
+  "template.apply": "Usa questo modello",
+  "template.save": "Salva le ciambelle attuali",
+  "template.delete": "Elimina modello",
+  "template.name_hint": "Nome del modello",
+  "template.detail": "{0} ciambelle · {1} spicchi · {2} px",
+  "template.apply_confirm": "Passare a “{0}”? Le ciambelle attuali vengono salvate come modello.",
+  "template.kept_name": "Le mie ciambelle, {0}",
+  "template.applied": "Modello applicato",
+  "template.applied_kept": "Modello applicato. Le ciambelle precedenti sono salvate come “{0}”.",
+  "template.saved": "Salvato come “{0}”",
+  "template.delete_confirm": "Eliminare il modello “{0}”?",
+  "template.morph_default": "Morph predefinito",
+  "template.filee_classic": "Filee classico"
 }

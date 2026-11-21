@@ -75,6 +75,13 @@ public partial class App : Application
         var store = AppHost.Get<UserDataStore>();
         if (Program.PreloadedStore is null)
             store.Load();
+        // Morph change: a new install starts with Morph's layout (bigger, with Morph's groups placed); Filee's stays
+        // one pick away in Settings → Toolbar → Templates.
+        if (store.IsNewLibrary && !store.Settings.WelcomeGuideDone)
+        {
+            store.ApplyTemplate(Filee.Core.Morph.LayoutTemplates.MorphDefault(), "");
+            log.LogInformation("New install: the Morph default layout is in place");
+        }
         // Before anything downloads: the proxy from Settings, read for each request so a change there applies at once.
         ProxySetting.Use(() => store.Settings.Proxy);
         if (!string.IsNullOrWhiteSpace(store.Settings.Proxy))

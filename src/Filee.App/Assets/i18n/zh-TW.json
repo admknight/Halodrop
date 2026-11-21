@@ -2057,5 +2057,20 @@
   "action.palette_failed": "無法讀取顏色",
   "action.search_opened": "結果將在瀏覽器中開啟",
   "action.search_by_hand": "請將圖片拖到開啟的頁面上",
-  "error.audio_only": "僅適用於音訊"
+  "error.audio_only": "僅適用於音訊",
+  "template.title": "範本",
+  "template.hint": "範本是一整套圓環及其大小。隨時可以切換：目前的圓環會先儲存為範本。",
+  "template.apply": "使用此範本",
+  "template.save": "儲存目前圓環",
+  "template.delete": "刪除範本",
+  "template.name_hint": "範本名稱",
+  "template.detail": "{0} 個圓環 · {1} 個扇區 · {2} px",
+  "template.apply_confirm": "切換到「{0}」？目前的圓環會保留為範本。",
+  "template.kept_name": "我的圓環，{0}",
+  "template.applied": "已套用範本",
+  "template.applied_kept": "已套用範本。先前的圓環已保留為「{0}」。",
+  "template.saved": "已儲存為「{0}」",
+  "template.delete_confirm": "刪除範本「{0}」？",
+  "template.morph_default": "Morph 預設",
+  "template.filee_classic": "Filee 經典"
 }

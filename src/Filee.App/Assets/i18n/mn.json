@@ -2033,5 +2033,20 @@
   "action.palette_failed": "Өнгийг уншиж чадсангүй",
   "action.search_opened": "Үр дүн хөтөч дээр нээгдэнэ",
   "action.search_by_hand": "Нээгдсэн хуудсанд зургаа чирж оруулна уу",
-  "error.audio_only": "Зөвхөн аудиод ажиллана"
+  "error.audio_only": "Зөвхөн аудиод ажиллана",
+  "template.title": "Загварууд",
+  "template.hint": "Загвар гэдэг нь бүх цагираг болон тэдгээрийн хэмжээ юм. Хүссэн үедээ солино: одоогийн цагирагууд эхлээд загвар болж хадгалагдана.",
+  "template.apply": "Энэ загварыг ашиглах",
+  "template.save": "Одоогийн цагирагийг хадгалах",
+  "template.delete": "Загварыг устгах",
+  "template.name_hint": "Загварын нэр",
+  "template.detail": "{0} цагираг · {1} хэсэг · {2} px",
+  "template.apply_confirm": "“{0}” руу шилжих үү? Одоогийн цагирагууд загвар болж үлдэнэ.",
+  "template.kept_name": "Миний цагирагууд, {0}",
+  "template.applied": "Загварыг хэрэглэлээ",
+  "template.applied_kept": "Загварыг хэрэглэлээ. Өмнөх цагирагууд “{0}” нэрээр хадгалагдсан.",
+  "template.saved": "“{0}” нэрээр хадгалагдлаа",
+  "template.delete_confirm": "“{0}” загварыг устгах уу?",
+  "template.morph_default": "Morph үндсэн",
+  "template.filee_classic": "Filee сонгодог"
 }

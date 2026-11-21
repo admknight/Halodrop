@@ -2057,5 +2057,20 @@
   "action.palette_failed": "无法读取颜色",
   "action.search_opened": "结果将在浏览器中打开",
   "action.search_by_hand": "请将图片拖到打开的页面上",
-  "error.audio_only": "仅适用于音频"
+  "error.audio_only": "仅适用于音频",
+  "template.title": "模板",
+  "template.hint": "模板是一整套圆环及其大小。随时可以切换：当前的圆环会先保存为模板。",
+  "template.apply": "使用此模板",
+  "template.save": "保存当前圆环",
+  "template.delete": "删除模板",
+  "template.name_hint": "模板名称",
+  "template.detail": "{0} 个圆环 · {1} 个扇区 · {2} px",
+  "template.apply_confirm": "切换到“{0}”？当前的圆环会保存为模板。",
+  "template.kept_name": "我的圆环，{0}",
+  "template.applied": "已应用模板",
+  "template.applied_kept": "已应用模板。之前的圆环已保存为“{0}”。",
+  "template.saved": "已保存为“{0}”",
+  "template.delete_confirm": "删除模板“{0}”？",
+  "template.morph_default": "Morph 默认",
+  "template.filee_classic": "Filee 经典"
 }

@@ -2037,5 +2037,20 @@
   "action.palette_failed": "อ่านสีไม่ได้",
   "action.search_opened": "ผลลัพธ์เปิดในเบราว์เซอร์",
   "action.search_by_hand": "วางรูปภาพลงในหน้าที่เปิดขึ้น",
-  "error.audio_only": "ใช้กับเสียงเท่านั้น"
+  "error.audio_only": "ใช้กับเสียงเท่านั้น",
+  "template.title": "เทมเพลต",
+  "template.hint": "เทมเพลตคือชุดโดนัททั้งหมดพร้อมขนาด เปลี่ยนได้ทุกเมื่อ โดนัทปัจจุบันจะถูกเก็บเป็นเทมเพลตก่อน",
+  "template.apply": "ใช้เทมเพลตนี้",
+  "template.save": "บันทึกโดนัทปัจจุบัน",
+  "template.delete": "ลบเทมเพลต",
+  "template.name_hint": "ชื่อเทมเพลต",
+  "template.detail": "{0} โดนัท · {1} ชิ้น · {2} px",
+  "template.apply_confirm": "เปลี่ยนเป็น “{0}” หรือไม่ โดนัทปัจจุบันจะถูกเก็บเป็นเทมเพลต",
+  "template.kept_name": "โดนัทของฉัน {0}",
+  "template.applied": "ใช้เทมเพลตแล้ว",
+  "template.applied_kept": "ใช้เทมเพลตแล้ว โดนัทเดิมถูกเก็บไว้เป็น “{0}”",
+  "template.saved": "บันทึกเป็น “{0}” แล้ว",
+  "template.delete_confirm": "ลบเทมเพลต “{0}” หรือไม่",
+  "template.morph_default": "ค่าเริ่มต้นของ Morph",
+  "template.filee_classic": "Filee แบบคลาสสิก"
 }

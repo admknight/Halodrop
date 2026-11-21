@@ -2057,5 +2057,20 @@
   "action.palette_failed": "Không đọc được màu",
   "action.search_opened": "Kết quả mở trong trình duyệt",
   "action.search_by_hand": "Thả ảnh vào trang vừa mở",
-  "error.audio_only": "Chỉ dùng cho âm thanh"
+  "error.audio_only": "Chỉ dùng cho âm thanh",
+  "template.title": "Mẫu",
+  "template.hint": "Mẫu là toàn bộ các vòng và kích thước của chúng. Đổi bất cứ lúc nào: các vòng hiện tại được lưu thành mẫu trước.",
+  "template.apply": "Dùng mẫu này",
+  "template.save": "Lưu các vòng hiện tại",
+  "template.delete": "Xóa mẫu",
+  "template.name_hint": "Tên mẫu",
+  "template.detail": "{0} vòng · {1} lát · {2} px",
+  "template.apply_confirm": "Chuyển sang “{0}”? Các vòng hiện tại sẽ được giữ thành mẫu.",
+  "template.kept_name": "Vòng của tôi, {0}",
+  "template.applied": "Đã áp dụng mẫu",
+  "template.applied_kept": "Đã áp dụng mẫu. Các vòng trước được giữ thành “{0}”.",
+  "template.saved": "Đã lưu thành “{0}”",
+  "template.delete_confirm": "Xóa mẫu “{0}”?",
+  "template.morph_default": "Mặc định Morph",
+  "template.filee_classic": "Filee cổ điển"
 }

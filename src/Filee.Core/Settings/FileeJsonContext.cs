@@ -19,6 +19,7 @@ namespace Filee.Core.Settings;
 [JsonSerializable(typeof(List<Preset>))]
 [JsonSerializable(typeof(TranslateOptions))]
 [JsonSerializable(typeof(List<ToolbarProfile>))]
+[JsonSerializable(typeof(List<Morph.LayoutTemplate>))] // Morph change
 [JsonSerializable(typeof(PresetBundle))]
 [JsonSerializable(typeof(List<HistoryEntry>))]
 [JsonSerializable(typeof(CustomTheme))]

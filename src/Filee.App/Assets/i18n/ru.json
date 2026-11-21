@@ -2057,5 +2057,20 @@
   "action.palette_failed": "Не удалось прочитать цвета",
   "action.search_opened": "Результаты откроются в браузере",
   "action.search_by_hand": "Перетащите картинку на открывшуюся страницу",
-  "error.audio_only": "Только для аудио"
+  "error.audio_only": "Только для аудио",
+  "template.title": "Шаблоны",
+  "template.hint": "Шаблон — это весь набор колец и их размер. Переключайтесь когда угодно: текущие кольца сначала сохраняются как шаблон.",
+  "template.apply": "Использовать этот шаблон",
+  "template.save": "Сохранить текущие кольца",
+  "template.delete": "Удалить шаблон",
+  "template.name_hint": "Название шаблона",
+  "template.detail": "Колец: {0} · секторов: {1} · {2} px",
+  "template.apply_confirm": "Перейти на «{0}»? Текущие кольца сохранятся как шаблон.",
+  "template.kept_name": "Мои кольца, {0}",
+  "template.applied": "Шаблон применён",
+  "template.applied_kept": "Шаблон применён. Прежние кольца сохранены как «{0}».",
+  "template.saved": "Сохранено как «{0}»",
+  "template.delete_confirm": "Удалить шаблон «{0}»?",
+  "template.morph_default": "Morph по умолчанию",
+  "template.filee_classic": "Классический Filee"
 }

@@ -2037,5 +2037,20 @@
   "action.palette_failed": "色を読み取れませんでした",
   "action.search_opened": "結果をブラウザーで開きます",
   "action.search_by_hand": "開いたページに画像をドロップしてください",
-  "error.audio_only": "音声のみ対応"
+  "error.audio_only": "音声のみ対応",
+  "template.title": "テンプレート",
+  "template.hint": "テンプレートはドーナツ一式とそのサイズです。いつでも切り替えられ、今のドーナツは先にテンプレートとして保存されます。",
+  "template.apply": "このテンプレートを使う",
+  "template.save": "今のドーナツを保存",
+  "template.delete": "テンプレートを削除",
+  "template.name_hint": "テンプレート名",
+  "template.detail": "ドーナツ {0} 個 · スライス {1} 個 · {2} px",
+  "template.apply_confirm": "「{0}」に切り替えますか？今のドーナツはテンプレートとして残ります。",
+  "template.kept_name": "マイドーナツ {0}",
+  "template.applied": "テンプレートを適用しました",
+  "template.applied_kept": "テンプレートを適用しました。以前のドーナツは「{0}」として残っています。",
+  "template.saved": "「{0}」として保存しました",
+  "template.delete_confirm": "テンプレート「{0}」を削除しますか？",
+  "template.morph_default": "Morph 標準",
+  "template.filee_classic": "Filee クラシック"
 }

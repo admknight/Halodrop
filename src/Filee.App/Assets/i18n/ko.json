@@ -2057,5 +2057,20 @@
   "action.palette_failed": "색상을 읽을 수 없습니다",
   "action.search_opened": "브라우저에서 결과가 열립니다",
   "action.search_by_hand": "열린 페이지에 이미지를 놓으세요",
-  "error.audio_only": "오디오에서만 작동"
+  "error.audio_only": "오디오에서만 작동",
+  "template.title": "템플릿",
+  "template.hint": "템플릿은 도넛 전체와 크기를 묶은 것입니다. 언제든 바꿀 수 있으며, 지금 도넛은 먼저 템플릿으로 저장됩니다.",
+  "template.apply": "이 템플릿 사용",
+  "template.save": "현재 도넛 저장",
+  "template.delete": "템플릿 삭제",
+  "template.name_hint": "템플릿 이름",
+  "template.detail": "도넛 {0}개 · 조각 {1}개 · {2} px",
+  "template.apply_confirm": "“{0}”(으)로 바꿀까요? 지금 도넛은 템플릿으로 남습니다.",
+  "template.kept_name": "내 도넛, {0}",
+  "template.applied": "템플릿 적용됨",
+  "template.applied_kept": "템플릿 적용됨. 이전 도넛은 “{0}”(으)로 남아 있습니다.",
+  "template.saved": "“{0}”(으)로 저장됨",
+  "template.delete_confirm": "템플릿 “{0}”을(를) 삭제할까요?",
+  "template.morph_default": "Morph 기본",
+  "template.filee_classic": "Filee 클래식"
 }

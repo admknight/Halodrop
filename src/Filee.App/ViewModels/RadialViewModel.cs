@@ -551,7 +551,7 @@ public sealed partial class RadialViewModel(UserDataStore store, ILocalizer loc,
 
     private void ApplyAppearance()
     {
-        OuterRadius = Math.Clamp(store.Settings.Donut.OuterRadius, 100, 240);
+        OuterRadius = Math.Clamp(store.Settings.Donut.OuterRadius, 100, Filee.Core.Morph.LayoutTemplates.MaxRadius); // Morph change: up to 260
         HoleRatio = store.Settings.Donut.HoleRatio;
         SliceOpacity = Math.Clamp(store.Settings.Donut.Opacity, DonutSettings.MinOpacity, 1);
         ShowCaptions = store.Settings.Donut.ShowCaptions;

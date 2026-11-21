@@ -2035,5 +2035,20 @@
   "action.palette_failed": "Renkler okunamadı",
   "action.search_opened": "Sonuçlar tarayıcıda açılıyor",
   "action.search_by_hand": "Resmi açılan sayfaya bırakın",
-  "error.audio_only": "Yalnızca ses için"
+  "error.audio_only": "Yalnızca ses için",
+  "template.title": "Şablonlar",
+  "template.hint": "Şablon, halkaların tamamı ve boyutudur. İstediğiniz zaman değiştirin: mevcut halkalarınız önce şablon olarak saklanır.",
+  "template.apply": "Bu şablonu kullan",
+  "template.save": "Mevcut halkaları kaydet",
+  "template.delete": "Şablonu sil",
+  "template.name_hint": "Şablon adı",
+  "template.detail": "{0} halka · {1} dilim · {2} px",
+  "template.apply_confirm": "“{0}” şablonuna geçilsin mi? Mevcut halkalarınız şablon olarak saklanır.",
+  "template.kept_name": "Halkalarım, {0}",
+  "template.applied": "Şablon uygulandı",
+  "template.applied_kept": "Şablon uygulandı. Önceki halkalarınız “{0}” olarak saklandı.",
+  "template.saved": "“{0}” olarak kaydedildi",
+  "template.delete_confirm": "“{0}” şablonu silinsin mi?",
+  "template.morph_default": "Morph varsayılanı",
+  "template.filee_classic": "Klasik Filee"
 }

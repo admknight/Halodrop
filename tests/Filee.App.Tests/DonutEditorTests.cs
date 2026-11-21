@@ -646,10 +646,11 @@ public class DonutEditorTests
         }
     }
 
-    // The donut at the default size with a group's ring (466), and at its largest: Size 220, the ring at 150 % (755).
+    // The donut at the default size with a group's ring (466), and at its largest: Size 260 (Morph change; Filee's was
+    // 220), the ring at 150 %.
     // Properties, not fields: DonutMenu needs the Avalonia platform, which these tests (on it too) start.
     private static double Default => DonutMenu.SideFor(150, true, 1);
-    private static double Largest => DonutMenu.SideFor(220, true, DonutSettings.MaxGroupRingSize);
+    private static double Largest => DonutMenu.SideFor(Filee.Core.Morph.LayoutTemplates.MaxRadius, true, DonutSettings.MaxGroupRingSize);
 
     private static PreviewPlace Place(PixelRect window, PreviewScreen[] screens, double? size = null, PixelPoint? dragged = null,
         int? minWidth = 860, bool overRight = true) =>
@@ -722,9 +723,11 @@ public class DonutEditorTests
         var low = new PreviewScreen(new PixelRect(0, 0, 2560, 1008), 1.5);
         var tall = new PreviewScreen(new PixelRect(2560, 0, 3840, 2100), 1.5);
         var narrow = new PixelRect(100, 100, 1254, 800);
-        var elsewhere = DonutPreviewPlacement.Place(narrow, [low, tall], 0, Largest, null, null, false);
+        // Morph change: these screens were measured for Filee's largest donut (220), so the case keeps that size.
+        var filee = DonutMenu.SideFor(220, true, DonutSettings.MaxGroupRingSize);
+        var elsewhere = DonutPreviewPlacement.Place(narrow, [low, tall], 0, filee, null, null, false);
         Assert.Equal((PreviewAnchor.Centre, tall.Area.Center), (elsewhere.Anchor, elsewhere.Point));
-        Assert.False(DonutPreviewPlacement.Place(narrow, [low], 0, Largest, null, null, false).Over);
+        Assert.False(DonutPreviewPlacement.Place(narrow, [low], 0, filee, null, null, false).Over);
 
         // A window reaching onto the other screen, over its middle: not there, under it.
         var other = new PreviewScreen(new PixelRect(1400, 0, 1400, 900), 1.0);
@@ -1106,7 +1109,7 @@ public class DonutEditorTests
             RenderTests.Pump();
 
             // Grown to its largest: placed again, still never under the window.
-            page.FindControl<Slider>("SizeSlider")!.Value = 220;
+            page.FindControl<Slider>("SizeSlider")!.Value = Filee.Core.Morph.LayoutTemplates.MaxRadius;
             page.FindControl<Slider>("RingSizeSlider")!.Value = 150;
             RenderTests.Pump();
             AssertNotUnder(preview, window);
@@ -1355,7 +1358,7 @@ public class DonutEditorTests
         try
         {
             if (largest)
-                (vm.OuterRadius, vm.GroupRingSize) = (220, DonutSettings.MaxGroupRingSize * 100);
+                (vm.OuterRadius, vm.GroupRingSize) = (Filee.Core.Morph.LayoutTemplates.MaxRadius, DonutSettings.MaxGroupRingSize * 100);
             window.WindowState = WindowState.Maximized;
             RenderTests.Pump();
             var start = window.Position;

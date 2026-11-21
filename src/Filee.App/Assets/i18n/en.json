@@ -2057,5 +2057,20 @@
   "action.palette_failed": "Couldn't read the colours",
   "action.search_opened": "Results open in your browser",
   "action.search_by_hand": "Drop the picture onto the page that opened",
-  "error.audio_only": "Works on audio only"
+  "error.audio_only": "Works on audio only",
+  "template.title": "Templates",
+  "template.hint": "A template is a whole set of donuts and their size. Switch to another any time: your current donuts are kept as a template first.",
+  "template.apply": "Use this template",
+  "template.save": "Save current donuts",
+  "template.delete": "Delete template",
+  "template.name_hint": "Name for your template",
+  "template.detail": "{0} donuts · {1} slices · {2} px",
+  "template.apply_confirm": "Switch to “{0}”? Your current donuts are kept as a template.",
+  "template.kept_name": "My donuts, {0}",
+  "template.applied": "Template in place",
+  "template.applied_kept": "Template in place. Your previous donuts are kept as “{0}”.",
+  "template.saved": "Saved as “{0}”",
+  "template.delete_confirm": "Delete the template “{0}”?",
+  "template.morph_default": "Morph default",
+  "template.filee_classic": "Filee classic"
 }

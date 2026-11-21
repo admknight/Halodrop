@@ -140,6 +140,7 @@ public sealed partial class ToolbarPageViewModel : ObservableObject, IDisposable
         _loading = false;
 
         SelectedProfile = Profiles.FirstOrDefault();
+        RefreshTemplates();
 
         // How the open donut flips, as set in Settings → Shortcuts: "Flip the open donut: Tab / mouse wheel".
         var ways = new List<string>();
@@ -941,6 +942,95 @@ public sealed partial class ToolbarPageViewModel : ObservableObject, IDisposable
         NotifyMoveChanged();
     }
 
+    // ---- Morph change: layout templates (Filee.Core.Morph.LayoutTemplates) ----
+
+    public ObservableCollection<LayoutTemplateChoice> Templates { get; } = [];
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanDeleteTemplate))]
+    [NotifyCanExecuteChangedFor(nameof(ApplyTemplateCommand), nameof(DeleteTemplateCommand))]
+    private LayoutTemplateChoice? _selectedTemplate;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveTemplateCommand))]
+    private string _newTemplateName = "";
+
+    [ObservableProperty]
+    private string? _templateMessage;
+
+    public bool CanDeleteTemplate => SelectedTemplate is { Template.IsBuiltIn: false };
+
+    private void RefreshTemplates(string? select = null)
+    {
+        var keep = select ?? SelectedTemplate?.Template.Id;
+        Templates.Clear();
+        foreach (var template in _store.Templates)
+        {
+            var name = template.NameKey is { } key ? _loc[key] : template.Name;
+            var slices = template.Profiles.Sum(p => p.PresetIds.Count + (p.BackPresetIds?.Count ?? 0));
+            Templates.Add(new LayoutTemplateChoice(template, name, _loc.Format("template.detail", template.Profiles.Count, slices, Math.Round(template.OuterRadius))));
+        }
+        SelectedTemplate = Templates.FirstOrDefault(t => t.Template.Id == keep) ?? Templates.FirstOrDefault();
+    }
+
+    private bool CanApplyTemplate() => SelectedTemplate is not null;
+
+    /// <summary>Puts the chosen template's donuts and size in place; the current donuts are kept as a template first.</summary>
+    [RelayCommand(CanExecute = nameof(CanApplyTemplate))]
+    private async Task ApplyTemplate()
+    {
+        if (SelectedTemplate is not { } choice || _windows.Main is null)
+            return;
+        if (!await _windows.ConfirmAsync(_windows.Main, _loc.Format("template.apply_confirm", choice.Name)))
+            return;
+        ApplyTemplate(choice.Template);
+    }
+
+    internal void ApplyTemplate(Filee.Core.Morph.LayoutTemplate template)
+    {
+        var keptName = _loc.Format("template.kept_name", DateTime.Now.ToString("g", System.Globalization.CultureInfo.CurrentCulture));
+        var kept = SaveOwnLibrary(() => _store.ApplyTemplate(template, keptName));
+        OpenGroup = null;
+        Profiles.Clear();
+        foreach (var profile in _store.Profiles)
+            Profiles.Add(new ProfileItemViewModel(profile, _loc));
+        ForgetJudgements();
+        SelectedProfile = Profiles.FirstOrDefault();
+        _loading = true;
+        OuterRadius = _store.Settings.Donut.OuterRadius;
+        _loading = false;
+        Rebuild();
+        NotifyMoveChanged();
+        RefreshTemplates(template.Id);
+        TemplateMessage = kept is null ? _loc["template.applied"] : _loc.Format("template.applied_kept", kept.Name);
+    }
+
+    private bool CanSaveTemplate() => !string.IsNullOrWhiteSpace(NewTemplateName);
+
+    /// <summary>Keeps the donuts as they are now as a template of the user's.</summary>
+    [RelayCommand(CanExecute = nameof(CanSaveTemplate))]
+    private void SaveTemplate()
+    {
+        var template = _store.SaveCurrentAsTemplate(NewTemplateName);
+        NewTemplateName = "";
+        RefreshTemplates(template.Id);
+        TemplateMessage = _loc.Format("template.saved", template.Name);
+    }
+
+    private bool CanDeleteSelectedTemplate() => CanDeleteTemplate;
+
+    [RelayCommand(CanExecute = nameof(CanDeleteSelectedTemplate))]
+    private async Task DeleteTemplate()
+    {
+        if (SelectedTemplate is not { Template.IsBuiltIn: false } choice || _windows.Main is null)
+            return;
+        if (!await _windows.ConfirmAsync(_windows.Main, _loc.Format("template.delete_confirm", choice.Name), destructive: true))
+            return;
+        _store.DeleteTemplate(choice.Template.Id);
+        RefreshTemplates();
+        TemplateMessage = null;
+    }
+
     [RelayCommand]
     private async Task DeleteProfile()
     {
@@ -1314,3 +1404,6 @@ public sealed partial class ToolbarPageViewModel : ObservableObject, IDisposable
         : p.IsCopyToFolder ? _loc[p.Output.MoveInsteadOfCopy ? "presets.move_to_folder" : "presets.copy_to_folder"]
         : p.TargetFormat == BuiltInData.SameAsSource ? _loc["donut.same_format"] : FormatLabels.NameOf(_loc, p.TargetFormat);
 }
+
+/// <summary>Morph change: a layout template in the Toolbar page's list (built-in ones by their translated name).</summary>
+public sealed record LayoutTemplateChoice(Filee.Core.Morph.LayoutTemplate Template, string Name, string Detail);

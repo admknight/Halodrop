@@ -2037,5 +2037,20 @@
   "action.palette_failed": "No se pudieron leer los colores",
   "action.search_opened": "Los resultados se abren en tu navegador",
   "action.search_by_hand": "Suelta la imagen en la página que se abrió",
-  "error.audio_only": "Solo funciona con audio"
+  "error.audio_only": "Solo funciona con audio",
+  "template.title": "Plantillas",
+  "template.hint": "Una plantilla es un juego completo de donas y su tamaño. Cambia cuando quieras: tus donas actuales se guardan antes como plantilla.",
+  "template.apply": "Usar esta plantilla",
+  "template.save": "Guardar donas actuales",
+  "template.delete": "Eliminar plantilla",
+  "template.name_hint": "Nombre de la plantilla",
+  "template.detail": "{0} donas · {1} porciones · {2} px",
+  "template.apply_confirm": "¿Cambiar a «{0}»? Tus donas actuales se guardan como plantilla.",
+  "template.kept_name": "Mis donas, {0}",
+  "template.applied": "Plantilla aplicada",
+  "template.applied_kept": "Plantilla aplicada. Tus donas anteriores se guardaron como «{0}».",
+  "template.saved": "Guardada como «{0}»",
+  "template.delete_confirm": "¿Eliminar la plantilla «{0}»?",
+  "template.morph_default": "Morph predeterminada",
+  "template.filee_classic": "Filee clásica"
 }

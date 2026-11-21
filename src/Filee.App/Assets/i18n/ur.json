@@ -2057,5 +2057,20 @@
   "action.palette_failed": "رنگ نہیں پڑھے جا سکے",
   "action.search_opened": "نتائج براؤزر میں کھل رہے ہیں",
   "action.search_by_hand": "کھلنے والے صفحے پر تصویر ڈالیں",
-  "error.audio_only": "صرف آڈیو پر کام کرتا ہے"
+  "error.audio_only": "صرف آڈیو پر کام کرتا ہے",
+  "template.title": "ٹیمپلیٹس",
+  "template.hint": "ٹیمپلیٹ ڈونٹس کا پورا سیٹ اور ان کا سائز ہے۔ کبھی بھی دوسرے پر جائیں: آپ کے موجودہ ڈونٹس پہلے ٹیمپلیٹ کے طور پر محفوظ ہو جاتے ہیں۔",
+  "template.apply": "یہ ٹیمپلیٹ استعمال کریں",
+  "template.save": "موجودہ ڈونٹس محفوظ کریں",
+  "template.delete": "ٹیمپلیٹ حذف کریں",
+  "template.name_hint": "اپنے ٹیمپلیٹ کا نام",
+  "template.detail": "{0} ڈونٹس · {1} سلائسز · {2} px",
+  "template.apply_confirm": "“{0}” پر جائیں؟ آپ کے موجودہ ڈونٹس ٹیمپلیٹ کے طور پر محفوظ رہیں گے۔",
+  "template.kept_name": "میرے ڈونٹس، {0}",
+  "template.applied": "ٹیمپلیٹ لگ گیا",
+  "template.applied_kept": "ٹیمپلیٹ لگ گیا۔ آپ کے پچھلے ڈونٹس “{0}” کے نام سے محفوظ ہیں۔",
+  "template.saved": "“{0}” کے نام سے محفوظ ہو گیا",
+  "template.delete_confirm": "ٹیمپلیٹ “{0}” حذف کریں؟",
+  "template.morph_default": "Morph ڈیفالٹ",
+  "template.filee_classic": "Filee کلاسک"
 }

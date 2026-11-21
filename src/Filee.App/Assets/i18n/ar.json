@@ -2036,5 +2036,20 @@
   "action.palette_failed": "تعذّرت قراءة الألوان",
   "action.search_opened": "تُفتح النتائج في متصفحك",
   "action.search_by_hand": "أفلت الصورة على الصفحة التي فُتحت",
-  "error.audio_only": "يعمل على الصوت فقط"
+  "error.audio_only": "يعمل على الصوت فقط",
+  "template.title": "القوالب",
+  "template.hint": "القالب مجموعة كاملة من الحلقات وحجمها. بدّل إلى غيره متى شئت: تُحفظ حلقاتك الحالية كقالب أولًا.",
+  "template.apply": "استخدام هذا القالب",
+  "template.save": "حفظ الحلقات الحالية",
+  "template.delete": "حذف القالب",
+  "template.name_hint": "اسم القالب",
+  "template.detail": "{0} حلقات · {1} شرائح · {2} px",
+  "template.apply_confirm": "التبديل إلى “{0}”؟ ستُحفظ حلقاتك الحالية كقالب.",
+  "template.kept_name": "حلقاتي، {0}",
+  "template.applied": "تم تطبيق القالب",
+  "template.applied_kept": "تم تطبيق القالب. حُفظت حلقاتك السابقة باسم “{0}”.",
+  "template.saved": "تم الحفظ باسم “{0}”",
+  "template.delete_confirm": "حذف القالب “{0}”؟",
+  "template.morph_default": "Morph الافتراضي",
+  "template.filee_classic": "Filee الكلاسيكي"
 }

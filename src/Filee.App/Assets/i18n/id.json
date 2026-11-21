@@ -2035,5 +2035,20 @@
   "action.palette_failed": "Warna tidak bisa dibaca",
   "action.search_opened": "Hasil terbuka di browser",
   "action.search_by_hand": "Letakkan gambar di halaman yang terbuka",
-  "error.audio_only": "Hanya untuk audio"
+  "error.audio_only": "Hanya untuk audio",
+  "template.title": "Template",
+  "template.hint": "Template adalah satu set lengkap donat beserta ukurannya. Ganti kapan saja: donat Anda saat ini disimpan dulu sebagai template.",
+  "template.apply": "Pakai template ini",
+  "template.save": "Simpan donat saat ini",
+  "template.delete": "Hapus template",
+  "template.name_hint": "Nama template",
+  "template.detail": "{0} donat · {1} irisan · {2} px",
+  "template.apply_confirm": "Ganti ke “{0}”? Donat Anda saat ini disimpan sebagai template.",
+  "template.kept_name": "Donat saya, {0}",
+  "template.applied": "Template dipasang",
+  "template.applied_kept": "Template dipasang. Donat sebelumnya disimpan sebagai “{0}”.",
+  "template.saved": "Disimpan sebagai “{0}”",
+  "template.delete_confirm": "Hapus template “{0}”?",
+  "template.morph_default": "Bawaan Morph",
+  "template.filee_classic": "Filee klasik"
 }

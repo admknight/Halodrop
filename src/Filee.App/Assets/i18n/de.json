@@ -2035,5 +2035,20 @@
   "action.palette_failed": "Farben ließen sich nicht lesen",
   "action.search_opened": "Ergebnisse öffnen sich im Browser",
   "action.search_by_hand": "Ziehen Sie das Bild auf die geöffnete Seite",
-  "error.audio_only": "Nur für Audio"
+  "error.audio_only": "Nur für Audio",
+  "template.title": "Vorlagen",
+  "template.hint": "Eine Vorlage ist ein ganzer Satz Donuts mit ihrer Größe. Wechseln Sie jederzeit: Ihre aktuellen Donuts werden vorher als Vorlage gespeichert.",
+  "template.apply": "Diese Vorlage verwenden",
+  "template.save": "Aktuelle Donuts speichern",
+  "template.delete": "Vorlage löschen",
+  "template.name_hint": "Name der Vorlage",
+  "template.detail": "{0} Donuts · {1} Segmente · {2} px",
+  "template.apply_confirm": "Zu „{0}“ wechseln? Ihre aktuellen Donuts werden als Vorlage behalten.",
+  "template.kept_name": "Meine Donuts, {0}",
+  "template.applied": "Vorlage übernommen",
+  "template.applied_kept": "Vorlage übernommen. Ihre bisherigen Donuts sind als „{0}“ gespeichert.",
+  "template.saved": "Gespeichert als „{0}“",
+  "template.delete_confirm": "Vorlage „{0}“ löschen?",
+  "template.morph_default": "Morph-Standard",
+  "template.filee_classic": "Filee klassisch"
 }

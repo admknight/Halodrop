@@ -2033,5 +2033,20 @@
   "action.palette_failed": "رنگ‌ها خوانده نشد",
   "action.search_opened": "نتایج در مرورگر باز می‌شود",
   "action.search_by_hand": "تصویر را روی صفحه بازشده رها کنید",
-  "error.audio_only": "فقط روی صدا کار می‌کند"
+  "error.audio_only": "فقط روی صدا کار می‌کند",
+  "template.title": "قالب‌ها",
+  "template.hint": "قالب یک مجموعهٔ کامل از دونات‌ها و اندازهٔ آن‌هاست. هر وقت خواستید عوض کنید: دونات‌های فعلی اول به‌صورت قالب ذخیره می‌شوند.",
+  "template.apply": "استفاده از این قالب",
+  "template.save": "ذخیرهٔ دونات‌های فعلی",
+  "template.delete": "حذف قالب",
+  "template.name_hint": "نام قالب",
+  "template.detail": "{0} دونات · {1} برش · {2} px",
+  "template.apply_confirm": "به «{0}» بروید؟ دونات‌های فعلی به‌صورت قالب نگه داشته می‌شوند.",
+  "template.kept_name": "دونات‌های من، {0}",
+  "template.applied": "قالب اعمال شد",
+  "template.applied_kept": "قالب اعمال شد. دونات‌های قبلی با نام «{0}» نگه داشته شدند.",
+  "template.saved": "با نام «{0}» ذخیره شد",
+  "template.delete_confirm": "قالب «{0}» حذف شود؟",
+  "template.morph_default": "پیش‌فرض Morph",
+  "template.filee_classic": "Filee کلاسیک"
 }

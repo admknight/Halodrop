@@ -2037,5 +2037,20 @@
   "action.palette_failed": "रंग नहीं पढ़े जा सके",
   "action.search_opened": "नतीजे ब्राउज़र में खुल रहे हैं",
   "action.search_by_hand": "खुले पेज पर चित्र छोड़ें",
-  "error.audio_only": "केवल ऑडियो पर काम करता है"
+  "error.audio_only": "केवल ऑडियो पर काम करता है",
+  "template.title": "टेम्पलेट",
+  "template.hint": "टेम्पलेट डोनट्स का पूरा सेट और उनका आकार है। कभी भी बदलें: आपके मौजूदा डोनट्स पहले टेम्पलेट के रूप में सहेजे जाते हैं।",
+  "template.apply": "यह टेम्पलेट इस्तेमाल करें",
+  "template.save": "मौजूदा डोनट्स सहेजें",
+  "template.delete": "टेम्पलेट हटाएँ",
+  "template.name_hint": "टेम्पलेट का नाम",
+  "template.detail": "{0} डोनट · {1} स्लाइस · {2} px",
+  "template.apply_confirm": "“{0}” पर जाएँ? आपके मौजूदा डोनट्स टेम्पलेट के रूप में रखे जाएँगे।",
+  "template.kept_name": "मेरे डोनट्स, {0}",
+  "template.applied": "टेम्पलेट लग गया",
+  "template.applied_kept": "टेम्पलेट लग गया। पिछले डोनट्स “{0}” नाम से रखे गए हैं।",
+  "template.saved": "“{0}” नाम से सहेजा गया",
+  "template.delete_confirm": "टेम्पलेट “{0}” हटाएँ?",
+  "template.morph_default": "Morph डिफ़ॉल्ट",
+  "template.filee_classic": "Filee क्लासिक"
 }

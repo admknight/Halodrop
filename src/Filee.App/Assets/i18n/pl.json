@@ -2057,5 +2057,20 @@
   "action.palette_failed": "Nie udało się odczytać kolorów",
   "action.search_opened": "Wyniki otwierają się w przeglądarce",
   "action.search_by_hand": "Upuść obraz na otwartej stronie",
-  "error.audio_only": "Działa tylko z dźwiękiem"
+  "error.audio_only": "Działa tylko z dźwiękiem",
+  "template.title": "Szablony",
+  "template.hint": "Szablon to cały zestaw pierścieni i ich rozmiar. Zmieniaj kiedy chcesz: obecne pierścienie najpierw zapisują się jako szablon.",
+  "template.apply": "Użyj tego szablonu",
+  "template.save": "Zapisz obecne pierścienie",
+  "template.delete": "Usuń szablon",
+  "template.name_hint": "Nazwa szablonu",
+  "template.detail": "Pierścienie: {0} · segmenty: {1} · {2} px",
+  "template.apply_confirm": "Przełączyć na „{0}”? Obecne pierścienie zostaną zachowane jako szablon.",
+  "template.kept_name": "Moje pierścienie, {0}",
+  "template.applied": "Szablon zastosowany",
+  "template.applied_kept": "Szablon zastosowany. Poprzednie pierścienie zachowano jako „{0}”.",
+  "template.saved": "Zapisano jako „{0}”",
+  "template.delete_confirm": "Usunąć szablon „{0}”?",
+  "template.morph_default": "Domyślny Morph",
+  "template.filee_classic": "Klasyczny Filee"
 }
