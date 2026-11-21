@@ -2084,5 +2084,7 @@
   "action.print_failed": "Không in được",
   "action.sharing": "Chọn nơi chia sẻ",
   "action.share_failed": "Bảng chia sẻ không mở; tệp được hiện trong thư mục",
-  "action.share_unsupported": "Hệ thống này không có bảng chia sẻ"
+  "action.share_unsupported": "Hệ thống này không có bảng chia sẻ",
+  "error.engine_memory": "Tệp này cần nhiều bộ nhớ hơn mức an toàn cho máy, nên Morph đã dừng nó. Các tệp khác không bị ảnh hưởng.",
+  "general.install_when_idle": "Cài cập nhật khi không dùng Morph"
 }

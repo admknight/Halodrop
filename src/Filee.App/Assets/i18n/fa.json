@@ -2060,5 +2060,7 @@
   "action.print_failed": "چاپ نشد",
   "action.sharing": "جای اشتراک‌گذاری را انتخاب کنید",
   "action.share_failed": "پنل اشتراک باز نشد؛ فایل در پوشه‌اش نشان داده شد",
-  "action.share_unsupported": "این سیستم پنل اشتراک ندارد"
+  "action.share_unsupported": "این سیستم پنل اشتراک ندارد",
+  "error.engine_memory": "این فایل بیش از حدِ امن برای رایانهٔ شما حافظه می‌خواست، پس Morph آن را متوقف کرد. فایل‌های دیگر شما آسیبی ندیدند.",
+  "general.install_when_idle": "نصب به‌روزرسانی‌ها وقتی Morph در حال استفاده نیست"
 }

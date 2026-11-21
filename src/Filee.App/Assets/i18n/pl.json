@@ -2084,5 +2084,7 @@
   "action.print_failed": "Nie udało się wydrukować",
   "action.sharing": "Wybierz, gdzie udostępnić",
   "action.share_failed": "Panel udostępniania się nie otworzył; plik pokazano w folderze",
-  "action.share_unsupported": "Ten system nie ma panelu udostępniania"
+  "action.share_unsupported": "Ten system nie ma panelu udostępniania",
+  "error.engine_memory": "Ten plik wymagał więcej pamięci, niż jest bezpieczne dla komputera, więc Morph go zatrzymał. Pozostałe pliki nie ucierpiały.",
+  "general.install_when_idle": "Instaluj aktualizacje, gdy Morph nie jest używany"
 }

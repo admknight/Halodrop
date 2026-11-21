@@ -2084,5 +2084,7 @@
   "action.print_failed": "Não foi possível imprimir",
   "action.sharing": "Escolha onde compartilhar",
   "action.share_failed": "O painel de compartilhamento não abriu; o arquivo está na pasta",
-  "action.share_unsupported": "Este sistema não tem painel de compartilhamento"
+  "action.share_unsupported": "Este sistema não tem painel de compartilhamento",
+  "error.engine_memory": "Este arquivo precisava de mais memória do que é seguro para o seu computador, então o Morph o parou. Seus outros arquivos não foram afetados.",
+  "general.install_when_idle": "Instalar atualizações quando o Morph não estiver em uso"
 }

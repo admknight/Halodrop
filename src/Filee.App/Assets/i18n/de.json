@@ -2062,5 +2062,7 @@
   "action.print_failed": "Drucken fehlgeschlagen",
   "action.sharing": "Wählen Sie, wohin geteilt wird",
   "action.share_failed": "Das Teilen-Fenster ging nicht auf; die Datei wird im Ordner gezeigt",
-  "action.share_unsupported": "Dieses System hat kein Teilen-Fenster"
+  "action.share_unsupported": "Dieses System hat kein Teilen-Fenster",
+  "error.engine_memory": "Diese Datei brauchte mehr Speicher, als für Ihren Computer sicher ist, daher hat Morph sie gestoppt. Ihre anderen Dateien sind nicht betroffen.",
+  "general.install_when_idle": "Updates installieren, wenn Morph nicht benutzt wird"
 }

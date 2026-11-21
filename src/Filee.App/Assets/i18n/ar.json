@@ -2063,5 +2063,7 @@
   "action.print_failed": "تعذّرت الطباعة",
   "action.sharing": "اختر مكان المشاركة",
   "action.share_failed": "لم تُفتح لوحة المشاركة؛ عُرض الملف في مجلده",
-  "action.share_unsupported": "لا توجد لوحة مشاركة في هذا النظام"
+  "action.share_unsupported": "لا توجد لوحة مشاركة في هذا النظام",
+  "error.engine_memory": "احتاج هذا الملف إلى ذاكرة أكثر مما هو آمن لحاسوبك، فأوقفه Morph. ملفاتك الأخرى لم تتأثر.",
+  "general.install_when_idle": "ثبّت التحديثات حين لا يكون Morph قيد الاستخدام"
 }

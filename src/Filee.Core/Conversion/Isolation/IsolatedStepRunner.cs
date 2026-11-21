@@ -43,9 +43,19 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
     /// <param name="arguments">Its arguments: <see cref="WorkerProtocol.Switch"/> and the data folder.</param>
     /// <param name="isolated">Engine ids to run in workers; <see cref="InProcessEngines"/> when null.</param>
     /// <param name="maxWorkers">Workers at the same time; four at most by default (each loads the native libraries).</param>
+    /// <param name="memoryCeiling">
+    /// Morph change: the most memory a worker may hold while it converts (bytes); past it the worker is stopped and the
+    /// file fails with "error.engine_memory". <see cref="DefaultMemoryCeiling"/> when 0.
+    /// </param>
+    /// <param name="stallLimit">
+    /// Morph change: how long a step may go without a word from its worker (progress, an output, a notice) before it's
+    /// stopped as stuck ("error.engine_stalled"). <see cref="DefaultStallLimit"/> when null.
+    /// </param>
     public IsolatedStepRunner(string program, IReadOnlyList<string> arguments, ILogger? log = null, IReadOnlySet<string>? isolated = null,
-        int maxWorkers = 0, TimeSpan? idleTimeout = null)
+        int maxWorkers = 0, TimeSpan? idleTimeout = null, long memoryCeiling = 0, TimeSpan? stallLimit = null)
     {
+        _memoryCeiling = memoryCeiling > 0 ? memoryCeiling : DefaultMemoryCeiling();
+        _stallLimit = stallLimit ?? DefaultStallLimit;
         _program = program;
         _arguments = arguments;
         _isolated = isolated ?? InProcessEngines;
@@ -56,6 +66,24 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
     }
 
     private int _started;
+
+    // ---- Morph change: limits (an idea from OrbitDrop, MIT) ----
+
+    private readonly long _memoryCeiling;
+    private readonly TimeSpan _stallLimit;
+
+    /// <summary>A step that says nothing for this long is taken as stuck. Long videos report progress all along.</summary>
+    public static readonly TimeSpan DefaultStallLimit = TimeSpan.FromMinutes(15);
+
+    /// <summary>60 % of the computer's memory, at least 2 GB: room for big pictures, not enough to make the PC crawl.</summary>
+    public static long DefaultMemoryCeiling()
+    {
+        var total = GC.GetGCMemoryInfo().TotalAvailableMemoryBytes;
+        return Math.Max(2L << 30, total > 0 ? (long)(total * 0.6) : 4L << 30);
+    }
+
+    /// <summary>How often a working worker's memory and silence are looked at.</summary>
+    public static TimeSpan WatchEvery { get; set; } = TimeSpan.FromSeconds(2);
 
     /// <summary>Workers started so far.</summary>
     public int Started => Volatile.Read(ref _started);
@@ -112,6 +140,8 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
         try
         {
             var worker = await Worker.StartAsync(_program, _arguments, _log, cancellationToken);
+            worker.MemoryCeiling = _memoryCeiling;
+            worker.StallLimit = _stallLimit;
             _all[worker] = 0;
             Interlocked.Increment(ref _started);
             return worker;
@@ -170,6 +200,13 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
         private Request? _current;
         private long _idleSince = Environment.TickCount64;
 
+        // Morph change: the limits, and when the worker last said something about the step it runs.
+        public long MemoryCeiling { get; set; } = long.MaxValue;
+        public TimeSpan StallLimit { get; set; } = Timeout.InfiniteTimeSpan;
+        private long _heardAt = Environment.TickCount64;
+        private volatile string? _stoppedFor;
+        private long _peakMemory;
+
         private Worker(Process process, ILogger log)
         {
             _process = process;
@@ -223,6 +260,10 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
         {
             var request = new Request(id, step, progress);
             _current = request;
+            Interlocked.Exchange(ref _heardAt, Environment.TickCount64);
+            _stoppedFor = null;
+            Interlocked.Exchange(ref _peakMemory, 0);
+            using var watch = new Timer(_ => Watch(request), null, WatchEvery, WatchEvery);
             try
             {
                 Send(new WorkerMessage
@@ -256,6 +297,12 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
                 if (finished != request.Answer.Task && !request.Answer.Task.IsCompleted)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
+                    // Morph change: stopped by a limit, said as such.
+                    if (_stoppedFor == "memory")
+                        throw new ConversionRefusedException("error.engine_memory",
+                            $"{converter.DisplayName}, {Interlocked.Read(ref _peakMemory) >> 20} MB (limit {MemoryCeiling >> 20} MB)");
+                    if (_stoppedFor == "stall")
+                        throw new ConversionRefusedException("error.engine_stalled", $"{converter.DisplayName}, {StallLimit.TotalMinutes:0} min");
                     var code = SafeExitCode();
                     _log.LogWarning("The engine worker stopped while {Engine} converted {File} (exit code {Code})", converter.Id, step.InputPath, code);
                     throw new ConversionRefusedException("error.engine_crashed", $"{converter.DisplayName}, exit code {code}");
@@ -269,10 +316,41 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
             }
         }
 
+        /// <summary>
+        /// Morph change: stops a worker that holds more memory than allowed or has said nothing for too long. Its
+        /// engines run on: they're stopped with it (the whole process tree).
+        /// </summary>
+        private void Watch(Request request)
+        {
+            if (_current != request || _stoppedFor is not null || !IsAlive)
+                return;
+            long memory;
+            try
+            {
+                _process.Refresh();
+                memory = _process.WorkingSet64;
+            }
+            catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or NotSupportedException)
+            {
+                return;
+            }
+            if (memory > Interlocked.Read(ref _peakMemory))
+                Interlocked.Exchange(ref _peakMemory, memory);
+            var silent = TimeSpan.FromMilliseconds(Environment.TickCount64 - Interlocked.Read(ref _heardAt));
+            var reason = memory > MemoryCeiling ? "memory" : StallLimit != Timeout.InfiniteTimeSpan && silent > StallLimit ? "stall" : null;
+            if (reason is null)
+                return;
+            _stoppedFor = reason;
+            _log.LogWarning("Stopping an engine worker on {File}: {Reason} ({Memory} MB, silent {Silent})", request.Step.InputPath, reason,
+                memory >> 20, silent);
+            Kill();
+        }
+
         private void OnLine(string? line)
         {
             if (line is null)
                 return;
+            Interlocked.Exchange(ref _heardAt, Environment.TickCount64);
             if (!line.StartsWith(WorkerProtocol.Marker, StringComparison.Ordinal))
             {
                 if (line.Length > 0)

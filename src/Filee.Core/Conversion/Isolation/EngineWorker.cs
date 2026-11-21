@@ -32,6 +32,12 @@ public sealed class EngineWorker
     /// <summary>Tests only (MORPH_WORKER_TESTS=1): an engine id that ends the worker the hard way, like a native crash.</summary>
     public const string CrashForTests = "__crash";
 
+    /// <summary>Morph change, tests only: an engine that takes ever more memory (the memory limit stops it).</summary>
+    public const string HogForTests = "__hog";
+
+    /// <summary>Morph change, tests only: an engine that says nothing for a minute (the stall limit stops it).</summary>
+    public const string HangForTests = "__hang";
+
     /// <summary>Serves until <paramref name="input"/> ends. Returns the exit code.</summary>
     public async Task<int> RunAsync(TextReader input)
     {
@@ -78,6 +84,20 @@ public sealed class EngineWorker
         {
             if (run.Engine == CrashForTests && Environment.GetEnvironmentVariable("MORPH_WORKER_TESTS") == "1")
                 Environment.FailFast("Engine worker crash requested by a test.");
+            if (run.Engine == HogForTests && Environment.GetEnvironmentVariable("MORPH_WORKER_TESTS") == "1")
+            {
+                var held = new List<byte[]>();
+                for (var i = 0; i < 400; i++)
+                {
+                    var block = GC.AllocateUninitializedArray<byte>(16 << 20);
+                    Array.Fill(block, (byte)i); // touched, so it counts as used memory
+                    held.Add(block);
+                    await Task.Delay(20, cancel.Token);
+                }
+                GC.KeepAlive(held);
+            }
+            if (run.Engine == HangForTests && Environment.GetEnvironmentVariable("MORPH_WORKER_TESTS") == "1")
+                await Task.Delay(TimeSpan.FromMinutes(1), cancel.Token);
             _beforeStep?.Invoke();
             if (run.Engine is null || !_engines.TryGetValue(run.Engine, out var engine))
                 throw new InvalidOperationException($"The worker has no engine '{run.Engine}'.");

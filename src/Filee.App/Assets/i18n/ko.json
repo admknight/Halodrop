@@ -2084,5 +2084,7 @@
   "action.print_failed": "인쇄할 수 없습니다",
   "action.sharing": "공유할 곳을 선택하세요",
   "action.share_failed": "공유 패널이 열리지 않아 파일을 폴더에서 표시합니다",
-  "action.share_unsupported": "이 시스템에는 공유 패널이 없습니다"
+  "action.share_unsupported": "이 시스템에는 공유 패널이 없습니다",
+  "error.engine_memory": "이 파일은 컴퓨터에 안전한 양보다 많은 메모리가 필요해 Morph가 중지했습니다. 다른 파일은 영향을 받지 않습니다.",
+  "general.install_when_idle": "Morph를 사용하지 않을 때 업데이트 설치"
 }

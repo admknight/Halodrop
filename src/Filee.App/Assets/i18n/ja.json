@@ -2064,5 +2064,7 @@
   "action.print_failed": "印刷できませんでした",
   "action.sharing": "共有先を選んでください",
   "action.share_failed": "共有パネルが開きませんでした。ファイルをフォルダーで表示します",
-  "action.share_unsupported": "このシステムには共有パネルがありません"
+  "action.share_unsupported": "このシステムには共有パネルがありません",
+  "error.engine_memory": "このファイルはコンピューターにとって安全な量を超えるメモリーを必要としたため、Morph が停止しました。ほかのファイルには影響ありません。",
+  "general.install_when_idle": "Morph を使っていないときに更新をインストール"
 }

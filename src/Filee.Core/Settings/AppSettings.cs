@@ -217,6 +217,12 @@ public sealed class AppSettings
     public bool CheckForUpdates { get; set; } = true;
 
     /// <summary>
+    /// Morph change (an idea from OrbitDrop): an update found by the checks installs by itself once Morph has been idle
+    /// for a while (no conversion, no window, no donut), so it's never in the way. Missing in older settings: on.
+    /// </summary>
+    public bool InstallUpdatesWhenIdle { get; set; } = true;
+
+    /// <summary>
     /// The proxy Filee's downloads go through (Settings → General → Network), such as <c>http://127.0.0.1:7890</c> or
     /// <c>socks5://host:1080</c>; see <see cref="Web.ProxySetting"/>. Null or empty: the system proxy and HTTPS_PROXY.
     /// Missing in older settings, which reads as empty, so it needs no schema step.

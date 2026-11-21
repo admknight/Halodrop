@@ -2084,5 +2084,7 @@
   "action.print_failed": "无法打印",
   "action.sharing": "选择共享位置",
   "action.share_failed": "共享面板未打开，已在文件夹中显示文件",
-  "action.share_unsupported": "此系统没有共享面板"
+  "action.share_unsupported": "此系统没有共享面板",
+  "error.engine_memory": "此文件所需内存超过了电脑的安全上限，Morph 已将其停止。其他文件不受影响。",
+  "general.install_when_idle": "在未使用 Morph 时安装更新"
 }

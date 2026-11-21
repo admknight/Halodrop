@@ -2064,5 +2064,7 @@
   "action.print_failed": "พิมพ์ไม่ได้",
   "action.sharing": "เลือกที่จะแชร์",
   "action.share_failed": "แผงแชร์ไม่เปิด แสดงไฟล์ในโฟลเดอร์แทน",
-  "action.share_unsupported": "ระบบนี้ไม่มีแผงแชร์"
+  "action.share_unsupported": "ระบบนี้ไม่มีแผงแชร์",
+  "error.engine_memory": "ไฟล์นี้ต้องใช้หน่วยความจำมากเกินกว่าที่ปลอดภัยสำหรับคอมพิวเตอร์ Morph จึงหยุดไว้ ไฟล์อื่นไม่ได้รับผลกระทบ",
+  "general.install_when_idle": "ติดตั้งอัปเดตเมื่อไม่ได้ใช้ Morph"
 }

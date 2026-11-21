@@ -27,6 +27,7 @@ public sealed partial class AboutPageViewModel : ObservableObject, IDisposable
         if (whatsNew?.Latest is { } deck)
             WhatsNewText = loc.Format("whats_new.about_link", deck.DisplayVersion);
         _checkForUpdates = store.Settings.CheckForUpdates;
+        _installWhenIdle = store.Settings.InstallUpdatesWhenIdle; // Morph change
         ShowUpdateState(updates.LatestVersion);
         updates.PropertyChanged += OnUpdatesChanged;
     }
@@ -65,11 +66,18 @@ public sealed partial class AboutPageViewModel : ObservableObject, IDisposable
     // ── Updates: the automatic check and "Check now" ──
 
     [ObservableProperty] private bool _checkForUpdates;
+    [ObservableProperty] private bool _installWhenIdle;
     [ObservableProperty] private bool _updateAvailable;
     [ObservableProperty] private string _updateStatus = "";
 
     /// <summary>"Update" in an installed copy, "Download" in a portable one.</summary>
     public string UpdateButtonText => _loc[UpdateTexts.ButtonKey];
+
+    partial void OnInstallWhenIdleChanged(bool value)
+    {
+        _store.Settings.InstallUpdatesWhenIdle = value;
+        _store.SaveSettings();
+    }
 
     partial void OnCheckForUpdatesChanged(bool value)
     {

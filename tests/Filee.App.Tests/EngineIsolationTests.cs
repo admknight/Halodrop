@@ -25,8 +25,10 @@ public sealed class EngineIsolationTests : IDisposable
 
     private readonly TestLog _log = new();
 
-    private IsolatedStepRunner Runner(IReadOnlySet<string>? isolated = null, string? program = null) =>
-        new(program ?? Program, EngineWorkerHost.Arguments(Path.Combine(_dir, "data")), _log, isolated, maxWorkers: 2);
+    private IsolatedStepRunner Runner(IReadOnlySet<string>? isolated = null, string? program = null, long memoryCeiling = 0,
+        TimeSpan? stallLimit = null) =>
+        new(program ?? Program, EngineWorkerHost.Arguments(Path.Combine(_dir, "data")), _log, isolated, maxWorkers: 2,
+            memoryCeiling: memoryCeiling, stallLimit: stallLimit);
 
     /// <summary>The runner's log, shown when a test fails.</summary>
     private sealed class TestLog : Microsoft.Extensions.Logging.ILogger
@@ -73,10 +75,10 @@ public sealed class EngineIsolationTests : IDisposable
     }
 
     /// <summary>An engine the worker has under this id ends the worker the hard way (MORPH_WORKER_TESTS=1).</summary>
-    private sealed class Crashing : IConverter
+    private sealed class Crashing(string id = EngineWorker.CrashForTests) : IConverter
     {
-        public string Id => EngineWorker.CrashForTests;
-        public string DisplayName => "Crash";
+        public string Id => id;
+        public string DisplayName => id == EngineWorker.CrashForTests ? "Crash" : id;
         public IReadOnlyList<ConversionEdge> Edges => [];
         public int MaxParallelism => 1;
         public EngineStatus GetStatus() => EngineStatus.Available();
@@ -149,6 +151,35 @@ public sealed class EngineIsolationTests : IDisposable
         }
         finally
         {
+            Environment.SetEnvironmentVariable("MORPH_WORKER_TESTS", null);
+        }
+    }
+
+    [Theory]
+    [InlineData(EngineWorker.HogForTests, "error.engine_memory")]
+    [InlineData(EngineWorker.HangForTests, "error.engine_stalled")]
+    public async Task A_worker_past_its_limits_is_stopped_and_only_its_file_fails(string engine, string key)
+    {
+        // Morph change: the memory ceiling and the stall limit.
+        Environment.SetEnvironmentVariable("MORPH_WORKER_TESTS", "1");
+        var every = IsolatedStepRunner.WatchEvery;
+        IsolatedStepRunner.WatchEvery = TimeSpan.FromMilliseconds(250);
+        try
+        {
+            using var runner = Runner(new HashSet<string>(IsolatedStepRunner.InProcessEngines) { engine },
+                memoryCeiling: 600L << 20, stallLimit: TimeSpan.FromSeconds(3));
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            var refused = await Assert.ThrowsAsync<ConversionRefusedException>(() =>
+                runner.RunAsync(new Crashing(engine), Step(Practice()), null, CancellationToken.None));
+            Assert.Equal(key, refused.ErrorKey);
+            Assert.True(watch.Elapsed < TimeSpan.FromSeconds(40), watch.Elapsed.ToString());
+
+            var outputs = await runner.RunAsync(Magick(), Step(Practice()), null, CancellationToken.None);
+            Assert.True(File.Exists(Assert.Single(outputs)));
+        }
+        finally
+        {
+            IsolatedStepRunner.WatchEvery = every;
             Environment.SetEnvironmentVariable("MORPH_WORKER_TESTS", null);
         }
     }

@@ -2062,5 +2062,7 @@
   "action.print_failed": "Yazdırılamadı",
   "action.sharing": "Nerede paylaşılacağını seçin",
   "action.share_failed": "Paylaşım paneli açılmadı; dosya klasöründe gösterildi",
-  "action.share_unsupported": "Bu sistemde paylaşım paneli yok"
+  "action.share_unsupported": "Bu sistemde paylaşım paneli yok",
+  "error.engine_memory": "Bu dosya bilgisayarınız için güvenli olandan fazla bellek istedi, bu yüzden Morph onu durdurdu. Diğer dosyalarınız etkilenmedi.",
+  "general.install_when_idle": "Morph kullanılmıyorken güncellemeleri yükle"
 }

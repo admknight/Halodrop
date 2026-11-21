@@ -370,6 +370,47 @@ public sealed partial class UpdateService : ObservableObject
         }
     }
 
+    // ---- Morph change: updates installed while Morph is idle ----
+
+    /// <summary>How long Morph must have been idle before an update installs by itself.</summary>
+    public static readonly TimeSpan IdleBeforeInstall = TimeSpan.FromMinutes(10);
+
+    private DispatcherTimer? _idleTimer;
+    private DateTime? _idleSince;
+
+    /// <summary>
+    /// Installs an update the checks found once Morph has been idle for <see cref="IdleBeforeInstall"/>:
+    /// <paramref name="enabled"/> (the setting), <paramref name="inUse"/> (a conversion, a window or the donut). Only a
+    /// copy that installs itself; a required update waits for the user as before, since it says why it's needed.
+    /// </summary>
+    public void StartIdleInstall(Func<bool> enabled, Func<bool> inUse)
+    {
+        if (_idleTimer is not null || !InstallsItself)
+            return;
+        _idleTimer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(1) };
+        _idleTimer.Tick += async (_, _) =>
+        {
+            if (ShouldInstallNow(enabled(), inUse(), DateTime.UtcNow))
+            {
+                _log.LogInformation("Installing {Version} while Morph is idle", LatestVersion);
+                await UpdateAsync();
+            }
+        };
+        _idleTimer.Start();
+    }
+
+    /// <summary>Whether to install now; counts the idle time (tests call it with their own clock).</summary>
+    internal bool ShouldInstallNow(bool enabled, bool inUse, DateTime now)
+    {
+        if (!enabled || inUse || IsBusy || !IsUpdateAvailable || IsRequired || Step == UpdateStep.Cancelled)
+        {
+            _idleSince = null;
+            return false;
+        }
+        _idleSince ??= now;
+        return now - _idleSince >= IdleBeforeInstall;
+    }
+
     /// <summary>Checks shortly after start and then every few hours while <paramref name="enabled"/> says so.</summary>
     public void StartPeriodicChecks(Func<bool> enabled, TimeSpan firstDelay)
     {

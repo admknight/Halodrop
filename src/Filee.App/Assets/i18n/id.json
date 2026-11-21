@@ -2062,5 +2062,7 @@
   "action.print_failed": "Tidak bisa mencetak",
   "action.sharing": "Pilih tujuan berbagi",
   "action.share_failed": "Panel berbagi tidak terbuka; file ditampilkan di foldernya",
-  "action.share_unsupported": "Sistem ini tidak punya panel berbagi"
+  "action.share_unsupported": "Sistem ini tidak punya panel berbagi",
+  "error.engine_memory": "File ini butuh memori lebih dari batas aman komputer Anda, jadi Morph menghentikannya. File lain tidak terpengaruh.",
+  "general.install_when_idle": "Pasang pembaruan saat Morph tidak dipakai"
 }

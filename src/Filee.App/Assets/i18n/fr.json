@@ -2084,5 +2084,7 @@
   "action.print_failed": "Impossible d’imprimer",
   "action.sharing": "Choisissez où partager",
   "action.share_failed": "Le panneau de partage ne s’est pas ouvert ; le fichier est affiché dans son dossier",
-  "action.share_unsupported": "Ce système n’a pas de panneau de partage"
+  "action.share_unsupported": "Ce système n’a pas de panneau de partage",
+  "error.engine_memory": "Ce fichier demandait plus de mémoire que ce qui est sûr pour votre ordinateur, Morph l’a donc arrêté. Vos autres fichiers ne sont pas touchés.",
+  "general.install_when_idle": "Installer les mises à jour quand Morph n’est pas utilisé"
 }

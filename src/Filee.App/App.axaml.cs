@@ -363,6 +363,9 @@ public partial class App : Application
         if (updates.CheckPendingFailure(store.Directory))
             Dispatcher.UIThread.Post(async () => await AppHost.Get<WindowService>().ShowUpdateRolledBackAsync(updates.LastFailureLogPath));
         updates.StartPeriodicChecks(() => store.Settings.CheckForUpdates, TimeSpan.FromSeconds(20));
+        // Morph change: an update installs by itself while Morph isn't being used.
+        updates.StartIdleInstall(() => store.Settings.CheckForUpdates && store.Settings.InstallUpdatesWhenIdle, () =>
+            AppHost.Get<JobQueue>().IsBusy || AppHost.Get<RadialController>().IsVisible || AppHost.Get<WindowService>().Main?.IsVisible == true);
         DispatcherTimer.RunOnce(() => NotifyEngineUpdates(store), TimeSpan.FromSeconds(25));
     }
 

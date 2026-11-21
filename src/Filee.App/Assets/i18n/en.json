@@ -2084,5 +2084,7 @@
   "action.print_failed": "Couldn't print",
   "action.sharing": "Choose where to share",
   "action.share_failed": "The share panel didn't open; the file is shown in its folder",
-  "action.share_unsupported": "This system has no share panel"
+  "action.share_unsupported": "This system has no share panel",
+  "error.engine_memory": "This file needed more memory than is safe for your computer, so Morph stopped it. Your other files aren't affected.",
+  "general.install_when_idle": "Install updates while Morph isn't in use"
 }
