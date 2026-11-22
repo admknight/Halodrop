@@ -6,7 +6,7 @@
         x:Class="Filee.App.Views.ImageEditWindow"
         x:DataType="vm:ImageEditViewModel"
         Title="{DynamicResource preset.image_edit}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="520" SizeToContent="Height" MinWidth="440" CanResize="False"
         WindowStartupLocation="CenterScreen">
   <DockPanel>

@@ -31,17 +31,17 @@ public sealed record SetupPaths(
     string SystemTemp)
 {
     /// <summary>Filee's settings folder (UserDataStore.DefaultDirectory without FILEE_DATA_DIR).</summary>
-    public string SettingsFolder => Path.Combine(AppData, "Morph");
+    public string SettingsFolder => Path.Combine(AppData, "Halodrop");
 
     /// <summary>Downloaded engines (EngineEnvironment.DownloadRoot).</summary>
-    public string EnginesFolder => Path.Combine(LocalAppData, "Morph", "engines");
+    public string EnginesFolder => Path.Combine(LocalAppData, "Halodrop", "engines");
 
     public string StartMenu(InstallScope scope) => scope == InstallScope.Machine ? CommonStartMenu : UserStartMenu;
 
     public string Desktop(InstallScope scope) => scope == InstallScope.Machine ? CommonDesktop : UserDesktop;
 
     public string DefaultInstallFolder(InstallScope scope) =>
-        Path.Combine(scope == InstallScope.Machine ? ProgramFiles : UserPrograms, "Morph");
+        Path.Combine(scope == InstallScope.Machine ? ProgramFiles : UserPrograms, "Halodrop");
 
     /// <summary>This PC's folders.</summary>
     public static SetupPaths Real()

@@ -36,7 +36,7 @@ public sealed class UnixPortableIntegrationTests : IDisposable
         cleanup.RemoveOwnedEntries(Executable);
         Assert.False(cleanup.HasOwnedEntries(Executable));
         Assert.Equal(!ownStartup, File.Exists(Path.Combine(config, "autostart", "morph.desktop")));
-        foreach (var path in new[] { "Thunar/sendto/morph.desktop", "nautilus/scripts/Morph", "nemo/actions/morph.nemo_action", "kio/servicemenus/morph.desktop" })
+        foreach (var path in new[] { "Thunar/sendto/morph.desktop", "nautilus/scripts/Halodrop", "nemo/actions/morph.nemo_action", "kio/servicemenus/morph.desktop" })
             Assert.Equal(!ownMenu, File.Exists(Path.Combine(data, path)));
         document = XDocument.Load(thunar);
         Assert.Contains(document.Root!.Elements("action"), a => (string?)a.Element("command") == "echo keep");

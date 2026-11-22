@@ -141,7 +141,7 @@ public class ImageEditToolTests
         var images = BuiltInData.CreateProfiles().Single(p => p.Id == "images");
         Assert.Equal("tool-image-edit", images.BackPresetIds![images.BackPresetIds.IndexOf("half-size") + 1]);
         Assert.DoesNotContain("tool-image-edit", images.PresetIds);
-        Assert.InRange(images.PresetIds.Count, 1, ToolbarProfile.MaxSlices);
+        Assert.InRange(images.PresetIds.Count, 1, ToolbarProfile.FileeMaxSlices);
     }
 
     [Fact]
@@ -171,7 +171,7 @@ public class ImageEditToolTests
         var full = BuiltInData.ProfilesSchema58();
         var fullFront = full.Single(p => p.Id == "images").PresetIds;
         fullFront.Remove("tool-image-edit");
-        while (fullFront.Count < ToolbarProfile.MaxSlices)
+        while (fullFront.Count < ToolbarProfile.FileeMaxSlices)
             fullFront.Add("to-gif");
         var before = fullFront.ToList();
         SettingsMigrations.ApplyToLibrary(50, BuiltInData.CreatePresets(), full);

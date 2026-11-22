@@ -1,44 +1,43 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,14,18&height=185&section=header&text=Morph&fontSize=62&fontColor=ffffff&animation=twinkling&fontAlignY=35&desc=Drag%2C%20drop%2C%20converted.&descSize=18&descAlignY=57" width="100%" alt="Morph: Drag, drop, converted.">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,14,18&height=185&section=header&text=Halodrop&fontSize=62&fontColor=ffffff&animation=twinkling&fontAlignY=35&desc=Drag%2C%20drop%2C%20converted.&descSize=18&descAlignY=57" width="100%" alt="Halodrop: Drag, drop, converted.">
 
-<img src="src/Filee.App/Assets/Icons/morph.png" width="96" alt="Morph icon">
+<img src="src/Filee.App/Assets/Icons/morph.png" width="96" alt="Halodrop icon">
 
 **Your files. Your format. Right at your cursor.**
 
-[![CI](https://github.com/admknight/Morph/actions/workflows/ci.yml/badge.svg)](https://github.com/admknight/Morph/actions/workflows/ci.yml)
+[![CI](https://github.com/admknight/Halodrop/actions/workflows/ci.yml/badge.svg)](https://github.com/admknight/Halodrop/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-43A7FF.svg)](LICENSE)
 [![Platform: Windows](https://img.shields.io/badge/Windows-10%2F11%20x64%20%7C%20ARM64-2376d1.svg)](#editions)
 [![Platform: Linux](https://img.shields.io/badge/Linux-x64%20%7C%20ARM64-2376d1.svg)](#editions)
 [![Platform: macOS](https://img.shields.io/badge/macOS-13%2B-2376d1.svg)](#editions)
 [![Languages](https://img.shields.io/badge/languages-24%20incl.%20Urdu-43A7FF)](#make-it-yours)
-[![Status: Pre-release](https://img.shields.io/badge/status-pre--release%200.7.0-43A7FF)](#editions)
+[![Status: 0.8.0](https://img.shields.io/badge/status-0.8.0-43A7FF)](#editions)
 
-[**Windows builds**](https://github.com/admknight/Morph/actions/workflows/ci.yml) · [**Features**](#features-at-a-glance) · [**Real screenshots**](#real-app-screenshots) · [**Documentation**](docs/ARCHITECTURE.md) · [**Security**](SECURITY.md) · [**Issues**](https://github.com/admknight/Morph/issues)
+[**Windows builds**](https://github.com/admknight/Halodrop/actions/workflows/ci.yml) · [**Features**](#features-at-a-glance) · [**Real screenshots**](#real-app-screenshots) · [**Documentation**](docs/ARCHITECTURE.md) · [**Security**](SECURITY.md) · [**Issues**](https://github.com/admknight/Halodrop/issues)
 
 </div>
 
 ---
 
-## What is Morph?
+## What is Halodrop?
 
-**Morph** is a free, open-source file converter you use by dragging. Hold <kbd>Ctrl</kbd> (<kbd>Option</kbd> on a Mac),
+**Halodrop** is a free, open-source file converter you use by dragging. Hold <kbd>Ctrl</kbd> (<kbd>Option</kbd> on a Mac),
 drag files from Explorer, Finder, the desktop or a browser, and a ring of choices, the **donut**, opens at your cursor.
 Let go on one and the new file appears next to the original, which is never changed. Everything happens on your own
 computer.
 
-The name says what it does: files **morph** from one form into another, without opening an app.
+The name says how it works: a halo of actions appears around your pointer, and you drop your files on it. Halodrop
+was called **Morph** up to version 0.7.0.
 
 > [!IMPORTANT]
-> **Current status: 0.7.0, pre-release.** Every change is built and tested on GitHub (Windows x64 and ARM64, Linux and
-> macOS packages); the newest builds are on the [Actions page](https://github.com/admknight/Morph/actions/workflows/ci.yml).
-> No public release is published yet, and the Windows builds are **unsigned**, so Windows SmartScreen will warn on first
-> start. Share, print, the Explorer Gallery / VS Code selection and the Google Lens upload pass their automated checks
-> but haven't been tried on a physical PC yet.
+> **Current status: 0.8.0, Windows x64 first.** Releases are on the [Releases page](https://github.com/admknight/Halodrop/releases).
+> Windows x64 is built and tested on GitHub for every change; Linux, macOS and Windows ARM64 follow once Windows is
+> stable. The Windows builds are **unsigned**, so Windows SmartScreen warns on first start ("More info → Run anyway").
 
 ## Features at a glance
 
-| Area | What Morph offers |
+| Area | What Halodrop offers |
 | :--- | :--- |
 | **Convert** | About 270 formats offline: pictures (RAW, HEIC, AVIF too), PDF, Word, Excel, PowerPoint, HWP, **CorelDRAW** (built in, no LibreOffice), e-books, archives, fonts, CAD, 3D models, audio and video |
 | **Tools** | Crop, rotate, resize, compress to a size, remove a background, trace to SVG, **social sizes** (square, story, thumbnail, cropped, never squashed), **normalize volume**, cut clips, merge, OCR, metadata, upscale |
@@ -46,20 +45,20 @@ The name says what it does: files **morph** from one form into another, without 
 | **File actions** | Copy path or name, show in folder, open a terminal there, **share**, **print**, **keep on shelf** (a floating shelf to drag files out later) |
 | **Picture actions** | Copy the text in a picture (OCR), **colour palette**, set as wallpaper, **search the web** for the picture |
 | **Your own actions** | **Run a program** with the files: pick an installed app (*Open in Photoshop*, *Open in VS Code*) or write a command |
-| **Layouts** | One donut per file type, front and back, up to 12 slices a side; **templates** to switch whole layouts |
+| **Layouts** | One donut per file type, front and back, up to 16 slices a side (the donut grows to fit); **templates** to switch whole layouts |
 | **Safety** | Engines run in separate workers with **memory and time limits**; a crash fails only its own file; unfinished work **resumes** after a power cut |
-| **Updates** | Checked against GitHub, signature-verified, **installed while Morph isn't in use** (can be turned off) |
+| **Updates** | Checked against GitHub, signature-verified, **installed while Halodrop isn't in use** (can be turned off) |
 
 ### Private by design
 
-Morph needs **no account** and sends **no telemetry**. Conversions, face finding and text finding all run locally.
+Halodrop needs **no account** and sends **no telemetry**. Conversions, face finding and text finding all run locally.
 The only things that touch the network are ones you choose: **Search the web** sends a small copy of the picture
 (without its location or camera data) to Google Lens, and that action's name says so; optional engines download once
 from their official sites, each checked against a pinned SHA-256.
 
 ## Real app screenshots
 
-These are **unedited screenshots of Morph 0.7.0**, rendered by the project's own UI tests (`tests/Filee.App.Tests`)
+These are **unedited screenshots of version 0.7.0** (still named Morph then), rendered by the project's own UI tests (`tests/Filee.App.Tests`)
 from the same code as the builds. They are **not mockups**. Colours, fonts and window sizes vary with your system
 and the look you pick.
 
@@ -108,15 +107,15 @@ and the look you pick.
 
 | Edition | What you get | Status |
 | --- | --- | --- |
-| **Windows Setup EXE** | Per-user install (no admin rights), Start menu, Explorer menu "Convert with Morph", the `morph` command | 0.7.0 pre-release (unsigned) |
-| **Windows portable ZIP** | Unzip and run `Morph.exe`; data stays beside the app | 0.7.0 pre-release (unsigned) |
-| **Linux x64 / ARM64** | Unpack and run `./install.sh` (no root) | Pre-release; drag gestures need X11 |
-| **macOS 13+** | `./install.sh` or drag to Applications | Pre-release; not notarized |
+| **Windows Setup EXE** | Per-user install (no admin rights), Start menu, Explorer menu "Convert with Halodrop", the `halodrop` command | Released (unsigned) |
+| **Windows portable ZIP** | Unzip and run `Halodrop.exe`; data stays beside the app | Released (unsigned) |
+| **Linux x64 / ARM64** | Unpack and run `./install.sh` (no root) | Coming later; drag gestures need X11 |
+| **macOS 13+** | `./install.sh` or drag to Applications | Coming later; not notarized |
 | **Source** | .NET 10 / Avalonia app, engines, tests and build scripts | MIT-licensed |
 
-**Get a build now:** open the latest green run on the [Actions page](https://github.com/admknight/Morph/actions/workflows/ci.yml)
-and download `windows-arm64-package` or a `portable-*` artifact (GitHub asks you to sign in for artifacts). Release
-downloads will appear under [Releases](https://github.com/admknight/Morph/releases) once 0.7.0 is published.
+**Download:** the latest release is on the [Releases page](https://github.com/admknight/Halodrop/releases): the
+`-win-Setup.exe` installer or the `-win-Portable.zip`. Builds of every change are on the
+[Actions page](https://github.com/admknight/Halodrop/actions/workflows/ci.yml) (GitHub asks you to sign in for those).
 
 ### Basic requirements
 
@@ -126,27 +125,27 @@ downloads will appear under [Releases](https://github.com/admknight/Morph/releas
 
 ### First run
 
-1. Install or unzip Morph and start it. On Windows, if SmartScreen appears, click **More info → Run anyway**.
+1. Install or unzip Halodrop and start it. On Windows, if SmartScreen appears, click **More info → Run anyway**.
 2. The **Home** page walks you through four short steps with a **practice picture** you convert yourself.
 3. Now try it with your own files: hold <kbd>Ctrl</kbd>, drag a file, and let go on a format.
 4. Press <kbd>Tab</kbd> (or roll the mouse wheel) to flip the donut to its back for tools and file actions.
 5. Make it yours in **Settings → Toolbar**: pick a **template**, drag slices in and out, save your own layout.
 
-No dragging? Select files and press the shortcut, right-click and choose **Convert with Morph**, or drop them on Home.
+No dragging? Select files and press the shortcut, right-click and choose **Convert with Halodrop**, or drop them on Home.
 
 ## Make it yours
 
-- **Templates:** a template is a whole set of donuts and their size. Start with **Morph default** (bigger, with the
+- **Templates:** a template is a whole set of donuts and their size. Start with **Halodrop default** (bigger, with the
   new tools placed) or **Classic** (Filee's original layout), then save your own. Switching first keeps your current
   donuts as a template, so no layout is ever lost.
 - **Presets:** size, quality, pages, output folder and file names; **watch folders** convert whatever lands in them.
-- **Three looks:** Morph Soft, Material You and **Futuristic** (neon accent on deep navy), each light or dark.
+- **Three looks:** Halodrop Soft, Material You and **Futuristic** (neon accent on deep navy), each light or dark.
 - **24 languages**, including right-to-left Arabic, Persian and **Urdu** in a Nastaliq font.
 
-## How Morph works
+## How Halodrop works
 
 ```text
-Ctrl + drag  /  shortcut  /  "Convert with Morph"  /  Home drop zone
+Ctrl + drag  /  shortcut  /  "Convert with Halodrop"  /  Home drop zone
                               │
                               ▼
             Donut (Avalonia UI) ── only choices that fit the files
@@ -172,14 +171,14 @@ Ctrl + drag  /  shortcut  /  "Convert with Morph"  /  Home drop zone
 You need the [.NET 10 SDK](https://dotnet.microsoft.com/download).
 
 ```bash
-git clone https://github.com/admknight/Morph.git
-cd Morph
+git clone https://github.com/admknight/Halodrop.git
+cd Halodrop
 dotnet run --project src/Filee.App          # the app
-dotnet run --project src/Filee.Cli -- help  # the morph command line
+dotnet run --project src/Filee.Cli -- help  # the halodrop command line
 dotnet test Filee.slnx                      # the tests
 ```
 
-On every push, [GitHub Actions](https://github.com/admknight/Morph/actions/workflows/ci.yml) checks formatting, builds,
+On every push, [GitHub Actions](https://github.com/admknight/Halodrop/actions/workflows/ci.yml) checks formatting, builds,
 and runs the full test suite on Windows x64 and ARM64, then packages Windows, Linux and macOS builds. The CorelDRAW
 reader is compiled there from SHA-256-pinned sources (`build/build-cdr-reader.ps1`).
 
@@ -190,7 +189,7 @@ src/Filee.App/        The app: donut, windows, pages, services, 24 languages
 src/Filee.Core/       Presets, profiles, templates, job queue, route planner, worker isolation
 src/Filee.Engines/    Converters (images, PDF, office, HWP, CAD, fonts, media, CorelDRAW, face/text finders)
 src/Filee.Platform.*  Windows, Linux and macOS integration (selection, menus, share, clipboard)
-src/Filee.Setup/      Morph's own installer
+src/Filee.Setup/      Halodrop's own installer
 src/Morph.CdrReader/  MorphCdr, the CorelDRAW reader (libcdr)
 tests/                Core, engine, app (UI, screenshots), platform and setup tests
 build/                Packaging, engine fetching, signing, CI helpers
@@ -198,13 +197,13 @@ docs/                 Architecture, engines, converters, languages, themes, port
 ```
 
 The project folders keep Filee's names (`src/Filee.App`, `Filee.slnx`) so Filee's improvements keep merging in;
-everything you see says Morph. [build/morph](build/morph/README.md) explains how a Filee release is taken in.
+everything you see says Halodrop. [build/morph](build/morph/README.md) explains how a Filee release is taken in.
 
 ## Security, attribution and licensing
 
 Security problems: please follow [SECURITY.md](SECURITY.md) rather than opening a public issue.
 
-**Morph** is MIT-licensed, maintained by **Adam Knight (@admknight)**. It is built on
+**Halodrop** is MIT-licensed, maintained by **Adam Knight (@admknight)**. It is built on
 [Filee](https://github.com/KnifeLemon/Filee) by Myeonggu Kim (KnifeLemon) and the Filee contributors (MIT), and takes
 ideas and some code from [OrbitDrop](https://github.com/i3sam/OrbitDrop) by i3sam (MIT): file and picture actions,
 print, share, shelf, social sizes, normalize, palette, web search, face/text finding, the CorelDRAW reader, worker
@@ -222,6 +221,6 @@ Contributions: [CONTRIBUTING.md](CONTRIBUTING.md) · Changes: [CHANGELOG.md](CHA
 <div align="center">
 
 **Maintained by [Adam Knight (@admknight)](https://github.com/admknight)**  
-[Portfolio](https://admknight.github.io/) · [Source](https://github.com/admknight/Morph) · [Actions](https://github.com/admknight/Morph/actions) · [Issue tracker](https://github.com/admknight/Morph/issues)
+[Portfolio](https://admknight.github.io/) · [Source](https://github.com/admknight/Halodrop) · [Actions](https://github.com/admknight/Halodrop/actions) · [Issue tracker](https://github.com/admknight/Halodrop/issues)
 
 </div>

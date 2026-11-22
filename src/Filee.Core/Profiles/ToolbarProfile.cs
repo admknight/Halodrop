@@ -12,7 +12,13 @@ namespace Filee.Core.Profiles;
 public sealed class ToolbarProfile
 {
     /// <summary>Maximum number of slices on one donut ring.</summary>
-    public const int MaxSlices = 12;
+    public const int MaxSlices = 16; // Halodrop change: 16 (Filee: 12)
+
+    /// <summary>
+    /// Halodrop change: Filee's limit, which built-in layouts, settings upgrades and shared presets keep (Filee's gallery
+    /// accepts no more), while a face may hold up to <see cref="MaxSlices"/>.
+    /// </summary>
+    public const int FileeMaxSlices = 12;
 
     public string Id { get; set; } = Guid.NewGuid().ToString("N")[..12];
 

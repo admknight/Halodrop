@@ -18,14 +18,14 @@ internal static class SoftPalette
     public const double DefaultCornerRadius = 16;
 
     /// <summary>Embedded Noto fonts (see build/fetch-fonts.ps1). Missing files fall back to system fonts.</summary>
-    private const string Latin = "fonts:Morph#Noto Sans";
-    private const string Arabic = "fonts:Morph#Noto Sans Arabic";
-    private const string Devanagari = "fonts:Morph#Noto Sans Devanagari";
-    private const string Bengali = "fonts:Morph#Noto Sans Bengali";
-    private const string Thai = "fonts:Morph#Noto Sans Thai";
+    private const string Latin = "fonts:Halodrop#Noto Sans";
+    private const string Arabic = "fonts:Halodrop#Noto Sans Arabic";
+    private const string Devanagari = "fonts:Halodrop#Noto Sans Devanagari";
+    private const string Bengali = "fonts:Halodrop#Noto Sans Bengali";
+    private const string Thai = "fonts:Halodrop#Noto Sans Thai";
 
     /// <summary>Morph change: Urdu is written in Nastaliq; Noto Sans Arabic (Naskh) stays the fallback.</summary>
-    private const string Urdu = "fonts:Morph#Noto Nastaliq Urdu";
+    private const string Urdu = "fonts:Halodrop#Noto Nastaliq Urdu";
 
     /// <summary>
     /// The installed fonts as SystemUiFontCollection serves them, a letter matched only in the family asked for. Plain
@@ -35,11 +35,11 @@ internal static class SoftPalette
 
     /// <summary>Each CJK region's embedded font and its system fonts (Windows, then macOS).</summary>
     private static readonly (string Embedded, string System) Japanese =
-        ("fonts:Morph#Noto Sans JP", "Yu Gothic UI, Meiryo, Hiragino Sans");
+        ("fonts:Halodrop#Noto Sans JP", "Yu Gothic UI, Meiryo, Hiragino Sans");
     private static readonly (string Embedded, string System) Korean =
-        ("fonts:Morph#Noto Sans KR", "Malgun Gothic, Apple SD Gothic Neo");
+        ("fonts:Halodrop#Noto Sans KR", "Malgun Gothic, Apple SD Gothic Neo");
     private static readonly (string Embedded, string System) Chinese =
-        ("fonts:Morph#Noto Sans SC", "Microsoft YaHei, PingFang SC");
+        ("fonts:Halodrop#Noto Sans SC", "Microsoft YaHei, PingFang SC");
 
     /// <summary>
     /// Traditional Chinese has no embedded font (two more Noto CJK files would add 11 MB): Windows and macOS always carry

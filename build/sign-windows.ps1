@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-  Signs Windows programs with Morph's code signing certificate: Authenticode, SHA-256, with a timestamp from Certum.
+  Signs Windows programs with Halodrop's code signing certificate: Authenticode, SHA-256, with a timestamp from Certum.
 
 .DESCRIPTION
-  Signs every .exe and .dll under -Path (files or folders) that has no valid signature yet: Morph's own programs, and
+  Signs every .exe and .dll under -Path (files or folders) that has no valid signature yet: Halodrop's own programs, and
   the bundled ones that come unsigned (rhwp, 7-Zip, most NuGet libraries). Files their makers signed (.NET, Microsoft,
   ImageMagick …) keep their signature. Afterwards every program under -Path must have a valid signature.
 
@@ -80,7 +80,7 @@ Write-Host "sign $($unsigned.Count) of $($programs.Count) programs (the others a
 # Several files per signtool run: each one is still signed in the cloud, but the session is opened once.
 $batch = 40
 $options = @('sign', '/sha1', $CertificateThumbprint, '/fd', 'sha256', '/tr', 'http://time.certum.pl', '/td', 'sha256',
-    '/d', 'Morph', '/du', 'https://filee.sh', '/q')
+    '/d', 'Halodrop', '/du', 'https://filee.sh', '/q')
 for ($i = 0; $i -lt $unsigned.Count; $i += $batch) {
     $files = @($unsigned[$i..([Math]::Min($i + $batch, $unsigned.Count) - 1)])
     & $signtool @options @files

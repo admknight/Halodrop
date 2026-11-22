@@ -242,7 +242,7 @@ public class ClipToolTests
         Assert.DoesNotContain("tool-clip", video.PresetIds);
         Assert.DoesNotContain("to-flac", video.BackPresetIds);
         Assert.Contains(presets, p => p.Id == "to-flac");
-        Assert.InRange(video.BackPresetIds.Count, 1, ToolbarProfile.MaxSlices);
+        Assert.InRange(video.BackPresetIds.Count, 1, ToolbarProfile.FileeMaxSlices);
     }
 
     [Fact]
@@ -269,17 +269,17 @@ public class ClipToolTests
         var withFlacBack = withFlac.Single(p => p.Id == "video").BackPresetIds!;
         withFlacBack.Remove("tool-clip");
         withFlacBack.Add("to-flac");
-        while (withFlacBack.Count < ToolbarProfile.MaxSlices)
+        while (withFlacBack.Count < ToolbarProfile.FileeMaxSlices)
             withFlacBack.Add("to-mp3");
         SettingsMigrations.ApplyToLibrary(44, BuiltInData.CreatePresets(), withFlac);
         Assert.Equal("tool-clip", withFlacBack[0]);
         Assert.DoesNotContain("to-flac", withFlacBack);
-        Assert.Equal(ToolbarProfile.MaxSlices, withFlacBack.Count);
+        Assert.Equal(ToolbarProfile.FileeMaxSlices, withFlacBack.Count);
 
         var full = BuiltInData.ProfilesSchema58();
         var fullBack = full.Single(p => p.Id == "video").BackPresetIds!;
         fullBack.Remove("tool-clip");
-        while (fullBack.Count < ToolbarProfile.MaxSlices)
+        while (fullBack.Count < ToolbarProfile.FileeMaxSlices)
             fullBack.Add("to-mp3");
         var before = fullBack.ToList();
         SettingsMigrations.ApplyToLibrary(44, BuiltInData.CreatePresets(), full);

@@ -15,14 +15,14 @@
     <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
 
     <Version>0.7.0</Version>
-    <Product>Morph</Product>
+    <Product>Halodrop</Product>
     <Authors>Filee contributors</Authors>
     <Copyright>Copyright (c) Filee contributors</Copyright>
 
     <!-- Single source of truth for the GitHub repository (used by the updater and the About page). -->
     <!-- Morph: the repository Morph's releases come from (the updater and the About page). Empty would turn the
          updater off (it never asks Filee's repository). Filee itself, which Morph is based on, is UpstreamUrl. -->
-    <FileeRepositoryUrl>https://github.com/admknight/Morph</FileeRepositoryUrl>
+    <FileeRepositoryUrl>https://github.com/admknight/Halodrop</FileeRepositoryUrl>
     <RepositoryUrl>$(FileeRepositoryUrl)</RepositoryUrl>
     <UpstreamUrl>https://github.com/KnifeLemon/Filee</UpstreamUrl>
 

@@ -1,4 +1,4 @@
---- Yazi plugin to convert selected or hovered files with Morph offline converter
+--- Yazi plugin to convert selected or hovered files with Halodrop offline converter
 
 local get_targets = ya.sync(function()
 	local tab = cx.active
@@ -58,7 +58,7 @@ function M:entry()
 	local targets = get_targets()
 	if #targets == 0 then
 		ya.notify({
-			title = "Morph",
+			title = "Halodrop",
 			content = "No file selected or hovered",
 			level = "warn",
 			timeout = 3,
@@ -81,7 +81,7 @@ function M:entry()
 			{ on = "z", desc = "ZIP Archive" },
 			{ on = "x", desc = "Extract Archive" },
 			{ on = "c", desc = "Custom Format..." },
-			{ on = "d", desc = "Open in Morph Donut (GUI)" },
+			{ on = "d", desc = "Open in Halodrop Donut (GUI)" },
 		},
 	})
 
@@ -126,10 +126,10 @@ function M:entry()
 		end
 		format = val:gsub("^%.", ""):gsub("%s+", "")
 	elseif idx == 14 then
-		-- Open in Morph GUI Donut
+		-- Open in Halodrop GUI Donut
 		local home = os.getenv("HOME") or ""
 		local xdg_data = os.getenv("XDG_DATA_HOME")
-		local app_bin = (xdg_data and #xdg_data > 0 and xdg_data or (home .. "/.local/share")) .. "/morph/application/Morph"
+		local app_bin = (xdg_data and #xdg_data > 0 and xdg_data or (home .. "/.local/share")) .. "/halodrop/application/Halodrop"
 
 		local cmd = Command(app_bin)
 		cmd:arg("--convert")
@@ -139,16 +139,16 @@ function M:entry()
 		local child, err = cmd:spawn()
 		if not child then
 			ya.notify({
-				title = "Morph Error",
-				content = "Could not launch Morph Donut (is Morph installed in " .. app_bin .. "?)",
+				title = "Halodrop Error",
+				content = "Could not launch Halodrop Donut (is Halodrop installed in " .. app_bin .. "?)",
 				level = "error",
 				timeout = 5,
 			})
 			return
 		end
 		ya.notify({
-			title = "Morph",
-			content = ("Opened %d file(s) in Morph Donut"):format(#targets),
+			title = "Halodrop",
+			content = ("Opened %d file(s) in Halodrop Donut"):format(#targets),
 			timeout = 3,
 		})
 		return
@@ -156,12 +156,12 @@ function M:entry()
 
 	local label = (format or preset):upper()
 	ya.notify({
-		title = "Morph",
+		title = "Halodrop",
 		content = ("Converting %d file(s) to %s..."):format(#targets, label),
 		timeout = 3,
 	})
 
-	local cmd = Command("morph")
+	local cmd = Command("halodrop")
 	cmd:arg("convert")
 	for _, target in ipairs(targets) do
 		cmd:arg(target)
@@ -177,7 +177,7 @@ function M:entry()
 
 	if output and is_successful(output.status) then
 		local msg = ("Converted %d file(s) to %s"):format(#targets, label)
-		notify("Morph", msg, "info")
+		notify("Halodrop", msg, "info")
 	else
 		local err_msg = "Conversion failed"
 		if output and output.stderr and #output.stderr > 0 then
@@ -185,7 +185,7 @@ function M:entry()
 		elseif err then
 			err_msg = tostring(err)
 		end
-		notify("Morph Error", err_msg:sub(1, 120), "error")
+		notify("Halodrop Error", err_msg:sub(1, 120), "error")
 	end
 end
 

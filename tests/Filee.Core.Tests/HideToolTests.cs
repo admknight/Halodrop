@@ -303,7 +303,7 @@ public class HideToolTests
         var images = BuiltInData.CreateProfiles().Single(p => p.Id == "images");
         Assert.DoesNotContain("tool-hide", images.PresetIds);
         Assert.DoesNotContain("tool-hide", images.BackPresetIds!);
-        Assert.InRange(images.PresetIds.Count, 1, ToolbarProfile.MaxSlices);
+        Assert.InRange(images.PresetIds.Count, 1, ToolbarProfile.FileeMaxSlices);
     }
 
     private static (List<Preset> Presets, List<ToolbarProfile> Profiles, ToolbarProfile Images) Version51()
@@ -350,7 +350,7 @@ public class HideToolTests
     {
         // Front full: at the end of the back face (before "Compress into one archive") when that has room.
         var (presets, profiles, images) = Version51();
-        while (images.PresetIds.Count < ToolbarProfile.MaxSlices)
+        while (images.PresetIds.Count < ToolbarProfile.FileeMaxSlices)
             images.PresetIds.Add("to-gif");
         images.BackPresetIds!.Remove("grayscale");
         SettingsMigrations.ApplyToLibrary(51, presets, profiles);
@@ -359,7 +359,7 @@ public class HideToolTests
 
         // Both full: in the library only.
         (presets, profiles, images) = Version51();
-        while (images.PresetIds.Count < ToolbarProfile.MaxSlices)
+        while (images.PresetIds.Count < ToolbarProfile.FileeMaxSlices)
             images.PresetIds.Add("to-gif");
         var front = images.PresetIds.ToList();
         var back = images.BackPresetIds!.ToList();

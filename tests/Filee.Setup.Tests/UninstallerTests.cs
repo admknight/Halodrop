@@ -29,11 +29,11 @@ public class UninstallerTests
         Assert.Empty(later);
         // Filee cleaned up after itself first (Explorer menu, startup entry, downloaded engines), once and as the
         // signed-in user: those are that user's, and an elevated process can't reach the Filee they run.
-        Assert.Equal(["run-as-user Morph.exe --uninstall-cleanup"], bench.System.Calls.Where(c => c.Contains("--uninstall-cleanup", StringComparison.Ordinal)));
+        Assert.Equal(["run-as-user Halodrop.exe --uninstall-cleanup"], bench.System.Calls.Where(c => c.Contains("--uninstall-cleanup", StringComparison.Ordinal)));
         Assert.Contains("unregister-menu", bench.System.Calls);
         Assert.False(Directory.Exists(bench.InstallFolder));
-        Assert.False(File.Exists(Path.Combine(bench.Paths.CommonStartMenu, "Morph.lnk")));
-        Assert.False(File.Exists(Path.Combine(bench.Paths.CommonDesktop, "Morph.lnk")));
+        Assert.False(File.Exists(Path.Combine(bench.Paths.CommonStartMenu, "Halodrop.lnk")));
+        Assert.False(File.Exists(Path.Combine(bench.Paths.CommonDesktop, "Halodrop.lnk")));
         Assert.False(bench.Registry.KeyExists(Hive.LocalMachine, SetupNames.UninstallKey));
         var path = bench.Registry.Get(Hive.LocalMachine, SetupNames.MachineEnvironmentKey, "Path")!;
         Assert.Equal(@"%SystemRoot%\system32;C:\Tools", path.Text);
@@ -114,7 +114,7 @@ public class UninstallerTests
     {
         var (bench, record) = Installed();
         using var _ = bench;
-        bench.System.Running.Add(new RunningProgram(11, Path.Combine(bench.InstallFolder, "morph-cli.exe")));
+        bench.System.Running.Add(new RunningProgram(11, Path.Combine(bench.InstallFolder, "halodrop-cli.exe")));
         bench.System.Running.Add(new RunningProgram(12, Path.Combine(bench.InstallFolder, "uninstall.exe")));
         new Uninstaller(bench.Context).Run(bench.InstallFolder, record, deleteSettings: false, bench.Temp.Sub("trash"));
         Assert.Contains("kill 11", bench.System.Calls);
@@ -126,14 +126,14 @@ public class UninstallerTests
     {
         var (bench, record) = Installed();
         using var _ = bench;
-        bench.System.Running.Add(new RunningProgram(11, Path.Combine(bench.InstallFolder, "Morph.exe")));
+        bench.System.Running.Add(new RunningProgram(11, Path.Combine(bench.InstallFolder, "Halodrop.exe")));
         // What Filee.exe does when the running Filee stays: exit code 1, before it removes anything (#1079).
         bench.System.Run = (_, _) => bench.System.Running.Count > 0 ? 1 : 0;
 
         var uninstaller = new Uninstaller(bench.Context);
         uninstaller.Run(bench.InstallFolder, record, deleteSettings: false, bench.Temp.Sub("trash"));
 
-        Assert.Equal(["run-as-user Morph.exe --uninstall-cleanup", "kill 11", "run-as-user Morph.exe --uninstall-cleanup"],
+        Assert.Equal(["run-as-user Halodrop.exe --uninstall-cleanup", "kill 11", "run-as-user Halodrop.exe --uninstall-cleanup"],
             bench.System.Calls.Where(c => c.Contains("--uninstall-cleanup", StringComparison.Ordinal) || c.StartsWith("kill", StringComparison.Ordinal)));
         Assert.False(uninstaller.CleanupFailed);
     }
@@ -144,14 +144,14 @@ public class UninstallerTests
         var (bench, record) = Installed();
         using var _ = bench;
         var command = $"\"{Path.Combine(bench.InstallFolder, "Filee.exe")}\" --background";
-        bench.Registry.SetString(Hive.CurrentUser, SetupNames.RunKey, "Morph", command.ToUpperInvariant());
+        bench.Registry.SetString(Hive.CurrentUser, SetupNames.RunKey, "Halodrop", command.ToUpperInvariant());
         bench.Registry.SetString(Hive.CurrentUser, SetupNames.RunKey, "Other", command);
         bench.System.Run = (_, _) => -1;
 
         var uninstaller = new Uninstaller(bench.Context);
         uninstaller.Run(bench.InstallFolder, record, deleteSettings: false, bench.Temp.Sub("trash"));
 
-        Assert.Null(bench.Registry.Get(Hive.CurrentUser, SetupNames.RunKey, "Morph"));
+        Assert.Null(bench.Registry.Get(Hive.CurrentUser, SetupNames.RunKey, "Halodrop"));
         Assert.Equal(command, bench.Registry.Get(Hive.CurrentUser, SetupNames.RunKey, "Other")?.Text);
         Assert.True(uninstaller.CleanupFailed);
         Assert.False(Directory.Exists(bench.InstallFolder));
@@ -163,12 +163,12 @@ public class UninstallerTests
         var (bench, record) = Installed();
         using var _ = bench;
         var portable = $"\"{Path.Combine(bench.InstallFolder + "-portable", "Filee.exe")}\" --background";
-        bench.Registry.SetString(Hive.CurrentUser, SetupNames.RunKey, "Morph", portable);
+        bench.Registry.SetString(Hive.CurrentUser, SetupNames.RunKey, "Halodrop", portable);
         bench.System.Run = (_, _) => 1;
 
         new Uninstaller(bench.Context).Run(bench.InstallFolder, record, deleteSettings: false, bench.Temp.Sub("trash"));
 
-        Assert.Equal(portable, bench.Registry.Get(Hive.CurrentUser, SetupNames.RunKey, "Morph")?.Text);
+        Assert.Equal(portable, bench.Registry.Get(Hive.CurrentUser, SetupNames.RunKey, "Halodrop")?.Text);
     }
 
     [Fact]
@@ -176,7 +176,7 @@ public class UninstallerTests
     {
         var (bench, record) = Installed();
         using var _ = bench;
-        bench.System.Running.Add(new RunningProgram(11, Path.Combine(bench.InstallFolder, "Morph.exe")));
+        bench.System.Running.Add(new RunningProgram(11, Path.Combine(bench.InstallFolder, "Halodrop.exe")));
         bench.System.CantBeEnded = true;
         var files = Directory.GetFiles(bench.InstallFolder, "*", SearchOption.AllDirectories);
 
@@ -200,7 +200,7 @@ public class UninstallerTests
             new Uninstaller(bench.Context).Run(bench.InstallFolder, record, deleteSettings: false, bench.Temp.Sub("trash")));
 
         Assert.Equal("installer.uninstall.still_running", error.TextKey);
-        Assert.True(File.Exists(Path.Combine(bench.InstallFolder, "Morph.exe")));
+        Assert.True(File.Exists(Path.Combine(bench.InstallFolder, "Halodrop.exe")));
         Assert.True(bench.Registry.KeyExists(Hive.LocalMachine, SetupNames.UninstallKey));
     }
 
@@ -224,7 +224,7 @@ public class UninstallerTests
         using var _ = bench;
         // Explorer showing its icon, or Apps in Settings: mapped as an image, which refuses opening it for writing as a
         // running program does. Nothing runs it, and it can be moved away.
-        var exe = Path.Combine(bench.InstallFolder, "Morph.exe");
+        var exe = Path.Combine(bench.InstallFolder, "Halodrop.exe");
         File.Copy(Path.Combine(Environment.SystemDirectory, "msimg32.dll"), exe, overwrite: true);
         var library = NativeLibrary.Load(exe);
         try
@@ -282,7 +282,7 @@ public class UninstallerTests
         var released = false;
 
         // Locked with no sharing at all: it can't be deleted or moved, as when security software refuses (#1079).
-        using (new FileStream(Path.Combine(bench.InstallFolder, "Morph.dll"), FileMode.Open, FileAccess.Read, FileShare.None))
+        using (new FileStream(Path.Combine(bench.InstallFolder, "Halodrop.dll"), FileMode.Open, FileAccess.Read, FileShare.None))
         {
             var error = Assert.Throws<SetupException>(() => new Uninstaller(bench.Context).Run(bench.InstallFolder, record,
                 deleteSettings: false, bench.Temp.Sub("trash"), releaseUninstaller: () => released = true));
@@ -299,13 +299,13 @@ public class UninstallerTests
 
         // The first try took Filee.exe, and ran the cleanup: not having it now is no failure to warn about. A startup
         // entry that still points here goes all the same.
-        Assert.False(File.Exists(Path.Combine(bench.InstallFolder, "Morph.exe")));
+        Assert.False(File.Exists(Path.Combine(bench.InstallFolder, "Halodrop.exe")));
         var command = $"\"{Path.Combine(bench.InstallFolder, "Filee.exe")}\" --background";
-        bench.Registry.SetString(Hive.CurrentUser, SetupNames.RunKey, "Morph", command);
+        bench.Registry.SetString(Hive.CurrentUser, SetupNames.RunKey, "Halodrop", command);
         var second = new Uninstaller(bench.Context);
         Assert.Empty(second.Run(bench.InstallFolder, InstallRecord.Read(bench.InstallFolder)!, deleteSettings: false, bench.Temp.Sub("trash")));
         Assert.False(second.CleanupFailed);
-        Assert.Null(bench.Registry.Get(Hive.CurrentUser, SetupNames.RunKey, "Morph"));
+        Assert.Null(bench.Registry.Get(Hive.CurrentUser, SetupNames.RunKey, "Halodrop"));
         Assert.Single(bench.System.Calls, c => c.Contains("--uninstall-cleanup", StringComparison.Ordinal));
         Assert.False(bench.Registry.KeyExists(Hive.LocalMachine, SetupNames.UninstallKey));
         Assert.False(Directory.Exists(bench.InstallFolder));
@@ -333,7 +333,7 @@ public class UninstallerTests
     }
 
     [Theory]
-    [InlineData("Morph.dll")]
+    [InlineData("Halodrop.dll")]
     [InlineData("uninstall.json")]
     public void A_file_a_scan_holds_for_a_moment_does_not_fail_the_uninstall(string file)
     {
@@ -355,7 +355,7 @@ public class UninstallerTests
     {
         var (bench, record) = Installed();
         using var _ = bench;
-        var names = new[] { "Morph.dll", "morph-cli.exe", "MorphExplorerMenu.dll", "MorphExplorerMenu.msix", @"cli\morph.cmd", @"engines\rhwp\rhwp.exe" };
+        var names = new[] { "Halodrop.dll", "halodrop-cli.exe", "MorphExplorerMenu.dll", "MorphExplorerMenu.msix", @"cli\halodrop.cmd", @"engines\rhwp\rhwp.exe" };
         var locks = names.Select(f => new FileStream(Path.Combine(bench.InstallFolder, f), FileMode.Open, FileAccess.Read, FileShare.None)).ToList();
         try
         {
@@ -460,7 +460,7 @@ public class UninstallerTests
     public void Install_record_round_trip_and_bad_records()
     {
         using var temp = new TempFolder();
-        var record = new InstallRecord("2.0.0", InstallScope.User, ["Morph.exe", @"cli\morph.cmd"]);
+        var record = new InstallRecord("2.0.0", InstallScope.User, ["Halodrop.exe", @"cli\halodrop.cmd"]);
         File.WriteAllBytes(InstallRecord.PathIn(temp.Path), record.ToJson());
         var read = InstallRecord.Read(temp.Path)!;
         Assert.Equal(record.Version, read.Version);
@@ -492,12 +492,12 @@ public class PreviousInstallTests
     public void Inno_setups_app_path_is_enough_and_the_scope_is_kept_apart()
     {
         using var temp = new TempFolder();
-        temp.Write(@"Morph\Morph.exe");
+        temp.Write(@"Morph\Halodrop.exe");
         temp.Write(@"Morph\unins000.exe");
         var registry = new MemoryRegistry();
-        registry.SetString(Hive.LocalMachine, SetupNames.UninstallKey, "Inno Setup: App Path", temp.Sub("Morph"));
+        registry.SetString(Hive.LocalMachine, SetupNames.UninstallKey, "Inno Setup: App Path", temp.Sub("Halodrop"));
         var previous = PreviousInstall.Find(registry, InstallScope.Machine)!;
-        Assert.Equal(temp.Sub("Morph"), previous.Folder);
+        Assert.Equal(temp.Sub("Halodrop"), previous.Folder);
         Assert.True(previous.ByInno);
         Assert.Null(previous.RecordedTasks);
         Assert.Contains("unins000.exe", previous.OwnedFiles());
@@ -509,7 +509,7 @@ public class PreviousInstallTests
     {
         using var temp = new TempFolder();
         var paths = SetupPaths.Sandbox(temp.Sub("pc"));
-        var folder = Path.GetDirectoryName(temp.Write(@"pc\Program Files\Morph\Morph.exe"))!;
+        var folder = Path.GetDirectoryName(temp.Write(@"pc\Program Files\Morph\Halodrop.exe"))!;
         var registry = new MemoryRegistry();
         registry.SetString(Hive.LocalMachine, SetupNames.UninstallKey, "InstallLocation", folder);
         // 1.x recorded the desktop icon and PATH, but the user deleted the shortcut since.
@@ -562,11 +562,11 @@ public class PathVariableTests
         using var temp = new TempFolder();
         var file = temp.Sub("registry.json");
         var registry = new MemoryRegistry(file);
-        registry.SetString(Hive.LocalMachine, SetupNames.UninstallKey, "DisplayName", "Morph");
+        registry.SetString(Hive.LocalMachine, SetupNames.UninstallKey, "DisplayName", "Halodrop");
         registry.SetNumber(Hive.LocalMachine, SetupNames.UninstallKey, "NoModify", 1);
         registry.SetString(Hive.LocalMachine, SetupNames.MachineEnvironmentKey, "Path", "%SystemRoot%", expandable: true);
         var again = new MemoryRegistry(file);
-        Assert.Equal("Morph", again.Get(Hive.LocalMachine, SetupNames.UninstallKey, "DisplayName")?.Text);
+        Assert.Equal("Halodrop", again.Get(Hive.LocalMachine, SetupNames.UninstallKey, "DisplayName")?.Text);
         Assert.Equal(1, again.Get(Hive.LocalMachine, SetupNames.UninstallKey, "NoModify")?.Value);
         Assert.True(again.Get(Hive.LocalMachine, SetupNames.MachineEnvironmentKey, "Path")!.Expandable);
         Assert.True(again.KeyExists(Hive.LocalMachine, @"Software\Microsoft\Windows\CurrentVersion\Uninstall"));

@@ -8,16 +8,16 @@ namespace Filee.Platform.Tests;
 public sealed class PortableIntegrationTests
 {
     [Theory]
-    [InlineData("\"C:\\Portable Morph\\Morph.exe\" --background", true)]
-    [InlineData("\"C:\\Other\\Morph.exe\" --background", false)]
-    [InlineData("\"C:\\Portable Morph\\Morph.exe.old\" --background", false)]
-    [InlineData("\"C:\\Other\\launcher.exe\" \"C:\\Portable Morph\\Morph.exe\"", false)]
-    [InlineData("Morph.exe --background", false)]
-    [InlineData("\"C:\\Portable Morph\\Morph.exe", false)]
+    [InlineData("\"C:\\Portable Morph\\Halodrop.exe\" --background", true)]
+    [InlineData("\"C:\\Other\\Halodrop.exe\" --background", false)]
+    [InlineData("\"C:\\Portable Morph\\Halodrop.exe.old\" --background", false)]
+    [InlineData("\"C:\\Other\\launcher.exe\" \"C:\\Portable Morph\\Halodrop.exe\"", false)]
+    [InlineData("Halodrop.exe --background", false)]
+    [InlineData("\"C:\\Portable Morph\\Halodrop.exe", false)]
     public void Ownership_requires_the_exact_executable_as_the_command_target(string command, bool expected)
     {
         Assert.SkipUnless(OperatingSystem.IsWindows(), "Windows paths.");
-        Assert.Equal(expected, PortableIntegration.CommandTargets(command, @"C:\Portable Morph\Morph.exe"));
+        Assert.Equal(expected, PortableIntegration.CommandTargets(command, @"C:\Portable Morph\Halodrop.exe"));
     }
 
     [Theory]
@@ -34,16 +34,16 @@ public sealed class PortableIntegrationTests
             using var root = Registry.CurrentUser.CreateSubKey(path);
             using var run = root.CreateSubKey(PortableIntegration.RunKey);
             using var command = root.CreateSubKey(PortableIntegration.VerbKey + @"\command");
-            var executable = @"C:\Portable Morph\Morph.exe";
-            var target = ownedRun ? executable : @"C:\Installed\Morph.exe";
-            var verbTarget = ownedVerb ? executable : @"C:\Installed\Morph.exe";
-            run.SetValue("Morph", $"\"{target}\" --background");
+            var executable = @"C:\Portable Morph\Halodrop.exe";
+            var target = ownedRun ? executable : @"C:\Installed\Halodrop.exe";
+            var verbTarget = ownedVerb ? executable : @"C:\Installed\Halodrop.exe";
+            run.SetValue("Halodrop", $"\"{target}\" --background");
             run.SetValue("OtherApp", "keep");
             command.SetValue(null, $"\"{verbTarget}\" --convert \"%1\"");
             command.Close();
             Assert.Equal(ownedRun || ownedVerb, PortableIntegration.HasRegistryEntries(root, executable));
             PortableIntegration.RemoveRegistryEntries(root, executable);
-            Assert.Equal(ownedRun ? null : $"\"{target}\" --background", run.GetValue("Morph"));
+            Assert.Equal(ownedRun ? null : $"\"{target}\" --background", run.GetValue("Halodrop"));
             Assert.Equal("keep", run.GetValue("OtherApp"));
             using var remaining = root.OpenSubKey(PortableIntegration.VerbKey);
             Assert.Equal(!ownedVerb, remaining is not null);

@@ -58,6 +58,12 @@ public sealed class ThemeSettings
     public bool? ReduceMotion { get; set; }
 
     /// <summary>
+    /// Halodrop change: the donut opens with a quick bloom (the whole ring grows out with a slight turn, an idea from
+    /// OrbitDrop) instead of Filee's wave of slices. Off as before it existed; a missing value reads as off.
+    /// </summary>
+    public bool BloomAnimation { get; set; }
+
+    /// <summary>
     /// Draws the UI in the system's own font (Segoe UI on Windows, San Francisco on macOS, fontconfig's default on
     /// Linux) instead of the embedded Noto fonts, which still draw what it lacks. Off as before it existed; a missing
     /// value reads as off, so it needs no schema step.
@@ -98,6 +104,13 @@ public sealed class DonutSettings
 
     /// <summary>The lowest <see cref="Opacity"/> the Theme and Donut toolbar pages offer.</summary>
     public const double MinOpacity = 0.1;
+
+    /// <summary>
+    /// Halodrop change: a donut with more than Filee's 12 slices on a face grows a little for each one (6%), as
+    /// OrbitDrop's wheel does, so its slices stay as wide as on a 12-slice donut; never past 320 px.
+    /// </summary>
+    public static double GrowForSlices(double radius, int slices) =>
+        slices <= 12 ? radius : Math.Max(radius, Math.Min(radius * (1 + 0.06 * (slices - 12)), 320));
 
     /// <summary>
     /// The small line under a slice's name saying what it makes ("SVG" under Trace, the file's own format under a

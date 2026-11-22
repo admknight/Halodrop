@@ -1,8 +1,8 @@
 {
     "KPlugin": {
-        "Id": "morph-donut",
-        "Name": "Morph donut at the cursor",
-        "Description": "Moves Morph's donut window to the cursor, which Wayland apps cannot do themselves.",
+        "Id": "halodrop-donut",
+        "Name": "Halodrop donut at the cursor",
+        "Description": "Moves Halodrop's donut window to the cursor, which Wayland apps cannot do themselves.",
         "License": "MIT",
         "Version": "1.2"
     },

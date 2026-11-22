@@ -35,7 +35,7 @@ public sealed class TrayService(UserDataStore store, ILocalizer loc, IPlatformSe
         _tray = new TrayIcon
         {
             // Set before the icon is attached: on macOS Avalonia passes the tooltip to native code, which can't take null.
-            ToolTipText = "Morph",
+            ToolTipText = "Halodrop",
             Menu = new NativeMenu { Items = { _open, _pause, new NativeMenuItemSeparator(), _quit } },
             IsVisible = platform.SupportsDockVisibility ? store.Settings.ShowMenuBarIcon : true,
         };
@@ -92,8 +92,8 @@ public sealed class TrayService(UserDataStore store, ILocalizer loc, IPlatformSe
             return;
         _templateIcon = template;
         using var stream = AssetLoader.Open(new Uri(template
-            ? "avares://Morph/Assets/Icons/morph-menubar.png"
-            : "avares://Morph/Assets/Icons/morph.ico"));
+            ? "avares://Halodrop/Assets/Icons/morph-menubar.png"
+            : "avares://Halodrop/Assets/Icons/morph.ico"));
         // Icon first: Avalonia marks the image already in the menu bar as a template, not the next one.
         _tray.Icon = new WindowIcon(stream);
         MacOSProperties.SetIsTemplateIcon(_tray, template);

@@ -1,6 +1,6 @@
 # Third-party notices
 
-Morph is MIT-licensed. It uses and redistributes the following third-party software.
+Halodrop is MIT-licensed. It uses and redistributes the following third-party software.
 Each component remains under its own license.
 
 ## Libraries (NuGet)
@@ -46,10 +46,10 @@ Each component remains under its own license.
 | cu2qu (fontTools): the cubic-to-quadratic approach followed by `Filee.Engines/Fonts/Cff/CubicToQuadratic.cs` | Apache-2.0, Copyright 2016 Google Inc. | https://github.com/fonttools/fonttools |
 
 libuiohook (the native input hook inside SharpHook) is the fork https://github.com/TolikPylypchuk/libuiohook, licensed
-under the GNU LGPL-3.0 (`COPYING.LESSER.md` in its repository). Morph loads SharpHook's unmodified build of it
+under the GNU LGPL-3.0 (`COPYING.LESSER.md` in its repository). Halodrop loads SharpHook's unmodified build of it
 dynamically; you may replace those libraries with your own build of libuiohook.
 
-Used by the tests only (not redistributed): DocumentFormat.OpenXml (Open XML SDK, MIT, https://github.com/dotnet/Open-XML-SDK) validates the DOCX files Morph writes.
+Used by the tests only (not redistributed): DocumentFormat.OpenXml (Open XML SDK, MIT, https://github.com/dotnet/Open-XML-SDK) validates the DOCX files Halodrop writes.
 
 ## Engines
 
@@ -59,7 +59,7 @@ Bundled with the installer:
 |---|---|---|
 | rhwp | MIT | https://github.com/edwardkim/rhwp |
 | 7-Zip (console: `7z.exe`, `7z.dll`) | GNU LGPL-2.1-or-later; parts of `7z.dll`: LGPL with the unRAR license restriction, BSD-3-Clause, BSD-2-Clause | https://www.7-zip.org |
-| Microsoft Visual C++ Redistributable (Windows: next to `Morph.exe` and `rhwp.exe`, conda-forge `vc14_runtime`) | Microsoft Visual C++ Redistributable license | https://github.com/conda-forge/vc-feedstock |
+| Microsoft Visual C++ Redistributable (Windows: next to `Halodrop.exe` and `rhwp.exe`, conda-forge `vc14_runtime`) | Microsoft Visual C++ Redistributable license | https://github.com/conda-forge/vc-feedstock |
 
 The Linux packages contain an rhwp built by Filee's CI from the unmodified source of the same release (tag `v0.8.7`,
 commit `1a76570e833917d15817415a53c09ad61ab3203f`, `cargo build --release --locked --bin rhwp` on Ubuntu 22.04), so it
@@ -73,7 +73,7 @@ Filee's CI from the unmodified source the package was built from (commit `405b17
 
 7-Zip is Copyright (C) 1999-2026 Igor Pavlov; its `License.txt` is installed next to it (`engines/7zip`). The RAR
 decompression code in `7z.dll` is under the unRAR license restriction: it may be used to unpack RAR archives, but not
-to develop a RAR (WinRAR) compatible archiver or to re-create the RAR compression algorithm. Morph only reads RAR
+to develop a RAR (WinRAR) compatible archiver or to re-create the RAR compression algorithm. Halodrop only reads RAR
 files. Source code: https://github.com/ip7z/7zip.
 
 Downloaded from their official release pages when the user chooses to install them
@@ -119,7 +119,7 @@ Windows headers, without a C runtime. Pieces of these projects that can end up i
 
 ## Installer
 
-`Morph-<version>-win-Setup.exe` is Morph's own installer (`src/Filee.Setup`, from Filee, MIT like the app). It contains the
+`Halodrop-<version>-win-Setup.exe` is Halodrop's own installer (`src/Filee.Setup`, from Filee, MIT like the app). It contains the
 .NET runtime, Avalonia, SkiaSharp, HarfBuzzSharp, CommunityToolkit.Mvvm and SharpCompress (LZMA) listed in this file,
 the x86 branch filter of the LZMA SDK (public domain, Igor Pavlov, https://www.7-zip.org/sdk.html), and the published
 app as its payload. Filee 1.x's installer was built with Inno Setup, which is no longer used.
@@ -144,5 +144,5 @@ Monokai theme. Their source links, colour adjustments and copyright/license noti
 
 ## Built on Filee
 
-Morph is built on [Filee](https://github.com/KnifeLemon/Filee) by Myeonggu Kim (KnifeLemon) and the Filee
+Halodrop (formerly Morph) is built on [Filee](https://github.com/KnifeLemon/Filee) by Myeonggu Kim (KnifeLemon) and the Filee
 contributors, MIT License, Copyright (c) 2026 Myeonggu Kim (KnifeLemon) and Filee contributors.

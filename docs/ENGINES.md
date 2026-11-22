@@ -1474,7 +1474,7 @@ What each format keeps:
 Lost on the way (no place in the target): **STL** keeps only the triangles (no colours, UVs, normals or materials);
 **PLY** has no materials (their colours become vertex colours, textures are dropped); **OBJ** has no standard vertex
 colours (the common `v x y z r g b` extension is written and read; alpha is lost); **3MF** output has no normals, UVs or
-textures; and every format drops what Filee's model has no place for: animations, skins, morph targets, cameras,
+textures; and every format drops what Filee's model has no place for: animations, skins, halodrop targets, cameras,
 lights, metallic / roughness / normal / emissive maps, and lines and points. Draco- and meshopt-compressed glTF fail with
 a clear message, as do damaged files ("cut short", an index that does not exist, no triangles).
 

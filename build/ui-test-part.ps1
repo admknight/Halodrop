@@ -35,7 +35,9 @@ foreach ($file in Get-ChildItem $TestsDir -Filter *.cs -File) {
 if ($sizes.Count -lt $Parts) { throw "Only $($sizes.Count) test classes found in $TestsDir" }
 
 $loads = [long[]]::new($Parts - 1)
-$members = @(1..($Parts - 1) | ForEach-Object { [System.Collections.Generic.List[string]]::new() })
+# A for loop, not a pipeline: a pipeline would unroll each empty list into nothing.
+$members = [System.Collections.Generic.List[string][]]::new($Parts - 1)
+for ($i = 0; $i -lt $members.Length; $i++) { $members[$i] = [System.Collections.Generic.List[string]]::new() }
 # The last part gets a share too (by leaving it what's left): weigh it as one more bin.
 $lastLoad = 0L
 foreach ($entry in $sizes.GetEnumerator() | Sort-Object { -$_.Value }, Key) {

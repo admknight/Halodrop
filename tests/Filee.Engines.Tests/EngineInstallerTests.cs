@@ -28,7 +28,7 @@ public sealed class EngineInstallerTests : IDisposable
     public void A_separate_data_folder_keeps_its_own_engines()
     {
         Assert.Equal(Path.Combine(_root, "engines"), EngineEnvironment.DefaultDownloadRoot(_root));
-        Assert.Equal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Morph", "engines"),
+        Assert.Equal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Halodrop", "engines"),
             EngineEnvironment.DefaultDownloadRoot(null));
     }
 
@@ -232,7 +232,7 @@ public sealed class EngineInstallerTests : IDisposable
         {
             var busy = await Assert.ThrowsAsync<EngineBusyException>(() => updating.InstallAsync(package, null, TestContext.Current.CancellationToken));
             Assert.Equal("tool", busy.PackageId);
-            Assert.Contains("another Morph", busy.Message);
+            Assert.Contains("another Halodrop", busy.Message);
             Assert.Throws<EngineBusyException>(() => installer.Uninstall(package));
         }
 
@@ -996,7 +996,7 @@ public sealed class EngineInstallerTests : IDisposable
         var server = new FakeServer(new() { [toolComponent.Url] = tool, [filterComponent.Url] = filter });
         var installer = Installer(server, toolComponent, filterComponent);
         var package = new EnginePackage("tool", ["tool", "filter"], 1, ["tool"]);
-        var folder = Path.Combine(_files, "Morph engines");
+        var folder = Path.Combine(_files, "Halodrop engines");
         var reports = new List<EngineInstallProgress>();
 
         var saved = await installer.SaveFilesAsync(package, folder, new SyncProgress(reports.Add), TestContext.Current.CancellationToken);

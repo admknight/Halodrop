@@ -77,7 +77,7 @@ public class ClipboardShortcutTests
     [Fact]
     public async Task A_partly_failed_clipboard_job_copies_its_outputs_and_logs_the_failed_count()
     {
-        var dir = Directory.CreateTempSubdirectory("morph-clipboard-").FullName;
+        var dir = Directory.CreateTempSubdirectory("halodrop-clipboard-").FullName;
         var output = Path.Combine(dir, "shot.jpg");
         File.WriteAllBytes(output, [1]);
         await using var queue = new JobQueue(new ConverterCatalog([]));

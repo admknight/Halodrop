@@ -93,7 +93,7 @@
         <DockPanel IsVisible="{Binding Guide.IsPractice}">
           <Border DockPanel.Dock="Left" Width="192" Height="120" CornerRadius="{DynamicResource SoftRadius}" ClipToBounds="True"
                   Margin="0,0,18,0" VerticalAlignment="Top">
-            <Image Source="avares://Morph/Assets/Guide/practice.png" Stretch="UniformToFill" />
+            <Image Source="avares://Halodrop/Assets/Guide/practice.png" Stretch="UniformToFill" />
           </Border>
           <StackPanel Spacing="10">
             <TextBlock Classes="h2" FontSize="22" TextWrapping="Wrap" Text="{DynamicResource guide.title_practice}" />

@@ -911,7 +911,7 @@ public static class BuiltInData
             Extensions = ExtensionsOf(FormatCategory.Image),
             PresetIds = ["to-png", "to-jpg", "to-webp", "to-pdf", "trace-svg", "trace-line-art", "to-tiff", "to-bmp", "to-ico", "half-size",
                 "tool-image-edit", "tool-hide"],
-            // Full (ToolbarProfile.MaxSlices): "Extract Live Photo video" stays in the library, on no donut, and "GIF"
+            // Full (ToolbarProfile.FileeMaxSlices): "Extract Live Photo video" stays in the library, on no donut, and "GIF"
             // since "Merge images" took its slot (settings schema 53): a still picture as GIF is the least wanted here.
             BackPresetIds = ["tool-crop", "rotate", "flip", "remove-background", "trim-transparent", "grayscale", "to-avif", "merge-images",
                 "merge-pdf", "compress-image", "remove-metadata", "zip-all"],

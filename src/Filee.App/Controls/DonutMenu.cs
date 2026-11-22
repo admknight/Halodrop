@@ -140,6 +140,10 @@ public sealed partial class DonutMenu : Control
     private const double PopOut = 7;
     private const double OpenDuration = 0.30;
     private const double OpenStagger = 0.012;
+    // Halodrop change: OrbitDrop's bloom: 170 ms out with a slight overshoot and a 14° turn, 90 ms away.
+    private const double BloomOpenDuration = 0.17;
+    private const double BloomCloseDuration = 0.09;
+    private const double BloomTurn = -14 * Math.PI / 180;
     private double[] _closeFrom = [];
     private const double DragStartDistance = 5;
 
@@ -900,11 +904,13 @@ public sealed partial class DonutMenu : Control
                 for (var i = 0; i < _open.Length; i++)
                 {
                     // Keep the wave brief even with many slices; a late frame must not stretch its duration.
-                    var delay = _closing ? 0 : Math.Min(i * OpenStagger, 0.072);
-                    var t = Math.Clamp((_openClock - delay) / (_closing ? 0.14 : OpenDuration), 0, 1);
+                    // Halodrop change: a bloom opens every slice at once, faster, and closes faster too.
+                    var delay = _closing || Motion.Bloom ? 0 : Math.Min(i * OpenStagger, 0.072);
+                    var duration = Motion.Bloom ? (_closing ? BloomCloseDuration : BloomOpenDuration) : (_closing ? 0.14 : OpenDuration);
+                    var t = Math.Clamp((_openClock - delay) / duration, 0, 1);
                     _open[i] = _closing
                         ? (i < _closeFrom.Length ? _closeFrom[i] : 1) * (1 - EaseInCubic(t))
-                        : EaseOutBack(t);
+                        : Motion.Bloom ? EaseOutBackSoft(t) : EaseOutBack(t);
                     done &= t >= 1;
                 }
                 if (done)
@@ -939,6 +945,13 @@ public sealed partial class DonutMenu : Control
     }
 
     private static double EaseInCubic(double t) => t * t * t;
+
+    // Halodrop change: the bloom's ease (WPF's BackEase, amplitude 0.3, ease-out): a smaller overshoot than the wave's.
+    private static double EaseOutBackSoft(double t)
+    {
+        var u = 1 - t;
+        return 1 - (u * u * u - 0.3 * u * Math.Sin(u * Math.PI));
+    }
 
     // ───────────────────────── Rendering ─────────────────────────
 
@@ -1016,9 +1029,10 @@ public sealed partial class DonutMenu : Control
                 continue;
             var offset = DonutGeometry.PointAt(new Point(0, 0), hover * PopOut, mid);
 
-            // Open animation: scale up from the centre with a small twist.
-            var scale = 0.78 + 0.22 * open;
-            var rotate = (1 - Math.Min(open, 1)) * -0.12;
+            // Open animation: scale up from the centre with a small twist. Halodrop change: the bloom grows from 40%
+            // with a wider turn, and on closing swells a little as it fades.
+            var scale = !Motion.Bloom ? 0.78 + 0.22 * open : _closing ? 1 + 0.04 * (1 - open) : 0.4 + 0.6 * open;
+            var rotate = (1 - Math.Min(open, 1)) * (Motion.Bloom && !_closing ? BloomTurn : -0.12);
             var transform =
                 Matrix.CreateTranslation(-center.X, -center.Y) *
                 Matrix.CreateRotation(rotate) *

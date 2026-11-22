@@ -28,7 +28,7 @@ public sealed class LinuxDesktopIntegrationTests : IDisposable
             .Single(action => (string?)action.Element("unique-id") == "other").Element("command")!.Value);
         Assert.Equal("'/opt/new/Morph.App' --convert %F", document.Root.Elements("action")
             .Single(action => (string?)action.Element("unique-id") == LinuxDesktopIntegration.ThunarActionId).Element("command")!.Value);
-        Assert.Contains("exec '/opt/new/Morph.App' --convert \"$@\"", File.ReadAllText(Path.Combine(data, "nautilus", "scripts", "Morph")));
+        Assert.Contains("exec '/opt/new/Morph.App' --convert \"$@\"", File.ReadAllText(Path.Combine(data, "nautilus", "scripts", "Halodrop")));
 
         integration.SetContextMenu(false, "", "");
 

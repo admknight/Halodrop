@@ -54,10 +54,10 @@ public class WelcomeGuideTests
             Assert.False(guide.PracticeFailed);
             guide.Finished(JobState.Failed, null);
             Assert.True(guide.PracticeFailed);
-            var output = Path.Combine(directory, "Morph-practice.jpg");
+            var output = Path.Combine(directory, "Halodrop-practice.jpg");
             guide.Finished(JobState.Completed, output);
             Assert.True(guide.IsDone);
-            Assert.Contains("Morph-practice.jpg", guide.DoneText);
+            Assert.Contains("Halodrop-practice.jpg", guide.DoneText);
 
             guide.NextCommand.Execute(null);
             Assert.True(guide.IsEveryday);

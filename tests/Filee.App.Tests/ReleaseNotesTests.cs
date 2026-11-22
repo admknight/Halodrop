@@ -44,7 +44,7 @@ public class ReleaseNotesTests
             en: Polish translation
             pl: Język polski
             pt-BR: Português do Brasil
-            xx: from a newer Morph
+            xx: from a newer Halodrop
             -->
             """);
 

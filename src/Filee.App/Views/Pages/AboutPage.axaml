@@ -36,10 +36,10 @@
         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="18">
           <!-- Centered next to the text. Side by side, this card is stretched to the height of the Updates card, so a
                top-aligned logo would sit above the middle of the text. -->
-          <Image Source="avares://Morph/Assets/Icons/morph.png" Width="72" Height="72" VerticalAlignment="Center" />
+          <Image Source="avares://Halodrop/Assets/Icons/morph.png" Width="72" Height="72" VerticalAlignment="Center" />
           <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
             <StackPanel Orientation="Horizontal" Spacing="10">
-              <TextBlock Text="Morph" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
+              <TextBlock Text="Halodrop" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
               <!-- The version as a small pill, tinted with the accent (it follows the accent the user picked). The text colour
                    is set in the code-behind: the accent itself on dark, the deeper accent on light. -->
               <Border Classes="badge" Padding="10,3" Background="{DynamicResource AccentSoftBrush}" VerticalAlignment="Center"

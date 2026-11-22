@@ -41,7 +41,7 @@ identifier on the left of `ServicesMenu.strings`; translate its value. The packa
 and validates their strings files with `plutil`. These system texts follow macOS language preferences.
 Keep technical identifiers such as the KWin `Filee Donut` window title stable.
 
-Morph has one README, in English (Filee's translated READMEs describe Filee and were left out). Earlier: add `docs/readme/README.<code>.md`
+Halodrop has one README, in English (Filee's translated READMEs describe Filee and were left out). Earlier: add `docs/readme/README.<code>.md`
 with every section `README.md` has (links to other files in the repository start with `../../`), link it from the
 language line at the top of the other READMEs and add the language to
 their list of UI languages. The maintainers add the language to the website (filee.sh).

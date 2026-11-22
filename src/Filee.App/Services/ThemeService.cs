@@ -195,6 +195,7 @@ public sealed class ThemeService(IPlatformServices platform)
         }
 
         Motion.Configure(theme.ReduceMotion, () => _platform.PrefersReducedMotion);
+        Motion.Bloom = theme.BloomAnimation; // Halodrop change
     }
 
     /// <summary>The UI font chain for <paramref name="language"/> (see <see cref="SoftPalette.FontFamilies"/>).</summary>

@@ -168,7 +168,7 @@ internal static class Xcf
                 throw Damaged;
             // Versions from 100 up were CinePaint's, a different format.
             if (_version >= 100)
-                throw new InvalidDataException("This XCF file was made by CinePaint, not GIMP; Morph can't read it.");
+                throw new InvalidDataException("This XCF file was made by CinePaint, not GIMP; Halodrop can't read it.");
 
             var width = U32();
             var height = U32();

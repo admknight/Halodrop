@@ -47,7 +47,7 @@ public sealed class FileeConnectTests : IDisposable
     [Fact]
     public async Task Save_file_persists_content_and_retrieves_item()
     {
-        var content = "Hello Morph Connect!";
+        var content = "Hello Halodrop Connect!";
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
 
         var item = await _manager.SaveStreamAsync(stream, "test.txt", "test.txt", "pc", "text/plain");
@@ -163,7 +163,7 @@ public sealed class FileeConnectTests : IDisposable
             var response = await http.GetAsync(service.MobileUrl, TestContext.Current.CancellationToken);
             var body = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
             Assert.True(response.IsSuccessStatusCode, $"Failed to fetch {service.MobileUrl}: {response.StatusCode} Body: {body}");
-            Assert.Contains("Morph Connect", body);
+            Assert.Contains("Halodrop Connect", body);
             Assert.Contains("/app.css", body);
         }
         finally

@@ -21,7 +21,7 @@ public sealed class EngineIsolationTests : IDisposable
         catch (IOException) { }
     }
 
-    private static string Program => Path.Combine(AppContext.BaseDirectory, OperatingSystem.IsWindows() ? "Morph.exe" : "Morph");
+    private static string Program => Path.Combine(AppContext.BaseDirectory, OperatingSystem.IsWindows() ? "Halodrop.exe" : "Halodrop");
 
     private readonly TestLog _log = new();
 

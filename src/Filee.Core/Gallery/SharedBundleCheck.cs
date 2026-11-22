@@ -140,7 +140,7 @@ public static class SharedBundleCheck
             else if (preset.TargetFormat != BuiltInData.SameAsSource
                      && (FormatRegistry.FindById(preset.TargetFormat) is null || preset.TargetFormat == Preset.CopyTarget))
             {
-                result.Add("preset.target_unknown", FileName, at + ".targetFormat", $"\"{preset.TargetFormat}\" is not a format Morph writes");
+                result.Add("preset.target_unknown", FileName, at + ".targetFormat", $"\"{preset.TargetFormat}\" is not a format Halodrop writes");
             }
 
             for (var r = 0; r < preset.Output.Renames.Count; r++)
@@ -172,7 +172,7 @@ public static class SharedBundleCheck
             foreach (var id in profile.PresetIds.Concat(profile.BackPresetIds ?? []).Where(id => !ids.Contains(id)).Distinct())
                 result.Add("profile.reference", FileName, at + ".presetIds", $"\"{id}\" is not a preset in this file");
             foreach (var extension in profile.Extensions.Where(e => FormatRegistry.FindByExtension(e) is null))
-                result.Add("profile.extension_unknown", FileName, at + ".extensions", $"\"{extension}\" is not an extension Morph knows");
+                result.Add("profile.extension_unknown", FileName, at + ".extensions", $"\"{extension}\" is not an extension Halodrop knows");
         }
     }
 

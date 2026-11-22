@@ -12,7 +12,7 @@
         x:Class="Filee.App.Views.HideWindow"
         x:DataType="vm:HideWindowViewModel"
         Title="{DynamicResource preset.hide}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="1040" Height="720" MinWidth="740" MinHeight="500"
         WindowDecorations="None"
         Background="Transparent"

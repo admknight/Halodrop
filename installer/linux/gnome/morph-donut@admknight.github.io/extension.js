@@ -5,8 +5,8 @@ import Meta from 'gi://Meta';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-const DONUT_TITLE = 'Morph Donut';
-// Morph reads the protocol version from each line and says on its Triggers page when it doesn't match, so the socket
+const DONUT_TITLE = 'Halodrop Donut';
+// Halodrop reads the protocol version from each line and says on its Triggers page when it doesn't match, so the socket
 // name stays the same across versions.
 const PROTOCOL_VERSION = 1;
 const SOCKET_NAME = 'pointer.sock';
@@ -14,7 +14,7 @@ const encoder = new TextEncoder();
 
 // This bridge reads only pointer coordinates, buttons, modifier state and the app under the pointer.
 // It never grabs input, changes Nautilus's copy action, reads typed keys, or accesses /dev/input.
-export default class MorphDonutExtension extends Extension {
+export default class HalodropDonutExtension extends Extension {
     enable() {
         this._enabled = true;
         this._processes = new WeakMap();
@@ -43,11 +43,11 @@ export default class MorphDonutExtension extends Extension {
             }
             this._closeConnection();
             this._connection = connection;
-            // The donut is Morph's window: with native Wayland it has no WM class or app id, so match it by process.
+            // The donut is Halodrop's window: with native Wayland it has no WM class or app id, so match it by process.
             try { this._peerPid = credentials.get_unix_pid(); } catch (_error) { this._peerPid = 0; }
             this._lastState = '';
             this._lastSent = 0;
-            // Poll the pointer only while Morph is connected; _closeConnection stops it.
+            // Poll the pointer only while Halodrop is connected; _closeConnection stops it.
             this._pointerSource = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 16, () => {
                 this._sendPointer();
                 return GLib.SOURCE_CONTINUE;
@@ -109,11 +109,11 @@ export default class MorphDonutExtension extends Extension {
         if (window?.get_title() !== DONUT_TITLE)
             return false;
         // X11/XWayland: WM class. Native Wayland (MORPH_USE_WAYLAND=1): the app id, which Mutter reports as the WM
-        // class, or, when Morph sets none, the connected Morph process or the process name.
+        // class, or, when Halodrop sets none, the connected Halodrop process or the process name.
         return [window.get_wm_class(), window.get_wm_class_instance(), window.get_gtk_application_id()]
-            .some(value => /^(morph|com\.morph\.app)$/i.test(value ?? '')) ||
+            .some(value => /^(halodrop|com\.halodrop\.app)$/i.test(value ?? '')) ||
             (this._peerPid > 0 && window.get_pid() === this._peerPid) ||
-            /^morph$/i.test(this._processName(window) ?? '');
+            /^halodrop$/i.test(this._processName(window) ?? '');
     }
 
     _pointerWindow(x, y) {
@@ -141,7 +141,7 @@ export default class MorphDonutExtension extends Extension {
     }
 
     _sendPointer() {
-        // One async write at a time: a slow/dead Morph must never block the desktop or build an unbounded queue.
+        // One async write at a time: a slow/dead Halodrop must never block the desktop or build an unbounded queue.
         if (this._writing || !this._connection)
             return;
         const [x, y, mask] = global.get_pointer();
@@ -156,7 +156,7 @@ export default class MorphDonutExtension extends Extension {
             (mask & Clutter.ModifierType.MOD1_MASK ? 2 : 0) |
             (mask & Clutter.ModifierType.SHIFT_MASK ? 4 : 0) |
             (mask & Clutter.ModifierType.SUPER_MASK ? 8 : 0);
-        // Clutter numbers middle before right; Morph numbers right before middle.
+        // Clutter numbers middle before right; Halodrop numbers right before middle.
         const buttons = (mask & Clutter.ModifierType.BUTTON1_MASK ? 1 : 0) |
             (mask & Clutter.ModifierType.BUTTON3_MASK ? 2 : 0) |
             (mask & Clutter.ModifierType.BUTTON2_MASK ? 4 : 0) |

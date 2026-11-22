@@ -1,10 +1,10 @@
 # Builds the Windows installer and publishes it to GitHub Releases.
 # Trigger: push a tag like v1.0.0  (git tag v1.0.0 && git push origin v1.0.0)
 #
-# Output (build/build-installer.ps1): Morph-<version>-win-Setup.exe (Filee's own installer, src/Filee.Setup),
-# Morph-<version>-win-Portable.zip and Morph-<version>-SHA256SUMS.txt for x64, and for Windows on ARM64 (#236), built
-# and tested on an ARM64 runner, Morph-<version>-win-arm64-Setup.exe and -win-arm64-Portable.zip. Their hashes go into
-# the same Morph-<version>-SHA256SUMS.txt (sign-release.ps1): Filee 2.4.0 and older take the last Windows-looking
+# Output (build/build-installer.ps1): Halodrop-<version>-win-Setup.exe (Filee's own installer, src/Filee.Setup),
+# Halodrop-<version>-win-Portable.zip and Halodrop-<version>-SHA256SUMS.txt for x64, and for Windows on ARM64 (#236), built
+# and tested on an ARM64 runner, Halodrop-<version>-win-arm64-Setup.exe and -win-arm64-Portable.zip. Their hashes go into
+# the same Halodrop-<version>-SHA256SUMS.txt (sign-release.ps1): Filee 2.4.0 and older take the last Windows-looking
 # SHA256SUMS file of a release, so a separate ARM64 one would break their updates.
 # The release is a draft with the Linux and macOS packages: the Windows files are signed on a PC signed in to Certum's
 # SimplySign cloud (its key needs a phone token), so this run keeps the tested, unsigned builds as the artifacts
@@ -138,7 +138,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path unsigned | Out-Null
           Move-Item publish/win-x64 unsigned/app
-          Copy-Item build/.cache/setup/Morph.Setup.exe unsigned/
+          Copy-Item build/.cache/setup/Halodrop.Setup.exe unsigned/
 
       - uses: actions/upload-artifact@v7
         with:
@@ -151,7 +151,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: windows-release
-          path: Releases/Morph-*
+          path: Releases/Halodrop-*
           if-no-files-found: error
           retention-days: 30
 
@@ -234,7 +234,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path unsigned | Out-Null
           Move-Item publish/win-arm64 unsigned/app
-          Copy-Item build/.cache/setup/Morph.Setup.exe unsigned/
+          Copy-Item build/.cache/setup/Halodrop.Setup.exe unsigned/
 
       - uses: actions/upload-artifact@v7
         with:
@@ -271,10 +271,10 @@ jobs:
         run: |
           $version = '${{ steps.version.outputs.value }}'
           # Linux and macOS only: build/sign-release.ps1 adds the signed Windows files. The ARM64 build's own sums file
-          # never ships (its hashes go into Morph-<version>-SHA256SUMS.txt).
-          $windows = "Morph-$version-win-Setup.exe", "Morph-$version-win-Portable.zip", "Morph-$version-SHA256SUMS.txt",
-            "Morph-$version-win-arm64-Setup.exe", "Morph-$version-win-arm64-Portable.zip", "Morph-$version-win-arm64-SHA256SUMS.txt"
-          $files = Get-ChildItem Releases -File -Filter "Morph-$version-*" | Where-Object Name -notin $windows | ForEach-Object FullName
+          # never ships (its hashes go into Halodrop-<version>-SHA256SUMS.txt).
+          $windows = "Halodrop-$version-win-Setup.exe", "Halodrop-$version-win-Portable.zip", "Halodrop-$version-SHA256SUMS.txt",
+            "Halodrop-$version-win-arm64-Setup.exe", "Halodrop-$version-win-arm64-Portable.zip", "Halodrop-$version-win-arm64-SHA256SUMS.txt"
+          $files = Get-ChildItem Releases -File -Filter "Halodrop-$version-*" | Where-Object Name -notin $windows | ForEach-Object FullName
           # "## 1.4.0" up to the next "## " heading of CHANGELOG.md, without the heading itself.
           $changes = ''
           $changelog = Get-Content CHANGELOG.md -Raw -Encoding utf8
@@ -300,7 +300,7 @@ jobs:
           if ($tail) { $parts += $tail }
           $notesFile = Join-Path $env:RUNNER_TEMP 'notes.md'
           Set-Content $notesFile ($parts -join "`n`n") -Encoding utf8
-          gh release create '${{ inputs.tag || github.ref_name }}' --draft --title "Morph $version" --notes-file $notesFile --verify-tag @files
+          gh release create '${{ inputs.tag || github.ref_name }}' --draft --title "Halodrop $version" --notes-file $notesFile --verify-tag @files
 
   # Morph change: Windows x64 only, published as tested (unsigned) with the version's CHANGELOG.md section as notes.
   publish:
@@ -330,4 +330,4 @@ jobs:
           $notesFile = Join-Path $env:RUNNER_TEMP 'notes.md'
           Set-Content $notesFile "## What's Changed`n`n$changes" -Encoding utf8
           $files = Get-ChildItem Releases -File | ForEach-Object FullName
-          gh release create '${{ inputs.tag || github.ref_name }}' --target '${{ github.sha }}' --title "Morph $version" --notes-file $notesFile @files
+          gh release create '${{ inputs.tag || github.ref_name }}' --target '${{ github.sha }}' --title "Halodrop $version" --notes-file $notesFile @files

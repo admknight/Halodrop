@@ -21,8 +21,8 @@ public class LayoutTemplateTests
         Assert.True(Slices(morph) > Slices(classic));
         Assert.All(morph.Profiles, p =>
         {
-            Assert.InRange(p.PresetIds.Count, 0, ToolbarProfile.MaxSlices);
-            Assert.InRange(p.BackPresetIds!.Count, 1, ToolbarProfile.MaxSlices);
+            Assert.InRange(p.PresetIds.Count, 0, ToolbarProfile.FileeMaxSlices);
+            Assert.InRange(p.BackPresetIds!.Count, 1, ToolbarProfile.FileeMaxSlices);
             Assert.All(p.PresetIds.Concat(p.BackPresetIds), id => Assert.Contains(id, ids));
             Assert.Equal(p.PresetIds.Count, p.PresetIds.Distinct().Count());
         });

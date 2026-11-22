@@ -17,11 +17,11 @@ public class PortableStartupFailureTests
     [InlineData("en", FlowDirection.LeftToRight)]
     public void The_window_uses_the_ui_fonts_and_direction_of_the_language(string language, FlowDirection direction)
     {
-        var window = PortableStartupFailure.CreateWindow("Morph 无法写入便携数据文件夹", language);
+        var window = PortableStartupFailure.CreateWindow("Halodrop 无法写入便携数据文件夹", language);
 
         Assert.Equal(SoftPalette.FontFamilyFor(language), window.FontFamily);
         Assert.Equal(direction, window.FlowDirection);
-        Assert.Contains(((StackPanel)window.Content!).Children.OfType<TextBlock>(), t => t.Text == "Morph 无法写入便携数据文件夹");
+        Assert.Contains(((StackPanel)window.Content!).Children.OfType<TextBlock>(), t => t.Text == "Halodrop 无法写入便携数据文件夹");
     }
 
     [Fact]

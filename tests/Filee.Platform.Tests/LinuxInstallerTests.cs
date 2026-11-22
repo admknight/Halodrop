@@ -150,11 +150,11 @@ exec ""$REAL_MV"" ""$@""
         var (exitCode, output, error) = RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
         Assert.True(exitCode == 0, $"Install failed with code {exitCode}. Output: {output}. Error: {error}");
-        Assert.Contains("Installed Morph at", output);
+        Assert.Contains("Installed Halodrop at", output);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
-        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
-        Assert.True(File.Exists(Path.Combine(installDir, "morph-cli")));
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
+        Assert.True(File.Exists(Path.Combine(installDir, "Halodrop")));
+        Assert.True(File.Exists(Path.Combine(installDir, "halodrop-cli")));
         Assert.False(File.Exists(Path.Combine(installDir, "morph.portable")));
         Assert.True(File.Exists(Path.Combine(env.SourceDir, "morph.portable")));
         Assert.False(Directory.Exists(Path.Combine(installDir, "data")));
@@ -166,9 +166,9 @@ exec ""$REAL_MV"" ""$@""
         Assert.Equal("app.morph", File.ReadAllText(markerPath).Trim());
         Assert.False(File.Exists(Path.Combine(installDir, ".morph-upgrade-token")));
 
-        var launcherPath = Path.Combine(env.HomeDir, ".local", "bin", "morph");
+        var launcherPath = Path.Combine(env.HomeDir, ".local", "bin", "halodrop");
         Assert.True(File.Exists(launcherPath));
-        Assert.Equal(Path.Combine(installDir, "morph-cli"), File.ResolveLinkTarget(launcherPath, true)?.FullName);
+        Assert.Equal(Path.Combine(installDir, "halodrop-cli"), File.ResolveLinkTarget(launcherPath, true)?.FullName);
 
         var desktopPath = Path.Combine(env.DataDir, "applications", "app.morph.desktop");
         Assert.True(File.Exists(desktopPath));
@@ -203,16 +203,16 @@ exec ""$REAL_MV"" ""$@""
         var (exitCode1, _, _) = RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
         Assert.Equal(0, exitCode1);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
 
         // Simulate user downloaded engines in ~/.local/share/Filee/engines
-        var engineDir = Path.Combine(env.DataDir, "Morph", "engines", "ffmpeg");
+        var engineDir = Path.Combine(env.DataDir, "Halodrop", "engines", "ffmpeg");
         Directory.CreateDirectory(engineDir);
         var mockEngineBinary = Path.Combine(engineDir, "ffmpeg");
         File.WriteAllText(mockEngineBinary, "ffmpeg-binary-data");
 
         // Simulate user settings in ~/.config/Filee
-        var configDir = Path.Combine(env.HomeDir, ".config", "Morph");
+        var configDir = Path.Combine(env.HomeDir, ".config", "Halodrop");
         Directory.CreateDirectory(configDir);
         var mockSettings = Path.Combine(configDir, "settings.json");
         File.WriteAllText(mockSettings, "{\"custom\": true}");
@@ -224,7 +224,7 @@ exec ""$REAL_MV"" ""$@""
         // Run upgrade
         var (exitCode2, output2, error2) = RunInstaller(v2Source, env.DataDir, env.HomeDir, "--upgrade");
         Assert.True(exitCode2 == 0, $"Upgrade failed with code {exitCode2}. Output: {output2}. Error: {error2}");
-        Assert.Contains("Upgraded Morph at", output2);
+        Assert.Contains("Upgraded Halodrop at", output2);
 
         // Verify application was updated to v2.0.0
         Assert.Equal("v2.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
@@ -241,8 +241,8 @@ exec ""$REAL_MV"" ""$@""
         Assert.Equal("{\"custom\": true}", File.ReadAllText(mockSettings));
 
         // Verify launcher symlink, package marker, and token cleanup
-        var launcherPath = Path.Combine(env.HomeDir, ".local", "bin", "morph");
-        Assert.Equal(Path.Combine(installDir, "morph-cli"), File.ResolveLinkTarget(launcherPath, true)?.FullName);
+        var launcherPath = Path.Combine(env.HomeDir, ".local", "bin", "halodrop");
+        Assert.Equal(Path.Combine(installDir, "halodrop-cli"), File.ResolveLinkTarget(launcherPath, true)?.FullName);
         Assert.Equal("app.morph", File.ReadAllText(Path.Combine(installDir, ".morph-package")).Trim());
         Assert.False(File.Exists(Path.Combine(installDir, ".morph-upgrade-token")));
     }
@@ -270,7 +270,7 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
         var markerPath = Path.Combine(installDir, ".morph-package");
         File.WriteAllText(markerPath, "alien.app");
 
@@ -279,7 +279,7 @@ exec ""$REAL_MV"" ""$@""
 
         var (exitCode, output, error) = RunInstaller(v2Source, env.DataDir, env.HomeDir, "--upgrade");
         Assert.NotEqual(0, exitCode);
-        Assert.Contains("not installed by Morph", output + error);
+        Assert.Contains("not installed by Halodrop", output + error);
 
         // Original installation must be untouched
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
@@ -294,12 +294,12 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
 
         // Broken v2 source: missing filee-cli
         var v2Source = Path.Combine(_root, "source-v2");
         CreateMockPayload(v2Source, "v2.0.0");
-        File.Delete(Path.Combine(v2Source, "morph-cli"));
+        File.Delete(Path.Combine(v2Source, "halodrop-cli"));
 
         var (exitCode, output, error) = RunInstaller(v2Source, env.DataDir, env.HomeDir, "--upgrade");
         Assert.NotEqual(0, exitCode);
@@ -318,11 +318,11 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
         var quitLog = Path.Combine(env.DataDir, "quit.log");
 
         // Replace Filee with a mock script that records --quit
-        var fileeScript = Path.Combine(installDir, "Morph");
+        var fileeScript = Path.Combine(installDir, "Halodrop");
         File.WriteAllText(fileeScript, $"#!/bin/sh\nif [ \"$1\" = \"--quit\" ]; then echo \"quit-called\" >> \"{quitLog}\"; exit 0; fi\nexit 0\n");
         File.SetUnixFileMode(fileeScript, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
 
@@ -344,7 +344,7 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
 
         var v2Source = Path.Combine(_root, "source-v2");
         CreateMockPayload(v2Source, "v2.0.0");
@@ -354,10 +354,10 @@ exec ""$REAL_MV"" ""$@""
             new Dictionary<string, string> { ["SHIM_FAIL_ACTIVATION"] = "1" }, "--upgrade");
 
         Assert.NotEqual(0, exitCode);
-        Assert.Contains("Restored the previous Morph installation", output + error);
+        Assert.Contains("Restored the previous Halodrop installation", output + error);
 
         // Original installation must be safely restored
-        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
+        Assert.True(File.Exists(Path.Combine(installDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
         Assert.Equal("app.morph", File.ReadAllText(Path.Combine(installDir, ".morph-package")).Trim());
     }
@@ -371,7 +371,7 @@ exec ""$REAL_MV"" ""$@""
         CreateMockPayload(env.SourceDir, "v1.0.0");
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
 
         var v2Source = Path.Combine(_root, "source-v2");
         CreateMockPayload(v2Source, "v2.0.0");
@@ -382,10 +382,10 @@ exec ""$REAL_MV"" ""$@""
 
         Assert.NotEqual(0, exitCode);
         Assert.Contains("Activated installation failed post-swap validation", output + error);
-        Assert.Contains("Restored the previous Morph installation", output + error);
+        Assert.Contains("Restored the previous Halodrop installation", output + error);
 
         // Original installation must be safely restored
-        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
+        Assert.True(File.Exists(Path.Combine(installDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
         Assert.Equal("app.morph", File.ReadAllText(Path.Combine(installDir, ".morph-package")).Trim());
     }
@@ -413,15 +413,15 @@ exec ""$REAL_MV"" ""$@""
         Assert.Contains("inspect and remove or rename", output + error);
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "morph");
+        var fileeDir = Path.Combine(env.DataDir, "halodrop");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
 
         // Verify that the occupied conflict file was preserved and not overwritten
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
         Assert.True(File.Exists(Path.Combine(installDir, "conflict")));
     }
 
@@ -448,15 +448,15 @@ exec ""$REAL_MV"" ""$@""
         Assert.Contains("inspect and remove or rename", output + error);
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "morph");
+        var fileeDir = Path.Combine(env.DataDir, "halodrop");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
 
         // Verify that the unmanaged conflict was not touched
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
         Assert.True(File.Exists(Path.Combine(installDir, "conflict")));
     }
 
@@ -483,11 +483,11 @@ exec ""$REAL_MV"" ""$@""
         Assert.DoesNotContain("A partial or invalid directory exists at:", output + error);
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "morph");
+        var fileeDir = Path.Combine(env.DataDir, "halodrop");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
 
         var installDir = Path.Combine(fileeDir, "application");
@@ -518,15 +518,15 @@ exec ""$REAL_MV"" ""$@""
         Assert.Contains("inspect and remove or rename", output + error);
 
         // Verify that the destination was NOT deleted or removed via fallback
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
-        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
+        Assert.True(File.Exists(Path.Combine(installDir, "Halodrop")));
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "morph");
+        var fileeDir = Path.Combine(env.DataDir, "halodrop");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
     }
 
@@ -547,16 +547,16 @@ exec ""$REAL_MV"" ""$@""
             new Dictionary<string, string> { ["SHIM_FAIL_CLEANUP_FAILED_DIR"] = "1" }, "--upgrade");
 
         Assert.NotEqual(0, exitCode);
-        Assert.Contains("Update failed. Restored the previous Morph installation", output + error);
+        Assert.Contains("Update failed. Restored the previous Halodrop installation", output + error);
         Assert.Contains("Quarantined failed update files preserved at:", output + error);
 
         // Verify that the old installation was successfully restored to application directory
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
-        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
+        Assert.True(File.Exists(Path.Combine(installDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
 
         // Verify that the quarantined failed directory still exists on disk and was preserved
-        var fileeDir = Path.Combine(env.DataDir, "morph");
+        var fileeDir = Path.Combine(env.DataDir, "halodrop");
         var failedDirs = Directory.GetDirectories(fileeDir, ".failed-*");
         Assert.NotEmpty(failedDirs);
         var failedDir = failedDirs[0];
@@ -577,7 +577,7 @@ exec ""$REAL_MV"" ""$@""
         RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
 
         // Create a pre-existing backup and failed directory from earlier interrupted runs
-        var fileeDir = Path.Combine(env.DataDir, "morph");
+        var fileeDir = Path.Combine(env.DataDir, "halodrop");
         var oldBackupDir = Path.Combine(fileeDir, ".backup-earlier-crash-999");
         Directory.CreateDirectory(oldBackupDir);
         var oldVersionFile = Path.Combine(oldBackupDir, "version.txt");
@@ -631,17 +631,17 @@ exec ""$REAL_MV"" ""$@""
         Assert.Contains("inspect and remove or rename", output + error);
 
         // Verify that the foreign directory and its contents were NOT deleted
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
         var foreignFile = Path.Combine(installDir, "important.txt");
         Assert.True(File.Exists(foreignFile));
         Assert.Equal("important-foreign-data", File.ReadAllText(foreignFile).Trim());
 
         // Verify that the backup directory still exists and holds the original installation
-        var fileeDir = Path.Combine(env.DataDir, "morph");
+        var fileeDir = Path.Combine(env.DataDir, "halodrop");
         var backupDirs = Directory.GetDirectories(fileeDir, ".backup-*");
         Assert.NotEmpty(backupDirs);
         var backupDir = backupDirs[0];
-        Assert.True(File.Exists(Path.Combine(backupDir, "Morph")));
+        Assert.True(File.Exists(Path.Combine(backupDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(backupDir, "version.txt")).Trim());
     }
 
@@ -662,9 +662,9 @@ exec ""$REAL_MV"" ""$@""
             new Dictionary<string, string> { ["_MORPH_TEST_FAIL_ACTIVATION"] = "1", ["_MORPH_TEST_HARNESS"] = "com.morph.test.harness" }, "--upgrade");
 
         Assert.True(exitCode == 0, $"Upgrade failed unexpectedly. Output: {output}. Error: {error}");
-        Assert.Contains("Upgraded Morph at", output);
+        Assert.Contains("Upgraded Halodrop at", output);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
         Assert.Equal("v2.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
     }
 
@@ -686,10 +686,10 @@ exec ""$REAL_MV"" ""$@""
         // Fresh install with spaces
         var (exitCode1, output1, error1) = RunInstaller(sourceDir, dataDir, homeDir);
         Assert.True(exitCode1 == 0, $"Fresh install failed. Output: {output1}. Error: {error1}");
-        Assert.Contains("Installed Morph at", output1);
+        Assert.Contains("Installed Halodrop at", output1);
 
-        var installDir = Path.Combine(dataDir, "morph", "application");
-        Assert.True(File.Exists(Path.Combine(installDir, "Morph")));
+        var installDir = Path.Combine(dataDir, "halodrop", "application");
+        Assert.True(File.Exists(Path.Combine(installDir, "Halodrop")));
         Assert.Equal("v1.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
 
         // Upgrade with spaces
@@ -698,7 +698,7 @@ exec ""$REAL_MV"" ""$@""
 
         var (exitCode2, output2, error2) = RunInstaller(v2Source, dataDir, homeDir, "--upgrade");
         Assert.True(exitCode2 == 0, $"Upgrade failed. Output: {output2}. Error: {error2}");
-        Assert.Contains("Upgraded Morph at", output2);
+        Assert.Contains("Upgraded Halodrop at", output2);
         Assert.Equal("v2.0.0", File.ReadAllText(Path.Combine(installDir, "version.txt")).Trim());
     }
 
@@ -713,8 +713,8 @@ exec ""$REAL_MV"" ""$@""
         var (exitCode1, _, _) = RunInstaller(env.SourceDir, env.DataDir, env.HomeDir);
         Assert.Equal(0, exitCode1);
 
-        var installDir = Path.Combine(env.DataDir, "morph", "application");
-        var activeFilee = Path.Combine(installDir, "Morph");
+        var installDir = Path.Combine(env.DataDir, "halodrop", "application");
+        var activeFilee = Path.Combine(installDir, "Halodrop");
 
         // Make the installed Filee binary fail if --quit is invoked
         File.WriteAllText(activeFilee, "#!/bin/sh\nif [ \"$1\" = \"--quit\" ]; then exit 42; fi\nexit 0\n");
@@ -746,8 +746,8 @@ exec ""$REAL_MV"" ""$@""
     private void CreateMockPayload(string dir, string version)
     {
         Directory.CreateDirectory(dir);
-        var filee = Path.Combine(dir, "Morph");
-        var cli = Path.Combine(dir, "morph-cli");
+        var filee = Path.Combine(dir, "Halodrop");
+        var cli = Path.Combine(dir, "halodrop-cli");
         var icon = Path.Combine(dir, "morph.png");
         var ver = Path.Combine(dir, "version.txt");
         var script = Path.Combine(dir, "install.sh");

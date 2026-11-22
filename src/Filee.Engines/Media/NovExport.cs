@@ -90,7 +90,7 @@ internal static class NovExport
         var length = file.Length;
         var version = BinaryPrimitives.ReadUInt32LittleEndian(footer[8..]);
         if (version != 2)
-            throw new InvalidDataException($"This export's index is version {version}, which Morph can't read.");
+            throw new InvalidDataException($"This export's index is version {version}, which Halodrop can't read.");
         var headerAt = BinaryPrimitives.ReadInt64LittleEndian(footer[12..]);
         if (headerAt < 0 || headerAt > length - FooterSize - HeaderSize)
             throw Damaged();
@@ -118,7 +118,7 @@ internal static class NovExport
         var encrypted = BinaryPrimitives.ReadUInt64LittleEndian(head) == CryptedIndexMagicV1;
         var version = BinaryPrimitives.ReadUInt32LittleEndian(head[8..]);
         if (version != 1)
-            throw new InvalidDataException($"This export's index is version {version}, which Morph can't read.");
+            throw new InvalidDataException($"This export's index is version {version}, which Halodrop can't read.");
         var count = BinaryPrimitives.ReadUInt32LittleEndian(head[12..]);
         if (count > MaxStreamsV1)
             throw Damaged();

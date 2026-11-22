@@ -1276,7 +1276,7 @@ public partial class UserDataStoreTests
         Assert.DoesNotContain("zip-all", archives.PresetIds);
 
         presets = BuiltInData.CreatePresets();
-        archives.PresetIds = [.. presets.Where(p => p.Id != "zip-all").Take(ToolbarProfile.MaxSlices).Select(p => p.Id)];
+        archives.PresetIds = [.. presets.Where(p => p.Id != "zip-all").Take(ToolbarProfile.FileeMaxSlices).Select(p => p.Id)];
         Assert.False(SettingsMigrations.ApplyToLibrary(27, presets, profiles));
         Assert.DoesNotContain("zip-all", archives.PresetIds);
     }
@@ -1340,7 +1340,7 @@ public partial class UserDataStoreTests
         var full = BuiltInData.ProfilesSchema58();
         var fullBack = full.Single(p => p.Id == "video").BackPresetIds!;
         fullBack.RemoveAll(id => id is "live-photo-iphone" or "motion-photo-android");
-        while (fullBack.Count < ToolbarProfile.MaxSlices)
+        while (fullBack.Count < ToolbarProfile.FileeMaxSlices)
             fullBack.Add("to-mp3");
         var before = fullBack.ToList();
         SettingsMigrations.ApplyToLibrary(30, BuiltInData.CreatePresets(), full);
@@ -1368,7 +1368,7 @@ public partial class UserDataStoreTests
         var fullBack = full.Profiles.Single(p => p.Id == "spreadsheets").BackPresetIds!;
         fullBack.Remove("to-ics");
         fullBack.AddRange(full.Presets.Select(p => p.Id).Where(id => !fullBack.Contains(id))
-            .Take(ToolbarProfile.MaxSlices - fullBack.Count));
+            .Take(ToolbarProfile.FileeMaxSlices - fullBack.Count));
         var fullBackBeforeMigration = fullBack.ToList();
         full.Presets.RemoveAll(p => p.Id == "to-ics");
         full.SaveSettings();

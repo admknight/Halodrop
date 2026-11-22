@@ -35,7 +35,7 @@ public sealed class Installer(SetupContext context, SetupPayload payload)
     {
         var folder = Path.TrimEndingDirectorySeparator(Path.GetFullPath(choices.Folder));
         var update = previous is not null && string.Equals(previous.Folder, folder, StringComparison.OrdinalIgnoreCase);
-        Log.Info($"{(update ? "Update" : choices.Portable ? "Portable copy" : "Install")} of Morph {payload.Manifest.Version} " +
+        Log.Info($"{(update ? "Update" : choices.Portable ? "Portable copy" : "Install")} of Halodrop {payload.Manifest.Version} " +
                  $"into {folder} for {(choices.Scope == InstallScope.Machine ? "all users" : "this user")}; " +
                  $"previous: {(previous is null ? "none" : $"{previous.Version} in {previous.Folder}{(previous.ByInno ? " (Inno Setup)" : "")}")}; " +
                  $"options: {choices.Tasks.ToInnoString()}; engines: {string.Join(',', choices.Engines)}; language: {choices.Language}");
@@ -225,7 +225,7 @@ public sealed class Installer(SetupContext context, SetupPayload payload)
         if (File.Exists(exe))
         {
             var code = System.RunAndWait(exe, "--quit", QuitTimeout);
-            Log.Info($"Morph --quit: exit code {code}");
+            Log.Info($"Halodrop --quit: exit code {code}");
         }
         var running = System.ProgramsIn(folder).ToList();
         if (velopack)
@@ -270,13 +270,13 @@ public sealed class Installer(SetupContext context, SetupPayload payload)
         {
             if (!File.Exists(startMenu))
                 undo.Push(("Start menu shortcut", () => File.Delete(startMenu)));
-            System.CreateShortcut(startMenu, exe, folder, "Morph");
+            System.CreateShortcut(startMenu, exe, folder, "Halodrop");
         }
         if (choices.Tasks.DesktopIcon && !choices.NoIcons)
         {
             if (!File.Exists(desktop))
                 undo.Push(("desktop shortcut", () => File.Delete(desktop)));
-            System.CreateShortcut(desktop, exe, folder, "Morph");
+            System.CreateShortcut(desktop, exe, folder, "Halodrop");
         }
         else if (update && File.Exists(desktop))
         {

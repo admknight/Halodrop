@@ -7,7 +7,7 @@
         x:Class="Filee.App.Views.GroupEditorWindow"
         x:DataType="vm:GroupEditorViewModel"
         Title="{DynamicResource group.editor_title}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="480" Height="560" MinWidth="400" MinHeight="420"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False">

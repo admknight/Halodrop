@@ -21,9 +21,9 @@ public static class SetupNames
     /// <summary>Filee's startup entry is the value <see cref="AppName"/> here (HKCU; WindowsPlatformServices writes it).</summary>
     public const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
 
-    public const string AppName = "Morph";
-    public const string Publisher = "Morph contributors";
-    public const string AppExe = "Morph.exe";
+    public const string AppName = "Halodrop";
+    public const string Publisher = "Halodrop contributors";
+    public const string AppExe = "Halodrop.exe";
 
     /// <summary>The uninstaller next to Filee.exe (UpdateService.IsInstalled looks for it).</summary>
     public const string UninstallerExe = "uninstall.exe";
@@ -38,12 +38,12 @@ public static class SetupNames
     public static readonly IReadOnlyList<string> InnoUninstallerFiles = ["unins000.exe", "unins000.dat", "unins000.msg"];
 
     /// <summary>Start menu and desktop shortcut name.</summary>
-    public const string ShortcutName = "Morph.lnk";
+    public const string ShortcutName = "Halodrop.lnk";
 
     /// <summary>Registry values Setup adds to the uninstall key (Inno Setup kept the same in "Inno Setup: …").</summary>
-    public const string TasksValue = "Morph Setup: Tasks";
-    public const string LanguageValue = "Morph Setup: Language";
-    public const string ScopeValue = "Morph Setup: Scope";
+    public const string TasksValue = "Halodrop Setup: Tasks";
+    public const string LanguageValue = "Halodrop Setup: Language";
+    public const string ScopeValue = "Halodrop Setup: Scope";
     public const string InnoTasksValue = "Inno Setup: Selected Tasks";
     public const string InnoAppPathValue = "Inno Setup: App Path";
     public const string InnoVersionValue = "Inno Setup: Setup Version";

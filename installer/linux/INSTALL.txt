@@ -1,20 +1,20 @@
-Run ./Morph to test the extracted app, or ./morph-cli help for the command line.
+Run ./Halodrop to test the extracted app, or ./halodrop-cli help for the command line.
 The included morph.portable marker keeps settings, downloaded engines and logs
 in data beside the executable. On first start the app offers to copy existing
 profile data and downloaded engines into unused portable data, leaving originals intact.
 Installing with install.sh uses the normal user profile instead.
 
 Packagers: delete morph.portable (and any data folder) from an installed copy,
-for example after cp -a into /opt/morph, as install.sh does. With the marker,
-Morph keeps its data in data beside the executable; where users can't write
+for example after cp -a into /opt/halodrop, as install.sh does. With the marker,
+Halodrop keeps its data in data beside the executable; where users can't write
 there, it shows an error and does not start.
 
 Run ./install.sh to install for the current user. It requires Python 3, creates
-an application launcher and ~/.local/bin/morph, and does not require root.
+an application launcher and ~/.local/bin/halodrop, and does not require root.
 Run ./install.sh --upgrade to safely upgrade an existing installation in place
 without uninstalling. Your settings, presets, history, and downloaded conversion
 engines are kept. Running without --upgrade refuses to overwrite an existing installation.
-Run ./uninstall.sh to remove this installation and Morph-downloaded engines.
+Run ./uninstall.sh to remove this installation and Halodrop-downloaded engines.
 Your settings and converted files are kept. If integration cleanup fails, the
 installation is kept so you can fix the error and run the uninstaller again.
 
@@ -29,12 +29,12 @@ sudden hardware power loss during the brief window between steps, automatic trap
 cannot execute; the previous installation is safely preserved in .backup-<pid>.
 To recover manually:
 - If the application directory does not exist:
-    mv ~/.local/share/morph/.backup-<pid> ~/.local/share/morph/application
+    mv ~/.local/share/halodrop/.backup-<pid> ~/.local/share/halodrop/application
 - If a partial or invalid application directory already exists:
-    Inspect and remove or rename ~/.local/share/morph/application first, then run:
-    mv ~/.local/share/morph/.backup-<pid> ~/.local/share/morph/application
+    Inspect and remove or rename ~/.local/share/halodrop/application first, then run:
+    mv ~/.local/share/halodrop/.backup-<pid> ~/.local/share/halodrop/application
 
-Morph runs on Ubuntu 22.04 or newer and other distributions with glibc 2.35 or
+Halodrop runs on Ubuntu 22.04 or newer and other distributions with glibc 2.35 or
 newer. The .NET runtime is bundled; its native system libraries are still
 required. Install the desktop and runtime dependencies with:
 
@@ -55,45 +55,45 @@ libxt6). A native Wayland session has additional input restrictions; use the
 drop window and file-manager actions, or the experimental setup below.
 
 GNOME Wayland gestures (experimental, GNOME Shell 45–51): the Linux package
-includes the “Morph donut at the cursor” Shell extension. install.sh installs
+includes the “Halodrop donut at the cursor” Shell extension. install.sh installs
 it for the current user on GNOME and requests activation. Open Extensions and
 enable it. If it is missing or still running an older version, sign out and
-sign in again, then start Morph and hold Ctrl while dragging a file in Files.
+sign in again, then start Halodrop and hold Ctrl while dragging a file in Files.
 No input group, sudo, or MORPH_WAYLAND_GESTURES setting is required on GNOME.
-The Triggers page says when Morph is waiting for the extension. The extension
+The Triggers page says when Halodrop is waiting for the extension. The extension
 provides pointer state over a private local socket and places the menu once
-per opening; Morph respects its configured gestures, Pause and excluded apps.
+per opening; Halodrop respects its configured gestures, Pause and excluded apps.
 It does not collect typed keys. Global selection/hold gestures and Tab/wheel
 flipping during a drag are not supplied by this integration. Disabling the
 extension stops detection; MORPH_WAYLAND_GESTURES=0 opts out on GNOME too.
-Updating Morph (in the app or with --upgrade) also updates the extension if
-Morph installed it; sign out and sign in afterwards so GNOME Shell loads it.
-The Triggers page says when the running extension doesn't match Morph.
-install.sh only replaces an extension folder that Morph installed.
+Updating Halodrop (in the app or with --upgrade) also updates the extension if
+Halodrop installed it; sign out and sign in afterwards so GNOME Shell loads it.
+The Triggers page says when the running extension doesn't match Halodrop.
+install.sh only replaces an extension folder that Halodrop installed.
 Read GNOME-WAYLAND.md in the package (docs/GNOME-WAYLAND.md in the source) for
 setup, limits and troubleshooting.
 
-Wayland gesture (experimental, KDE Plasma 6 and Hyprland, off by default): Morph reads
+Wayland gesture (experimental, KDE Plasma 6 and Hyprland, off by default): Halodrop reads
 the mouse and keyboard from /dev/input through libinput, and a KWin script or Hyprland
 window rule places the donut at the cursor because Wayland apps cannot place windows.
 It needs libinput, libudev and libwayland-client (libinput10, libudev1 and
 libwayland-client0 on Ubuntu). To turn it on:
-1. Start Morph with MORPH_WAYLAND_GESTURES=1 in its environment, for example
-   with the line MORPH_WAYLAND_GESTURES=1 in ~/.config/environment.d/morph.conf
+1. Start Halodrop with MORPH_WAYLAND_GESTURES=1 in its environment, for example
+   with the line MORPH_WAYLAND_GESTURES=1 in ~/.config/environment.d/halodrop.conf
    (takes effect after you sign in again).
 2. Add yourself to the input group, then sign out and in. Members of that group
    can read all keyboard and mouse input from any program they run, so enable
    this only if you accept that. You may already be in it for other tools.
      sudo usermod -aG input "$USER"
 3. For KDE Plasma: Install the KWin script and enable it, so it loads at every login:
-     kpackagetool6 --type=KWin/Script --install "${XDG_DATA_HOME:-$HOME/.local/share}/morph/application/kwin/morph-donut"
-     kwriteconfig6 --file kwinrc --group Plugins --key morph-donutEnabled true
+     kpackagetool6 --type=KWin/Script --install "${XDG_DATA_HOME:-$HOME/.local/share}/halodrop/application/kwin/halodrop-donut"
+     kwriteconfig6 --file kwinrc --group Plugins --key halodrop-donutEnabled true
      qdbus6 org.kde.KWin /KWin reconfigure
    The qdbus tool is qdbus6, qdbus-qt6 or plain qdbus depending on the
    distribution; use whichever one you have.
-   After updating Morph, upgrade the installed script the same way, with
+   After updating Halodrop, upgrade the installed script the same way, with
    --upgrade instead of --install, then run the reconfigure line again.
-   If KWin still runs the old script, turn "Morph donut" off and on again in
+   If KWin still runs the old script, turn "Halodrop donut" off and on again in
    System Settings > Window Management > KWin Scripts, or sign out and back in.
    For Hyprland: Add a window rule that floats the donut, centers it on the
    cursor and turns off its border, shadow and blur. The syntax depends on the
@@ -102,8 +102,8 @@ libwayland-client0 on Ubuntu). To turn it on:
    hyprland.lua if it exists and hyprland.conf otherwise.
    In hyprland.lua (Hyprland 0.55 and newer):
      hl.window_rule({
-         name        = "morph-donut",
-         match       = { title = "^(Morph Donut)$" },
+         name        = "halodrop-donut",
+         match       = { title = "^(Halodrop Donut)$" },
          float       = true,
          move        = { "cursor_x-(window_w*0.5)", "cursor_y-(window_h*0.5)" },
          border_size = 0,
@@ -111,13 +111,13 @@ libwayland-client0 on Ubuntu). To turn it on:
          no_blur     = true,
      })
    In hyprland.conf (Hyprland 0.53 to 0.56): Include the packaged rules file:
-     source = ~/.local/share/morph/application/hyprland/morph-donut.conf
+     source = ~/.local/share/halodrop/application/hyprland/halodrop-donut.conf
      (Remove this source line before running uninstall.sh, otherwise Hyprland
       shows a missing-file error.)
      Or add the rule directly:
      windowrule {
-         name = morph-donut
-         match:title = ^(Morph Donut)$
+         name = halodrop-donut
+         match:title = ^(Halodrop Donut)$
          float = on
          move = (cursor_x-(window_w*0.5)) (cursor_y-(window_h*0.5))
          border_size = 0
@@ -125,32 +125,32 @@ libwayland-client0 on Ubuntu). To turn it on:
          no_blur = on
      }
    In hyprland.conf (Hyprland older than 0.53, which still uses windowrulev2):
-     windowrulev2 = float, title:^(Morph Donut)$
-     windowrulev2 = move cursor -50% -50%, title:^(Morph Donut)$
-     windowrulev2 = noborder, title:^(Morph Donut)$
-     windowrulev2 = noshadow, title:^(Morph Donut)$
-     windowrulev2 = noblur, title:^(Morph Donut)$
+     windowrulev2 = float, title:^(Halodrop Donut)$
+     windowrulev2 = move cursor -50% -50%, title:^(Halodrop Donut)$
+     windowrulev2 = noborder, title:^(Halodrop Donut)$
+     windowrulev2 = noshadow, title:^(Halodrop Donut)$
+     windowrulev2 = noblur, title:^(Halodrop Donut)$
    Hyprland reloads its config when the file changes; hyprctl reload forces it.
 
 Yazi terminal file manager integration:
 The Linux package includes a Yazi plugin (morph.yazi) for converting selected or
-hovered files directly within Yazi, or opening them in the Morph Donut.
+hovered files directly within Yazi, or opening them in the Halodrop Donut.
 Requires Yazi 25.5 or newer (for Yazi 0.3.x or older, use [[manager.prepend_keymap]]).
 To set up:
 1. Link or copy the plugin into your Yazi plugins directory:
      mkdir -p ~/.config/yazi/plugins
-     ln -s "${XDG_DATA_HOME:-$HOME/.local/share}/morph/application/yazi/morph.yazi" ~/.config/yazi/plugins/morph.yazi
+     ln -s "${XDG_DATA_HOME:-$HOME/.local/share}/halodrop/application/yazi/morph.yazi" ~/.config/yazi/plugins/morph.yazi
 2. Add a keybinding in ~/.config/yazi/keymap.toml:
      [[mgr.prepend_keymap]]
      on   = [ "c", "f" ]
-     run  = "plugin morph"
-     desc = "Convert with Morph"
+     run  = "plugin halodrop"
+     desc = "Convert with Halodrop"
 
 Native Wayland Backend (experimental, off by default):
-By default, Morph runs through XWayland on Wayland desktops for maximum compatibility.
+By default, Halodrop runs through XWayland on Wayland desktops for maximum compatibility.
 To opt into the native Wayland backend (Avalonia.Wayland):
-  Start Morph with MORPH_USE_WAYLAND=1 in its environment.
-  (e.g., export MORPH_USE_WAYLAND=1 or set in ~/.config/environment.d/morph.conf).
+  Start Halodrop with MORPH_USE_WAYLAND=1 in its environment.
+  (e.g., export MORPH_USE_WAYLAND=1 or set in ~/.config/environment.d/halodrop.conf).
 Limits: Wayland cannot say which window is under the cursor, so a Ctrl+drag in
 any app opens an invisible donut window. It only shows when files are dragged
 onto it, but it rejects drops that are not files, so Ctrl+drag to copy text in an
@@ -162,7 +162,7 @@ the Hyprland window rule the donut opens in the wrong place.
 Packages are built and smoke-tested on Ubuntu 24.04 and started on Ubuntu 22.04
 by the automated builds.
 
-rhwp and 7-Zip are bundled. Other engines are installed from Morph settings or
+rhwp and 7-Zip are bundled. Other engines are installed from Halodrop settings or
 discovered in the system. Format support depends on available native engines.
 Optional engines can require additional system libraries. In particular, calibre
 may require libxcb-cursor0, libxcb-xinerama0 and other Qt/XCB dependencies.

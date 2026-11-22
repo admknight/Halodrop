@@ -360,8 +360,8 @@ internal static class SharedPresetRules
         ("nameKey", new StringRule(80, SharedText.NameKey) { Nullable = true }),
         ("extensions", new ListRule(new StringRule(16, SharedText.Extension), 400)),
         ("isFallback", Flag),
-        ("presetIds", new ListRule(new StringRule(64, SharedText.Id), ToolbarProfile.MaxSlices)),
-        ("backPresetIds", new ListRule(new StringRule(64, SharedText.Id), ToolbarProfile.MaxSlices) { Nullable = true }),
+        ("presetIds", new ListRule(new StringRule(64, SharedText.Id), ToolbarProfile.FileeMaxSlices)),
+        ("backPresetIds", new ListRule(new StringRule(64, SharedText.Id), ToolbarProfile.FileeMaxSlices) { Nullable = true }),
         ("labelShow", Enum<LabelShow>() with { Nullable = true }),
         ("labelScale", new NumberRule(ToolbarProfile.MinLabelScale, ToolbarProfile.MaxLabelScale)));
 
@@ -369,7 +369,7 @@ internal static class SharedPresetRules
     public static readonly ObjectRule BundleFields = Obj(
         ("schemaVersion", new IntRule(1, 1)),
         ("settingsSchema", new IntRule(1, Settings.AppSettings.CurrentSchemaVersion) { Nullable = true }),
-        ("language", new StringRule(16, code => SharedPresetFolderCheck.Languages.Contains(code) ? null : "is not a language of Morph's") { Nullable = true }),
+        ("language", new StringRule(16, code => SharedPresetFolderCheck.Languages.Contains(code) ? null : "is not a language of Halodrop's") { Nullable = true }),
         ("presets", new ListRule(PresetFields, MaxPresets)),
         ("profiles", new ListRule(ProfileFields, MaxProfiles)));
 

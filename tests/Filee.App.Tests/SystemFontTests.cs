@@ -27,7 +27,7 @@ public class SystemFontTests
     };
 
     private static List<string> Chain(string language, bool systemFont) =>
-        ThemeService.FontFamilies(language, systemFont).Split(", ").Select(f => f.Replace("fonts:Morph#", "").Replace("fonts:System#", "")).ToList();
+        ThemeService.FontFamilies(language, systemFont).Split(", ").Select(f => f.Replace("fonts:Halodrop#", "").Replace("fonts:System#", "")).ToList();
 
     /// <summary>
     /// Asked by name: the system collection lists a family under its name in the system's language ("맑은 고딕"), and
@@ -46,7 +46,7 @@ public class SystemFontTests
 
         Assert.EndsWith(embedded, system);
         if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS())
-            Assert.False(system.StartsWith("fonts:Morph#", StringComparison.Ordinal), system);
+            Assert.False(system.StartsWith("fonts:Halodrop#", StringComparison.Ordinal), system);
     }
 
     /// <summary>The first font that draws Han is still one of the UI language's (Korean for the others).</summary>
@@ -94,7 +94,7 @@ public class SystemFontTests
         foreach (var weight in new[] { FontWeight.Normal, FontWeight.SemiBold })
         {
             var expected = systemFamilies.Select(f => Face(FontManager.Current.SystemFonts, f, weight, letter)).FirstOrDefault(f => f is not null)
-                           ?? (embedded is null ? null : Face(null, $"fonts:Morph#{embedded}", weight, letter));
+                           ?? (embedded is null ? null : Face(null, $"fonts:Halodrop#{embedded}", weight, letter));
             Assert.SkipUnless(expected is not null, $"Neither a system font in the chain nor the embedded one has {letter}.");
 
             Assert.True(FontManager.Current.TryMatchCharacter(letter, FontStyle.Normal, weight, FontStretch.Normal,

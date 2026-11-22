@@ -47,7 +47,7 @@ internal static class Bsp
         if (found.Length <= EmptyZip)
             throw new InvalidDataException($"{mapName} has no files packed into the map; its textures and models come from the game or an addon.");
         if (compressed)
-            throw new InvalidDataException($"{mapName} keeps its packed files compressed (LZMA lump), which Morph does not unpack.");
+            throw new InvalidDataException($"{mapName} keeps its packed files compressed (LZMA lump), which Halodrop does not unpack.");
         return found;
     }
 

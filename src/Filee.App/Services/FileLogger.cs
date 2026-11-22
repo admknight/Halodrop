@@ -15,7 +15,9 @@ public sealed class FileLoggerProvider : ILoggerProvider
     {
         _directory = directory;
         Directory.CreateDirectory(directory);
-        foreach (var old in Directory.EnumerateFiles(directory, "morph-*.log")
+        // Halodrop change: Morph's logs (morph-*.log, from before the rename) age out the same way.
+        foreach (var old in Directory.EnumerateFiles(directory, "halodrop-*.log")
+                     .Concat(Directory.EnumerateFiles(directory, "morph-*.log"))
                      .Where(f => File.GetLastWriteTime(f) < DateTime.Now.AddDays(-14)))
         {
             try { File.Delete(old); } catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
@@ -32,7 +34,7 @@ public sealed class FileLoggerProvider : ILoggerProvider
         {
             try
             {
-                File.AppendAllText(Path.Combine(_directory, $"morph-{DateTime.Now:yyyyMMdd}.log"), line + Environment.NewLine);
+                File.AppendAllText(Path.Combine(_directory, $"halodrop-{DateTime.Now:yyyyMMdd}.log"), line + Environment.NewLine);
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
         }

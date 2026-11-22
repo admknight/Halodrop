@@ -11,16 +11,16 @@
   1. downloads those builds, exactly as they were tested;
   2. checks out the tag in a worktree and runs its build-installer.ps1 with -CertificateThumbprint for each, which
      signs the unsigned programs and the Setup program, packs Setup.exe, signs it, zips the portable copy and writes
-     the SHA-256 sums (x64: Morph-<version>-win-Setup.exe and -win-Portable.zip; ARM64:
-     Morph-<version>-win-arm64-Setup.exe and -win-arm64-Portable.zip). The ARM64 sums are added to
-     Morph-<version>-SHA256SUMS.txt, the one Windows checksum file: Morph 2.4.0 and older take the last Windows-looking
+     the SHA-256 sums (x64: Halodrop-<version>-win-Setup.exe and -win-Portable.zip; ARM64:
+     Halodrop-<version>-win-arm64-Setup.exe and -win-arm64-Portable.zip). The ARM64 sums are added to
+     Halodrop-<version>-SHA256SUMS.txt, the one Windows checksum file: Halodrop 2.4.0 and older take the last Windows-looking
      SHA256SUMS file of a release, and a separate ARM64 one would leave them without their Setup's hash;
-  3. installs the signed Setup into a sandbox (nothing on the PC is touched) and checks that Morph.exe and
+  3. installs the signed Setup into a sandbox (nothing on the PC is touched) and checks that Halodrop.exe and
      uninstall.exe come out signed, then uninstalls it. An x64 PC can't run the ARM64 Setup: there it checks the
      signatures of the ARM64 Setup.exe and of the signed files that went into it instead (the release workflow ran
      the ARM64 Setup program in a sandbox on Windows on ARM, around a stub app);
   4. signs every SHA256SUMS file of the release (the Windows one, and the Linux and macOS ones from the draft) with
-     Morph's update key (build/sign-checksums.ps1, -UpdateKey), which writes a .sig file next to each;
+     Halodrop's update key (build/sign-checksums.ps1, -UpdateKey), which writes a .sig file next to each;
   5. uploads the Windows files and the .sig files to the draft;
   6. copies the Windows files and their checksum signature to the download mirror, Cloudflare R2 behind
      https://dl.filee.sh/<version>/, and checks that each one is served there as is (no redirect, the same size). The
@@ -33,7 +33,7 @@
   without signed checksums: the script then stops early without -UpdateKey, checks that the private key belongs to
   that public key, and doesn't publish while a SHA256SUMS file on the draft has no .sig next to it.
 
-  Needs gh (signed in), git, the .NET SDK, and Node.js with Wrangler signed in to Morph's Cloudflare account
+  Needs gh (signed in), git, the .NET SDK, and Node.js with Wrangler signed in to Halodrop's Cloudflare account
   (npx wrangler login, once) unless -NoMirror. Output: build/.cache/release-<version>/out.
 
 .EXAMPLE
@@ -109,11 +109,11 @@ Invoke-Checked 'git worktree add' { git -C $root worktree add --detach $source $
 try {
     $out = Join-Path $work 'out'
     & (Join-Path $source 'build\build-installer.ps1') -Version $Version -Portable -OutputDir $out `
-        -PublishDir (Join-Path $work 'unsigned\app') -SetupProgram (Join-Path $work 'unsigned\Morph.Setup.exe') `
+        -PublishDir (Join-Path $work 'unsigned\app') -SetupProgram (Join-Path $work 'unsigned\Halodrop.Setup.exe') `
         -CertificateThumbprint $CertificateThumbprint
     if ($arm64) {
         & (Join-Path $source 'build\build-installer.ps1') -Version $Version -Portable -OutputDir $out -Runtime win-arm64 `
-            -PublishDir (Join-Path $work 'unsigned-arm64\app') -SetupProgram (Join-Path $work 'unsigned-arm64\Morph.Setup.exe') `
+            -PublishDir (Join-Path $work 'unsigned-arm64\app') -SetupProgram (Join-Path $work 'unsigned-arm64\Halodrop.Setup.exe') `
             -CertificateThumbprint $CertificateThumbprint
     }
 }
@@ -121,17 +121,17 @@ finally {
     Remove-Source
 }
 
-$setup = Join-Path $out "Morph-$Version-win-Setup.exe"
-$windowsSums = Join-Path $out "Morph-$Version-SHA256SUMS.txt"
-$files = @($setup, (Join-Path $out "Morph-$Version-win-Portable.zip"), $windowsSums)
-$setupArm64 = Join-Path $out "Morph-$Version-win-arm64-Setup.exe"
+$setup = Join-Path $out "Halodrop-$Version-win-Setup.exe"
+$windowsSums = Join-Path $out "Halodrop-$Version-SHA256SUMS.txt"
+$files = @($setup, (Join-Path $out "Halodrop-$Version-win-Portable.zip"), $windowsSums)
+$setupArm64 = Join-Path $out "Halodrop-$Version-win-arm64-Setup.exe"
 if ($arm64) {
-    $files += @($setupArm64, (Join-Path $out "Morph-$Version-win-arm64-Portable.zip"))
+    $files += @($setupArm64, (Join-Path $out "Halodrop-$Version-win-arm64-Portable.zip"))
 }
 foreach ($file in $files) { if (-not (Test-Path $file)) { throw "$file was not written." } }
 if ($arm64) {
     # One checksum file for both (see the description): the ARM64 lines after the x64 ones, which stay as they were.
-    $arm64Sums = Join-Path $out "Morph-$Version-win-arm64-SHA256SUMS.txt"
+    $arm64Sums = Join-Path $out "Halodrop-$Version-win-arm64-SHA256SUMS.txt"
     Add-Content $windowsSums (Get-Content $arm64Sums) -Encoding ascii
     Remove-Item $arm64Sums
     Write-Host "added the ARM64 checksums to $(Split-Path $windowsSums -Leaf)"
@@ -144,7 +144,7 @@ function Invoke-Setup([string]$exe) {
     if ($process.ExitCode -ne 0) { throw "$(Split-Path $exe -Leaf) failed in the sandbox with exit code $($process.ExitCode) (logs: $sandbox\Temp)" }
 }
 # Programs Setup installs that must come out signed: the app's own, and rhwp, which comes unsigned.
-$programs = 'Morph.exe', 'morph-cli.exe', 'engines\rhwp\rhwp.exe'
+$programs = 'Halodrop.exe', 'halodrop-cli.exe', 'engines\rhwp\rhwp.exe'
 function Assert-Signed([string]$folder, [string[]]$names, [string]$where) {
     foreach ($file in $names) {
         $signature = Get-AuthenticodeSignature (Join-Path $folder $file)
@@ -168,7 +168,7 @@ elseif ($arm64) {
     # writes out as uninstall.exe. The release workflow ran the ARM64 Setup program in a sandbox (around a stub app).
     Write-Host 'check the signatures of the ARM64 build (an x64 PC cannot run its Setup)'
     Assert-Signed (Join-Path $work 'unsigned-arm64\app') $programs 'in the ARM64 build'
-    Assert-Signed (Join-Path $work 'unsigned-arm64') 'Morph.Setup.exe' 'in the ARM64 build'
+    Assert-Signed (Join-Path $work 'unsigned-arm64') 'Halodrop.Setup.exe' 'in the ARM64 build'
     Assert-Signed $out (Split-Path $setupArm64 -Leaf) 'after packing'
 }
 
@@ -192,7 +192,7 @@ if (-not $NoMirror) {
     $mirror = "https://dl.filee.sh/$Version"
     $types = @{ '.exe' = 'application/vnd.microsoft.portable-executable'; '.zip' = 'application/zip'; '.txt' = 'text/plain; charset=utf-8'
         '.sig' = 'text/plain; charset=utf-8' }
-    $mirrored = $files + @($signatures | Where-Object { (Split-Path $_ -Leaf) -eq "Morph-$Version-SHA256SUMS.txt.sig" })
+    $mirrored = $files + @($signatures | Where-Object { (Split-Path $_ -Leaf) -eq "Halodrop-$Version-SHA256SUMS.txt.sig" })
     foreach ($file in $mirrored) {
         $name = Split-Path $file -Leaf
         Write-Host "copy $name to $mirror"
@@ -214,10 +214,10 @@ if ($publicKey) {
     $unsigned = @($assets | Where-Object { $_ -like '*SHA256SUMS.txt' -and "$_.sig" -notin $assets })
     if ($unsigned.Count) { throw "Not signed on the draft of ${tag}: $($unsigned -join ', '). Run again with -UpdateKey." }
 }
-# A Windows checksum file besides Morph-<version>-SHA256SUMS.txt (uploaded by hand) could be the one Morph 2.4.0 and
+# A Windows checksum file besides Halodrop-<version>-SHA256SUMS.txt (uploaded by hand) could be the one Halodrop 2.4.0 and
 # older pick, without the hash of their Setup.
-$extraSums = @((gh release view $tag --json assets | ConvertFrom-Json).assets.name | Where-Object { $_ -like 'Morph-*-win-*SHA256SUMS.txt*' })
-if ($extraSums.Count) { throw "Remove from the draft of ${tag}: $($extraSums -join ', '). The Windows hashes all go in Morph-$Version-SHA256SUMS.txt." }
+$extraSums = @((gh release view $tag --json assets | ConvertFrom-Json).assets.name | Where-Object { $_ -like 'Halodrop-*-win-*SHA256SUMS.txt*' })
+if ($extraSums.Count) { throw "Remove from the draft of ${tag}: $($extraSums -join ', '). The Windows hashes all go in Halodrop-$Version-SHA256SUMS.txt." }
 if ($Publish) {
     Invoke-Checked 'gh release edit' { gh release edit $tag --draft=false --latest }
     Write-Host "published $tag"

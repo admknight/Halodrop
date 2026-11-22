@@ -1,9 +1,10 @@
 # Changelog
 
-What changed in each version of Morph (and, below 0.7.0, of Filee, which Morph is built on), for the people using
-it. The release workflow puts the section of the version it publishes under "What's Changed" in the GitHub release notes, above the list of pull requests.
+What changed in each version of Halodrop (called Morph up to 0.7.0; below that, Filee, which it is built on), for the
+people using it. The release workflow puts the section of the version it publishes under "What's Changed" in the
+GitHub release notes.
 
-Add a `## <version>` section before tagging a release. Write what someone using Filee notices: what's new, where to
+Add a `## <version>` section before tagging a release. Write what someone using Halodrop notices: what's new, where to
 find it, what it does and doesn't do.
 
 Start the section with an `<!-- update -->` block (hidden on GitHub). The app's update notice shows its level and its
@@ -13,6 +14,26 @@ change, a language may repeat; a language without lines shows the English ones):
 - `required`: wrong or lost results, security, Filee not starting. The card shows every time Filee starts.
 - `recommended`: bug fixes. The card shows once per version.
 - `optional`: new features only. No card, the sidebar button only.
+
+## 0.8.0
+
+<!-- update
+level: optional
+en: Morph is now Halodrop: a new name, up to 16 slices per donut and a bloom animation; your settings come along
+-->
+
+**Morph is now Halodrop.** The same app with a name of its own: "Morph" was already used by other programs, including
+another file converter. Halodrop says how it works: a halo of actions around your pointer, and you drop your files on it.
+
+- Your settings, presets, donut layouts and downloaded engines move over by themselves the first time Halodrop starts.
+- Morph 0.7.0 doesn't update itself to Halodrop: install Halodrop 0.8.0, then uninstall Morph from Windows Settings →
+  Apps (your settings stay with Halodrop).
+- The program is now `Halodrop.exe`, its command line `halodrop`, and the downloads `Halodrop-<version>-win-…`.
+- **Up to 16 slices** on each face of a donut (was 12). A donut with more than 12 grows a little for each extra slice,
+  so the slices stay easy to hit.
+- **Bloom:** Settings → Look → "Bloom when the donut opens" makes the whole donut grow out at once with a slight turn,
+  quicker than the wave of slices (an idea from OrbitDrop). The wave stays the default.
+- Not yet signed: Windows SmartScreen may warn the first time you run Setup ("More info" → "Run anyway").
 
 ## 0.7.0
 

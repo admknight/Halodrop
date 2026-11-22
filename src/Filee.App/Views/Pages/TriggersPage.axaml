@@ -61,7 +61,7 @@
                       <TextBlock Text="{Binding Summary}" FontWeight="SemiBold" Foreground="{DynamicResource AccentStrongBrush}" />
                     </Border>
                     <Border Classes="badge accent" IsVisible="{Binding IsConnectShortcut}" VerticalAlignment="Center">
-                      <TextBlock Text="Morph Connect" FontWeight="SemiBold" />
+                      <TextBlock Text="Halodrop Connect" FontWeight="SemiBold" />
                     </Border>
                   </StackPanel>
                 </DockPanel>

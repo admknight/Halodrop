@@ -154,7 +154,7 @@ public sealed class IsolatedStepRunner : IStepRunner, IDisposable
         {
             // Never worse than before isolation: this step and those of the next minute run in Morph's process.
             Interlocked.Exchange(ref _startFailedAt, Environment.TickCount64);
-            _log.LogWarning(ex, "Could not start an engine worker ({Program}); engines run in Morph's process for now", _program);
+            _log.LogWarning(ex, "Could not start an engine worker ({Program}); engines run in Halodrop's process for now", _program);
             return null;
         }
     }

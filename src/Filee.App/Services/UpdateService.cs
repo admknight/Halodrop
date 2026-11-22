@@ -89,7 +89,7 @@ public sealed partial class UpdateService : ObservableObject
         // the small files (SHA256SUMS and its signature, a few hundred bytes). Waiting longer for those doesn't help: one
         // that hasn't come in 20 s is stuck, and the mirror is tried instead (FetchAsync).
         _http = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(20) };
-        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Morph", CurrentVersion));
+        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Halodrop", CurrentVersion));
         _http.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
     }
 
@@ -392,7 +392,7 @@ public sealed partial class UpdateService : ObservableObject
         {
             if (ShouldInstallNow(enabled(), inUse(), DateTime.UtcNow))
             {
-                _log.LogInformation("Installing {Version} while Morph is idle", LatestVersion);
+                _log.LogInformation("Installing {Version} while Halodrop is idle", LatestVersion);
                 await UpdateAsync();
             }
         };
@@ -536,11 +536,11 @@ public sealed partial class UpdateService : ObservableObject
 
             var scriptPath = Path.Combine(payloadDir, "install.sh");
             var targetInstallDir = LinuxInstallDirectoryOverride ?? GetLinuxInstallDirectory();
-            var newExe = Path.Combine(targetInstallDir, "Morph");
+            var newExe = Path.Combine(targetInstallDir, "Halodrop");
             var currentPid = Environment.ProcessId;
             var logDir = Path.Combine(UserDataStore.DefaultDirectory, "logs");
             Directory.CreateDirectory(logDir);
-            var logFile = Path.Combine(logDir, $"morph-{DateTime.Now:yyyyMMdd}.log");
+            var logFile = Path.Combine(logDir, $"halodrop-{DateTime.Now:yyyyMMdd}.log");
             var markerFile = FailureMarkerPathOverride ?? Path.Combine(UserDataStore.DefaultDirectory, ".update-failed");
 
             Process? helper;
@@ -554,7 +554,7 @@ public sealed partial class UpdateService : ObservableObject
                 startInfo.ArgumentList.Add("-c");
                 startInfo.ArgumentList.Add(
                     "for _ in $(seq 1 600); do if ! kill -0 \"$1\" 2>/dev/null; then break; fi; sleep 0.1; done; " +
-                    "if kill -0 \"$1\" 2>/dev/null; then echo \"Update aborted: Morph (PID $1) did not exit within timeout\" >> \"$4\"; rm -rf \"$5\" 2>/dev/null; exit 1; fi; " +
+                    "if kill -0 \"$1\" 2>/dev/null; then echo \"Update aborted: Halodrop (PID $1) did not exit within timeout\" >> \"$4\"; rm -rf \"$5\" 2>/dev/null; exit 1; fi; " +
                     "\"$2\" --upgrade >> \"$4\" 2>&1; " +
                     "status=$?; " +
                     "rm -rf \"$5\" 2>/dev/null; " +
@@ -563,7 +563,7 @@ public sealed partial class UpdateService : ObservableObject
                     "else " +
                     "echo \"Update failed with status $status\" >> \"$4\"; " +
                     "echo \"$4\" > \"$6.tmp\" 2>/dev/null && mv -f \"$6.tmp\" \"$6\" 2>/dev/null || true; " +
-                    "if [ -x \"$3\" ]; then exec \"$3\" --background; else echo \"Cannot restart Morph: '$3' is not executable after rollback\" >> \"$4\"; exit $status; fi; " +
+                    "if [ -x \"$3\" ]; then exec \"$3\" --background; else echo \"Cannot restart Halodrop: '$3' is not executable after rollback\" >> \"$4\"; exit $status; fi; " +
                     "fi"
                 );
                 startInfo.ArgumentList.Add("_");
@@ -660,15 +660,15 @@ public sealed partial class UpdateService : ObservableObject
             throw new UpdateVerificationException($"The release has no {name}");
         }
         if (!UpdateSignature.Verify(sums, Encoding.ASCII.GetString(signature), publicKey))
-            throw new UpdateVerificationException($"{name} is not a valid signature of {checksums.Name} by Morph's update key");
+            throw new UpdateVerificationException($"{name} is not a valid signature of {checksums.Name} by Halodrop's update key");
         var version = VersionInName().Match(installer.Name);
         if (!version.Success || !IsNewer(version.Groups[1].Value, CurrentVersion))
             throw new UpdateVerificationException($"{installer.Name} is not a newer version than {CurrentVersion}");
-        _log.LogInformation("{Name} is signed with Morph's update key", checksums.Name);
+        _log.LogInformation("{Name} is signed with Halodrop's update key", checksums.Name);
     }
 
     /// <summary>"Filee-2.4.0-win-Setup.exe" → 2.4.0.</summary>
-    [GeneratedRegex(@"^Morph-(\d+\.\d+\.\d+)-")]
+    [GeneratedRegex(@"^Halodrop-(\d+\.\d+\.\d+)-")]
     private static partial Regex VersionInName();
 
     /// <summary>
@@ -695,7 +695,7 @@ public sealed partial class UpdateService : ObservableObject
         }
         else
         {
-            _log.LogInformation("This copy of Morph is not signed: the installer is checked by its SHA-256 only");
+            _log.LogInformation("This copy of Halodrop is not signed: the installer is checked by its SHA-256 only");
             return;
         }
         var signer = SignerOf(installer, true);
@@ -1140,22 +1140,22 @@ public sealed partial class UpdateService : ObservableObject
             }
             else
             {
-                throw new InvalidDataException("Archive does not contain a single valid Morph payload with install.sh");
+                throw new InvalidDataException("Archive does not contain a single valid Halodrop payload with install.sh");
             }
         }
 
         var installSh = Path.Combine(payloadDir, "install.sh");
-        var fileeExe = Path.Combine(payloadDir, "Morph");
+        var fileeExe = Path.Combine(payloadDir, "Halodrop");
         if (!File.Exists(installSh) || !File.Exists(fileeExe))
         {
-            throw new InvalidDataException("Archive is missing install.sh or Morph executable in the payload directory.");
+            throw new InvalidDataException("Archive is missing install.sh or Halodrop executable in the payload directory.");
         }
 
         if (OperatingSystem.IsLinux())
         {
             EnsureExecutable(installSh);
             EnsureExecutable(fileeExe);
-            var cli = Path.Combine(payloadDir, "morph-cli");
+            var cli = Path.Combine(payloadDir, "halodrop-cli");
             if (File.Exists(cli))
                 EnsureExecutable(cli);
             var uninstall = Path.Combine(payloadDir, "uninstall.sh");
@@ -1240,7 +1240,7 @@ public sealed partial class UpdateService : ObservableObject
             var root = !string.IsNullOrWhiteSpace(dataHome)
                 ? dataHome
                 : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            return Path.Combine(root, "morph");
+            return Path.Combine(root, "halodrop");
         }
         return Path.GetTempPath();
     }
@@ -1421,7 +1421,7 @@ public sealed partial class UpdateService : ObservableObject
         var root = !string.IsNullOrWhiteSpace(dataHome)
             ? dataHome
             : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        return Path.Combine(root, "morph", "application");
+        return Path.Combine(root, "halodrop", "application");
     }
 
     /// <summary>True when release tag <paramref name="tag"/> ("v1.2.0") is a higher version than <paramref name="current"/>.</summary>

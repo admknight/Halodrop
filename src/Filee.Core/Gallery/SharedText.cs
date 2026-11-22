@@ -60,7 +60,7 @@ internal static partial class SharedText
 
     /// <summary>A built-in name's translation key (<c>preset.merge_pdf</c>, <c>profile.images</c>).</summary>
     public static string? NameKey(string text) =>
-        NameKeyPattern().IsMatch(text) ? null : "is not a name key of Morph's";
+        NameKeyPattern().IsMatch(text) ? null : "is not a name key of Halodrop's";
 
     [GeneratedRegex(@"^(preset|profile|group|tool)\.[a-z0-9_.]+$", RegexOptions.CultureInvariant)]
     private static partial Regex NameKeyPattern();
@@ -96,7 +96,7 @@ internal static partial class SharedText
 
     /// <summary>"auto" or a language Whisper knows (<see cref="WhisperLanguages"/>).</summary>
     public static string? SpokenLanguage(string text) =>
-        text == WhisperLanguages.Auto || WhisperLanguages.Find(text) is not null ? null : "is not a spoken language Morph knows";
+        text == WhisperLanguages.Auto || WhisperLanguages.Find(text) is not null ? null : "is not a spoken language Halodrop knows";
 
     /// <summary>"auto" or a language code ("en", "pt-BR", "zh-Hant").</summary>
     public static string? LanguageCode(string text) =>

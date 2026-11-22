@@ -20,7 +20,7 @@ public class InstallerTests
         Assert.True(result.Succeeded, result.Error?.ToString());
         var folder = bench.InstallFolder;
 
-        foreach (var file in new[] { "Morph.exe", "Morph.dll", @"cli\morph.cmd", @"engines\rhwp\rhwp.exe", "uninstall.exe", "uninstall.json" })
+        foreach (var file in new[] { "Halodrop.exe", "Halodrop.dll", @"cli\halodrop.cmd", @"engines\rhwp\rhwp.exe", "uninstall.exe", "uninstall.json" })
             Assert.True(File.Exists(Path.Combine(folder, file)), file);
         Assert.Empty(Directory.EnumerateDirectories(folder, FileSwap.WorkFolderPrefix + "*"));
         var record = InstallRecord.Read(folder)!;
@@ -31,10 +31,10 @@ public class InstallerTests
         // Apps & Features: Inno Setup's key, with everything Windows shows.
         var registry = bench.Registry;
         string? Value(string name) => registry.Get(Hive.LocalMachine, Key, name)?.Text;
-        Assert.Equal("Morph", Value("DisplayName"));
+        Assert.Equal("Halodrop", Value("DisplayName"));
         Assert.Equal("2.0.0", Value("DisplayVersion"));
-        Assert.Equal("Morph contributors", Value("Publisher"));
-        Assert.Equal(Path.Combine(folder, "Morph.exe"), Value("DisplayIcon"));
+        Assert.Equal("Halodrop contributors", Value("Publisher"));
+        Assert.Equal(Path.Combine(folder, "Halodrop.exe"), Value("DisplayIcon"));
         Assert.Equal(folder + "\\", Value("InstallLocation"));
         Assert.Equal($"\"{folder}\\uninstall.exe\"", Value("UninstallString"));
         Assert.Equal($"\"{folder}\\uninstall.exe\" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART", Value("QuietUninstallString"));
@@ -44,15 +44,15 @@ public class InstallerTests
         Assert.Equal(@"contextmenu,contextmenu\top,startup,cli", Value(SetupNames.TasksValue));
 
         // Start menu, PATH (REG_EXPAND_SZ), no desktop shortcut by default.
-        Assert.True(File.Exists(Path.Combine(bench.Paths.CommonStartMenu, "Morph.lnk")));
-        Assert.False(File.Exists(Path.Combine(bench.Paths.CommonDesktop, "Morph.lnk")));
+        Assert.True(File.Exists(Path.Combine(bench.Paths.CommonStartMenu, "Halodrop.lnk")));
+        Assert.False(File.Exists(Path.Combine(bench.Paths.CommonDesktop, "Halodrop.lnk")));
         var path = registry.Get(Hive.LocalMachine, SetupNames.MachineEnvironmentKey, "Path")!;
         Assert.True(path.Expandable);
         Assert.True(PathVariable.Contains(path.Text, Path.Combine(folder, "cli")));
         Assert.Contains("broadcast", bench.System.Calls);
 
         // Filee starts with the choices; it applies them for the signed-in user.
-        Assert.Equal(Path.Combine(folder, "Morph.exe"), result.Launch!.Executable);
+        Assert.Equal(Path.Combine(folder, "Halodrop.exe"), result.Launch!.Executable);
         Assert.Equal("--install-engines=pandoc --start-with-windows=on --context-menu=on", result.Launch.Arguments);
     }
 
@@ -112,7 +112,7 @@ public class InstallerTests
         // Filee 1.12.0 as Inno Setup installed it: its files, unins000.*, the key with Inno's values, its PATH entry,
         // the desktop shortcut and the registered top menu.
         var temp = bench.Temp;
-        foreach (var file in new[] { "Morph.exe", "Morph.dll", "OldOnly.dll", @"cli\morph.cmd", @"runtimes\win-x64\native\old.dll", "unins000.exe", "unins000.dat", "unins000.msg" })
+        foreach (var file in new[] { "Halodrop.exe", "Halodrop.dll", "OldOnly.dll", @"cli\halodrop.cmd", @"runtimes\win-x64\native\old.dll", "unins000.exe", "unins000.dat", "unins000.msg" })
             temp.Write(Path.Combine(Path.GetRelativePath(temp.Path, folder), file), "1.12");
         var registry = bench.Registry;
         registry.SetString(Hive.LocalMachine, Key, "Inno Setup: Setup Version", "7.1.0");
@@ -123,10 +123,10 @@ public class InstallerTests
         registry.SetString(Hive.LocalMachine, Key, "DisplayVersion", "1.12.0");
         registry.SetString(Hive.LocalMachine, Key, "UninstallString", $"\"{folder}\\unins000.exe\"");
         registry.SetString(Hive.LocalMachine, SetupNames.MachineEnvironmentKey, "Path", @"%SystemRoot%\system32;" + folder + @"\cli", expandable: true);
-        temp.Write(Path.Combine(Path.GetRelativePath(temp.Path, bench.Paths.CommonDesktop), "Morph.lnk"), "old shortcut");
+        temp.Write(Path.Combine(Path.GetRelativePath(temp.Path, bench.Paths.CommonDesktop), "Halodrop.lnk"), "old shortcut");
         bench.System.ExplorerMenuSupported = true;
         bench.System.MenuRegistered = true;
-        bench.System.Running.Add(new RunningProgram(4242, Path.Combine(folder, "morph-cli.exe")));
+        bench.System.Running.Add(new RunningProgram(4242, Path.Combine(folder, "halodrop-cli.exe")));
 
         var previous = PreviousInstall.Find(registry, InstallScope.Machine)!;
         Assert.True(previous.ByInno);
@@ -141,13 +141,13 @@ public class InstallerTests
         Assert.True(result.Succeeded, result.Error?.ToString());
 
         // Filee was asked to quit, what still ran from the folder was ended.
-        Assert.Contains("run Morph.exe --quit", bench.System.Calls);
+        Assert.Contains("run Halodrop.exe --quit", bench.System.Calls);
         Assert.Contains("kill 4242", bench.System.Calls);
         // Inno's uninstaller and the files 2.0 doesn't have are gone; the new files are in.
         foreach (var gone in new[] { "unins000.exe", "unins000.dat", "unins000.msg", "OldOnly.dll", @"runtimes\win-x64\native\old.dll" })
             Assert.False(File.Exists(Path.Combine(folder, gone)), gone);
         Assert.False(Directory.Exists(Path.Combine(folder, "runtimes")));
-        Assert.Equal("Morph 2", File.ReadAllText(Path.Combine(folder, "Morph.exe")));
+        Assert.Equal("Halodrop 2", File.ReadAllText(Path.Combine(folder, "Halodrop.exe")));
         Assert.True(File.Exists(Path.Combine(folder, "uninstall.exe")));
         // One uninstall entry, now ours: no "Inno Setup: …" values left.
         Assert.DoesNotContain(registry.ValueNames(Hive.LocalMachine, Key), n => n.StartsWith("Inno Setup", StringComparison.Ordinal));
@@ -156,7 +156,7 @@ public class InstallerTests
         // The user's choices stay: PATH once, the desktop shortcut, the top menu refreshed in place.
         var path = registry.Get(Hive.LocalMachine, SetupNames.MachineEnvironmentKey, "Path")!.Text!;
         Assert.Equal(@"%SystemRoot%\system32;" + folder + @"\cli", path);
-        Assert.True(File.Exists(Path.Combine(bench.Paths.CommonDesktop, "Morph.lnk")));
+        Assert.True(File.Exists(Path.Combine(bench.Paths.CommonDesktop, "Halodrop.lnk")));
         Assert.Contains($"register-menu {folder} False", bench.System.Calls);
         // Back to the tray, as before the update, with the new version's "What's new" slides.
         Assert.Equal("--background --whats-new=1.12.0", result.Launch!.Arguments);
@@ -171,7 +171,7 @@ public class InstallerTests
         // Something of the user's in the folder stays.
         File.WriteAllText(Path.Combine(folder, "notes.txt"), "mine");
         File.Delete(Path.Combine(bench.AppFolder, "Removed.dll"));
-        File.WriteAllText(Path.Combine(bench.AppFolder, "Morph.exe"), "Morph 2.1");
+        File.WriteAllText(Path.Combine(bench.AppFolder, "Halodrop.exe"), "Halodrop 2.1");
         bench.MakeSetup("2.1.0");
 
         var previous = PreviousInstall.Find(bench.Registry, InstallScope.Machine)!;
@@ -181,7 +181,7 @@ public class InstallerTests
         Assert.True(result.Succeeded, result.Error?.ToString());
         Assert.False(File.Exists(Path.Combine(folder, "Removed.dll")));
         Assert.True(File.Exists(Path.Combine(folder, "notes.txt")));
-        Assert.Equal("Morph 2.1", File.ReadAllText(Path.Combine(folder, "Morph.exe")));
+        Assert.Equal("Halodrop 2.1", File.ReadAllText(Path.Combine(folder, "Halodrop.exe")));
         Assert.Equal("2.1.0", InstallRecord.Read(folder)!.Version);
         Assert.Equal("2.1.0", bench.Registry.Get(Hive.LocalMachine, Key, "DisplayVersion")?.Text);
     }
@@ -191,7 +191,7 @@ public class InstallerTests
     {
         using var bench = new SetupBench();
         Assert.True(bench.Install(bench.Choices(SetupTasks.Defaults with { DesktopIcon = true })).Succeeded);
-        var desktop = Path.Combine(bench.Paths.CommonDesktop, "Morph.lnk");
+        var desktop = Path.Combine(bench.Paths.CommonDesktop, "Halodrop.lnk");
         Assert.True(File.Exists(desktop));
         var previous = PreviousInstall.Find(bench.Registry, InstallScope.Machine)!;
         var tasks = previous.CurrentTasks(bench.Registry, bench.System, bench.Paths) with { DesktopIcon = false, Cli = false };
@@ -210,9 +210,9 @@ public class InstallerTests
             .ToDictionary(f => f, File.ReadAllText);
         var entryBefore = bench.Registry.ValueNames(Hive.LocalMachine, Key)
             .ToDictionary(n => n, n => bench.Registry.Get(Hive.LocalMachine, Key, n)!.Value);
-        File.WriteAllText(Path.Combine(bench.AppFolder, "Morph.exe"), "Morph 3");
+        File.WriteAllText(Path.Combine(bench.AppFolder, "Halodrop.exe"), "Halodrop 3");
         bench.MakeSetup("3.0.0");
-        File.Delete(Path.Combine(bench.Paths.CommonStartMenu, "Morph.lnk"));
+        File.Delete(Path.Combine(bench.Paths.CommonStartMenu, "Halodrop.lnk"));
 
         // The Start menu shortcut can't be written: everything after the file swap fails.
         bench.System.OnCreateShortcut = _ => throw new IOException("Access denied (test)");
@@ -253,14 +253,14 @@ public class InstallerTests
     {
         using var bench = new SetupBench();
         Assert.True(bench.Install(bench.Choices() with { NoIcons = true }).Succeeded);
-        Assert.False(File.Exists(Path.Combine(bench.Paths.CommonStartMenu, "Morph.lnk")));
+        Assert.False(File.Exists(Path.Combine(bench.Paths.CommonStartMenu, "Halodrop.lnk")));
 
         using var portable = new SetupBench();
-        var folder = portable.Temp.Sub("Portable Morph");
+        var folder = portable.Temp.Sub("Portable Halodrop");
         var result = portable.Install(portable.Choices() with { Folder = folder, Portable = true }, previous: null);
         Assert.True(result.Succeeded);
         Assert.Null(result.Launch);
-        Assert.True(File.Exists(Path.Combine(folder, "Morph.exe")));
+        Assert.True(File.Exists(Path.Combine(folder, "Halodrop.exe")));
         Assert.Equal("", File.ReadAllText(Path.Combine(folder, "morph.portable")));
         // No uninstaller: the app counts itself as portable (UpdateService.IsInstalled).
         Assert.False(File.Exists(Path.Combine(folder, "uninstall.exe")));
@@ -278,7 +278,7 @@ public class InstallerTests
         Assert.True(bench.Registry.KeyExists(Hive.CurrentUser, Key));
         Assert.False(bench.Registry.KeyExists(Hive.LocalMachine, Key));
         Assert.True(PathVariable.IsOnPath(bench.Registry, InstallScope.User, Path.Combine(folder, "cli")));
-        Assert.True(File.Exists(Path.Combine(bench.Paths.UserStartMenu, "Morph.lnk")));
+        Assert.True(File.Exists(Path.Combine(bench.Paths.UserStartMenu, "Halodrop.lnk")));
         Assert.Equal(InstallScope.User, InstallRecord.Read(folder)!.Scope);
         Assert.NotNull(PreviousInstall.Find(bench.Registry, InstallScope.User));
     }
@@ -289,10 +289,10 @@ public class InstallerTests
         using var bench = new SetupBench();
         var root = VelopackInstall.Root(bench.Paths);
         bench.Temp.Write(Path.Combine(Path.GetRelativePath(bench.Temp.Path, root), "Update.exe"));
-        bench.Temp.Write(Path.Combine(Path.GetRelativePath(bench.Temp.Path, root), @"current\Morph.exe"));
+        bench.Temp.Write(Path.Combine(Path.GetRelativePath(bench.Temp.Path, root), @"current\Halodrop.exe"));
         bench.Temp.Write(Path.Combine(Path.GetRelativePath(bench.Temp.Path, root), @"packages\Morph-1.1.0-full.nupkg"));
         var engine = bench.Temp.Write(Path.Combine(Path.GetRelativePath(bench.Temp.Path, root), @"engines\pandoc\.morph-component"));
-        bench.Registry.SetString(Hive.CurrentUser, SetupNames.VelopackUninstallKey, "DisplayName", "Morph");
+        bench.Registry.SetString(Hive.CurrentUser, SetupNames.VelopackUninstallKey, "DisplayName", "Halodrop");
         Assert.True(VelopackInstall.Exists(bench.Paths));
 
         Assert.True(bench.Install().Succeeded);

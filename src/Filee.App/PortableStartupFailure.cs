@@ -47,8 +47,8 @@ internal static class PortableStartupFailure
     /// for a bug report or a packager's terminal.
     /// </summary>
     internal static string Cause(PortableStorageException error) =>
-        $"Morph: {error.Message} ({error.InnerException?.Message ?? "unknown error"}). The {PortableMode.MarkerName} file " +
-        "beside Morph turns on portable mode; delete it to use the normal user profile. Installed packages must not include it.";
+        $"Halodrop: {error.Message} ({error.InnerException?.Message ?? "unknown error"}). The {PortableMode.MarkerName} file " +
+        "beside Halodrop turns on portable mode; delete it to use the normal user profile. Installed packages must not include it.";
 
     /// <summary>The message window, in the UI font chain of <paramref name="language"/> and its reading direction.</summary>
     internal static Window CreateWindow(string message, string language)
@@ -56,7 +56,7 @@ internal static class PortableStartupFailure
         var close = new Button { Content = LocalizationService.EarlyText("common.close"), HorizontalAlignment = HorizontalAlignment.Right };
         var window = new Window
         {
-            Title = "Morph",
+            Title = "Halodrop",
             Width = 520,
             SizeToContent = SizeToContent.Height,
             CanResize = false,

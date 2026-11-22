@@ -53,6 +53,24 @@ public sealed partial class MorphBrandingTests
         Assert.Empty(found);
     }
 
+    // Halodrop change: Halodrop was called Morph up to 0.7.0; no interface text says Morph any more.
+    [Fact]
+    public void No_interface_text_in_any_language_says_Morph()
+    {
+        var found = new List<string>();
+        foreach (var file in Directory.GetFiles(Path.Combine(RepositoryRoot(), "src", "Filee.App", "Assets", "i18n"), "*.json"))
+        {
+            using var json = JsonDocument.Parse(File.ReadAllText(file));
+            foreach (var entry in json.RootElement.EnumerateObject())
+            {
+                var text = entry.Value.ValueKind == JsonValueKind.String ? entry.Value.GetString()! : "";
+                if (Regex.IsMatch(text, "(?<![A-Za-z])[Mm]orph(?![A-Za-z])"))
+                    found.Add($"{Path.GetFileName(file)}: {entry.Name}");
+            }
+        }
+        Assert.Empty(found);
+    }
+
     [Fact]
     public void No_string_in_the_code_says_Filee()
     {

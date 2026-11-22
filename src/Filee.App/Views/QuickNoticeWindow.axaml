@@ -3,7 +3,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Filee.App.Views.QuickNoticeWindow"
-        Title="Morph"
+        Title="Halodrop"
         Width="340"
         SizeToContent="Height"
         WindowDecorations="None"
@@ -15,7 +15,7 @@
         CanResize="False">
   <Border Classes="card" Margin="12" Padding="14,12">
     <DockPanel>
-      <Image DockPanel.Dock="Left" Source="avares://Morph/Assets/Icons/morph.png" Width="28" Height="28"
+      <Image DockPanel.Dock="Left" Source="avares://Halodrop/Assets/Icons/morph.png" Width="28" Height="28"
              VerticalAlignment="Top" Margin="0,0,10,0" />
       <StackPanel Spacing="4" VerticalAlignment="Center">
         <TextBlock x:Name="TitleText" FontWeight="SemiBold" TextWrapping="Wrap" />

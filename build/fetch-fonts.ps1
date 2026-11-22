@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Downloads the Noto Sans fonts (SIL Open Font License 1.1) used by the Morph UI.
+  Downloads the Noto Sans fonts (SIL Open Font License 1.1) used by the Halodrop UI.
 
 .DESCRIPTION
   Fonts are not committed to git (≈36 MB). Run this once after cloning, and CI runs it before publishing.

@@ -30,7 +30,7 @@ public sealed class EngineEnvironment(string dataDirectory)
     internal static string DefaultDownloadRoot(string? dataDirectoryOverride) =>
         dataDirectoryOverride is not null
             ? Path.Combine(dataDirectoryOverride, "engines")
-            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Morph", "engines");
+            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Halodrop", "engines");
 
     /// <summary>
     /// Finds an engine directory (<c>engines/&lt;name&gt;</c>): next to the executable (bundled with the installer),

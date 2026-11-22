@@ -237,8 +237,8 @@ internal static class GcodeDrawing
         const float pointsPerMm = 72 / 25.4f;
         var metadata = SKDocumentPdfMetadata.Default;
         metadata.Title = title;
-        metadata.Creator = "Morph";
-        metadata.Producer = "Morph (Skia PDF)";
+        metadata.Creator = "Halodrop";
+        metadata.Producer = "Halodrop (Skia PDF)";
         metadata.Creation = DateTime.Now;
         metadata.Modified = DateTime.Now;
         metadata.PdfA = pdfA;

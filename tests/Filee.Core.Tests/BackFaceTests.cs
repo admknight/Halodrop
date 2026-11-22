@@ -46,7 +46,7 @@ public partial class BackFaceTests
         {
             var back = profile.BackPresetIds;
             Assert.NotNull(back);
-            Assert.True(back.Count <= ToolbarProfile.MaxSlices, profile.Id);
+            Assert.True(back.Count <= ToolbarProfile.FileeMaxSlices, profile.Id);
             Assert.Equal(back.Count, back.Distinct().Count());
             Assert.All(back, id => Assert.True(presets.ContainsKey(id), $"{profile.Id}: {id}"));
             // Nothing moved off the front, nothing shown twice.

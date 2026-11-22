@@ -38,7 +38,7 @@ if ($IsMacOS) {
     Invoke-Checked 'Extracted app signature' { codesign --verify --deep --strict (Join-Path $package 'Morph.app') }
 }
 $bin = if ($IsMacOS) { Join-Path $package 'Morph.app/Contents/MacOS' } else { $package }
-$cli = Join-Path $bin 'morph-cli'
+$cli = Join-Path $bin 'halodrop-cli'
 
 Invoke-Checked 'CLI start' { & $cli version }
 Invoke-Checked 'rhwp start' { & (Join-Path $bin 'engines/rhwp/rhwp') --version }
@@ -58,7 +58,7 @@ function Convert-Smoke([string]$source, [string]$target) {
 }
 
 $inputFile = Join-Path $smoke 'sample.txt'
-'Morph 한글 conversion smoke test' | Set-Content -LiteralPath $inputFile -Encoding utf8NoBOM
+'Halodrop 한글 conversion smoke test' | Set-Content -LiteralPath $inputFile -Encoding utf8NoBOM
 $hwpx = Convert-Smoke $inputFile 'hwpx'
 # HWPX -> HWP and HWP -> PDF are rhwp's routes: they run the bundled rhwp from the package.
 $hwp = Convert-Smoke $hwpx 'hwp'
@@ -73,14 +73,14 @@ if ($IsLinux) {
     Invoke-Checked 'Load libuiohook-xrecord.so' {
         python3 -c 'import ctypes, sys; ctypes.CDLL(sys.argv[1]); print("Loaded " + sys.argv[1])' $backend
     }
-    # Unhwp: from its package on x64, Morph's own build on ARM64 (build/build-native.py, -UnhwpOverride).
+    # Unhwp: from its package on x64, Halodrop's own build on ARM64 (build/build-native.py, -UnhwpOverride).
     Invoke-Checked 'Load libunhwp.so' {
         python3 -c 'import ctypes, sys; f = ctypes.CDLL(sys.argv[1]).unhwp_version; f.restype = ctypes.c_char_p; print("Loaded " + sys.argv[1] + ", unhwp " + f().decode())' (Join-Path $bin 'libunhwp.so')
     }
 }
 
 if ($env:GITHUB_ENV) {
-    "MORPH_SMOKE_APP=$(Join-Path $bin 'Morph')" >> $env:GITHUB_ENV
+    "MORPH_SMOKE_APP=$(Join-Path $bin 'Halodrop')" >> $env:GITHUB_ENV
     "MORPH_SMOKE_PACKAGE=$package" >> $env:GITHUB_ENV
 }
 Write-Host "Package checks passed: $package"

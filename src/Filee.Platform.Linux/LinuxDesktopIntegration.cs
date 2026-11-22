@@ -96,7 +96,7 @@ internal sealed class LinuxDesktopIntegration(string configHome, string dataHome
             File.Delete(path);
             return;
         }
-        Write(path, $"[Desktop Entry]\nType=Application\nName=Morph\nExec={DesktopArgument(executablePath)} --background\nTerminal=false\nX-GNOME-Autostart-enabled=true\n");
+        Write(path, $"[Desktop Entry]\nType=Application\nName=Halodrop\nExec={DesktopArgument(executablePath)} --background\nTerminal=false\nX-GNOME-Autostart-enabled=true\n");
     }
 
     public void SetContextMenu(bool enabled, string executablePath, string label)
@@ -105,7 +105,7 @@ internal sealed class LinuxDesktopIntegration(string configHome, string dataHome
         var menuPaths = new[]
         {
             Path.Combine(dataHome, "Thunar", "sendto", "morph.desktop"),
-            Path.Combine(dataHome, "nautilus", "scripts", "Morph"),
+            Path.Combine(dataHome, "nautilus", "scripts", "Halodrop"),
             Path.Combine(dataHome, "nemo", "actions", "morph.nemo_action"),
             Path.Combine(dataHome, "kio", "servicemenus", "morph.desktop"),
         };

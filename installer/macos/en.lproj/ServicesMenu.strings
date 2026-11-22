@@ -1,2 +1,2 @@
-/* Finder's right-click menu: the title of Morph's service (NSServices in Info.plist). */
-"Convert with Morph" = "Convert with Morph";
+/* Finder's right-click menu: the title of Halodrop's service (NSServices in Info.plist). */
+"Convert with Halodrop" = "Convert with Halodrop";

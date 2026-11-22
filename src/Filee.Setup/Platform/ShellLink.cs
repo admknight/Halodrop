@@ -39,7 +39,7 @@ internal static partial class ShellLink
                 failure = ex;
             }
         })
-        { IsBackground = true, Name = "Morph Setup shortcut" };
+        { IsBackground = true, Name = "Halodrop Setup shortcut" };
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
         thread.Join();

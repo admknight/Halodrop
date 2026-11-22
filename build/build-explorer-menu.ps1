@@ -8,9 +8,9 @@
   on GitHub's windows-latest runner. The unsigned sparse package is packed by build/tools/make-explorer-package.cs
   through the packaging API that ships with Windows.
 
-  Both files belong next to Morph.exe; the release workflow passes the publish folder as -Destination.
+  Both files belong next to Halodrop.exe; the release workflow passes the publish folder as -Destination.
 
-  The DLL is loaded into explorer.exe, so it is built for the architecture of the Morph build it ships with
+  The DLL is loaded into explorer.exe, so it is built for the architecture of the Halodrop build it ships with
   (-Architecture): x64, or arm64 for win-arm64 (the package then says arm64 too). The x64 Zig toolchain cross-compiles
   both; on Windows on ARM it runs under x64 emulation.
 

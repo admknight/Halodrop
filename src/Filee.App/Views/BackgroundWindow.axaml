@@ -9,7 +9,7 @@
         x:Class="Filee.App.Views.BackgroundWindow"
         x:DataType="vm:BackgroundViewModel"
         Title="{DynamicResource preset.background}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="1040" Height="720" MinWidth="760" MinHeight="520">
   <Window.Styles>
     <Style Selector="Border.float">

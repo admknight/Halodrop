@@ -6,7 +6,7 @@
         x:Class="Filee.App.Views.LibreOfficeOptionsWindow"
         x:DataType="vm:EnginesPageViewModel"
         Title="{DynamicResource engines.lo_title}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="520"
         SizeToContent="Height"
         CanResize="False"

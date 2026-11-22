@@ -24,12 +24,12 @@ BEGIN
         BLOCK "040904B0"
         BEGIN
             VALUE "CompanyName", "Adam Knight"
-            VALUE "FileDescription", "Morph File Explorer context menu"
+            VALUE "FileDescription", "Halodrop File Explorer context menu"
             VALUE "FileVersion", FILEE_VERSION_TEXT
             VALUE "InternalName", "MorphExplorerMenu"
             VALUE "LegalCopyright", "Copyright (c) Adam Knight and Filee contributors. MIT License."
             VALUE "OriginalFilename", "MorphExplorerMenu.dll"
-            VALUE "ProductName", "Morph"
+            VALUE "ProductName", "Halodrop"
             VALUE "ProductVersion", FILEE_VERSION_TEXT
         END
     END

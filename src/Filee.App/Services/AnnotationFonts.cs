@@ -11,7 +11,7 @@ namespace Filee.App.Services;
 
 internal static class AnnotationFonts
 {
-    private const string EmbeddedPrefix = "fonts:Morph#";
+    private const string EmbeddedPrefix = "fonts:Halodrop#";
     private const string SystemPrefix = SoftPalette.SystemKey + "#";
 
     private static readonly Lazy<IReadOnlyList<SKTypeface>> Embedded = new(LoadEmbedded);
@@ -80,7 +80,7 @@ internal static class AnnotationFonts
         var faces = new List<SKTypeface>();
         try
         {
-            foreach (var uri in AssetLoader.GetAssets(new Uri("avares://Morph/Assets/Fonts"), null))
+            foreach (var uri in AssetLoader.GetAssets(new Uri("avares://Halodrop/Assets/Fonts"), null))
             {
                 if (!uri.AbsolutePath.Contains("-Bold.", StringComparison.Ordinal))
                     continue;

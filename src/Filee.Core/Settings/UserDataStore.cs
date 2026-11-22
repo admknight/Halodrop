@@ -41,7 +41,7 @@ public sealed class UserDataStore
     /// folder in <see cref="DirectoryVariable"/>.
     /// </summary>
     public static string DefaultDirectory =>
-        OverrideDirectory ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Morph");
+        OverrideDirectory ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Halodrop");
 
     internal static string? DirectoryFrom(string? value) =>
         string.IsNullOrWhiteSpace(value) ? null : Path.TrimEndingDirectorySeparator(Path.GetFullPath(value.Trim()));
@@ -878,7 +878,7 @@ internal static class SettingsMigrations
             if (profiles.FirstOrDefault(p => p.Id == "video") is { BackPresetIds: { } back })
             {
                 var missing = BuiltInData.LivePhotoPresets().Select(p => p.Id).Where(id => !back.Contains(id)).ToList();
-                if (missing.Count > 0 && back.Count + missing.Count <= ToolbarProfile.MaxSlices)
+                if (missing.Count > 0 && back.Count + missing.Count <= ToolbarProfile.FileeMaxSlices)
                 {
                     var after = back.IndexOf("extract-frames-jpg");
                     back.InsertRange(after < 0 ? back.Count(id => id != "zip-all") : after + 1, missing);
@@ -919,7 +919,7 @@ internal static class SettingsMigrations
             }
             if (profiles.FirstOrDefault(p => p.Id == "images") is { BackPresetIds: { } back } images
                 && !back.Contains("trim-transparent") && !images.PresetIds.Contains("trim-transparent")
-                && back.Count < ToolbarProfile.MaxSlices)
+                && back.Count < ToolbarProfile.FileeMaxSlices)
             {
                 var after = back.IndexOf("remove-background");
                 back.Insert(after < 0 ? back.Count(id => id != "zip-all") : after + 1, "trim-transparent");
@@ -973,7 +973,7 @@ internal static class SettingsMigrations
                 changed = true;
             }
             if (profiles.FirstOrDefault(p => p.Id == "spreadsheets") is { BackPresetIds: { } back } spreadsheets
-                && !back.Contains(id) && !spreadsheets.PresetIds.Contains(id) && back.Count < ToolbarProfile.MaxSlices)
+                && !back.Contains(id) && !spreadsheets.PresetIds.Contains(id) && back.Count < ToolbarProfile.FileeMaxSlices)
             {
                 back.Insert(0, id);
                 changed = true;
@@ -1009,7 +1009,7 @@ internal static class SettingsMigrations
             }
             if (profiles.FirstOrDefault(p => p.Id == "pdf") is { BackPresetIds: { } back } pdf
                 && !pdf.PresetIds.Contains("pdf-edit") && !back.Contains("pdf-edit")
-                && back.Count < ToolbarProfile.MaxSlices)
+                && back.Count < ToolbarProfile.FileeMaxSlices)
             {
                 back.Insert(0, "pdf-edit");
                 changed = true;
@@ -1400,7 +1400,7 @@ internal static class SettingsMigrations
         if (profiles.FirstOrDefault(p => p.Id == "images") is not { BackPresetIds: { } back } images
             || back.Contains(merge.Id) || images.PresetIds.Contains(merge.Id))
             return changed;
-        if (back.Count < ToolbarProfile.MaxSlices)
+        if (back.Count < ToolbarProfile.FileeMaxSlices)
         {
             InsertBefore(back, merge.Id, back.Contains("merge-pdf") ? "merge-pdf" : "zip-all");
             return true;
@@ -1424,7 +1424,7 @@ internal static class SettingsMigrations
         }
 
         if (profiles.FirstOrDefault(p => p.Id == "spreadsheets") is { BackPresetIds: { } back }
-            && !back.Contains("to-ics") && back.Count < ToolbarProfile.MaxSlices)
+            && !back.Contains("to-ics") && back.Count < ToolbarProfile.FileeMaxSlices)
         {
             var after = back.IndexOf("to-vcf");
             var beforeZip = back.IndexOf("zip-all");
@@ -1473,7 +1473,7 @@ internal static class SettingsMigrations
             }
             foreach (var id in ids)
             {
-                if (back.Contains(id) || profile.PresetIds.Contains(id) || back.Count >= ToolbarProfile.MaxSlices
+                if (back.Contains(id) || profile.PresetIds.Contains(id) || back.Count >= ToolbarProfile.FileeMaxSlices
                     || presets.All(p => p.Id != id))
                     continue;
                 InsertBefore(back, id, "zip-all");
@@ -1539,7 +1539,7 @@ internal static class SettingsMigrations
             && !back.Contains(clip.Id) && !video.PresetIds.Contains(clip.Id))
         {
             changed |= back.Remove("to-flac");
-            if (back.Count < ToolbarProfile.MaxSlices)
+            if (back.Count < ToolbarProfile.FileeMaxSlices)
             {
                 back.Insert(0, clip.Id);
                 changed = true;
@@ -1574,7 +1574,7 @@ internal static class SettingsMigrations
         if (profiles.FirstOrDefault(p => p.Id == "images") is { } images
             && images.PresetIds.IndexOf("half-size") is >= 0 and var half
             && !images.PresetIds.Contains(edit.Id) && images.BackPresetIds?.Contains(edit.Id) != true
-            && images.PresetIds.Count < ToolbarProfile.MaxSlices)
+            && images.PresetIds.Count < ToolbarProfile.FileeMaxSlices)
         {
             images.PresetIds.Insert(half + 1, edit.Id);
             changed = true;
@@ -1617,12 +1617,12 @@ internal static class SettingsMigrations
             return changed;
         if (after + 1 < front.Count && front[after + 1] == "tool-image-edit")
             after++;
-        if (front.Count < ToolbarProfile.MaxSlices)
+        if (front.Count < ToolbarProfile.FileeMaxSlices)
         {
             front.Insert(after + 1, hide.Id);
             return true;
         }
-        if (images.BackPresetIds is { } back && back.Count < ToolbarProfile.MaxSlices)
+        if (images.BackPresetIds is { } back && back.Count < ToolbarProfile.FileeMaxSlices)
         {
             InsertBefore(back, hide.Id, "zip-all");
             return true;
@@ -1834,7 +1834,7 @@ internal static class SettingsMigrations
     private static bool Offer(List<Preset> presets, List<ToolbarProfile> profiles, string profileId, string presetId, string? after)
     {
         if (profiles.FirstOrDefault(p => p.Id == profileId) is not { } profile
-            || profile.PresetIds.Contains(presetId) || profile.PresetIds.Count >= ToolbarProfile.MaxSlices
+            || profile.PresetIds.Contains(presetId) || profile.PresetIds.Count >= ToolbarProfile.FileeMaxSlices
             || presets.All(p => p.Id != presetId))
             return false;
         var index = after is null ? -1 : profile.PresetIds.IndexOf(after);

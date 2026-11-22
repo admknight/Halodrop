@@ -7,7 +7,7 @@
         x:Class="Filee.App.Views.PresetGalleryWindow"
         x:DataType="vm:PresetGalleryViewModel"
         Title="{DynamicResource gallery.title}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="1100" Height="740" MinWidth="780" MinHeight="540"
         WindowStartupLocation="CenterOwner">
   <Window.Styles>

@@ -70,9 +70,9 @@ public sealed class RealPathTests : IDisposable
     public void An_installer_that_cannot_open_its_package_says_so()
     {
         // In the user's language on the Engines card (error.* keys, every language file has them).
-        var link = Assert.IsType<ConversionRefusedException>(EngineInstaller.MsiFailure("libreoffice", 1620, @"C:\Temp\morph-msiexec.log"));
+        var link = Assert.IsType<ConversionRefusedException>(EngineInstaller.MsiFailure("libreoffice", 1620, @"C:\Temp\halodrop-msiexec.log"));
         Assert.Equal("error.msi_link", link.ErrorKey);
-        Assert.Equal(@"msiexec 1620, log: C:\Temp\morph-msiexec.log", link.Detail);
+        Assert.Equal(@"msiexec 1620, log: C:\Temp\halodrop-msiexec.log", link.Detail);
         Assert.Equal("error.msi_busy", Assert.IsType<ConversionRefusedException>(EngineInstaller.MsiFailure("calibre", 1618, "log")).ErrorKey);
         Assert.Contains("exit code 1603", EngineInstaller.MsiFailure("calibre", 1603, "log").Message);
     }

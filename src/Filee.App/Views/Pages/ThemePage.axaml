@@ -297,6 +297,10 @@
           <StackPanel Spacing="4">
             <CheckBox Content="{DynamicResource theme.reduce_motion}" IsChecked="{Binding ReduceMotion}" FontWeight="SemiBold" />
             <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource theme.reduce_motion_hint}" Margin="28,0,0,0" />
+            <!-- Halodrop change: the bloom opening (OrbitDrop's idea) instead of the wave. -->
+            <CheckBox Content="{DynamicResource theme.bloom_animation}" IsChecked="{Binding BloomAnimation}" FontWeight="SemiBold"
+                      IsEnabled="{Binding !ReduceMotion}" Margin="0,8,0,0" />
+            <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource theme.bloom_animation_hint}" Margin="28,0,0,0" />
           </StackPanel>
         </Border>
         <!-- Window size: the zoom of every Filee window (UiZoom), saved by itself. Ctrl + wheel and the keys change it too. -->

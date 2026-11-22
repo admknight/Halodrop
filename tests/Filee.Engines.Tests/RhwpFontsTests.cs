@@ -143,7 +143,7 @@ public class RhwpFontsTests(EngineFixture fx) : IClassFixture<EngineFixture>
     public void Looking_up_a_missing_font_leaves_the_fallback_typeface_usable_for_others()
     {
         // fontconfig (and CoreText) answer an unknown family with some installed font; Windows answers null.
-        const string missing = "Morph No Such Family";
+        const string missing = "Halodrop No Such Family";
         var fallback = SkiaSharp.SKFontManager.Default.MatchFamily(missing);
         Assert.SkipWhen(fallback is null, "this font manager has no fallback for unknown families");
         // SkiaSharp gives out one wrapper per native typeface: what Find gets is this very object.

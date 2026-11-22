@@ -21,7 +21,7 @@ public sealed class EngineIsolation : IDisposable
 
     internal static bool IsEnabled(string program) =>
         Environment.GetEnvironmentVariable("MORPH_ENGINES_IN_PROCESS") != "1"
-        && string.Equals(Path.GetFileNameWithoutExtension(program), "Morph", StringComparison.OrdinalIgnoreCase);
+        && string.Equals(Path.GetFileNameWithoutExtension(program), "Halodrop", StringComparison.OrdinalIgnoreCase);
 
     public void Dispose() => Runner?.Dispose();
 }

@@ -4,7 +4,7 @@
         x:Class="Filee.App.Views.OllamaModelManagerWindow"
         x:DataType="vm:OllamaModelManagerViewModel"
         Title="{DynamicResource engines.ollama.title}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="640"
         Height="620"
         MinWidth="540"

@@ -64,7 +64,7 @@ internal static class ImageReader
         {
             images.Dispose();
             throw new InvalidOperationException(
-                "This DICOM image is compressed in a way Morph can't read (more than 8 bits per sample, or an unusual " +
+                "This DICOM image is compressed in a way Halodrop can't read (more than 8 bits per sample, or an unusual " +
                 "compression). Export it uncompressed from the viewing software and try again. (" + ex.Message + ")", ex);
         }
         catch

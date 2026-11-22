@@ -142,7 +142,7 @@ public class CloseActionTests
             NullLogger<GeneralPageViewModel>.Instance);
         try
         {
-            Assert.Equal(["Ask every time", "Keep Morph running in the tray", "Quit Morph"], page.CloseChoices.Select(c => c.Label));
+            Assert.Equal(["Ask every time", "Keep Halodrop running in the tray", "Quit Halodrop"], page.CloseChoices.Select(c => c.Label));
             page.CloseChoice = page.CloseChoices.Single(c => c.Value == CloseAction.Quit);
             Assert.Equal(CloseAction.Quit, store.Settings.CloseAction);
         }

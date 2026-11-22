@@ -45,7 +45,7 @@ internal static class RecycleBin
         }
 
         TrashRefusal? refusal = null;
-        var thread = new Thread(() => refusal = Recycle(full)) { IsBackground = true, Name = "Morph Recycle Bin" };
+        var thread = new Thread(() => refusal = Recycle(full)) { IsBackground = true, Name = "Halodrop Recycle Bin" };
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
         thread.Join();

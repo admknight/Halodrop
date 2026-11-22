@@ -7,7 +7,7 @@
         x:Class="Filee.Setup.Views.SetupWindow"
         x:DataType="vm:SetupViewModel"
         Title="{DynamicResource installer.title}"
-        Icon="avares://Morph.Setup/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop.Setup/Assets/Icons/morph.ico"
         Width="664" Height="444"
         CanResize="False"
         WindowDecorations="None"

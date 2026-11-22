@@ -40,14 +40,14 @@ public class EnginesPageTests
         // #527: msiexec 1620, a junction on the way. The card says so in the user's language, with the log's path.
         TestServices.EnsureInitialized("en");
         var loc = AppHost.Get<LocalizationService>();
-        var failure = Filee.Engines.Infrastructure.EngineInstaller.MsiFailure("libreoffice", 1620, @"C:\Temp\morph-msiexec.log");
+        var failure = Filee.Engines.Infrastructure.EngineInstaller.MsiFailure("libreoffice", 1620, @"C:\Temp\halodrop-msiexec.log");
         try
         {
             loc.SetLanguage("ko");
             var text = EngineDownloadService.ErrorText(loc, failure);
             Assert.StartsWith(loc["error.msi_link"], text);
             Assert.NotEqual("error.msi_link", loc["error.msi_link"]);
-            Assert.EndsWith(@"(msiexec 1620, log: C:\Temp\morph-msiexec.log)", text);
+            Assert.EndsWith(@"(msiexec 1620, log: C:\Temp\halodrop-msiexec.log)", text);
             Assert.Equal(loc["error.msi_busy"], EngineDownloadService.ErrorText(loc, Filee.Engines.Infrastructure.EngineInstaller.MsiFailure("calibre", 1618, "log")));
         }
         finally
@@ -70,7 +70,7 @@ public class EnginesPageTests
             var text = EngineDownloadService.ErrorText(loc, new Filee.Engines.Infrastructure.EngineBusyException("libreoffice"));
             Assert.Equal(loc["error.engine_busy"], text);
             Assert.NotEqual("error.engine_busy", text);
-            Assert.DoesNotContain("being installed by another Morph", text);
+            Assert.DoesNotContain("being installed by another Halodrop", text);
         }
         finally
         {

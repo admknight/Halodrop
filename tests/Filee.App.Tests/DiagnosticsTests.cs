@@ -170,7 +170,7 @@ public class StartupDiagnosticsTests
     {
         var line = StartupDiagnostics.Describe("1.11.0", "/opt/morph/Morph", "portable",
             new ElevationState(IntegrityLevel.High, IntegrityLevel.Medium, true), "Microsoft Windows 10.0.26200 X64", 3);
-        Assert.Equal("Morph 1.11.0 starting: /opt/morph/Morph (portable), integrity High (elevated), Explorer Medium, " +
+        Assert.Equal("Halodrop 1.11.0 starting: /opt/morph/Morph (portable), integrity High (elevated), Explorer Medium, " +
                      "Microsoft Windows 10.0.26200 X64, 3 argument(s)", line);
     }
 
@@ -178,7 +178,7 @@ public class StartupDiagnosticsTests
     public void An_unknown_path_and_state_still_give_a_line()
     {
         var line = StartupDiagnostics.Describe("1.0.0", null, "development build", ElevationState.Unknown, "Linux", 0);
-        Assert.Equal("Morph 1.0.0 starting: (unknown path) (development build), integrity unknown, Linux, 0 argument(s)", line);
+        Assert.Equal("Halodrop 1.0.0 starting: (unknown path) (development build), integrity unknown, Linux, 0 argument(s)", line);
     }
 
     [Theory]
@@ -200,9 +200,9 @@ public class StartupDiagnosticsTests
         try
         {
             var log = StartupDiagnostics.CreateEarlyLogger(folder);
-            log.LogInformation("{Startup}", "Morph test starting");
-            var file = Assert.Single(Directory.GetFiles(folder, "morph-*.log"));
-            Assert.Contains("Program: Morph test starting", File.ReadAllText(file));
+            log.LogInformation("{Startup}", "Halodrop test starting");
+            var file = Assert.Single(Directory.GetFiles(folder, "halodrop-*.log"));
+            Assert.Contains("Program: Halodrop test starting", File.ReadAllText(file));
         }
         finally
         {
@@ -246,7 +246,7 @@ public class StartupDiagnosticsTests
 
             store.Load();
 
-            var file = Assert.Single(Directory.GetFiles(Path.Combine(folder, "logs"), "morph-*.log"));
+            var file = Assert.Single(Directory.GetFiles(Path.Combine(folder, "logs"), "halodrop-*.log"));
             Assert.Contains("WARN UserDataStore: Could not read", File.ReadAllText(file));
             Assert.True(File.Exists(Path.Combine(folder, "settings.json.broken")));
             Assert.True(store.Settings.ShowInDock);

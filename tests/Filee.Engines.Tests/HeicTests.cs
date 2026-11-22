@@ -147,7 +147,7 @@ public class HeicTests(EngineFixture fx) : IClassFixture<EngineFixture>
             // Stored sideways, shown upright through Exif orientation 6 (turn 90° clockwise), like a phone photo.
             var exif = new ExifProfile();
             exif.SetValue(ExifTag.Orientation, (ushort)6);
-            exif.SetValue(ExifTag.Make, "Morph test");
+            exif.SetValue(ExifTag.Make, "Halodrop test");
             photo.SetProfile(exif);
             photo.Orientation = Orientation.RightTop; // ImageMagick writes this into the Exif orientation
             photo.SetProfile(ColorProfiles.AdobeRGB1998);
@@ -161,7 +161,7 @@ public class HeicTests(EngineFixture fx) : IClassFixture<EngineFixture>
         Assert.Equal(ColorProfiles.AdobeRGB1998.ToByteArray(), heic.GetColorProfile()?.ToByteArray());
         var exifBack = heic.GetExifProfile();
         Assert.NotNull(exifBack);
-        Assert.Equal("Morph test", exifBack.GetValue(ExifTag.Make)?.Value);
+        Assert.Equal("Halodrop test", exifBack.GetValue(ExifTag.Make)?.Value);
         Assert.Equal((ushort)1, exifBack.GetValue(ExifTag.Orientation)?.Value);
 
         // The gradient runs from top to bottom in the stored pixels, so from right to left once upright. Tiles in

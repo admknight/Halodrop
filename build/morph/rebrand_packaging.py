@@ -12,7 +12,7 @@ SHIELD = [
     r"https?://(dl\.)?filee\.sh[^\s\"'<>)]*", r"filee\.sh\b(?!-)", r"KnifeLemon/Filee[A-Za-z-]*", r"github\.com/KnifeLemon[^\s\"'<>)]*",
 ]
 SPECIAL = [("filee-donut@filee.sh", "morph-donut@admknight.github.io"), ("com.filee.app", "app.morph"),
-           ("filee-cli", "morph-cli"), ("FileeExplorerMenu.dll", "MorphExplorerMenu.dll"),
+           ("filee-cli", "halodrop-cli"), ("FileeExplorerMenu.dll", "MorphExplorerMenu.dll"),
            ("FileeExplorerMenu.msix", "MorphExplorerMenu.msix")]
 SKIP_DIRS = {"morph", "obj", "bin"}
 TEXT = (".sh", ".txt", ".ps1", ".py", ".js", ".json", ".lua", ".md", ".conf", ".plist", ".strings", ".desktop", ".toml", ".yml")
@@ -27,7 +27,7 @@ def rename(text):
         return f"\u0000{len(keep) - 1}\u0000"
     for pattern in SHIELD:
         text = re.sub(pattern, hide, text)
-    text = text.replace("Filee", "Morph").replace("filee", "morph").replace("FILEE", "MORPH")
+    text = text.replace("Filee", "Halodrop").replace("filee", "halodrop").replace("FILEE", "MORPH")
     return re.sub("\u0000(\\d+)\u0000", lambda m: keep[int(m.group(1))], text)
 
 

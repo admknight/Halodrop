@@ -1,2 +1,2 @@
-"NSAppleEventsUsageDescription" = "Morph хөрвүүлэх товчлол ашиглах үед Finder-д сонгосон файлуудыг уншина.";
-"NSInputMonitoringUsageDescription" = "Morph хөрвүүлэх цэсийг харуулахын тулд товчлол болон чирэх үйлдлийг танина.";
+"NSAppleEventsUsageDescription" = "Halodrop хөрвүүлэх товчлол ашиглах үед Finder-д сонгосон файлуудыг уншина.";
+"NSInputMonitoringUsageDescription" = "Halodrop хөрвүүлэх цэсийг харуулахын тулд товчлол болон чирэх үйлдлийг танина.";

@@ -1,20 +1,20 @@
 <#
 .SYNOPSIS
-  Copies every pinned engine download to Morph's mirror (Cloudflare R2 behind https://dl.filee.sh/engines/).
+  Copies every pinned engine download to Halodrop's mirror (Cloudflare R2 behind https://dl.filee.sh/engines/).
 
 .DESCRIPTION
   Download sites drop old versions (LibreOffice's "stable" folder lost 26.2.6 when 26.2.7 came out, #1474), and a
-  released Morph can't change the URLs it pinned. When a pinned URL fails, the app (EngineInstaller) and
+  released Halodrop can't change the URLs it pinned. When a pinned URL fails, the app (EngineInstaller) and
   build/fetch-engines.ps1 take the file from https://dl.filee.sh/engines/<sha256>/<file name> instead, and check the
   same SHA-256. This script fills that folder: for every download in engines.json (every runtime) it checks whether the
   mirror already serves the file at its size, and if not downloads it from its URL, checks the SHA-256, uploads it with
   Wrangler and checks that it is served as is.
 
   Run it after changing a pin in engines.json (before the release that ships the pin). Files are kept under their hash,
-  so old pins stay for the Morph versions that still use them. engines/README.txt next to them says where each file
+  so old pins stay for the Halodrop versions that still use them. engines/README.txt next to them says where each file
   comes from (they are unmodified copies; the projects' source code and licences are where their downloads are).
 
-  Needs Node.js with Wrangler signed in to Morph's Cloudflare account (npx wrangler login, once).
+  Needs Node.js with Wrangler signed in to Halodrop's Cloudflare account (npx wrangler login, once).
 
 .PARAMETER Only
   Component ids to mirror (default: all).
@@ -105,10 +105,10 @@ foreach ($entry in $downloads.GetEnumerator()) {
 # are where its download is (THIRD-PARTY-NOTICES.md names them).
 if (-not $WhatIf -and $Only.Count -eq 0) {
     $lines = @(
-        'Morph engine mirror',
+        'Halodrop engine mirror',
         '',
-        'Unmodified copies of the third-party programs Morph downloads on request, kept here in case a download site',
-        'removes a version. Each file is the exact file published at the address below (Morph checks its SHA-256).',
+        'Unmodified copies of the third-party programs Halodrop downloads on request, kept here in case a download site',
+        'removes a version. Each file is the exact file published at the address below (Halodrop checks its SHA-256).',
         'Each program is its authors'' work under its own licence; its source code and licence are available from its',
         'project, listed in https://github.com/KnifeLemon/Filee/blob/main/THIRD-PARTY-NOTICES.md',
         ''

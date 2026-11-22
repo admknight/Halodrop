@@ -77,7 +77,7 @@ internal static class GcodeToolpath
     {
         var size = new FileInfo(path).Length;
         if (size > MaxFileBytes)
-            throw new InvalidDataException($"The G-code file is {size / (1024 * 1024)} MB; Morph draws files up to {MaxFileBytes / (1024 * 1024)} MB.");
+            throw new InvalidDataException($"The G-code file is {size / (1024 * 1024)} MB; Halodrop draws files up to {MaxFileBytes / (1024 * 1024)} MB.");
         return File.OpenRead(path);
     }
 

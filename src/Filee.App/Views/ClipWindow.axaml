@@ -10,7 +10,7 @@
         x:Class="Filee.App.Views.ClipWindow"
         x:DataType="vm:ClipWindowViewModel"
         Title="{DynamicResource preset.clip}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="1240" Height="880" MinWidth="960" MinHeight="680"
         WindowDecorations="None"
         Background="Transparent"

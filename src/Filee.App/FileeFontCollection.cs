@@ -26,13 +26,13 @@ namespace Filee.App;
 /// </summary>
 internal sealed class FileeFontCollection : IFontCollection
 {
-    internal static readonly Uri Source = new("avares://Morph/Assets/Fonts", UriKind.Absolute);
+    internal static readonly Uri Source = new("avares://Halodrop/Assets/Fonts", UriKind.Absolute);
 
     private readonly ReadFonts _fonts;
     private readonly Lock _lock = new();
     private readonly HashSet<string> _asked = new(StringComparer.OrdinalIgnoreCase);
 
-    internal FileeFontCollection(string key = "fonts:Morph") => _fonts = new ReadFonts(new Uri(key, UriKind.Absolute));
+    internal FileeFontCollection(string key = "fonts:Halodrop") => _fonts = new ReadFonts(new Uri(key, UriKind.Absolute));
 
     public Uri Key => _fonts.Key;
 

@@ -1,6 +1,6 @@
-# Morph Yazi Plugin
+# Halodrop Yazi Plugin
 
-Yazi plugin to convert selected or hovered files with [Morph](https://github.com/KnifeLemon/Filee), or open them directly in the interactive Morph Donut UI.
+Yazi plugin to convert selected or hovered files with [Halodrop](https://github.com/KnifeLemon/Filee), or open them directly in the interactive Halodrop Donut UI.
 
 ## Features
 
@@ -10,8 +10,8 @@ Yazi plugin to convert selected or hovered files with [Morph](https://github.com
   - **Documents**: PDF, OCR to Markdown (`.md`), OCR to Text (`.txt`)
   - **Media**: MP3 (extract audio), MP4 (video compression)
   - **Archives**: ZIP, Extract
-  - **Custom Format**: Prompt for any custom extension or preset supported by Morph
-  - **GUI**: Open directly in the Morph Donut
+  - **Custom Format**: Prompt for any custom extension or preset supported by Halodrop
+  - **GUI**: Open directly in the Halodrop Donut
 - Non-blocking asynchronous conversion.
 - Terminal notifications via Yazi's `ya.notify` and desktop notifications via `notify-send`.
 
@@ -21,7 +21,7 @@ Yazi plugin to convert selected or hovered files with [Morph](https://github.com
 
    ```sh
    mkdir -p ~/.config/yazi/plugins
-   ln -s "${XDG_DATA_HOME:-$HOME/.local/share}/morph/application/yazi/morph.yazi" ~/.config/yazi/plugins/morph.yazi
+   ln -s "${XDG_DATA_HOME:-$HOME/.local/share}/halodrop/application/yazi/morph.yazi" ~/.config/yazi/plugins/morph.yazi
    ```
 
 2. Add a keybinding in `~/.config/yazi/keymap.toml`:
@@ -29,12 +29,12 @@ Yazi plugin to convert selected or hovered files with [Morph](https://github.com
    ```toml
    [[mgr.prepend_keymap]]
    on   = [ "c", "f" ]
-   run  = "plugin morph"
-   desc = "Convert with Morph"
+   run  = "plugin halodrop"
+   desc = "Convert with Halodrop"
    ```
 
 ## Requirements
 
 - Yazi 25.5 or newer (for Yazi 0.3.x or older, use `[[manager.prepend_keymap]]` instead of `[[mgr.prepend_keymap]]`).
-- `morph` CLI on `$PATH` (installed automatically to `~/.local/bin/morph` by `install.sh`).
+- `halodrop` CLI on `$PATH` (installed automatically to `~/.local/bin/halodrop` by `install.sh`).
 - Optional: `notify-send` for desktop notifications.

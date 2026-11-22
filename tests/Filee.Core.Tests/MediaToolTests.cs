@@ -85,7 +85,7 @@ public class MediaToolTests
             "live-photo-iphone", "motion-photo-android", "to-m4a", "to-wav", "to-flac", "zip-all"];
         // A back face the user filled up stays as it is.
         var pdf = profiles.Single(p => p.Id == "pdf");
-        while (pdf.BackPresetIds!.Count < ToolbarProfile.MaxSlices)
+        while (pdf.BackPresetIds!.Count < ToolbarProfile.FileeMaxSlices)
             pdf.BackPresetIds.Insert(0, presets.First(p => !pdf.BackPresetIds.Contains(p.Id) && !pdf.PresetIds.Contains(p.Id)).Id);
         var full = pdf.BackPresetIds.ToList();
 
@@ -130,11 +130,11 @@ public class MediaToolTests
 
         Assert.True(SettingsMigrations.ApplyToLibrary(36, presets, profiles));
 
-        Assert.Equal(ToolbarProfile.MaxSlices, images.BackPresetIds.Count);
+        Assert.Equal(ToolbarProfile.FileeMaxSlices, images.BackPresetIds.Count);
         Assert.Equal(["merge-pdf", "compress-image", "zip-all"], images.BackPresetIds[^3..]);
         Assert.DoesNotContain("remove-metadata", images.BackPresetIds); // no room left, still in the library
         Assert.Single(presets, p => p.Id == "remove-metadata");
-        Assert.All(profiles, p => Assert.InRange(p.BackPresetIds!.Count, 0, ToolbarProfile.MaxSlices));
+        Assert.All(profiles, p => Assert.InRange(p.BackPresetIds!.Count, 0, ToolbarProfile.FileeMaxSlices));
     }
 
     [Fact]

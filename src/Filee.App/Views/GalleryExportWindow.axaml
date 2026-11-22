@@ -6,7 +6,7 @@
         x:Class="Filee.App.Views.GalleryExportWindow"
         x:DataType="vm:GalleryExportViewModel"
         Title="{DynamicResource gallery.export_title}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="760" Height="600" MinWidth="560" MinHeight="460"
         WindowStartupLocation="CenterOwner">
   <Window.Styles>

@@ -47,6 +47,7 @@ public sealed partial class ThemePageViewModel : ObservableObject, IDisposable
         DonutOpacity = Math.Round(Math.Clamp(store.Settings.Donut.Opacity, DonutSettings.MinOpacity, 1) * 100);
         DonutCaptions = store.Settings.Donut.ShowCaptions;
         ReduceMotion = theme.ReduceMotion ?? platform.PrefersReducedMotion;
+        BloomAnimation = theme.BloomAnimation; // Halodrop change
         UseSystemFont = theme.UseSystemFont;
         PreviewItems =
         [
@@ -112,6 +113,7 @@ public sealed partial class ThemePageViewModel : ObservableObject, IDisposable
     };
     [ObservableProperty] private double _cornerRadius;
     [ObservableProperty] private bool _reduceMotion;
+    [ObservableProperty] private bool _bloomAnimation;
     [ObservableProperty] private bool _useSystemFont;
 
     /// <summary>
@@ -274,6 +276,7 @@ public sealed partial class ThemePageViewModel : ObservableObject, IDisposable
     }
     partial void OnCornerRadiusChanged(double value) => Save(t => t.CornerRadius = Math.Round(value));
     partial void OnReduceMotionChanged(bool value) => Save(t => t.ReduceMotion = value);
+    partial void OnBloomAnimationChanged(bool value) => Save(t => t.BloomAnimation = value);
     partial void OnUseSystemFontChanged(bool value) => Save(t => t.UseSystemFont = value);
 
     partial void OnDonutOpacityChanged(double value)

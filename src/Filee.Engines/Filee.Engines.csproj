@@ -50,7 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Morph" />
+    <InternalsVisibleTo Include="Halodrop" />
     <InternalsVisibleTo Include="Filee.Engines.Tests" />
     <InternalsVisibleTo Include="Filee.App.Tests" />
   </ItemGroup>

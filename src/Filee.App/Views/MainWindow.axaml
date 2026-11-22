@@ -4,8 +4,8 @@
         xmlns:vm="using:Filee.App.ViewModels"
         x:Class="Filee.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Title="Morph"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Title="Halodrop"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="1080" Height="760" MinWidth="820" MinHeight="560"
         WindowStartupLocation="CenterScreen">
   <Grid ColumnDefinitions="Auto,*">
@@ -14,9 +14,9 @@
             Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource SubtleBorderBrush}" BorderThickness="0,0,1,0">
       <DockPanel Margin="{Binding NavPadding}">
         <StackPanel DockPanel.Dock="Top" Classes="navheader" Orientation="Horizontal" Spacing="10">
-          <Image Source="avares://Morph/Assets/Icons/morph.png" Width="30" Height="30" />
+          <Image Source="avares://Halodrop/Assets/Icons/morph.png" Width="30" Height="30" />
           <StackPanel VerticalAlignment="Center" IsVisible="{Binding !IsNavCollapsed}">
-            <TextBlock Text="Morph" FontSize="18" FontWeight="Bold" />
+            <TextBlock Text="Halodrop" FontSize="18" FontWeight="Bold" />
             <TextBlock Classes="caption" Text="{DynamicResource app.tagline}" />
           </StackPanel>
         </StackPanel>

@@ -13,6 +13,9 @@ public static class Motion
     /// <summary>False when the user (or the OS) asked for reduced motion.</summary>
     public static bool Enabled { get; private set; } = true;
 
+    /// <summary>Halodrop change: the donut opens with a bloom instead of a wave (Settings → Look).</summary>
+    public static bool Bloom { get; set; }
+
     public static event EventHandler? Changed;
 
     private static bool? _reduceMotion;

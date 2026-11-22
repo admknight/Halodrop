@@ -22,7 +22,7 @@ public static class WorkFolders
     private static string FindRoot()
     {
         if (OperatingSystem.IsWindows())
-            return Path.Combine(Path.GetTempPath(), "Morph");
+            return Path.Combine(Path.GetTempPath(), "Halodrop");
 
         var root = UnixRoot(Environment.GetEnvironmentVariable("XDG_CACHE_HOME"),
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), OperatingSystem.IsMacOS());
@@ -56,10 +56,10 @@ public static class WorkFolders
     {
         // The XDG spec ignores a relative XDG_CACHE_HOME.
         if (!macOS && Path.IsPathFullyQualified(cacheHome ?? ""))
-            return Path.Combine(cacheHome!, "morph");
+            return Path.Combine(cacheHome!, "halodrop");
         if (!Path.IsPathFullyQualified(home ?? ""))
             return null;
-        return macOS ? Path.Combine(home!, "Library", "Caches", "Morph") : Path.Combine(home!, ".cache", "morph");
+        return macOS ? Path.Combine(home!, "Library", "Caches", "Halodrop") : Path.Combine(home!, ".cache", "halodrop");
     }
 
     /// <summary>

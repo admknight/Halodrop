@@ -71,7 +71,7 @@ if ($Version -notmatch '^\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?$') {
     throw 'Version must be a three-part version with an optional prerelease suffix.'
 }
 $bundleVersion = ($Version -split '-')[0]
-$packageName = "Morph-$Version-$Runtime"
+$packageName = "Halodrop-$Version-$Runtime"
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 $OutputDir = (Resolve-Path -LiteralPath $OutputDir).Path
 $archive = Join-Path $OutputDir "$packageName.tar.gz"
@@ -108,7 +108,7 @@ if ($RhwpOverride) {
 else {
     & (Join-Path $PSScriptRoot 'fetch-portable-engines.ps1') -Runtime $Runtime -Destination $engines
 }
-foreach ($name in @('Morph', 'morph-cli')) {
+foreach ($name in @('Halodrop', 'halodrop-cli')) {
     $executable = Join-Path $publish $name
     if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) { throw "Publish did not produce $name" }
     Invoke-Checked 'Executable permissions' { chmod +x $executable }
@@ -150,7 +150,7 @@ if ($Runtime.StartsWith('osx-')) {
         }
     }
     Invoke-Checked 'Create app icon' { iconutil -c icns $iconset -o (Join-Path $resources 'morph.icns') }
-    # Translations of the service title ("Convert with Morph") in Finder's right-click menu.
+    # Translations of the service title ("Convert with Halodrop") in Finder's right-click menu.
     foreach ($localization in Get-ChildItem -LiteralPath (Join-Path $root 'installer/macos') -Directory -Filter '*.lproj') {
         foreach ($stringsFile in Get-ChildItem -LiteralPath $localization.FullName -File -Filter '*.strings') {
             Invoke-Checked 'Validate localized strings' { plutil -lint $stringsFile.FullName }
@@ -162,7 +162,7 @@ if ($Runtime.StartsWith('osx-')) {
     if ($SigningIdentity -ne '-') { $signOptions += @('--timestamp', '--options', 'runtime') }
     # Every file in Contents/MacOS is code to codesign, the .NET assemblies too (their signature goes into extended
     # attributes): signing the main executable checks all of them. Deepest paths first, the main executable last.
-    $mainExecutable = Join-Path $publish 'Morph'
+    $mainExecutable = Join-Path $publish 'Halodrop'
     $files = Get-ChildItem -LiteralPath $publish -Recurse -File | Where-Object { $_.FullName -ne $mainExecutable } |
         Sort-Object { $_.FullName.Length } -Descending
     foreach ($file in $files) {
@@ -196,12 +196,12 @@ $packages = @($archive)
 if ($Runtime.StartsWith('osx-')) {
     # The same signed Morph.app, next to a link to /Applications to drag it onto, on the background and window
     # layout of installer/macos/dmg/settings.py. dmgbuild copies the app with ditto, which keeps the signature's
-    # extended attributes; settings.py checks the copies. install.sh (in the tar.gz) is still the way to get the morph
+    # extended attributes; settings.py checks the copies. install.sh (in the tar.gz) is still the way to get the halodrop
     # command.
     $temporaryImage = "$diskImage.$([Guid]::NewGuid().ToString('N')).partial.dmg"
     $dmgFolder = Join-Path $root 'installer/macos/dmg'
     Invoke-Checked 'Create dmg' {
-        python3 -m dmgbuild -s (Join-Path $dmgFolder 'settings.py') -D "app=$appBundle" -D "dir=$dmgFolder" Morph $temporaryImage | Out-Null
+        python3 -m dmgbuild -s (Join-Path $dmgFolder 'settings.py') -D "app=$appBundle" -D "dir=$dmgFolder" Halodrop $temporaryImage | Out-Null
     }
     Move-Item -LiteralPath $temporaryImage -Destination $diskImage
     $packages += $diskImage

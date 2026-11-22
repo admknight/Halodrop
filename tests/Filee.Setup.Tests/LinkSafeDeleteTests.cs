@@ -107,7 +107,7 @@ public class LinkSafeDeleteTests
         using var bench = new SetupBench();
         var root = VelopackInstall.Root(bench.Paths);
         bench.Temp.Write(Path.Combine(Path.GetRelativePath(bench.Temp.Path, root), "Update.exe"));
-        bench.Temp.Write(Path.Combine(Path.GetRelativePath(bench.Temp.Path, root), @"current\Morph.exe"));
+        bench.Temp.Write(Path.Combine(Path.GetRelativePath(bench.Temp.Path, root), @"current\Halodrop.exe"));
         var canary = bench.Temp.Write(@"admin-only\canary.txt", "keep");
         Junction(Path.Combine(root, @"current\j"), bench.Temp.Sub("admin-only"));
 

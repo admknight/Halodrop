@@ -30,7 +30,7 @@ internal static class Cli
         if (options.Error is not null)
         {
             errors.WriteLine($"morph: {options.Error}");
-            errors.WriteLine("Run 'morph help' for usage.");
+            errors.WriteLine("Run 'halodrop help' for usage.");
             return UsageError;
         }
         switch (options.Command)
@@ -39,7 +39,7 @@ internal static class Cli
                 output.Write(Help.Text(options.Inputs.FirstOrDefault()));
                 return Success;
             case "version":
-                output.WriteLine($"morph {Help.Version}");
+                output.WriteLine($"halodrop {Help.Version}");
                 return Success;
             // Checks files only: no settings, no engines.
             case "presets" when options.Inputs.Count > 0:
@@ -281,12 +281,12 @@ internal static class Cli
         {
             if (FindFormat(options.To) is not { } format)
             {
-                errors.WriteLine($"morph: unknown format '{options.To}'. Run 'morph formats' for the list.");
+                errors.WriteLine($"morph: unknown format '{options.To}'. Run 'halodrop formats' for the list.");
                 return null;
             }
             if (!format.Writable)
             {
-                errors.WriteLine($"morph: Morph reads {format.DisplayName} but can't write it.");
+                errors.WriteLine($"morph: Halodrop reads {format.DisplayName} but can't write it.");
                 return null;
             }
             preset = new Preset { TargetFormat = format.Id };
@@ -302,7 +302,7 @@ internal static class Cli
             var found = Find(host.Store.Presets.Where(p => !p.IsGroup && !p.IsTool)) ?? Find(host.Store.Presets);
             if (found is null)
             {
-                errors.WriteLine($"morph: no preset '{wanted}'. Run 'morph presets' for the list.");
+                errors.WriteLine($"morph: no preset '{wanted}'. Run 'halodrop presets' for the list.");
                 return null;
             }
             if (found.IsGroup)
@@ -311,7 +311,7 @@ internal static class Cli
                 var members = found.SubPresetIds.Select(host.Store.FindConversion).OfType<Preset>().Select(p => p.Id).ToList();
                 errors.WriteLine(members.Count > 0
                     ? $"morph: '{wanted}' is a group on the donut, not a conversion. Use one of: {string.Join(", ", members)}"
-                    : $"morph: '{wanted}' is a group on the donut, not a conversion, and has no presets left. Run 'morph presets' for the list.");
+                    : $"morph: '{wanted}' is a group on the donut, not a conversion, and has no presets left. Run 'halodrop presets' for the list.");
                 return null;
             }
             if (found.IsTool)
@@ -452,7 +452,7 @@ internal static class Cli
             output.WriteLine($"{from.DisplayName} ({string.Join(", ", from.Extensions)}) converts to:");
             output.WriteLine(now.Count > 0 ? "  " + string.Join(", ", now) : "  (nothing with the engines installed now)");
             if (later.Count > 0)
-                output.WriteLine($"With optional engines (install them with 'morph engines'):{Environment.NewLine}  {string.Join(", ", later)}");
+                output.WriteLine($"With optional engines (install them with 'halodrop engines'):{Environment.NewLine}  {string.Join(", ", later)}");
             return Success;
         }
 
@@ -481,7 +481,7 @@ internal static class Cli
                 output.WriteLine($"  {format.Id,-10} {format.DisplayName}{(format.Writable ? "" : " (read only)")}  .{string.Join(" .", format.Extensions)}");
         }
         output.WriteLine();
-        output.WriteLine("Run 'morph formats <format>' to see what a format converts to.");
+        output.WriteLine("Run 'halodrop formats <format>' to see what a format converts to.");
         return Success;
     }
 
@@ -536,7 +536,7 @@ internal static class Cli
         foreach (var preset in host.Store.Presets.Where(p => !p.IsGroup && !p.IsTool))
             output.WriteLine($"{preset.Id,-24} {host.Texts.DisplayName(preset),-28} {TargetName(preset.TargetFormat)}");
         output.WriteLine();
-        output.WriteLine("Use one with: morph convert <files> --preset <id or name>");
+        output.WriteLine("Use one with: halodrop convert <files> --preset <id or name>");
         return Success;
     }
 

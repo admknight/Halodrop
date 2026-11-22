@@ -59,7 +59,7 @@ public sealed class MacOSPortableIntegration(string userLibrary)
         const string contents = "/Contents/MacOS/";
         var index = executable.LastIndexOf(contents, StringComparison.Ordinal);
         return index > 0 && executable[..index].EndsWith(".app", StringComparison.OrdinalIgnoreCase)
-            && executable[(index + contents.Length)..] == "Morph"
+            && executable[(index + contents.Length)..] == "Halodrop"
             ? $"exec /usr/bin/open -n -a {Quote(executable[..index])} --args --convert \"$@\""
             : $"exec {Quote(executable)} --convert \"$@\"";
     }

@@ -9,7 +9,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <AssemblyName>Morph.Setup</AssemblyName>
+    <AssemblyName>Halodrop.Setup</AssemblyName>
     <RootNamespace>Filee.Setup</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>..\Filee.App\Assets\Icons\morph.ico</ApplicationIcon>
@@ -20,7 +20,7 @@
     <IsAotCompatible>true</IsAotCompatible>
     <InvariantGlobalization>true</InvariantGlobalization>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-    <Product>Morph Setup</Product>
+    <Product>Halodrop Setup</Product>
   </PropertyGroup>
 
   <!-- build/build-installer.ps1: dotnet publish -c Release -r win-x64 -p:MorphSetupPublish=true -->

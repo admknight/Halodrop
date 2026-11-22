@@ -119,8 +119,8 @@ public static class EngineDownloads
                 "ghostscript" => "Install Ghostscript with Homebrew (brew install ghostscript), then check again or select its bin folder.",
                 "tesseract" => "Install Tesseract with Homebrew (brew install tesseract), then check again or select its bin folder.",
                 "exiftool" => "Install ExifTool with Homebrew (brew install exiftool), then check again or select its folder.",
-                "calibre" => "The calibre Morph downloads needs macOS 14 or later. Install calibre 7.26 from calibre-ebook.com and select its .app folder.",
-                _ => $"No Morph download is available for {RuntimeIdentifier}. Install {package.Id} for this Mac and select its program or .app folder.",
+                "calibre" => "The calibre Halodrop downloads needs macOS 14 or later. Install calibre 7.26 from calibre-ebook.com and select its .app folder.",
+                _ => $"No Halodrop download is available for {RuntimeIdentifier}. Install {package.Id} for this Mac and select its program or .app folder.",
             };
         if (OperatingSystem.IsLinux())
             return package.Id switch
@@ -128,9 +128,9 @@ public static class EngineDownloads
                 "libreoffice" => "Install LibreOffice using your distribution's package manager (Ubuntu/Debian: sudo apt install libreoffice), then check again. HWP import through LibreOffice also needs Java and the H2Orestart extension.",
                 "ghostscript" => "Install Ghostscript using your distribution's package manager (Ubuntu/Debian: sudo apt install ghostscript), then check again.",
                 "tesseract" => "Install Tesseract using your distribution's package manager (Ubuntu/Debian: sudo apt install tesseract-ocr), then check again.",
-                _ => $"No Morph download is available for {RuntimeIdentifier}. Install {package.Id} using your distribution's package manager and select its program folder.",
+                _ => $"No Halodrop download is available for {RuntimeIdentifier}. Install {package.Id} using your distribution's package manager and select its program folder.",
             };
-        return $"No Morph download is available for {RuntimeIdentifier}. Select a compatible installed copy.";
+        return $"No Halodrop download is available for {RuntimeIdentifier}. Select a compatible installed copy.";
     }
 
     /// <summary>Packages whose download is smaller than this (bytes) are suggested, see <see cref="IsSuggested"/>.</summary>

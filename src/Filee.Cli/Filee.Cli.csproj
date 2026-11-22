@@ -6,7 +6,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>morph-cli</AssemblyName>
+    <AssemblyName>halodrop-cli</AssemblyName>
     <RootNamespace>Filee.Cli</RootNamespace>
     <ApplicationIcon>..\Filee.App\Assets\Icons\morph.ico</ApplicationIcon>
     <!-- The Recycle Bin is IFileOperation, a COM interface (Filee.Platform.Windows). -->

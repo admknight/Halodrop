@@ -8,7 +8,7 @@
         x:Class="Filee.App.Views.AskCompressionWindow"
         x:DataType="vm:AskCompressionViewModel"
         Title="{DynamicResource compression.title}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="540" SizeToContent="Height" CanResize="False"
         WindowStartupLocation="CenterScreen">
   <DockPanel>

@@ -25,10 +25,10 @@ public enum GuideStep
 public sealed partial class WelcomeGuideViewModel : ObservableObject, IDisposable
 {
     /// <summary>The practice picture, an asset copied out the first time it is needed.</summary>
-    internal const string PracticeAsset = "avares://Morph/Assets/Guide/practice.png";
+    internal const string PracticeAsset = "avares://Halodrop/Assets/Guide/practice.png";
 
     /// <summary>The practice picture's file name, the same in every language (the picture has no words).</summary>
-    internal const string PracticeFileName = "Morph-practice.png";
+    internal const string PracticeFileName = "Halodrop-practice.png";
 
     private readonly UserDataStore _store;
     private readonly ILocalizer _loc;

@@ -8,9 +8,9 @@ def fix(v):
     if KEEP_RE.search(v): 
         # still fix avares assembly paths that embed other text? (handled below)
         return v
-    v=v.replace('avares://Filee.Setup/','avares://Morph.Setup/').replace('avares://Filee/','avares://Morph/')
-    v=v.replace('Filee.Setup','Morph.Setup').replace('filee-cli','morph-cli').replace('com.filee.app','app.morph')
-    v=re.sub(r'Filee','Morph',v); v=re.sub(r'filee','morph',v); v=re.sub(r'FILEE','MORPH',v)
+    v=v.replace('avares://Filee.Setup/','avares://Halodrop.Setup/').replace('avares://Filee/','avares://Halodrop/')
+    v=v.replace('Filee.Setup','Halodrop.Setup').replace('filee-cli','halodrop-cli').replace('com.filee.app','app.morph')
+    v=re.sub(r'Filee','Halodrop',v); v=re.sub(r'filee','halodrop',v); v=re.sub(r'FILEE','MORPH',v)
     return v
 changed=0; files=0
 roots=sys.argv[1:]

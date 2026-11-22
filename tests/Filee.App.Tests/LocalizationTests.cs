@@ -37,7 +37,7 @@ public partial class LocalizationTests
     {
         Assert.Contains(("ar", "العربية"), LocalizationService.Languages);
         Assert.Equal("ar", LocalizationService.Resolve("AR"));
-        Assert.Contains("fonts:Morph#Noto Sans Arabic", ThemeService.FontFamilies("ar"));
+        Assert.Contains("fonts:Halodrop#Noto Sans Arabic", ThemeService.FontFamilies("ar"));
         Assert.True(SoftPalette.IsRightToLeft("ar"));
         Assert.All(LocalizationService.Languages.Where(l => l.Code is not ("ar" or "fa" or "ur")), l => Assert.False(SoftPalette.IsRightToLeft(l.Code)));
     }
@@ -68,7 +68,7 @@ public partial class LocalizationTests
     [Fact]
     public void Bengali_uses_the_embedded_font()
     {
-        Assert.Contains("fonts:Morph#Noto Sans Bengali", ThemeService.FontFamilies("bn-BD"));
+        Assert.Contains("fonts:Halodrop#Noto Sans Bengali", ThemeService.FontFamilies("bn-BD"));
     }
 
     [Theory]
@@ -361,7 +361,7 @@ public partial class LocalizationTests
     {
         Assert.Contains(("th", "ไทย"), LocalizationService.Languages);
         Assert.Equal("th", LocalizationService.Resolve("TH"));
-        Assert.Contains("fonts:Morph#Noto Sans Thai", ThemeService.FontFamilies("th"));
+        Assert.Contains("fonts:Halodrop#Noto Sans Thai", ThemeService.FontFamilies("th"));
     }
 
     /// <summary>Han characters look different in Japanese, Korean and Chinese fonts: the UI language's come first.</summary>
@@ -372,7 +372,7 @@ public partial class LocalizationTests
     [InlineData("en", "Noto Sans KR", "Malgun Gothic")]
     public void The_ui_languages_cjk_fonts_come_first(string language, string embedded, string system)
     {
-        var families = ThemeService.FontFamilies(language).Split(", ").Select(f => f.Replace("fonts:Morph#", "")).ToList();
+        var families = ThemeService.FontFamilies(language).Split(", ").Select(f => f.Replace("fonts:Halodrop#", "")).ToList();
         string[] embeddedCjk = ["Noto Sans JP", "Noto Sans KR", "Noto Sans SC"];
         string[] systemCjk = ["Yu Gothic UI", "Malgun Gothic", "Microsoft YaHei"];
 
@@ -393,7 +393,7 @@ public partial class LocalizationTests
     [Fact]
     public void Traditional_chinese_takes_the_system_traditional_fonts_before_the_embedded_simplified_one()
     {
-        var families = ThemeService.FontFamilies("zh-TW").Split(", ").Select(f => f.Replace("fonts:Morph#", "")).ToList();
+        var families = ThemeService.FontFamilies("zh-TW").Split(", ").Select(f => f.Replace("fonts:Halodrop#", "")).ToList();
 
         Assert.True(families.IndexOf("Microsoft JhengHei UI") is >= 0 and var windows && windows < families.IndexOf("Noto Sans SC"));
         Assert.True(families.IndexOf("PingFang TC") is >= 0 and var mac && mac < families.IndexOf("Noto Sans SC"));

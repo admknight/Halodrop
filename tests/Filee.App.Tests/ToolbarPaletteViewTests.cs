@@ -1103,7 +1103,7 @@ public class ToolbarPaletteViewTests
         f.Preset("test-mp4").Name = "Sample MP4";
         var profile = Profile("tabs-new", "png");
         profile.PresetIds.AddRange(["to-webp", "to-tiff", "to-bmp", "to-ico", "to-gif", "to-avif", "to-heic", "to-pdf",
-            "to-docx", "to-txt", "to-md"]);
+            "to-docx", "to-txt", "to-md", "to-jxl", "to-icns", "to-eps", "to-html"]); // Halodrop change: 16 slices
         Assert.Equal(ToolbarProfile.MaxSlices - 1, profile.PresetIds.Count);
         using var vm = f.Page(profile);
         Dispatcher.UIThread.RunJobs();

@@ -72,7 +72,7 @@ public class CustomThemeTests
         var log = new ListLogger();
 
         Assert.Null(CustomTheme.Load(dir.Path, log));
-        Assert.Contains(log.Messages, m => m.Contains("sets no colours Morph can use"));
+        Assert.Contains(log.Messages, m => m.Contains("sets no colours Halodrop can use"));
     }
 
     [Fact]

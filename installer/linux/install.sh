@@ -20,9 +20,9 @@ for name in os.listdir(source):
 PY
 }
 
-# Morph Linux standalone installer.
+# Halodrop Linux standalone installer.
 # Supports first-time installation and in-place upgrade (--upgrade).
-# Preserves downloaded conversion engines (~/.local/share/Morph/engines) and user settings (~/.config/Morph).
+# Preserves downloaded conversion engines (~/.local/share/Halodrop/engines) and user settings (~/.config/Halodrop).
 
 upgrade=0
 
@@ -45,7 +45,7 @@ done
 
 source_dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd -P)
 data_dir=${XDG_DATA_HOME:-"$HOME/.local/share"}
-install_dir="$data_dir/morph/application"
+install_dir="$data_dir/halodrop/application"
 bin_dir="$HOME/.local/bin"
 desktop_file="$data_dir/applications/app.morph.desktop"
 gnome_extension_id="morph-donut@admknight.github.io"
@@ -65,7 +65,7 @@ gnome_extension_is_ours() {
 # Puts the extension bundled with the installed app in place, replacing only a folder that carries our marker. The
 # new copy is staged first, so a failed copy leaves the previous extension as it was.
 copy_gnome_extension() {
-    work=$(mktemp -d "$data_dir/morph/.gnome-extension.XXXXXX") || return 1
+    work=$(mktemp -d "$data_dir/halodrop/.gnome-extension.XXXXXX") || return 1
     if ! cp -R "$install_dir/gnome/$gnome_extension_id" "$work/new" \
         || ! printf '%s\n' 'app.morph' > "$work/new/.morph-package" \
         || ! mkdir -p "$(dirname -- "$gnome_extension_dir")"; then
@@ -115,25 +115,25 @@ PY
 
 # Validate required tools and incoming payload files before doing anything.
 command -v python3 >/dev/null 2>&1 || {
-    printf '%s\n' "Python 3 is required to install Morph." >&2
+    printf '%s\n' "Python 3 is required to install Halodrop." >&2
     exit 1
 }
 
 
-if [ ! -f "$source_dir/Morph" ] || [ ! -x "$source_dir/Morph" ]; then
-    printf '%s\n' "Payload validation failed: $source_dir/Morph is missing or not executable." >&2
+if [ ! -f "$source_dir/Halodrop" ] || [ ! -x "$source_dir/Halodrop" ]; then
+    printf '%s\n' "Payload validation failed: $source_dir/Halodrop is missing or not executable." >&2
     exit 1
 fi
 
-if [ ! -f "$source_dir/morph-cli" ] || [ ! -x "$source_dir/morph-cli" ]; then
-    printf '%s\n' "Payload validation failed: $source_dir/morph-cli is missing or not executable." >&2
+if [ ! -f "$source_dir/halodrop-cli" ] || [ ! -x "$source_dir/halodrop-cli" ]; then
+    printf '%s\n' "Payload validation failed: $source_dir/halodrop-cli is missing or not executable." >&2
     exit 1
 fi
 
 # A first install on GNOME replaces an extension folder only when it carries our marker.
 if [ "$upgrade" -eq 0 ] && [ "$is_gnome" = true ] && [ -d "$source_dir/gnome/$gnome_extension_id" ] \
     && { [ -e "$gnome_extension_dir" ] || [ -L "$gnome_extension_dir" ]; } && ! gnome_extension_is_ours; then
-    printf '%s\n' "A GNOME extension that Morph didn't install exists at $gnome_extension_dir. Remove or rename it before installing Morph."
+    printf '%s\n' "A GNOME extension that Halodrop didn't install exists at $gnome_extension_dir. Remove or rename it before installing Halodrop."
     exit 1
 fi
 
@@ -143,22 +143,22 @@ if [ "$upgrade" -eq 0 ]; then
         printf '%s\n' "An installation already exists at $install_dir. Run its uninstall.sh first."
         exit 1
     fi
-    if [ -e "$bin_dir/morph" ] || [ -L "$bin_dir/morph" ]; then
-        printf '%s\n' "$bin_dir/morph already exists. Remove or rename it before installing Morph."
+    if [ -e "$bin_dir/halodrop" ] || [ -L "$bin_dir/halodrop" ]; then
+        printf '%s\n' "$bin_dir/halodrop already exists. Remove or rename it before installing Halodrop."
         exit 1
     fi
     if [ -e "$desktop_file" ] || [ -L "$desktop_file" ]; then
-        printf '%s\n' "$desktop_file already exists. Remove or rename it before installing Morph."
+        printf '%s\n' "$desktop_file already exists. Remove or rename it before installing Halodrop."
         exit 1
     fi
 
-    mkdir -p "$data_dir/morph" "$bin_dir" "$data_dir/applications"
+    mkdir -p "$data_dir/halodrop" "$bin_dir" "$data_dir/applications"
     copy_application "$install_dir"
     # The archive is portable; an installed copy uses the ordinary user profile.
     rm -f "$install_dir/morph.portable"
     printf '%s\n' 'app.morph' > "$install_dir/.morph-package"
     rm -f "$install_dir/.morph-upgrade-token"
-    ln -s "$install_dir/morph-cli" "$bin_dir/morph"
+    ln -s "$install_dir/halodrop-cli" "$bin_dir/halodrop"
 else
     # Upgrade existing installation: verify it is genuine and safely swap in place.
     if [ ! -d "$install_dir" ] || [ -L "$install_dir" ]; then
@@ -174,14 +174,14 @@ else
 
     marker=$(tr -d '\r\n' < "$marker_file" 2>/dev/null || true)
     if [ "$marker" != "app.morph" ]; then
-        printf '%s\n' "Cannot upgrade: $install_dir was not installed by Morph." >&2
+        printf '%s\n' "Cannot upgrade: $install_dir was not installed by Halodrop." >&2
         exit 1
     fi
 
     # Tell running instance to save and exit cleanly before touching files.
-    if [ -x "$install_dir/Morph" ]; then
-        if ! "$install_dir/Morph" --quit; then
-            printf '%s\n' "Could not gracefully shut down the running Morph instance. Please exit Morph and try again." >&2
+    if [ -x "$install_dir/Halodrop" ]; then
+        if ! "$install_dir/Halodrop" --quit; then
+            printf '%s\n' "Could not gracefully shut down the running Halodrop instance. Please exit Halodrop and try again." >&2
             exit 1
         fi
     fi
@@ -190,19 +190,19 @@ else
     # This prevents collisions with any concurrent installer or pre-existing backup artifacts.
     token_rand=$(od -vN 8 -An -tx1 /dev/urandom 2>/dev/null | tr -d ' \n' || true)
     tx_id="$$-${token_rand:-$(date +%s)}"
-    staging_dir="$data_dir/morph/.staging-$tx_id"
-    backup_dir="$data_dir/morph/.backup-$tx_id"
-    failed_dir="$data_dir/morph/.failed-$tx_id"
-    upgrade_token="morph-upgrade-$tx_id"
+    staging_dir="$data_dir/halodrop/.staging-$tx_id"
+    backup_dir="$data_dir/halodrop/.backup-$tx_id"
+    failed_dir="$data_dir/halodrop/.failed-$tx_id"
+    upgrade_token="halodrop-upgrade-$tx_id"
     activated=0
 
     # Ensure transaction paths are completely distinct and do not collide with pre-existing files.
     if [ -e "$staging_dir" ] || [ -e "$backup_dir" ] || [ -e "$failed_dir" ]; then
-        printf '%s\n' "Transaction path conflict detected at $data_dir/morph. Please retry." >&2
+        printf '%s\n' "Transaction path conflict detected at $data_dir/halodrop. Please retry." >&2
         exit 1
     fi
 
-    mkdir -p "$data_dir/morph" "$bin_dir" "$data_dir/applications"
+    mkdir -p "$data_dir/halodrop" "$bin_dir" "$data_dir/applications"
     mkdir "$staging_dir"
 
     # Copy incoming payload into staging (preserves source_dir without moving/deleting it).
@@ -210,10 +210,10 @@ else
     rm -f "$staging_dir/morph.portable"
     printf '%s\n' 'app.morph' > "$staging_dir/.morph-package"
     printf '%s\n' "$upgrade_token" > "$staging_dir/.morph-upgrade-token"
-    chmod +x "$staging_dir/Morph" "$staging_dir/morph-cli"
+    chmod +x "$staging_dir/Halodrop" "$staging_dir/halodrop-cli"
 
     # Validate the staged files before moving the existing installation aside.
-    if [ ! -x "$staging_dir/Morph" ] || [ ! -x "$staging_dir/morph-cli" ]; then
+    if [ ! -x "$staging_dir/Halodrop" ] || [ ! -x "$staging_dir/halodrop-cli" ]; then
         rm -rf "$staging_dir"
         printf '%s\n' "Staged payload validation failed." >&2
         exit 1
@@ -252,7 +252,7 @@ else
             fi
 
             if [ ! -d "$install_dir" ] && mv "$backup_dir" "$install_dir" 2>/dev/null; then
-                printf '%s\n' "Update failed. Restored the previous Morph installation." >&2
+                printf '%s\n' "Update failed. Restored the previous Halodrop installation." >&2
                 if [ -d "$failed_dir" ]; then
                     printf '%s\n' "Quarantined failed update files preserved at: $failed_dir" >&2
                 fi
@@ -299,7 +299,7 @@ else
     activated=1
 
     # Post-swap validation: ensure new installation is active and healthy.
-    if [ ! -x "$install_dir/Morph" ] || [ ! -x "$install_dir/morph-cli" ] || [ ! -f "$install_dir/.morph-package" ]; then
+    if [ ! -x "$install_dir/Halodrop" ] || [ ! -x "$install_dir/halodrop-cli" ] || [ ! -f "$install_dir/.morph-package" ]; then
         printf '%s\n' "Activated installation failed post-swap validation. Rolling back..." >&2
         exit 1
     fi
@@ -310,11 +310,11 @@ else
     rm -f "$install_dir/.morph-upgrade-token"
 
     # Refresh launcher symlink (using -f to overwrite existing link atomically).
-    ln -sf "$install_dir/morph-cli" "$bin_dir/morph"
+    ln -sf "$install_dir/halodrop-cli" "$bin_dir/halodrop"
 fi
 
 # GNOME Shell extension. A first install puts it in place on GNOME and asks GNOME to enable it. An upgrade refreshes
-# a copy that Morph installed, and on GNOME adds a missing one without enabling it (the Triggers page says how).
+# a copy that Halodrop installed, and on GNOME adds a missing one without enabling it (the Triggers page says how).
 gnome_extension_note=''
 if [ -d "$install_dir/gnome/$gnome_extension_id" ]; then
     if gnome_extension_is_ours; then
@@ -322,7 +322,7 @@ if [ -d "$install_dir/gnome/$gnome_extension_id" ]; then
     elif [ "$is_gnome" = true ] && [ ! -e "$gnome_extension_dir" ] && [ ! -L "$gnome_extension_dir" ]; then
         gnome_extension_note=added
     elif [ "$is_gnome" = true ]; then
-        printf '%s\n' "Left $gnome_extension_dir as it is: Morph didn't install it." >&2
+        printf '%s\n' "Left $gnome_extension_dir as it is: Halodrop didn't install it." >&2
     fi
     if [ -n "$gnome_extension_note" ]; then
         if copy_gnome_extension; then
@@ -352,10 +352,10 @@ def desktop_value(value):
     return str(value).replace('\\', '\\\\').replace('\n', '\\n').replace('\r', '\\r')
 
 desktop.write_text(
-    '[Desktop Entry]\nType=Application\nName=Morph\n'
-    'Comment=Convert files with Morph\n'
-    f'Exec={quoted_exec(str(app / "Morph"))} --convert %F\n'
-    f'Icon={desktop_value(app / "morph.png")}\n'
+    '[Desktop Entry]\nType=Application\nName=Halodrop\n'
+    'Comment=Convert files with Halodrop\n'
+    f'Exec={quoted_exec(str(app / "Halodrop"))} --convert %F\n'
+    f'Icon={desktop_value(app / "halodrop.png")}\n'
     'Terminal=false\nCategories=Utility;\nX-Morph-Managed=true\n', encoding='utf-8')
 PY
 
@@ -364,17 +364,17 @@ if command -v update-desktop-database >/dev/null 2>&1; then
 fi
 
 if [ "$upgrade" -eq 1 ]; then
-    printf '%s\n' "Upgraded Morph at $install_dir."
+    printf '%s\n' "Upgraded Halodrop at $install_dir."
 else
-    printf '%s\n' "Installed Morph at $install_dir" "CLI: $bin_dir/morph (add $bin_dir to PATH if needed)."
+    printf '%s\n' "Installed Halodrop at $install_dir" "CLI: $bin_dir/halodrop (add $bin_dir to PATH if needed)."
 fi
 
 if [ -n "$gnome_extension_note" ] && [ "$upgrade" -eq 0 ] && [ "$is_gnome" = true ]; then
-    printf '%s\n' 'GNOME Wayland: enable "Morph donut at the cursor" in Extensions.' \
+    printf '%s\n' 'GNOME Wayland: enable "Halodrop donut at the cursor" in Extensions.' \
         'Sign out and sign in if the extension is not listed yet. Then hold Ctrl and drag a file in Files.' \
         'No administrator access or input group is required. See GNOME-WAYLAND.md.'
 elif [ "$gnome_extension_note" = added ]; then
-    printf '%s\n' 'GNOME Wayland: added the "Morph donut at the cursor" extension. Sign out and sign in, then enable it in Extensions.'
+    printf '%s\n' 'GNOME Wayland: added the "Halodrop donut at the cursor" extension. Sign out and sign in, then enable it in Extensions.'
 elif [ "$gnome_extension_note" = updated ]; then
-    printf '%s\n' 'GNOME: updated the "Morph donut at the cursor" extension. Sign out and sign in so GNOME Shell loads it.'
+    printf '%s\n' 'GNOME: updated the "Halodrop donut at the cursor" extension. Sign out and sign in so GNOME Shell loads it.'
 fi

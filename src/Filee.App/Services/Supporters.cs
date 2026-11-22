@@ -28,7 +28,7 @@ public sealed record SupporterList(IReadOnlyList<Supporter> Sponsors, IReadOnlyL
 
 public static class Supporters
 {
-    public const string Folder = "avares://Morph/Assets/Sponsors/";
+    public const string Folder = "avares://Halodrop/Assets/Sponsors/";
 
     private static SupporterList? _bundled;
 

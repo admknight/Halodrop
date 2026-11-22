@@ -121,7 +121,7 @@ public sealed partial class AboutPageViewModel : ObservableObject, IDisposable
 
     private static string ReadNotices()
     {
-        var uri = new Uri("avares://Morph/Assets/THIRD-PARTY-NOTICES.md");
+        var uri = new Uri("avares://Halodrop/Assets/THIRD-PARTY-NOTICES.md");
         if (!AssetLoader.Exists(uri))
             return "";
         using var reader = new StreamReader(AssetLoader.Open(uri));

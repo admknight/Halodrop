@@ -65,7 +65,7 @@ public sealed class MacOSPlatformServices : IPlatformServices
         {
             LastSelectionError = ex.Message;
             Trace.TraceWarning($"Reading Finder selection failed: {ex.Message}");
-            throw new InvalidOperationException($"Could not read Finder selection. Allow Morph to control Finder in System Settings > Privacy & Security > Automation. {ex.Message}", ex);
+            throw new InvalidOperationException($"Could not read Finder selection. Allow Halodrop to control Finder in System Settings > Privacy & Security > Automation. {ex.Message}", ex);
         }
     }
 
@@ -225,7 +225,7 @@ public sealed class MacOSPlatformServices : IPlatformServices
     private static void RequireExecutable(string path)
     {
         if (!Path.IsPathFullyQualified(path) || !File.Exists(path))
-            throw new FileNotFoundException("Morph's executable must have an existing absolute path.", path);
+            throw new FileNotFoundException("Halodrop's executable must have an existing absolute path.", path);
     }
 
     private static string Run(string executable, IReadOnlyList<string> arguments, int timeoutMs)

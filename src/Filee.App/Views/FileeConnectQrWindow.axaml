@@ -4,7 +4,7 @@
         x:Class="Filee.App.Views.FileeConnectQrWindow"
         x:DataType="vm:FileeConnectViewModel"
         Title="{DynamicResource connect.title}"
-        Icon="avares://Morph/Assets/Icons/morph.ico"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
         Width="460"
         SizeToContent="Height"
         CanResize="False"
@@ -13,9 +13,9 @@
     <StackPanel Margin="24,20,24,24" Spacing="16">
       <!-- Header bar with Title -->
       <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-        <Image Source="avares://Morph/Assets/Icons/morph.png" Width="24" Height="24" />
+        <Image Source="avares://Halodrop/Assets/Icons/morph.png" Width="24" Height="24" />
         <TextBlock FontSize="17" FontWeight="Bold" VerticalAlignment="Center">
-          <Run Text="Morph" Foreground="{DynamicResource TextPrimaryBrush}" />
+          <Run Text="Halodrop" Foreground="{DynamicResource TextPrimaryBrush}" />
           <Run Text="Connect" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" />
         </TextBlock>
       </StackPanel>

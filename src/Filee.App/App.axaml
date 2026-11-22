@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:Filee.App"
              x:Class="Filee.App.App"
-             Name="Morph"
+             Name="Halodrop"
              RequestedThemeVariant="Default">
 
   <Application.DataTemplates>
@@ -13,8 +13,8 @@
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="avares://Morph/Styles/Icons.axaml" />
-        <ResourceInclude Source="avares://Morph/Styles/Brands.axaml" />
+        <ResourceInclude Source="avares://Halodrop/Styles/Icons.axaml" />
+        <ResourceInclude Source="avares://Halodrop/Styles/Brands.axaml" />
       </ResourceDictionary.MergedDictionaries>
       <!-- The Theme page's colour picker shows only the spectrum: no empty tab strip above it. Set here because its
            flyout looks resources up outside the page. -->
@@ -69,8 +69,8 @@
       <Setter Property="BorderBrush" Value="{DynamicResource SubtleBorderBrush}" />
       <Setter Property="BorderThickness" Value="1.5" />
     </Style>
-    <StyleInclude Source="avares://Morph/Styles/Soft.axaml" />
-    <StyleInclude Source="avares://Morph/Styles/Controls.axaml" />
-    <StyleInclude Source="avares://Morph/Styles/TagEditor.axaml" />
+    <StyleInclude Source="avares://Halodrop/Styles/Soft.axaml" />
+    <StyleInclude Source="avares://Halodrop/Styles/Controls.axaml" />
+    <StyleInclude Source="avares://Halodrop/Styles/TagEditor.axaml" />
   </Application.Styles>
 </Application>

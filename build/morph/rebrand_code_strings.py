@@ -8,8 +8,8 @@ def ren(t):
         # rename around protected bits
         parts=re.split(r'(\S*(?:filee\.sh|KnifeLemon|Filee-Presets)\S*)',t)
         return ''.join(p if i%2 else ren(p) for i,p in enumerate(parts))
-    t=t.replace('filee-cli','morph-cli').replace('com.filee.app','app.morph')
-    return re.sub('FILEE','MORPH',re.sub('filee','morph',re.sub('Filee','Morph',t)))
+    t=t.replace('filee-cli','halodrop-cli').replace('com.filee.app','app.morph')
+    return re.sub('FILEE','MORPH',re.sub('filee','halodrop',re.sub('Filee','Halodrop',t)))
 def outside_holes(body):
     out=[];i=0;depth=0;buf=''
     while i<len(body):

@@ -1,21 +1,21 @@
 <#
 .SYNOPSIS
-  Builds the Windows installer Morph-<version>-win-Setup.exe (Morph's own, src/Filee.Setup) and, with -Portable, the
+  Builds the Windows installer Halodrop-<version>-win-Setup.exe (Halodrop's own, src/Filee.Setup) and, with -Portable, the
   portable zip, into -OutputDir.
 
 .DESCRIPTION
   Without -PublishDir the app is published first (Release, self-contained, -p:MorphRelease=true) into
   publish/win-x64, together with the Windows 11 Explorer menu extension (build-explorer-menu.ps1), the bundled
-  small engines rhwp and 7-Zip and the Microsoft C++ runtime DLLs next to rhwp.exe and Morph.exe
+  small engines rhwp and 7-Zip and the Microsoft C++ runtime DLLs next to rhwp.exe and Halodrop.exe
   (fetch-engines.ps1); the large engines are downloaded by the app (engines.json).
 
   Setup itself (src/Filee.Setup) is published as one self-contained, trimmed program (no .NET needed on the PC);
   build/tools/make-setup.cs appends the publish folder to it as an LZMA payload with a SHA-256 manifest, and the
-  engines Setup offers from EngineDownloads. The portable zip adds morph.portable beside Morph.exe; the installer
+  engines Setup offers from EngineDownloads. The portable zip adds morph.portable beside Halodrop.exe; the installer
   payload does not include this marker.
 
 .PARAMETER Runtime
-  win-x64 (default) or win-arm64. The ARM64 build (Morph-<version>-win-arm64-Setup.exe and -Portable.zip) has an ARM64
+  win-x64 (default) or win-arm64. The ARM64 build (Halodrop-<version>-win-arm64-Setup.exe and -Portable.zip) has an ARM64
   Setup, Explorer menu DLL, rhwp, 7-Zip and Unhwp library (fetch-engines.ps1 -Runtime win-arm64, which fails while
   the ARM64 rhwp and Unhwp builds are not pinned yet). They link the C runtime statically: no Microsoft C++ runtime
   DLLs are copied. With -PublishDir and -SetupProgram from an ARM64 build it signs and packs on an x64 PC too
@@ -33,16 +33,16 @@
 .EXAMPLE
   pwsh build/build-installer.ps1
   pwsh build/build-installer.ps1 -Version 2.0.0 -Portable
-  pwsh build/build-installer.ps1 -Version 2.0.0 -Portable -PublishDir app -SetupProgram Morph.Setup.exe -CertificateThumbprint <sha1>
+  pwsh build/build-installer.ps1 -Version 2.0.0 -Portable -PublishDir app -SetupProgram Halodrop.Setup.exe -CertificateThumbprint <sha1>
   pwsh build/build-installer.ps1 -CheckOnly
 #>
 [CmdletBinding()]
 param(
     # Defaults to <Version> in Directory.Build.props.
     [string]$Version,
-    # A finished publish folder (Morph.exe, MorphExplorerMenu.dll/.msix, engines\); skips publishing.
+    # A finished publish folder (Halodrop.exe, MorphExplorerMenu.dll/.msix, engines\); skips publishing.
     [string]$PublishDir,
-    # A finished Setup program (Morph.Setup.exe from an earlier run); skips publishing src/Filee.Setup.
+    # A finished Setup program (Halodrop.Setup.exe from an earlier run); skips publishing src/Filee.Setup.
     [string]$SetupProgram,
     [string]$OutputDir = (Join-Path $PSScriptRoot '..\Releases'),
     [switch]$Portable,
@@ -67,20 +67,20 @@ New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 $OutputDir = (Resolve-Path $OutputDir).Path
 
 if ($CheckOnly) {
-    # A stand-in app: Setup only needs files, Morph.exe among them.
+    # A stand-in app: Setup only needs files, Halodrop.exe among them.
     $check = Join-Path $cache 'installer-check'
     Remove-Item $check -Recurse -Force -ErrorAction SilentlyContinue
     $PublishDir = Join-Path $check 'app'
     New-Item -ItemType Directory -Force -Path (Join-Path $PublishDir 'cli'), (Join-Path $PublishDir 'engines\rhwp') | Out-Null
-    Set-Content (Join-Path $PublishDir 'Morph.exe') 'stub' -NoNewline
-    Set-Content (Join-Path $PublishDir 'cli\morph.cmd') "@`"%~dp0..\morph-cli.exe`" %*" -Encoding ascii
+    Set-Content (Join-Path $PublishDir 'Halodrop.exe') 'stub' -NoNewline
+    Set-Content (Join-Path $PublishDir 'cli\halodrop.cmd') "@`"%~dp0..\halodrop-cli.exe`" %*" -Encoding ascii
     Set-Content (Join-Path $PublishDir 'engines\rhwp\rhwp.exe') 'stub' -NoNewline
     $OutputDir = $check
 }
 elseif (-not $PublishDir) {
     $PublishDir = Join-Path $root "publish\$Runtime"
     Remove-Item $PublishDir -Recurse -Force -ErrorAction SilentlyContinue
-    # Unhwp's package has no win-arm64 library: the pinned ARM64 build goes next to Morph.exe through the build.
+    # Unhwp's package has no win-arm64 library: the pinned ARM64 build goes next to Halodrop.exe through the build.
     $native = @()
     if ($Runtime -eq 'win-arm64') {
         $natives = Join-Path $cache 'win-arm64-native'
@@ -91,8 +91,8 @@ elseif (-not $PublishDir) {
         dotnet publish (Join-Path $root 'src\Filee.App\Filee.App.csproj') -c Release -r $Runtime --self-contained `
             "-p:Version=$Version" -p:PublishReadyToRun=true -p:MorphRelease=true @native -o $PublishDir
     }
-    # The command line, in the same folder so it shares the runtime and the engines (morph-cli.exe). Its name can't
-    # be morph.exe next to Morph.exe, so the "morph" command is cli\morph.cmd, which Setup can put on PATH.
+    # The command line, in the same folder so it shares the runtime and the engines (halodrop-cli.exe). Its name can't
+    # be morph.exe next to Halodrop.exe, so the "halodrop" command is cli\halodrop.cmd, which Setup can put on PATH.
     Invoke-Checked 'dotnet publish (cli)' {
         dotnet publish (Join-Path $root 'src\Filee.Cli\Filee.Cli.csproj') -c Release -r $Runtime --self-contained `
             "-p:Version=$Version" -p:PublishReadyToRun=true -p:MorphRelease=true @native -o $PublishDir
@@ -101,8 +101,8 @@ elseif (-not $PublishDir) {
     # Filee.App's publish removes them, but publishing the command line into the same folder brings them back.
     Get-ChildItem $PublishDir -Filter 'lib*.pdb' | Remove-Item
     New-Item -ItemType Directory -Force -Path (Join-Path $PublishDir 'cli') | Out-Null
-    Set-Content (Join-Path $PublishDir 'cli\morph.cmd') "@`"%~dp0..\morph-cli.exe`" %*" -Encoding ascii
-    # Next to Morph.exe: the Explorer menu package's external location is the install folder.
+    Set-Content (Join-Path $PublishDir 'cli\halodrop.cmd') "@`"%~dp0..\halodrop-cli.exe`" %*" -Encoding ascii
+    # Next to Halodrop.exe: the Explorer menu package's external location is the install folder.
     $architecture = $Runtime.Substring(4)
     & (Join-Path $PSScriptRoot 'build-explorer-menu.ps1') -Destination $PublishDir -Version $Version -Architecture $architecture
     # Morph change: the CorelDRAW reader (engines\cdr). Without it CorelDRAW files go through LibreOffice as before, so
@@ -115,14 +115,14 @@ elseif (-not $PublishDir) {
         if ($env:GITHUB_ACTIONS) { Write-Host "::warning::The CorelDRAW reader wasn't built: $_" }
     }
     # Only the small rhwp and 7-Zip are bundled; the app downloads the others when the user picks them. The Microsoft
-    # C++ runtime goes next to rhwp.exe and next to Morph.exe (unhwp.dll imports VCRUNTIME140.dll), so neither needs
+    # C++ runtime goes next to rhwp.exe and next to Halodrop.exe (unhwp.dll imports VCRUNTIME140.dll), so neither needs
     # the Visual C++ Redistributable (#248). The ARM64 builds need none.
     $runtimeTo = @{}
     if ($Runtime -eq 'win-x64') { $runtimeTo = @{ RuntimeTo = $PublishDir } }
     & (Join-Path $PSScriptRoot 'fetch-engines.ps1') -Runtime $Runtime -Only rhwp, 7zip -Destination (Join-Path $PublishDir 'engines') @runtimeTo
 }
 $PublishDir = (Resolve-Path $PublishDir).Path
-if (-not (Test-Path (Join-Path $PublishDir 'Morph.exe'))) { throw "Morph.exe is missing in $PublishDir" }
+if (-not (Test-Path (Join-Path $PublishDir 'Halodrop.exe'))) { throw "Halodrop.exe is missing in $PublishDir" }
 if (-not $CheckOnly) {
     # Without them rhwp and unhwp fail on PCs without the Visual C++ Redistributable (#248). They go into the payload
     # and the portable zip; Setup checks again after unpacking (RuntimeCheck) on the user's PC.
@@ -144,7 +144,7 @@ if (-not $SetupProgram) {
         dotnet publish (Join-Path $root 'src\Filee.Setup\Filee.Setup.csproj') -c Release -r $Runtime -p:MorphSetupPublish=true `
             "-p:Version=$Version" -o $setupFolder
     }
-    $SetupProgram = Join-Path $setupFolder 'Morph.Setup.exe'
+    $SetupProgram = Join-Path $setupFolder 'Halodrop.Setup.exe'
 }
 $SetupProgram = (Resolve-Path $SetupProgram).Path
 
@@ -155,9 +155,9 @@ if ($sign) {
     & $sign -Path $PublishDir, $SetupProgram -CertificateThumbprint $CertificateThumbprint
 }
 
-# The x64 names are the ones Morph's updater looks for (-win-Setup.exe, -SHA256SUMS.txt). The ARM64 build writes its own
+# The x64 names are the ones Halodrop's updater looks for (-win-Setup.exe, -SHA256SUMS.txt). The ARM64 build writes its own
 # sums file; a release adds those lines to the x64 one instead (sign-release.ps1).
-$prefix = if ($Runtime -eq 'win-x64') { "Morph-$Version-win" } else { "Morph-$Version-$Runtime" }
+$prefix = if ($Runtime -eq 'win-x64') { "Halodrop-$Version-win" } else { "Halodrop-$Version-$Runtime" }
 $setupExe = Join-Path $OutputDir "$prefix-Setup.exe"
 Write-Host "pack installer $Version"
 $fast = @(if ($CheckOnly) { '--fast' })
@@ -185,12 +185,12 @@ if ($CheckOnly) {
     }
     $installed = Join-Path $sandbox 'Program Files\Morph'
     Invoke-Setup $setupExe @('/MERGETASKS=desktopicon')
-    foreach ($file in 'Morph.exe', 'cli\morph.cmd', 'engines\rhwp\rhwp.exe', 'uninstall.exe', 'uninstall.json') {
+    foreach ($file in 'Halodrop.exe', 'cli\halodrop.cmd', 'engines\rhwp\rhwp.exe', 'uninstall.exe', 'uninstall.json') {
         if (-not (Test-Path (Join-Path $installed $file))) { throw "Setup did not install $file" }
     }
     $registry = Get-Content (Join-Path $sandbox 'registry.json') -Raw
     if ($registry -notmatch 'C8686E06-8327-40A2-B0F7-3DEDD61D9248\}_is1' -or $registry -notmatch 'uninstall\.exe') { throw 'Setup did not write the uninstall entry' }
-    if (-not (Test-Path (Join-Path $sandbox 'Public\Desktop\Morph.lnk'))) { throw 'Setup did not create the desktop shortcut' }
+    if (-not (Test-Path (Join-Path $sandbox 'Public\Desktop\Halodrop.lnk'))) { throw 'Setup did not create the desktop shortcut' }
     Invoke-Setup $setupExe @()
     Invoke-Setup (Join-Path $installed 'uninstall.exe') @()
     if (Test-Path $installed) { throw "The uninstaller left $installed" }
@@ -216,7 +216,7 @@ if ($Portable) {
 }
 
 # Checksums for people who verify their download.
-$sums = Join-Path $OutputDir $(if ($Runtime -eq 'win-x64') { "Morph-$Version-SHA256SUMS.txt" } else { "$prefix-SHA256SUMS.txt" })
+$sums = Join-Path $OutputDir $(if ($Runtime -eq 'win-x64') { "Halodrop-$Version-SHA256SUMS.txt" } else { "$prefix-SHA256SUMS.txt" })
 $files | ForEach-Object { "$((Get-FileHash $_ -Algorithm SHA256).Hash.ToLowerInvariant())  $(Split-Path $_ -Leaf)" } |
     Set-Content $sums -Encoding ascii
 Get-Item ($files + $sums) | Format-Table Name, Length

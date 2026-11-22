@@ -55,7 +55,7 @@ public class ExplorerMenuTests
         Assert.Equal("10.0.22000.0", (string?)manifest.Descendants(F + "TargetDeviceFamily").Single().Attribute("MinVersion"));
 
         var app = manifest.Descendants(F + "Application").Single();
-        Assert.Equal("Morph.exe", (string?)app.Attribute("Executable"));
+        Assert.Equal("Halodrop.exe", (string?)app.Attribute("Executable"));
         Assert.Equal("mediumIL", (string?)app.Attribute(Uap10 + "TrustLevel"));
         Assert.Equal("win32App", (string?)app.Attribute(Uap10 + "RuntimeBehavior"));
         Assert.Equal("none", (string?)app.Element(Uap + "VisualElements")!.Attribute("AppListEntry"));
@@ -257,8 +257,8 @@ public class ExplorerMenuTests
         using var command = NativeCommand.Create(dll);
         // The title comes from the file the app writes into its data folder; without it the English default is used.
         var expectedTitle = ExplorerMenuRegistration.ReadTitle();
-        Assert.Equal(expectedTitle ?? "Convert with Morph", command.GetTitle());
-        Assert.Equal(Path.Combine(BuiltFolder, "Morph.exe") + ",0", command.GetIcon(), ignoreCase: true);
+        Assert.Equal(expectedTitle ?? "Convert with Halodrop", command.GetTitle());
+        Assert.Equal(Path.Combine(BuiltFolder, "Halodrop.exe") + ",0", command.GetIcon(), ignoreCase: true);
         Assert.Equal(ExplorerMenuPackage.ClassId, command.GetCanonicalName());
 
         const int enabled = 0, hidden = 2;

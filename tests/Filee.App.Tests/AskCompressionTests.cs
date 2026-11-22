@@ -212,7 +212,7 @@ public class AskCompressionTests
         vm.VideoQuality = vm.VideoQualities.Single(q => q.Value == MediaQuality.Balanced);
         await Task.Delay(20, Ct);
         Dispatcher.UIThread.RunJobs();
-        Assert.Equal("Morph can't estimate the size of these files.", vm.EstimateText);
+        Assert.Equal("Halodrop can't estimate the size of these files.", vm.EstimateText);
     }
 
     /// <summary>Only the newest estimate is shown: one that ends after a later change is dropped.</summary>

@@ -165,7 +165,7 @@ public class WhatsNewMedia
     {
         var clip = new Clip();
         // Where a browser picture stands before it is saved (BrowserDrags: placeholder paths named like the file).
-        var (window, vm) = OpenDonut([Path.Combine(Path.GetTempPath(), "Morph", "web", "drop", "1", "sunset.jpg")], clickMode: false);
+        var (window, vm) = OpenDonut([Path.Combine(Path.GetTempPath(), "Halodrop", "web", "drop", "1", "sunset.jpg")], clickMode: false);
         var donut = window.DonutControl;
         var badge = window.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "DownloadBadge");
         var badgeText = (TextBlock)badge.Child!;

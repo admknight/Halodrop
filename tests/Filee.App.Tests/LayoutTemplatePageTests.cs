@@ -26,7 +26,7 @@ public class LayoutTemplatePageTests
         {
             using var vm = new ToolbarPageViewModel(store, AppHost.Get<Filee.Core.Localization.ILocalizer>(), AppHost.Get<WindowService>(),
                 AppHost.Get<PresetAvailability>(), AppHost.Get<ConverterCatalog>(), NullLogger<ToolbarPageViewModel>.Instance);
-            Assert.Equal(["Morph default", "Classic"], vm.Templates.Take(2).Select(t => t.Name));
+            Assert.Equal(["Halodrop default", "Classic"], vm.Templates.Take(2).Select(t => t.Name));
             Assert.False(vm.CanDeleteTemplate); // a built-in one is selected
 
             store.Profiles[0].PresetIds.Reverse();

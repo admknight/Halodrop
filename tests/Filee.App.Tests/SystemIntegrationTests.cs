@@ -23,7 +23,7 @@ public sealed class SystemIntegrationTests
             var service = new SystemIntegrationService(platform, new Texts(), NullLogger<SystemIntegrationService>.Instance)
             {
                 RegistrationEnabled = true,
-                ExecutablePath = Path.Combine(root, "Morph.exe"),
+                ExecutablePath = Path.Combine(root, "Halodrop.exe"),
             };
             Assert.True(service.SeparateDataDirectory);
             service.Apply(new AppSettings { StartWithSystem = true, ContextMenuEnabled = true });
@@ -107,7 +107,7 @@ public sealed class SystemIntegrationTests
         {
             RegistrationEnabled = true,
             SeparateDataDirectory = true,
-            ExecutablePath = Path.Combine(Path.GetTempPath(), "Morph test", "Morph"),
+            ExecutablePath = Path.Combine(Path.GetTempPath(), "Halodrop test", "Halodrop"),
         };
         service.Apply(new AppSettings { StartWithSystem = true, ContextMenuEnabled = true });
         Assert.Equal(0, platform.StartupCalls);
@@ -119,7 +119,7 @@ public sealed class SystemIntegrationTests
         {
             RegistrationEnabled = true,
             SeparateDataDirectory = false,
-            ExecutablePath = Path.Combine(Path.GetTempPath(), "Morph test", "Morph"),
+            ExecutablePath = Path.Combine(Path.GetTempPath(), "Halodrop test", "Halodrop"),
         };
 
     private sealed class Texts : ILocalizer

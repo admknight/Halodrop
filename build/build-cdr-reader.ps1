@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Builds MorphCdr.exe, Morph's CorelDRAW reader (src/Morph.CdrReader), for Windows x64 or ARM64.
+  Builds MorphCdr.exe, Halodrop's CorelDRAW reader (src/Morph.CdrReader), for Windows x64 or ARM64.
 .DESCRIPTION
   Adapted from OrbitDrop's build/cdr/build-cdr.ps1 (MIT, github.com/i3sam/OrbitDrop). Downloads the exact upstream
   source releases below (each checked against its SHA-256, so the build is always the same code) and compiles them

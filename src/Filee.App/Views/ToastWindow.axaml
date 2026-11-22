@@ -6,7 +6,7 @@
         xmlns:c="using:Filee.App.Controls"
         x:Class="Filee.App.Views.ToastWindow"
         x:DataType="s:ConversionService"
-        Title="Morph"
+        Title="Halodrop"
         Width="360"
         SizeToContent="Height"
         WindowDecorations="None"

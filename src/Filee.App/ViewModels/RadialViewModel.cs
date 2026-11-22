@@ -239,6 +239,7 @@ public sealed partial class RadialViewModel(UserDataStore store, ILocalizer loc,
         // Both faces follow the same rule: a slice that can't convert these files is greyed out and says why.
         _front = BuildFace(profile?.PresetIds ?? [], formats, off);
         (_back, _backIds, _formats, _off) = (null, [.. profile?.BackPresetIds ?? []], formats, off);
+        GrowForSlices(profile); // Halodrop change
         var load = ++_loads;
         if (backFace)
         {
@@ -282,6 +283,7 @@ public sealed partial class RadialViewModel(UserDataStore store, ILocalizer loc,
         _checked = formats.Count > 0;
         _front = BuildFace(profile.PresetIds, formats, off);
         (_back, _backIds, _formats, _off) = (null, [.. profile.BackPresetIds ?? []], formats, off);
+        GrowForSlices(profile); // Halodrop change
         var load = ++_loads;
         if (backFace)
             ShowFace(BackFace().Items.Count > 0); // asked for its back (a group held open there): shown, greyed or not
@@ -548,6 +550,15 @@ public sealed partial class RadialViewModel(UserDataStore store, ILocalizer loc,
     /// (the window must not grow, and the donut move, when it flips).
     /// </summary>
     public void FitToThisDonut() => ReserveSubRing = _front.Items.Any(item => item.IsGroup) || HasGroups(_backIds);
+
+    // Halodrop change: by the fuller face, so the donut keeps its size when it flips.
+    private void GrowForSlices(ToolbarProfile? profile)
+    {
+        if (profile is null)
+            return;
+        var slices = Math.Max(profile.PresetIds.Count, profile.BackPresetIds?.Count ?? 0);
+        OuterRadius = DonutSettings.GrowForSlices(OuterRadius, slices);
+    }
 
     private void ApplyAppearance()
     {

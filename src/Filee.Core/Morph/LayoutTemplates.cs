@@ -95,7 +95,7 @@ public static class LayoutTemplates
     {
         foreach (var id in ids)
         {
-            if (!face.Contains(id) && face.Count < ToolbarProfile.MaxSlices)
+            if (!face.Contains(id) && face.Count < ToolbarProfile.FileeMaxSlices)
                 face.Add(id);
         }
     }

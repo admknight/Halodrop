@@ -60,7 +60,7 @@ public sealed record EngineCopy(EngineCopyStatus Status, string? Folder, bool Fr
 
 /// <summary>Another Filee (the app, the CLI or a second copy) is installing or removing the same package.</summary>
 public sealed class EngineBusyException(string packageId)
-    : IOException($"{packageId} is being installed by another Morph. Try again when it has finished.")
+    : IOException($"{packageId} is being installed by another Halodrop. Try again when it has finished.")
 {
     public string PackageId { get; } = packageId;
 }
@@ -114,7 +114,7 @@ public sealed class EngineInstaller
     public static HttpClient CreateHttpClient(TimeSpan timeout)
     {
         var http = new HttpClient(new SocketsHttpHandler { AllowAutoRedirect = false }) { Timeout = timeout };
-        http.DefaultRequestHeaders.UserAgent.ParseAdd($"Morph/{typeof(EngineInstaller).Assembly.GetName().Version}");
+        http.DefaultRequestHeaders.UserAgent.ParseAdd($"Halodrop/{typeof(EngineInstaller).Assembly.GetName().Version}");
         return http;
     }
 
@@ -682,7 +682,7 @@ public sealed class EngineInstaller
                     Replace(component.Id, staging);
                     break;
                 case "msi":
-                    await UnpackMsiAsync(component.Id, file, staging, Path.Combine(Path.GetTempPath(), "morph-msiexec.log"), cancellationToken);
+                    await UnpackMsiAsync(component.Id, file, staging, Path.Combine(Path.GetTempPath(), "halodrop-msiexec.log"), cancellationToken);
                     Replace(component.Id, MsiProgramFolder(component.Id, staging));
                     break;
                 case "conda":
@@ -713,7 +713,7 @@ public sealed class EngineInstaller
                     break;
                 case "nsis":
                     var sevenZip = Archives.SevenZip.Locate()
-                                   ?? throw new InvalidOperationException($"{component.Id} needs Morph's 7-Zip, which is missing.");
+                                   ?? throw new InvalidOperationException($"{component.Id} needs Halodrop's 7-Zip, which is missing.");
                     Directory.CreateDirectory(staging);
                     await sevenZip.ExtractAsync(file, staging, [], _root, cancellationToken);
                     TrimTesseract(staging);

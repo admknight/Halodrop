@@ -71,7 +71,7 @@ public class GeoCrsTests
         var position = crs.ToLonLat(new Coord(c.X, c.Y));
         if (ShiftedByProj.Contains(code))
         {
-            Assert.True(crs.IsApproximate, "a datum Morph doesn't shift is reported");
+            Assert.True(crs.IsApproximate, "a datum Halodrop doesn't shift is reported");
             Assert.InRange(Metres(position.X, position.Y, c.Lon, c.Lat), 0, 300);
             return;
         }

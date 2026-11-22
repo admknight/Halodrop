@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Makes Morph's update key: the ECDSA P-256 key pair that signs every release's SHA256SUMS files. Run it once.
+  Makes Halodrop's update key: the ECDSA P-256 key pair that signs every release's SHA256SUMS files. Run it once.
 
 .DESCRIPTION
   Writes the private key to -PrivateKeyPath (PKCS#8 PEM, encrypted with a passphrase typed twice) and prints the

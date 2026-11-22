@@ -170,7 +170,7 @@ public sealed class PresetsCheckTests : IDisposable
     [Fact]
     public void Help_explains_the_check()
     {
-        Assert.Contains("morph presets check <folder>", Help.Text(null), StringComparison.Ordinal);
+        Assert.Contains("halodrop presets check <folder>", Help.Text(null), StringComparison.Ordinal);
         Assert.Contains("\"sha256\"", Help.Text("presets"), StringComparison.Ordinal);
     }
 }

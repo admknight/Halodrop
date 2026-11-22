@@ -133,7 +133,7 @@ public class WindowsSetupSystem(SetupLog log, bool seeOtherAccounts = false) : I
     /// <summary>Windows PowerShell with Setup's rights (the Appx cmdlets); the error message, or null.</summary>
     private string? RunPowerShell(Func<string, string> buildScript)
     {
-        var errorFile = Path.Combine(Path.GetTempPath(), $"Morph-Setup-powershell-{Guid.NewGuid():N}.txt");
+        var errorFile = Path.Combine(Path.GetTempPath(), $"Halodrop-Setup-powershell-{Guid.NewGuid():N}.txt");
         try
         {
             using var process = Process.Start(ExplorerMenuRegistration.CreateStartInfo(buildScript(errorFile), elevated: false));
