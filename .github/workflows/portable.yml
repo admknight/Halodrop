@@ -219,7 +219,7 @@ jobs:
       - name: Check glibc requirements
         if: runner.os == 'Linux'
         shell: bash
-        run: python3 build/check-elf-glibc.py --max 2.35 "$FILEE_SMOKE_PACKAGE"
+        run: python3 build/check-elf-glibc.py --max 2.35 "$MORPH_SMOKE_PACKAGE"
 
       - name: Launch native desktop app
         shell: bash
@@ -297,7 +297,7 @@ jobs:
 
       - name: Check glibc requirements
         shell: bash
-        run: python3 build/check-elf-glibc.py --max 2.35 "$FILEE_SMOKE_PACKAGE"
+        run: python3 build/check-elf-glibc.py --max 2.35 "$MORPH_SMOKE_PACKAGE"
 
       - name: Launch native desktop app
         shell: bash

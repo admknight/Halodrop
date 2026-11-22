@@ -100,9 +100,12 @@ jobs:
           echo "code=$code" >> "$GITHUB_OUTPUT"
           echo "macos=$macos" >> "$GITHUB_OUTPUT"
 
+  # Morph change: Windows first. The Linux and macOS builds (and the Linux metadata job) run only when the repository
+  # variable OTHER_PLATFORMS is "true" (Settings > Secrets and variables > Actions > Variables), so a push gets its
+  # Windows result in about an hour without waiting on the slow macOS runners.
   portable:
     needs: changes
-    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' }}
+    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' && vars.OTHER_PLATFORMS == 'true' }}
     uses: ./.github/workflows/portable.yml
     with:
       macos: ${{ needs.changes.outputs.macos != 'false' }}
@@ -133,7 +136,7 @@ jobs:
   metadata-linux:
     name: metadata (linux-x64)
     needs: changes
-    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' }}
+    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' && vars.OTHER_PLATFORMS == 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:

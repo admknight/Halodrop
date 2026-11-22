@@ -13,6 +13,8 @@ public class MorphFileActionTests
     [Fact]
     public void Placeholders_expand_once_and_quote_the_paths()
     {
+        // POSIX paths: Windows would turn the folder's slashes into backslashes, as it should for its own paths.
+        Assert.SkipWhen(OperatingSystem.IsWindows(), "POSIX paths");
         var run = new RunOptions { Program = "tool", Arguments = "-i {file} -d {folder} -n {name}.{ext} -- {files}" };
         var files = new[] { "/home/u/My Pics/shot {name}.png", "/home/u/b.jpg" };
         var line = run.Expand(files, windows: false);

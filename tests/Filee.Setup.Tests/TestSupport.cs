@@ -162,7 +162,7 @@ public sealed class SetupBench : IDisposable
     /// <summary>The published app: Filee.exe, the "filee" command, an engine and a few more files.</summary>
     private void WriteApp(Action<TempFolder, string>? app)
     {
-        _temp.Write(@"app\Morph.exe", "Filee 2");
+        _temp.Write(@"app\Morph.exe", "Morph 2");
         _temp.Write(@"app\Morph.dll", new string('a', 20_000));
         _temp.Write(@"app\cli\morph.cmd", "@\"%~dp0..\\morph-cli.exe\" %*");
         _temp.Write(@"app\morph-cli.exe", "cli");
