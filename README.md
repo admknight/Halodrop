@@ -59,16 +59,50 @@ from their official sites, each checked against a pinned SHA-256.
 
 ## Real app screenshots
 
-These are **unedited screenshots of Morph 0.7.0**, rendered by the project's own UI tests
-(`tests/Filee.App.Tests`) from the same code as the builds. They are **not mockups**.
+These are **unedited screenshots of Morph 0.7.0**, rendered by the project's own UI tests (`tests/Filee.App.Tests`)
+from the same code as the builds. They are **not mockups**. Colours, fonts and window sizes vary with your system
+and the look you pick.
 
-| Home with the guided first run | The donut for a JPG |
-|:---:|:---:|
-| <img src="docs/media/morph-home.png" width="430" alt="Home page: step 2 of 4 of the guided first run, with a practice picture and an Open the donut button"> | <img src="docs/media/morph-donut.png" width="300" alt="The donut for a JPG: PNG, JPG, WEBP, GIF, PDF, Merge PDF, Trace, and a Formats group opened into PNG, JPG and WEBP"> |
-
-| Hide: blur names and messages | Futuristic look | Urdu, right to left |
+| Home with the guided first run | The donut: formats in front | Flip it: tools on the back |
 |:---:|:---:|:---:|
-| <img src="docs/media/morph-hide.png" width="290" alt="The Hide window with a name and a message blurred on a chat screenshot"> | <img src="docs/media/morph-futuristic.png" width="290" alt="The Theme page in the Futuristic look, with a cyan accent and a donut preview"> | <img src="docs/media/morph-urdu.png" width="290" alt="The same Theme page in Urdu, right to left, in a Nastaliq font"> |
+| <img src="docs/media/morph-home.png" width="270" alt="Home page, step 2 of 4 of the guided first run, with a practice picture and an Open the donut button"> | <img src="docs/media/morph-donut-front.png" width="270" alt="The front of the donut for three JPGs: PNG, JPG, WEBP, GIF, PDF, Merge PDF and Trace"> | <img src="docs/media/morph-donut-back.png" width="270" alt="The back of the donut: Crop, Rotate, Cut out, Merge images, Compress image, Half size, Edit pictures and One ZIP"> |
+
+| A PDF donut with a group open | Hide: blur names and messages | Futuristic look |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-donut-pdf.png" width="270" alt="The dark donut for a PDF with the Edit group opened into Crop, Left, Right, Pages, Split and Add"> | <img src="docs/media/morph-hide.png" width="270" alt="The Hide window with a name and a message blurred on a chat screenshot, and the toolbar with Find faces and Find text"> | <img src="docs/media/morph-futuristic.png" width="270" alt="The Theme page in the Futuristic look, with a cyan accent and a donut preview"> |
+
+| Keep on shelf | Colour palette | Urdu, right to left |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-shelf.png" width="230" alt="The floating shelf holding three pictures with thumbnails and a PDF, with drag-all, donut and close buttons"> | <img src="docs/media/morph-palette.png" width="250" alt="The card the colour palette leaves: six swatches with their hex codes, copied"> | <img src="docs/media/morph-urdu.png" width="270" alt="The Theme page in Urdu, right to left, in a Nastaliq font"> |
+
+<details>
+<summary>More screenshots: the tool windows and the Settings pages</summary>
+
+| Crop | Straighten a photo of a page | Cut a clip |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-crop.png" width="270" alt="The crop window with a frame on a landscape picture and its size"> | <img src="docs/media/morph-perspective.png" width="270" alt="Perspective crop: four corners dragged onto a tilted page"> | <img src="docs/media/morph-clip.png" width="270" alt="The clip window: a video timeline with the kept part, waveform and playhead"> |
+
+| Annotate | A background for screenshots | Merge pictures |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-annotate.png" width="270" alt="The annotate window with a highlight, a box, an arrow and a label"> | <img src="docs/media/morph-background.png" width="270" alt="A screenshot set on a gradient background with padding, corners and shadow controls"> | <img src="docs/media/morph-merge-images.png" width="270" alt="Choosing the order and layout to merge pictures into one"> |
+
+| Edit or remove metadata | Rearrange PDF pages | Choose the compression |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-metadata.png" width="270" alt="The metadata editor with location, camera and date fields"> | <img src="docs/media/morph-pdf-pages.png" width="270" alt="The PDF page editor with page thumbnails to reorder, rotate, delete and extract"> | <img src="docs/media/morph-compression.png" width="270" alt="Choosing the compression of a picture, with the estimated size"> |
+
+| Home and recent conversions | Donut toolbar settings | Presets |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-page-home.png" width="270" alt="Home page with recent conversions and their Open buttons"> | <img src="docs/media/morph-page-toolbar.png" width="270" alt="Settings, Donut toolbar: the donuts per file type, their slices and the available presets"> | <img src="docs/media/morph-page-presets.png" width="270" alt="Settings, Presets: a preset's target, size, image and output options"> |
+
+| Shortcuts | Watch folders | Engines |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-page-shortcuts.png" width="270" alt="Settings, Shortcuts: the Ctrl drag and the keyboard shortcut"> | <img src="docs/media/morph-page-watch.png" width="270" alt="Settings, Watch folders: a folder whose new files are converted"> | <img src="docs/media/morph-page-engines.png" width="270" alt="Settings, Engines: the optional engines with their status"> |
+
+| General | About | Futuristic, light |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-page-general.png" width="270" alt="Settings, General: language, start with the computer and the Explorer menu"> | <img src="docs/media/morph-page-about.png" width="270" alt="The About page with the version, maintainer and update settings"> | <img src="docs/media/morph-futuristic-light.png" width="270" alt="The Theme page in the Futuristic look, light"> |
+
+</details>
 
 ## Editions
 
