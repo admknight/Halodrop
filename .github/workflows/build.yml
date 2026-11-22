@@ -119,6 +119,8 @@ jobs:
   # skip and no package is built; once they are, the job also builds the win-arm64 Setup and portable zip to try out.
   build-arm64:
     name: build (win-arm64)
+    # Morph change: x64 first; ARM64 runs only when the repository variable OTHER_PLATFORMS is "true" (see ci.yml).
+    if: ${{ vars.OTHER_PLATFORMS == 'true' }}
     runs-on: windows-11-arm
     timeout-minutes: 120
     defaults:

@@ -1,7 +1,7 @@
 # Changelog
 
-What changed in each version of Filee, for the people using it. The release workflow puts the section of the
-version it publishes under "What's Changed" in the GitHub release notes, above the list of pull requests.
+What changed in each version of Morph (and, below 0.7.0, of Filee, which Morph is built on), for the people using
+it. The release workflow puts the section of the version it publishes under "What's Changed" in the GitHub release notes, above the list of pull requests.
 
 Add a `## <version>` section before tagging a release. Write what someone using Filee notices: what's new, where to
 find it, what it does and doesn't do.
@@ -14,9 +14,31 @@ change, a language may repeat; a language without lines shows the English ones):
 - `recommended`: bug fixes. The card shows once per version.
 - `optional`: new features only. No card, the sidebar button only.
 
-## Unreleased
+## 0.7.0
 
-Rename this heading to the version number when you release it.
+<!-- update
+level: optional
+en: Morph's first release for Windows x64: drag files onto the donut to convert them, with file actions, picture tools and layout templates
+-->
+
+Morph's first public release, for Windows x64. Morph is a drag-to-convert file converter built on Filee: drop files on
+the donut that appears while you drag, pick a slice, and the files are converted.
+
+- **New look and layout templates.** A bigger donut (up to 260 px) with more slices, and a "Morph default" layout
+  that places the new groups for you. Toolbar → Templates saves your own layout as a template and switches between
+  them; "Classic" keeps Filee's layout.
+- **File actions** on the back of every donut: copy path or name, show in folder, open a terminal there, share,
+  print, run a program of your choice with the files, and the shelf (a small window that holds files to drag out
+  later).
+- **Picture actions:** copy the text in a picture, its colour palette, set it as wallpaper, and search for it with
+  Google Lens.
+- **Social sizes** for pictures (square, story, thumbnail) and **Normalize volume** for sound.
+- **CorelDRAW drawings** (CDR, CMX) open without LibreOffice, with Morph's own reader.
+- **Find faces / Find text** in the Hide window mark what to blur for you.
+- Engines run in their own process with memory and time limits, so a stuck or runaway engine can't take Morph down.
+- Not yet signed: Windows SmartScreen may warn the first time you run Setup ("More info" → "Run anyway").
+
+## Filee (unreleased, before the fork)
 
 <!-- update
 level: recommended

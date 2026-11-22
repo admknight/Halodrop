@@ -18,6 +18,11 @@
 # their authors and new contributors.
 # Large engines are not in the installer; its engine page (or the app, on first run and in Settings > Engines)
 # downloads them.
+#
+# Morph change: Windows x64 first. Until Morph has its own code-signing certificate and update key, the x64 job builds
+# and tests the installer and portable zip, and the publish job releases them straight away, unsigned. Linux, macOS
+# and Windows ARM64 run only when the repository variable OTHER_PLATFORMS is "true"; then the release is a draft
+# for build/sign-release.ps1, as in Filee.
 name: Release
 
 on:
@@ -29,12 +34,12 @@ permissions:
 
 jobs:
   portable:
+    if: ${{ vars.OTHER_PLATFORMS == 'true' }}
     uses: ./.github/workflows/portable.yml
     with:
       version: ${{ github.ref_name }}
 
   windows:
-    needs: portable
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
@@ -113,10 +118,19 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      # Morph change: the finished x64 files (Setup, portable zip, SHA256SUMS) for the publish job.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows-release
+          path: Releases/Morph-*
+          if-no-files-found: error
+          retention-days: 30
+
   # Windows on ARM64, built and tested natively like CI's build (win-arm64) job: the app, Setup, the Explorer menu DLL,
   # 7-Zip, rhwp and Unhwp's library are ARM64 builds (rhwp and Unhwp from the pins in build/fetch-engines.ps1).
   windows-arm64:
     needs: portable
+    if: ${{ vars.OTHER_PLATFORMS == 'true' }}
     runs-on: windows-11-arm
     timeout-minutes: 120
     defaults:
@@ -202,6 +216,7 @@ jobs:
 
   draft:
     needs: [portable, windows, windows-arm64]
+    if: ${{ vars.OTHER_PLATFORMS == 'true' }}
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
@@ -256,4 +271,34 @@ jobs:
           if ($tail) { $parts += $tail }
           $notesFile = Join-Path $env:RUNNER_TEMP 'notes.md'
           Set-Content $notesFile ($parts -join "`n`n") -Encoding utf8
-          gh release create '${{ github.ref_name }}' --draft --title "Filee $version" --notes-file $notesFile --verify-tag @files
+          gh release create '${{ github.ref_name }}' --draft --title "Morph $version" --notes-file $notesFile --verify-tag @files
+
+  # Morph change: Windows x64 only, published as tested (unsigned) with the version's CHANGELOG.md section as notes.
+  publish:
+    needs: windows
+    if: ${{ vars.OTHER_PLATFORMS != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: windows-release
+          path: Releases
+
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $version = '${{ github.ref_name }}'.TrimStart('v')
+          $changes = ''
+          $changelog = Get-Content CHANGELOG.md -Raw -Encoding utf8
+          if ($changelog -match "(?ms)^## $([regex]::Escape($version))[ \t]*\r?\n(.*?)(?=^## |\z)") {
+            $changes = $Matches[1].Trim() -replace '\r?\n +(?!- |\* |\d+\. )(?=\S)', ' '
+          }
+          if (-not $changes) { throw "CHANGELOG.md has no section for $version" }
+          $notesFile = Join-Path $env:RUNNER_TEMP 'notes.md'
+          Set-Content $notesFile "## What's Changed`n`n$changes" -Encoding utf8
+          $files = Get-ChildItem Releases -File | ForEach-Object FullName
+          gh release create '${{ github.ref_name }}' --title "Morph $version" --notes-file $notesFile --verify-tag @files
