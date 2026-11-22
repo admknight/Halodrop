@@ -155,7 +155,7 @@ public class RadialControllerTests
             for (var i = 0; i < model.Items.Count; i++)
             {
                 var preset = model.PresetAt(i, -1);
-                if (preset is not null && !preset.IsTool && !preset.Output.AskEveryTime)
+                if (preset is not null && !preset.IsTool && !preset.IsGroup && !preset.Output.AskEveryTime)
                 {
                     index = i;
                     break;

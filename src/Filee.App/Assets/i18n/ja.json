@@ -2084,5 +2084,7 @@
   "hide.found_text": "文字を {0} 行見つけました: 枠を確認して保存してください",
   "hide.no_text": "文字は見つかりませんでした",
   "hide.text_needs_tesseract": "文字の検出には Tesseract が必要です: 設定 → エンジンで入手できます",
-  "hide.find_failed": "検出できませんでした: {0}"
+  "hide.find_failed": "検出できませんでした: {0}",
+  "engine.corel.name": "CorelDRAW リーダー (内蔵)",
+  "engine.corel.description": "CorelDRAW 図面 (CDR、CMX) を LibreOffice なしで SVG、PDF、画像に (libcdr)。"
 }

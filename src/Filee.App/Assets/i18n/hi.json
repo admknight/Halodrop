@@ -2084,5 +2084,7 @@
   "hide.found_text": "टेक्स्ट की {0} पंक्तियाँ मिलीं: फ़्रेम जाँचें, फिर सहेजें",
   "hide.no_text": "कोई टेक्स्ट नहीं मिला",
   "hide.text_needs_tesseract": "टेक्स्ट ढूँढने के लिए Tesseract चाहिए: सेटिंग्स → इंजन से लें",
-  "hide.find_failed": "खोज नहीं हो सकी: {0}"
+  "hide.find_failed": "खोज नहीं हो सकी: {0}",
+  "engine.corel.name": "CorelDRAW रीडर (बिल्ट-इन)",
+  "engine.corel.description": "CorelDRAW ड्रॉइंग (CDR, CMX) से SVG, PDF और चित्र, LibreOffice के बिना (libcdr)।"
 }

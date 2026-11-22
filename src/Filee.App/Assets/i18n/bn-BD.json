@@ -2080,5 +2080,7 @@
   "hide.found_text": "{0}টি লাইন পাওয়া গেছে: ফ্রেম দেখে সেভ করুন",
   "hide.no_text": "কোনো লেখা পাওয়া যায়নি",
   "hide.text_needs_tesseract": "লেখা খুঁজতে Tesseract লাগবে: সেটিংস → ইঞ্জিন থেকে নিন",
-  "hide.find_failed": "খোঁজা যায়নি: {0}"
+  "hide.find_failed": "খোঁজা যায়নি: {0}",
+  "engine.corel.name": "CorelDRAW রিডার (বিল্ট-ইন)",
+  "engine.corel.description": "CorelDRAW ড্রয়িং (CDR, CMX) থেকে SVG, PDF ও ছবি, LibreOffice ছাড়া (libcdr)।"
 }

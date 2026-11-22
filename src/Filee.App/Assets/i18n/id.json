@@ -2082,5 +2082,7 @@
   "hide.found_text": "{0} baris teks ditemukan: cek bingkainya, lalu simpan",
   "hide.no_text": "Tidak ada teks ditemukan",
   "hide.text_needs_tesseract": "Mencari teks butuh Tesseract: dapatkan di Pengaturan → Mesin",
-  "hide.find_failed": "Tidak bisa mencari: {0}"
+  "hide.find_failed": "Tidak bisa mencari: {0}",
+  "engine.corel.name": "Pembaca CorelDRAW (bawaan)",
+  "engine.corel.description": "Gambar CorelDRAW (CDR, CMX) ke SVG, PDF, dan gambar, tanpa LibreOffice (libcdr)."
 }

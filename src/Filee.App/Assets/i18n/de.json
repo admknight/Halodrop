@@ -2082,5 +2082,7 @@
   "hide.found_text": "{0} Textzeile(n) gefunden: Rahmen prüfen, dann speichern",
   "hide.no_text": "Kein Text gefunden",
   "hide.text_needs_tesseract": "Für die Textsuche braucht es Tesseract: unter Einstellungen → Engines",
-  "hide.find_failed": "Suche fehlgeschlagen: {0}"
+  "hide.find_failed": "Suche fehlgeschlagen: {0}",
+  "engine.corel.name": "CorelDRAW-Leser (integriert)",
+  "engine.corel.description": "CorelDRAW-Zeichnungen (CDR, CMX) zu SVG, PDF und Bildern, ohne LibreOffice (libcdr)."
 }

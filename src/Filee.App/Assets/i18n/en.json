@@ -2104,5 +2104,7 @@
   "hide.found_text": "{0} line(s) of text found: check the frames, then save",
   "hide.no_text": "No text found",
   "hide.text_needs_tesseract": "Finding text needs Tesseract: get it in Settings → Engines",
-  "hide.find_failed": "Couldn't search: {0}"
+  "hide.find_failed": "Couldn't search: {0}",
+  "engine.corel.name": "CorelDRAW reader (built-in)",
+  "engine.corel.description": "CorelDRAW drawings (CDR, CMX) to SVG, PDF and pictures, without LibreOffice (libcdr)."
 }

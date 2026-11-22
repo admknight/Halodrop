@@ -276,7 +276,11 @@ public class FolderIso632Tests
             Assert.Contains(vm.VisiblePalette, p => p.PresetId == "to-iso");
             Assert.Contains(vm.VisiblePalette, p => p.PresetId == "folder-group");
             Assert.DoesNotContain(vm.VisiblePalette, p => p.PresetId == "to-png" || p.PresetId == "image-group");
-            Assert.DoesNotContain(vm.Tabs, t => t.Id == PaletteTab.Image || t.Id == PaletteTab.Document || t.Id == PaletteTab.Edit);
+            Assert.DoesNotContain(vm.Tabs, t => t.Id == PaletteTab.Image || t.Id == PaletteTab.Document);
+            // Morph change: the file actions that work on folders (copy path, show in folder, terminal, shelf...) give
+            // folders an Edit tab; it holds those and nothing for files only.
+            Assert.All(vm.VisiblePalette.Select(p => store.FindPreset(p.PresetId)).Where(p => p is { IsTool: true }),
+                p => Assert.True(p!.IsFileAction, p.Id));
             RenderTests.Save(window, "folder-compatible-palette.png");
 
             vm.PaletteSearch = "PNG";

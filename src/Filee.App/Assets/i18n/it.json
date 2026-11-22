@@ -2081,5 +2081,7 @@
   "hide.found_text": "{0} righe di testo trovate: controlla le cornici, poi salva",
   "hide.no_text": "Nessun testo trovato",
   "hide.text_needs_tesseract": "Per trovare il testo serve Tesseract: in Impostazioni → Motori",
-  "hide.find_failed": "Ricerca non riuscita: {0}"
+  "hide.find_failed": "Ricerca non riuscita: {0}",
+  "engine.corel.name": "Lettore CorelDRAW (integrato)",
+  "engine.corel.description": "Disegni CorelDRAW (CDR, CMX) in SVG, PDF e immagini, senza LibreOffice (libcdr)."
 }

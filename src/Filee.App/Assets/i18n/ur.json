@@ -99,9 +99,9 @@
   "donut.files_same": "{0} × {1}",
   "donut.files_mixed": "{0} فائلیں",
   "donut.drop_to": "چھوڑیں ← {0}",
-  "donut.ordinary_conversion.single": "یہ فائل عام تبدیلی کے طور پر چلتی ہے",
-  "donut.ordinary_conversion.all": "تمام قابلِ تبدیل فائلیں عام تبدیلی کے طور پر چلتی ہیں",
-  "donut.ordinary_conversion.some": "کچھ فائلیں عام تبدیلی کے طور پر چلتی ہیں",
+  "donut.ordinary_conversion.single": "یہ فائل عام تبدیلی سے گزرتی ہے",
+  "donut.ordinary_conversion.all": "تمام قابلِ تبدیل فائلیں عام تبدیلی سے گزرتی ہیں",
+  "donut.ordinary_conversion.some": "کچھ فائلیں عام تبدیلی سے گزرتی ہیں",
   "donut.pick_in_group": "چننے کے لیے باہر کی طرف جائیں",
   "donut.group_empty": "اس گروپ میں کوئی پری سیٹ باقی نہیں۔ اسے سیٹنگز → ڈونٹ ٹول بار میں ترمیم کریں",
   "donut.click_to": "کلک کریں ← {0}",
@@ -2104,5 +2104,7 @@
   "hide.found_text": "تحریر کی {0} سطریں ملیں: فریم دیکھیں، پھر محفوظ کریں",
   "hide.no_text": "کوئی تحریر نہیں ملی",
   "hide.text_needs_tesseract": "تحریر ڈھونڈنے کے لیے Tesseract چاہیے: سیٹنگز → انجنز میں حاصل کریں",
-  "hide.find_failed": "تلاش نہیں ہو سکی: {0}"
+  "hide.find_failed": "تلاش نہیں ہو سکی: {0}",
+  "engine.corel.name": "CorelDRAW ریڈر (بلٹ اِن)",
+  "engine.corel.description": "CorelDRAW ڈرائنگز (CDR، CMX) کو SVG، PDF اور تصاویر میں، LibreOffice کے بغیر (libcdr)۔"
 }

@@ -2084,5 +2084,7 @@
   "hide.found_text": "พบข้อความ {0} บรรทัด: ตรวจกรอบแล้วบันทึก",
   "hide.no_text": "ไม่พบข้อความ",
   "hide.text_needs_tesseract": "การค้นหาข้อความต้องใช้ Tesseract: ดาวน์โหลดได้ที่การตั้งค่า → เอนจิน",
-  "hide.find_failed": "ค้นหาไม่ได้: {0}"
+  "hide.find_failed": "ค้นหาไม่ได้: {0}",
+  "engine.corel.name": "ตัวอ่าน CorelDRAW (ในตัว)",
+  "engine.corel.description": "ภาพวาด CorelDRAW (CDR, CMX) เป็น SVG, PDF และรูปภาพ โดยไม่ต้องใช้ LibreOffice (libcdr)"
 }

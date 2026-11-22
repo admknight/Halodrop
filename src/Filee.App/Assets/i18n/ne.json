@@ -2084,5 +2084,7 @@
   "hide.found_text": "पाठका {0} लाइन भेटिए: फ्रेम जाँचेर सुरक्षित गर्नुहोस्",
   "hide.no_text": "कुनै पाठ भेटिएन",
   "hide.text_needs_tesseract": "पाठ खोज्न Tesseract चाहिन्छ: सेटिङ → इन्जिनबाट लिनुहोस्",
-  "hide.find_failed": "खोज्न सकिएन: {0}"
+  "hide.find_failed": "खोज्न सकिएन: {0}",
+  "engine.corel.name": "CorelDRAW रिडर (बिल्ट-इन)",
+  "engine.corel.description": "CorelDRAW चित्र (CDR, CMX) बाट SVG, PDF र तस्बिर, LibreOffice बिना (libcdr)।"
 }

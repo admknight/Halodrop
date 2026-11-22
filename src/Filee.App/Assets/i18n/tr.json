@@ -2082,5 +2082,7 @@
   "hide.found_text": "{0} metin satırı bulundu: çerçeveleri kontrol edip kaydedin",
   "hide.no_text": "Metin bulunamadı",
   "hide.text_needs_tesseract": "Metin bulmak için Tesseract gerekir: Ayarlar → Motorlar'dan alın",
-  "hide.find_failed": "Aranamadı: {0}"
+  "hide.find_failed": "Aranamadı: {0}",
+  "engine.corel.name": "CorelDRAW okuyucu (yerleşik)",
+  "engine.corel.description": "CorelDRAW çizimlerini (CDR, CMX) LibreOffice olmadan SVG, PDF ve resme dönüştürür (libcdr)."
 }

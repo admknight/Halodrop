@@ -300,6 +300,41 @@
               <TextBlock Text="{DynamicResource toolbar.add_profile}" />
             </StackPanel>
           </Button>
+          <!-- Morph change: layout templates (a whole set of donuts and their size), in a pop-up so the page keeps
+               its height. Switching keeps the current donuts as a template first. -->
+          <Button x:Name="TemplatesButton" HorizontalAlignment="Stretch" Content="{DynamicResource template.title}" AutomationProperties.Name="{DynamicResource template.title}">
+            <Button.Flyout>
+              <Flyout Placement="RightEdgeAlignedTop">
+              <StackPanel Spacing="10" Width="360" Margin="4">
+                <TextBlock Classes="h2" Text="{DynamicResource template.title}" />
+                <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource template.hint}" />
+                <ComboBox x:Name="TemplatePicker" HorizontalAlignment="Stretch" ItemsSource="{Binding Templates}"
+                          SelectedItem="{Binding SelectedTemplate}" AutomationProperties.Name="{DynamicResource template.title}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:LayoutTemplateChoice">
+                      <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Classes="caption" Text="{Binding Detail}" />
+                      </StackPanel>
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                  <Button Classes="danger" Content="{DynamicResource template.delete}" Command="{Binding DeleteTemplateCommand}"
+                          IsVisible="{Binding CanDeleteTemplate}" />
+                  <Button Classes="accent" Content="{DynamicResource template.apply}" Command="{Binding ApplyTemplateCommand}" />
+                </StackPanel>
+                <DockPanel>
+                  <Button DockPanel.Dock="Right" Margin="8,0,0,0" Content="{DynamicResource template.save}" Command="{Binding SaveTemplateCommand}" />
+                  <TextBox Text="{Binding NewTemplateName}" PlaceholderText="{DynamicResource template.name_hint}" MaxLength="60"
+                           AutomationProperties.Name="{DynamicResource template.name_hint}" />
+                </DockPanel>
+                <TextBlock Classes="caption" TextWrapping="Wrap" Text="{Binding TemplateMessage}"
+                           IsVisible="{Binding TemplateMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+              </StackPanel>
+              </Flyout>
+            </Button.Flyout>
+          </Button>
           <TextBlock x:Name="ProfileOrderHint" Classes="caption" TextWrapping="Wrap" Text="{DynamicResource toolbar.profile_order_hint}" />
         </StackPanel>
 
@@ -574,38 +609,6 @@
                 <Button Classes="danger" Content="{DynamicResource toolbar.delete_profile}" Command="{Binding DeleteProfileCommand}"
                         IsVisible="{Binding CanDelete}" />
               </StackPanel>
-            </StackPanel>
-          </Border>
-
-          <!-- Morph change: layout templates. A whole set of donuts and their size: the built-in Morph and Filee ones,
-               and the user's own. Switching keeps the current donuts as a template first. -->
-          <Border x:Name="TemplatesCard" Classes="card">
-            <StackPanel Spacing="10">
-              <TextBlock Classes="h2" Text="{DynamicResource template.title}" />
-              <TextBlock Classes="caption" TextWrapping="Wrap" Text="{DynamicResource template.hint}" />
-              <ComboBox x:Name="TemplatePicker" HorizontalAlignment="Stretch" ItemsSource="{Binding Templates}"
-                        SelectedItem="{Binding SelectedTemplate}" AutomationProperties.Name="{DynamicResource template.title}">
-                <ComboBox.ItemTemplate>
-                  <DataTemplate x:DataType="vm:LayoutTemplateChoice">
-                    <StackPanel>
-                      <TextBlock Text="{Binding Name}" />
-                      <TextBlock Classes="caption" Text="{Binding Detail}" />
-                    </StackPanel>
-                  </DataTemplate>
-                </ComboBox.ItemTemplate>
-              </ComboBox>
-              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-                <Button Classes="danger" Content="{DynamicResource template.delete}" Command="{Binding DeleteTemplateCommand}"
-                        IsVisible="{Binding CanDeleteTemplate}" />
-                <Button Classes="accent" Content="{DynamicResource template.apply}" Command="{Binding ApplyTemplateCommand}" />
-              </StackPanel>
-              <DockPanel>
-                <Button DockPanel.Dock="Right" Margin="8,0,0,0" Content="{DynamicResource template.save}" Command="{Binding SaveTemplateCommand}" />
-                <TextBox Text="{Binding NewTemplateName}" PlaceholderText="{DynamicResource template.name_hint}" MaxLength="60"
-                         AutomationProperties.Name="{DynamicResource template.name_hint}" />
-              </DockPanel>
-              <TextBlock Classes="caption" TextWrapping="Wrap" Text="{Binding TemplateMessage}"
-                         IsVisible="{Binding TemplateMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
             </StackPanel>
           </Border>
 

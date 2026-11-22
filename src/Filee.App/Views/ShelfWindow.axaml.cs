@@ -93,8 +93,14 @@ public partial class ShelfWindow : Window
         {
             var bitmap = await Task.Run(() =>
             {
-                using var stream = File.OpenRead(item.Path);
-                return Bitmap.DecodeToWidth(stream, 72);
+                // Read whole and shared, so the shelf never stops the file being moved or deleted meanwhile.
+                var memory = new MemoryStream();
+                using (var file = new FileStream(item.Path, FileMode.Open, FileAccess.Read,
+                           FileShare.ReadWrite | FileShare.Delete))
+                    file.CopyTo(memory);
+                memory.Position = 0;
+                using (memory)
+                    return Bitmap.DecodeToWidth(memory, 72);
             });
             await Dispatcher.UIThread.InvokeAsync(() => item.Thumbnail = bitmap);
         }

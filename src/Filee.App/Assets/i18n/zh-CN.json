@@ -2104,5 +2104,7 @@
   "hide.found_text": "找到 {0} 行文字：请检查框后保存",
   "hide.no_text": "未找到文字",
   "hide.text_needs_tesseract": "查找文字需要 Tesseract：可在 设置 → 引擎 中获取",
-  "hide.find_failed": "无法查找：{0}"
+  "hide.find_failed": "无法查找：{0}",
+  "engine.corel.name": "CorelDRAW 读取器（内置）",
+  "engine.corel.description": "将 CorelDRAW 图纸（CDR、CMX）转为 SVG、PDF 和图片，无需 LibreOffice（libcdr）。"
 }

@@ -33,7 +33,12 @@ public class ShelfTests
         }
         finally
         {
-            dir.Delete(recursive: true);
+            // The thumbnail is read in the background; give it a moment if it is still on the file.
+            for (var i = 0; ; i++)
+            {
+                try { dir.Delete(recursive: true); break; }
+                catch (IOException) when (i < 20) { Thread.Sleep(100); }
+            }
         }
     }
 }

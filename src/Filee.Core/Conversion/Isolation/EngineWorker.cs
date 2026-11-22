@@ -83,14 +83,20 @@ public sealed class EngineWorker
         try
         {
             if (run.Engine == CrashForTests && Environment.GetEnvironmentVariable("MORPH_WORKER_TESTS") == "1")
+            {
+                // FailFast on macOS waits for the crash reporter, which can take longer than the test; a kill ends at once.
+                if (!OperatingSystem.IsWindows())
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
                 Environment.FailFast("Engine worker crash requested by a test.");
+            }
             if (run.Engine == HogForTests && Environment.GetEnvironmentVariable("MORPH_WORKER_TESTS") == "1")
             {
                 var held = new List<byte[]>();
                 for (var i = 0; i < 400; i++)
                 {
                     var block = GC.AllocateUninitializedArray<byte>(16 << 20);
-                    Array.Fill(block, (byte)i); // touched, so it counts as used memory
+                    // Random, so it counts as used memory everywhere: macOS compresses pages of one repeated byte.
+                    Random.Shared.NextBytes(block);
                     held.Add(block);
                     await Task.Delay(20, cancel.Token);
                 }

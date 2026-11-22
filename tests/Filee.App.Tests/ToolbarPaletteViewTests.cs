@@ -158,10 +158,12 @@ public class ToolbarPaletteViewTests
     /// <summary>
     /// The library without the Annotate, Add background and Metadata tools: every picture donut offers them in its Edit
     /// tab, and every PDF, video or sound donut the Metadata tool, which a test of the tools would otherwise always
-    /// see.
+    /// see. The file actions (copy path, show in folder...) go too: they fit every file, so every donut would get an
+    /// Edit tab.
     /// </summary>
     private static void WithoutPictureEditTools(PresetAvailabilityTests.Fixture f) =>
-        f.Store.Presets.RemoveAll(p => p.IsAnnotateTool || p.IsBackgroundTool || p.IsMetadataTool || p.IsUpscaleTool);
+        f.Store.Presets.RemoveAll(p => p.IsAnnotateTool || p.IsBackgroundTool || p.IsMetadataTool || p.IsUpscaleTool
+            || p.IsFileAction);
 
     private static ToolbarProfile Profile(string id, params string[] extensions) => new()
     {
@@ -241,7 +243,7 @@ public class ToolbarPaletteViewTests
         Dispatcher.UIThread.RunJobs();
         using var view = new View(vm);
         Assert.False(view.Tabs.IsVisible);
-        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "test-group"], view.Chips);
+        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "file-actions", "picture-actions", "social-sizes", "test-group"], view.Chips);
 
         // PDF: one kind (Documents) that would only repeat All. Two tabs, but the row stays hidden.
         // (Without the PDF page tools, which would add the Edit kind.)
@@ -254,7 +256,7 @@ public class ToolbarPaletteViewTests
         Assert.Equal([PaletteTab.All, PaletteTab.Document], view.TabIds);
         Assert.False(view.Tabs.IsVisible);
         Assert.Equal(PaletteTab.All, view.Selected);
-        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "test-group", "merge-pdf", "test-merge"], view.Chips);
+        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "file-actions", "picture-actions", "social-sizes", "test-group", "merge-pdf", "test-merge"], view.Chips);
 
         // PNG: several kinds, so the row shows.
         f.Store.Profiles.Add(Profile("tabs-png", "png"));
@@ -525,7 +527,7 @@ public class ToolbarPaletteViewTests
         view.Click(faces[1]);
         Assert.True(vm.EditingBack);
         Assert.Equal(PaletteTab.Media, view.Selected);
-        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "test-group", "extract-motion", "test-motion"], view.Chips);
+        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "file-actions", "picture-actions", "social-sizes", "test-group", "extract-motion", "test-motion"], view.Chips);
         view.Click(faces[0]);
         Assert.False(vm.EditingBack);
         Assert.Equal(PaletteTab.Media, view.Selected);
@@ -542,7 +544,7 @@ public class ToolbarPaletteViewTests
         RenderTests.Pump();
         Assert.Equal(PaletteTab.All, view.Selected);
         view.ClickTab(PaletteTab.Edit);
-        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "test-group", "tool-crop", "tool-image-edit", "tool-hide"], view.Chips);
+        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "file-actions", "picture-actions", "social-sizes", "test-group", "tool-crop", "tool-image-edit", "tool-hide"], view.Chips);
         DoubleTap(view.Chip("tool-crop"));
         RenderTests.Pump();
         Assert.Equal(["tool-crop"], jpg.PresetIds);
@@ -554,7 +556,7 @@ public class ToolbarPaletteViewTests
         Assert.Equal(["tool-crop", "tool-image-edit", "tool-hide"], jpg.PresetIds);
         Assert.DoesNotContain(PaletteTab.Edit, view.TabIds);
         Assert.Equal(PaletteTab.All, view.Selected);
-        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "test-group", "extract-motion", "test-motion"], view.Chips);
+        Assert.Equal(["pdf-edit", "pdf-nup", "rotate", "flip", "crop-video", "file-actions", "picture-actions", "social-sizes", "test-group", "extract-motion", "test-motion"], view.Chips);
     }
 
     [AvaloniaFact]
@@ -624,6 +626,13 @@ public class ToolbarPaletteViewTests
         var view = new View(vm);
         view.Window.Height = 1600;
         RenderTests.Pump();
+        // The built-in library's file actions, social sizes and picture actions make the palette long: grow the window
+        // until the whole page fits, so no press needs a scroll.
+        if (view.Page.Bounds.Height > view.Window.Height)
+        {
+            view.Window.Height = view.Page.Bounds.Height + 40;
+            RenderTests.Pump();
+        }
         return view;
     }
 
@@ -1372,9 +1381,7 @@ public class ToolbarPaletteViewTests
         var (page, shown, other) = TwoDonuts(f);
         using var vm = page;
         Dispatcher.UIThread.RunJobs();
-        using var view = new View(vm);
-        view.Window.Height = 1600;
-        RenderTests.Pump();
+        using var view = TallView(vm);
         var (shownBefore, otherBefore) = (shown.PresetIds.ToList(), other.PresetIds.ToList());
         var palette = view.Center(view.Box);
 

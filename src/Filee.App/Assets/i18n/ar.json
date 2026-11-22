@@ -2083,5 +2083,7 @@
   "hide.found_text": "وُجد {0} سطر نص: راجع الإطارات ثم احفظ",
   "hide.no_text": "لم يُعثر على نص",
   "hide.text_needs_tesseract": "البحث عن النص يحتاج Tesseract: احصل عليه من الإعدادات ← المحركات",
-  "hide.find_failed": "تعذّر البحث: {0}"
+  "hide.find_failed": "تعذّر البحث: {0}",
+  "engine.corel.name": "قارئ CorelDRAW (مدمج)",
+  "engine.corel.description": "رسومات CorelDRAW (CDR وCMX) إلى SVG وPDF وصور، دون LibreOffice (libcdr)."
 }

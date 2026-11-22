@@ -2104,5 +2104,7 @@
   "hide.found_text": "{0} ligne(s) de texte trouvée(s) : vérifiez les cadres, puis enregistrez",
   "hide.no_text": "Aucun texte trouvé",
   "hide.text_needs_tesseract": "La recherche de texte demande Tesseract : à obtenir dans Réglages → Moteurs",
-  "hide.find_failed": "Recherche impossible : {0}"
+  "hide.find_failed": "Recherche impossible : {0}",
+  "engine.corel.name": "Lecteur CorelDRAW (intégré)",
+  "engine.corel.description": "Dessins CorelDRAW (CDR, CMX) en SVG, PDF et images, sans LibreOffice (libcdr)."
 }

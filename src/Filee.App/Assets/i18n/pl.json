@@ -2104,5 +2104,7 @@
   "hide.found_text": "Znaleziono linii tekstu: {0}. Sprawdź ramki i zapisz",
   "hide.no_text": "Nie znaleziono tekstu",
   "hide.text_needs_tesseract": "Szukanie tekstu wymaga Tesseracta: w Ustawienia → Silniki",
-  "hide.find_failed": "Nie udało się wyszukać: {0}"
+  "hide.find_failed": "Nie udało się wyszukać: {0}",
+  "engine.corel.name": "Czytnik CorelDRAW (wbudowany)",
+  "engine.corel.description": "Rysunki CorelDRAW (CDR, CMX) do SVG, PDF i obrazów, bez LibreOffice (libcdr)."
 }

@@ -2080,5 +2080,7 @@
   "hide.found_text": "{0} خط متن پیدا شد: قاب‌ها را بررسی و سپس ذخیره کنید",
   "hide.no_text": "متنی پیدا نشد",
   "hide.text_needs_tesseract": "یافتن متن به Tesseract نیاز دارد: از تنظیمات ← موتورها بگیرید",
-  "hide.find_failed": "جستجو ممکن نشد: {0}"
+  "hide.find_failed": "جستجو ممکن نشد: {0}",
+  "engine.corel.name": "خوانندهٔ CorelDRAW (داخلی)",
+  "engine.corel.description": "طرح‌های CorelDRAW (CDR، CMX) به SVG، PDF و تصویر، بدون LibreOffice (libcdr)."
 }

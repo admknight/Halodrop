@@ -2080,5 +2080,7 @@
   "hide.found_text": "Текстийн {0} мөр олдлоо: хүрээг шалгаад хадгална уу",
   "hide.no_text": "Текст олдсонгүй",
   "hide.text_needs_tesseract": "Текст хайхад Tesseract хэрэгтэй: Тохиргоо → Хөдөлгүүрээс авна уу",
-  "hide.find_failed": "Хайж чадсангүй: {0}"
+  "hide.find_failed": "Хайж чадсангүй: {0}",
+  "engine.corel.name": "CorelDRAW уншигч (суурилуулсан)",
+  "engine.corel.description": "CorelDRAW зургийг (CDR, CMX) LibreOffice-гүйгээр SVG, PDF, зураг болгоно (libcdr)."
 }

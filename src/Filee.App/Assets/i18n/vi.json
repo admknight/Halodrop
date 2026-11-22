@@ -2104,5 +2104,7 @@
   "hide.found_text": "Đã tìm thấy {0} dòng chữ: kiểm tra khung rồi lưu",
   "hide.no_text": "Không tìm thấy chữ",
   "hide.text_needs_tesseract": "Tìm chữ cần Tesseract: lấy trong Cài đặt → Bộ xử lý",
-  "hide.find_failed": "Không tìm được: {0}"
+  "hide.find_failed": "Không tìm được: {0}",
+  "engine.corel.name": "Trình đọc CorelDRAW (tích hợp)",
+  "engine.corel.description": "Bản vẽ CorelDRAW (CDR, CMX) sang SVG, PDF và ảnh, không cần LibreOffice (libcdr)."
 }

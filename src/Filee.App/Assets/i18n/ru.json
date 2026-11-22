@@ -2104,5 +2104,7 @@
   "hide.found_text": "Найдено строк текста: {0}. Проверьте рамки и сохраните",
   "hide.no_text": "Текст не найден",
   "hide.text_needs_tesseract": "Для поиска текста нужен Tesseract: в Настройки → Движки",
-  "hide.find_failed": "Не удалось выполнить поиск: {0}"
+  "hide.find_failed": "Не удалось выполнить поиск: {0}",
+  "engine.corel.name": "Чтение CorelDRAW (встроенное)",
+  "engine.corel.description": "Рисунки CorelDRAW (CDR, CMX) в SVG, PDF и картинки, без LibreOffice (libcdr)."
 }

@@ -2104,5 +2104,7 @@
   "hide.found_text": "텍스트 {0}줄 찾음: 틀을 확인한 뒤 저장하세요",
   "hide.no_text": "텍스트를 찾지 못했습니다",
   "hide.text_needs_tesseract": "텍스트 찾기에는 Tesseract가 필요합니다: 설정 → 엔진에서 받으세요",
-  "hide.find_failed": "찾을 수 없습니다: {0}"
+  "hide.find_failed": "찾을 수 없습니다: {0}",
+  "engine.corel.name": "CorelDRAW 리더(내장)",
+  "engine.corel.description": "CorelDRAW 도면(CDR, CMX)을 LibreOffice 없이 SVG, PDF, 이미지로(libcdr)."
 }
