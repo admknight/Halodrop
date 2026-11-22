@@ -2072,7 +2072,7 @@
   "template.saved": "已儲存為「{0}」",
   "template.delete_confirm": "刪除範本「{0}」？",
   "template.morph_default": "Morph 預設",
-  "template.filee_classic": "Filee 經典",
+  "template.classic": "經典",
   "preset.print": "列印",
   "preset.share": "分享",
   "preset.open_in": "在 {0} 中開啟",

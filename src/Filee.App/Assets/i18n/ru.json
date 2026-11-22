@@ -2072,7 +2072,7 @@
   "template.saved": "Сохранено как «{0}»",
   "template.delete_confirm": "Удалить шаблон «{0}»?",
   "template.morph_default": "Morph по умолчанию",
-  "template.filee_classic": "Классический Filee",
+  "template.classic": "Классический",
   "preset.print": "Печать",
   "preset.share": "Поделиться",
   "preset.open_in": "Открыть в {0}",

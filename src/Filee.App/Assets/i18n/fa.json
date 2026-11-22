@@ -2048,7 +2048,7 @@
   "template.saved": "با نام «{0}» ذخیره شد",
   "template.delete_confirm": "قالب «{0}» حذف شود؟",
   "template.morph_default": "پیش‌فرض Morph",
-  "template.filee_classic": "Filee کلاسیک",
+  "template.classic": "کلاسیک",
   "preset.print": "چاپ",
   "preset.share": "اشتراک‌گذاری",
   "preset.open_in": "باز کردن در {0}",

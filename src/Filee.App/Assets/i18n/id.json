@@ -2050,7 +2050,7 @@
   "template.saved": "Disimpan sebagai “{0}”",
   "template.delete_confirm": "Hapus template “{0}”?",
   "template.morph_default": "Bawaan Morph",
-  "template.filee_classic": "Filee klasik",
+  "template.classic": "Klasik",
   "preset.print": "Cetak",
   "preset.share": "Bagikan",
   "preset.open_in": "Buka di {0}",

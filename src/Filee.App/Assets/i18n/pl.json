@@ -2072,7 +2072,7 @@
   "template.saved": "Zapisano jako „{0}”",
   "template.delete_confirm": "Usunąć szablon „{0}”?",
   "template.morph_default": "Domyślny Morph",
-  "template.filee_classic": "Klasyczny Filee",
+  "template.classic": "Klasyczny",
   "preset.print": "Drukuj",
   "preset.share": "Udostępnij",
   "preset.open_in": "Otwórz w {0}",

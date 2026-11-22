@@ -1,6 +1,6 @@
 // Morph change: donut layout templates. A template is a whole set of donuts (both faces of each, their names and file
 // types) and the donut's size. Two come built in and can't be changed: "Morph default", larger and with Morph's own
-// groups placed, and "Filee classic", the layout Filee starts with. The user saves their own from the donuts they have,
+// groups placed, and "Classic", the layout Filee starts with (the one Morph is built on). The user saves their own from the donuts they have,
 // and switches between them in Settings → Toolbar; switching first keeps the current donuts as a template, so no layout
 // is ever lost by trying another.
 
@@ -29,7 +29,7 @@ public sealed class LayoutTemplate
 
     /// <summary>A built-in template: shown, applied and copied, never changed or deleted.</summary>
     [JsonIgnore]
-    public bool IsBuiltIn => Id is LayoutTemplates.MorphDefaultId or LayoutTemplates.FileeClassicId;
+    public bool IsBuiltIn => Id is LayoutTemplates.MorphDefaultId or LayoutTemplates.ClassicId;
 
     public LayoutTemplate Copy() => new()
     {
@@ -45,7 +45,7 @@ public sealed class LayoutTemplate
 public static class LayoutTemplates
 {
     public const string MorphDefaultId = "morph-default";
-    public const string FileeClassicId = "filee-classic";
+    public const string ClassicId = "classic";
 
     /// <summary>Filee's donut size.</summary>
     public const double ClassicRadius = 150;
@@ -57,12 +57,12 @@ public static class LayoutTemplates
     public const double MaxRadius = 260;
 
     /// <summary>The built-in templates, Morph's first.</summary>
-    public static IReadOnlyList<LayoutTemplate> BuiltIns() => [MorphDefault(), FileeClassic()];
+    public static IReadOnlyList<LayoutTemplate> BuiltIns() => [MorphDefault(), Classic()];
 
-    public static LayoutTemplate FileeClassic() => new()
+    public static LayoutTemplate Classic() => new()
     {
-        Id = FileeClassicId,
-        NameKey = "template.filee_classic",
+        Id = ClassicId,
+        NameKey = "template.classic",
         OuterRadius = ClassicRadius,
         Profiles = BuiltInData.CreateProfiles(),
     };

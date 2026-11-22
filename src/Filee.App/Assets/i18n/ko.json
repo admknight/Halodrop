@@ -2072,7 +2072,7 @@
   "template.saved": "“{0}”(으)로 저장됨",
   "template.delete_confirm": "템플릿 “{0}”을(를) 삭제할까요?",
   "template.morph_default": "Morph 기본",
-  "template.filee_classic": "Filee 클래식",
+  "template.classic": "클래식",
   "preset.print": "인쇄",
   "preset.share": "공유",
   "preset.open_in": "{0}에서 열기",

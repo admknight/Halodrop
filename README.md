@@ -101,7 +101,7 @@ New here? Morph's first start walks you through it with a practice picture you c
 ## Make it yours
 
 - **Templates.** A template is a whole set of donuts and their size. Start with **Morph default** (bigger, with the new
-  tools placed) or **Filee classic**, then save your own (Settings → Toolbar → Templates). Switching first keeps your
+  tools placed) or **Classic** (Filee's original layout), then save your own (Settings → Toolbar → Templates). Switching first keeps your
   current donuts as a template, so you never lose a layout.
 - **Donuts per file type**, each with a front and a back, up to 12 slices a side and groups of 6. Drag slices in and out
   in Settings → Toolbar.

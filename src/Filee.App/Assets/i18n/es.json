@@ -2052,7 +2052,7 @@
   "template.saved": "Guardada como «{0}»",
   "template.delete_confirm": "¿Eliminar la plantilla «{0}»?",
   "template.morph_default": "Morph predeterminada",
-  "template.filee_classic": "Filee clásica",
+  "template.classic": "Clásica",
   "preset.print": "Imprimir",
   "preset.share": "Compartir",
   "preset.open_in": "Abrir en {0}",

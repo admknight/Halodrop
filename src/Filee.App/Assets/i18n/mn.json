@@ -2048,7 +2048,7 @@
   "template.saved": "“{0}” нэрээр хадгалагдлаа",
   "template.delete_confirm": "“{0}” загварыг устгах уу?",
   "template.morph_default": "Morph үндсэн",
-  "template.filee_classic": "Filee сонгодог",
+  "template.classic": "Сонгодог",
   "preset.print": "Хэвлэх",
   "preset.share": "Хуваалцах",
   "preset.open_in": "{0}-д нээх",

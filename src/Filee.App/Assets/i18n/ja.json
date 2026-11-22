@@ -2052,7 +2052,7 @@
   "template.saved": "「{0}」として保存しました",
   "template.delete_confirm": "テンプレート「{0}」を削除しますか？",
   "template.morph_default": "Morph 標準",
-  "template.filee_classic": "Filee クラシック",
+  "template.classic": "クラシック",
   "preset.print": "印刷",
   "preset.share": "共有",
   "preset.open_in": "{0} で開く",

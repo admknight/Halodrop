@@ -2049,7 +2049,7 @@
   "template.saved": "Salvato come “{0}”",
   "template.delete_confirm": "Eliminare il modello “{0}”?",
   "template.morph_default": "Morph predefinito",
-  "template.filee_classic": "Filee classico",
+  "template.classic": "Classico",
   "preset.print": "Stampa",
   "preset.share": "Condividi",
   "preset.open_in": "Apri in {0}",

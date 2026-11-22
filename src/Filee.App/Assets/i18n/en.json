@@ -2072,7 +2072,7 @@
   "template.saved": "Saved as “{0}”",
   "template.delete_confirm": "Delete the template “{0}”?",
   "template.morph_default": "Morph default",
-  "template.filee_classic": "Filee classic",
+  "template.classic": "Classic",
   "preset.print": "Print",
   "preset.share": "Share",
   "preset.open_in": "Open in {0}",

@@ -2072,7 +2072,7 @@
   "template.saved": "Đã lưu thành “{0}”",
   "template.delete_confirm": "Xóa mẫu “{0}”?",
   "template.morph_default": "Mặc định Morph",
-  "template.filee_classic": "Filee cổ điển",
+  "template.classic": "Cổ điển",
   "preset.print": "In",
   "preset.share": "Chia sẻ",
   "preset.open_in": "Mở bằng {0}",

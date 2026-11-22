@@ -2050,7 +2050,7 @@
   "template.saved": "“{0}” olarak kaydedildi",
   "template.delete_confirm": "“{0}” şablonu silinsin mi?",
   "template.morph_default": "Morph varsayılanı",
-  "template.filee_classic": "Klasik Filee",
+  "template.classic": "Klasik",
   "preset.print": "Yazdır",
   "preset.share": "Paylaş",
   "preset.open_in": "{0} ile aç",

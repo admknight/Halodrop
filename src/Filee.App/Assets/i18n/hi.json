@@ -2052,7 +2052,7 @@
   "template.saved": "“{0}” नाम से सहेजा गया",
   "template.delete_confirm": "टेम्पलेट “{0}” हटाएँ?",
   "template.morph_default": "Morph डिफ़ॉल्ट",
-  "template.filee_classic": "Filee क्लासिक",
+  "template.classic": "क्लासिक",
   "preset.print": "प्रिंट",
   "preset.share": "शेयर",
   "preset.open_in": "{0} में खोलें",

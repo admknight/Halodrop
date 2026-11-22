@@ -14,7 +14,7 @@ public class LayoutTemplateTests
     public void Morph_default_is_bigger_has_more_slices_and_stays_within_the_limits()
     {
         var morph = LayoutTemplates.MorphDefault();
-        var classic = LayoutTemplates.FileeClassic();
+        var classic = LayoutTemplates.Classic();
         var ids = BuiltInData.CreatePresets().Select(p => p.Id).ToHashSet();
 
         Assert.True(morph.OuterRadius > classic.OuterRadius);

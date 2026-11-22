@@ -2051,7 +2051,7 @@
   "template.saved": "تم الحفظ باسم “{0}”",
   "template.delete_confirm": "حذف القالب “{0}”؟",
   "template.morph_default": "Morph الافتراضي",
-  "template.filee_classic": "Filee الكلاسيكي",
+  "template.classic": "الكلاسيكي",
   "preset.print": "طباعة",
   "preset.share": "مشاركة",
   "preset.open_in": "فتح في {0}",

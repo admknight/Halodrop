@@ -2050,7 +2050,7 @@
   "template.saved": "Gespeichert als „{0}“",
   "template.delete_confirm": "Vorlage „{0}“ löschen?",
   "template.morph_default": "Morph-Standard",
-  "template.filee_classic": "Filee klassisch",
+  "template.classic": "Klassisch",
   "preset.print": "Drucken",
   "preset.share": "Teilen",
   "preset.open_in": "In {0} öffnen",
