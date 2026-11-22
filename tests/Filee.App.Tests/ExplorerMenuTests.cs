@@ -84,7 +84,7 @@ public class ExplorerMenuTests
         Assert.Equal(ExplorerMenuPackage.ClassId, fromSource);
 
         Assert.Contains($"#define LIST_PREFIX L\"{CommandLine.ListFilePrefix}\"", source);
-        Assert.Contains($"#define TITLE_FILE L\"Morph\\\\{ExplorerMenuPackage.TitleFileName}\"", source);
+        Assert.Contains($"#define TITLE_FILE L\"Halodrop\\\\{ExplorerMenuPackage.TitleFileName}\"", source);
     }
 
     [Fact]

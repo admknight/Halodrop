@@ -492,8 +492,8 @@ public class PreviousInstallTests
     public void Inno_setups_app_path_is_enough_and_the_scope_is_kept_apart()
     {
         using var temp = new TempFolder();
-        temp.Write(@"Morph\Halodrop.exe");
-        temp.Write(@"Morph\unins000.exe");
+        temp.Write(@"Halodrop\Halodrop.exe");
+        temp.Write(@"Halodrop\unins000.exe");
         var registry = new MemoryRegistry();
         registry.SetString(Hive.LocalMachine, SetupNames.UninstallKey, "Inno Setup: App Path", temp.Sub("Halodrop"));
         var previous = PreviousInstall.Find(registry, InstallScope.Machine)!;
@@ -509,7 +509,7 @@ public class PreviousInstallTests
     {
         using var temp = new TempFolder();
         var paths = SetupPaths.Sandbox(temp.Sub("pc"));
-        var folder = Path.GetDirectoryName(temp.Write(@"pc\Program Files\Morph\Halodrop.exe"))!;
+        var folder = Path.GetDirectoryName(temp.Write(@"pc\Program Files\Halodrop\Halodrop.exe"))!;
         var registry = new MemoryRegistry();
         registry.SetString(Hive.LocalMachine, SetupNames.UninstallKey, "InstallLocation", folder);
         // 1.x recorded the desktop icon and PATH, but the user deleted the shortcut since.
