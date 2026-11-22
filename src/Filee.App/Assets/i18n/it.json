@@ -2071,5 +2071,15 @@
   "shelf.drag_all": "Trascinali tutti fuori",
   "shelf.convert": "Apri la ciambella per questi file",
   "shelf.close": "Chiudi la mensola (i file restano dove sono)",
-  "shelf.remove": "Togli dalla mensola"
+  "shelf.remove": "Togli dalla mensola",
+  "hide.find_faces": "Trova volti",
+  "hide.find_faces_hint": "Incornicia ogni volto da controllare prima di salvare (su questo computer, non si invia nulla)",
+  "hide.find_text": "Trova testo",
+  "hide.find_text_hint": "Incornicia ogni riga di testo da controllare prima di salvare (Tesseract, su questo computer)",
+  "hide.found_faces": "{0} trovati: controlla le cornici, poi salva",
+  "hide.no_faces": "Nessun volto trovato",
+  "hide.found_text": "{0} righe di testo trovate: controlla le cornici, poi salva",
+  "hide.no_text": "Nessun testo trovato",
+  "hide.text_needs_tesseract": "Per trovare il testo serve Tesseract: in Impostazioni → Motori",
+  "hide.find_failed": "Ricerca non riuscita: {0}"
 }

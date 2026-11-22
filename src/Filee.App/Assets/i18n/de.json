@@ -2072,5 +2072,15 @@
   "shelf.drag_all": "Alle herausziehen",
   "shelf.convert": "Donut für diese Dateien öffnen",
   "shelf.close": "Regal schließen (die Dateien bleiben, wo sie sind)",
-  "shelf.remove": "Aus dem Regal nehmen"
+  "shelf.remove": "Aus dem Regal nehmen",
+  "hide.find_faces": "Gesichter finden",
+  "hide.find_faces_hint": "Jedes Gesicht einrahmen, vor dem Speichern prüfen (auf diesem Computer, nichts wird gesendet)",
+  "hide.find_text": "Text finden",
+  "hide.find_text_hint": "Jede Textzeile einrahmen, vor dem Speichern prüfen (Tesseract, auf diesem Computer)",
+  "hide.found_faces": "{0} gefunden: Rahmen prüfen, dann speichern",
+  "hide.no_faces": "Keine Gesichter gefunden",
+  "hide.found_text": "{0} Textzeile(n) gefunden: Rahmen prüfen, dann speichern",
+  "hide.no_text": "Kein Text gefunden",
+  "hide.text_needs_tesseract": "Für die Textsuche braucht es Tesseract: unter Einstellungen → Engines",
+  "hide.find_failed": "Suche fehlgeschlagen: {0}"
 }

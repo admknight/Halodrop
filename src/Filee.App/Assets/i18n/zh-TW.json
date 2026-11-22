@@ -2094,5 +2094,15 @@
   "shelf.drag_all": "全部拖出",
   "shelf.convert": "為這些檔案開啟圓環",
   "shelf.close": "關閉架子（檔案留在原處）",
-  "shelf.remove": "從架上移除"
+  "shelf.remove": "從架上移除",
+  "hide.find_faces": "尋找人臉",
+  "hide.find_faces_hint": "為每張人臉加框，儲存前請檢查（在本機處理，不會傳送）",
+  "hide.find_text": "尋找文字",
+  "hide.find_text_hint": "為每行文字加框，儲存前請檢查（Tesseract，在本機處理）",
+  "hide.found_faces": "找到 {0} 個：請檢查框後儲存",
+  "hide.no_faces": "找不到人臉",
+  "hide.found_text": "找到 {0} 行文字：請檢查框後儲存",
+  "hide.no_text": "找不到文字",
+  "hide.text_needs_tesseract": "尋找文字需要 Tesseract：可在 設定 → 引擎 中取得",
+  "hide.find_failed": "無法尋找：{0}"
 }

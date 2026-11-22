@@ -13,7 +13,7 @@
         x:DataType="vm:HideWindowViewModel"
         Title="{DynamicResource preset.hide}"
         Icon="avares://Morph/Assets/Icons/morph.ico"
-        Width="1040" Height="720" MinWidth="680" MinHeight="500"
+        Width="1040" Height="720" MinWidth="740" MinHeight="500"
         WindowDecorations="None"
         Background="Transparent"
         TransparencyLevelHint="Transparent"
@@ -337,6 +337,19 @@
                       AutomationProperties.Name="{DynamicResource hide.strength}" />
               <Ellipse Width="11" Height="11" Fill="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" />
             </StackPanel>
+
+            <Border Classes="divider" />
+
+            <!-- Morph change: frames found for you, to check before saving (the window's MinWidth grew 680 → 740 for them). -->
+            <Button x:Name="FindFacesButton" Classes="tool round" Command="{Binding FindFacesCommand}" IsVisible="{Binding CanFindFaces}"
+                    ToolTip.Tip="{DynamicResource hide.find_faces_hint}" AutomationProperties.Name="{DynamicResource hide.find_faces}">
+              <PathIcon Width="15" Height="15" Foreground="{DynamicResource TextSecondaryBrush}"
+                        Data="M9,11.75A1.25,1.25 0 0,0 7.75,13A1.25,1.25 0 0,0 9,14.25A1.25,1.25 0 0,0 10.25,13A1.25,1.25 0 0,0 9,11.75M15,11.75A1.25,1.25 0 0,0 13.75,13A1.25,1.25 0 0,0 15,14.25A1.25,1.25 0 0,0 16.25,13A1.25,1.25 0 0,0 15,11.75M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,11.71 4,11.42 4.05,11.14C6.41,10.09 8.28,8.16 9.26,5.77C11.07,8.33 14.05,10 17.42,10C18.2,10 18.95,9.91 19.67,9.74C19.88,10.45 20,11.21 20,12C20,16.41 16.41,20 12,20Z" />
+            </Button>
+            <Button x:Name="FindTextButton" Classes="tool round" Command="{Binding FindTextCommand}"
+                    ToolTip.Tip="{DynamicResource hide.find_text_hint}" AutomationProperties.Name="{DynamicResource hide.find_text}">
+              <PathIcon Width="14" Height="14" Foreground="{DynamicResource TextSecondaryBrush}" Data="M5,4V7H10.5V19H13.5V7H19V4H5Z" />
+            </Button>
 
             <Border Classes="divider" />
 

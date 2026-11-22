@@ -2072,5 +2072,15 @@
   "shelf.drag_all": "Hepsini dışarı sürükle",
   "shelf.convert": "Bu dosyalar için halkayı aç",
   "shelf.close": "Rafı kapat (dosyalar yerinde kalır)",
-  "shelf.remove": "Raftan kaldır"
+  "shelf.remove": "Raftan kaldır",
+  "hide.find_faces": "Yüzleri bul",
+  "hide.find_faces_hint": "Her yüzü çerçeveler, kaydetmeden önce kontrol edin (bu bilgisayarda, hiçbir şey gönderilmez)",
+  "hide.find_text": "Metni bul",
+  "hide.find_text_hint": "Her metin satırını çerçeveler, kaydetmeden önce kontrol edin (Tesseract, bu bilgisayarda)",
+  "hide.found_faces": "{0} bulundu: çerçeveleri kontrol edip kaydedin",
+  "hide.no_faces": "Yüz bulunamadı",
+  "hide.found_text": "{0} metin satırı bulundu: çerçeveleri kontrol edip kaydedin",
+  "hide.no_text": "Metin bulunamadı",
+  "hide.text_needs_tesseract": "Metin bulmak için Tesseract gerekir: Ayarlar → Motorlar'dan alın",
+  "hide.find_failed": "Aranamadı: {0}"
 }

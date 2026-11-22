@@ -19,4 +19,8 @@
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
+  <!-- Morph change: a photo with faces for the Hide window's "Find faces" (UltraFace's sample, MIT). -->
+  <ItemGroup>
+    <None Include="..\Filee.Engines.Tests\Privacy\faces-3.jpg" Link="Privacy\faces-3.jpg" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

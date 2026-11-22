@@ -2094,5 +2094,15 @@
   "shelf.drag_all": "모두 끌어내기",
   "shelf.convert": "이 파일들의 도넛 열기",
   "shelf.close": "선반 닫기(파일은 그대로 있음)",
-  "shelf.remove": "선반에서 빼기"
+  "shelf.remove": "선반에서 빼기",
+  "hide.find_faces": "얼굴 찾기",
+  "hide.find_faces_hint": "모든 얼굴에 틀을 씌웁니다. 저장 전에 확인하세요(이 컴퓨터에서 처리, 전송 없음)",
+  "hide.find_text": "텍스트 찾기",
+  "hide.find_text_hint": "모든 텍스트 줄에 틀을 씌웁니다. 저장 전에 확인하세요(Tesseract, 이 컴퓨터에서)",
+  "hide.found_faces": "{0}개 찾음: 틀을 확인한 뒤 저장하세요",
+  "hide.no_faces": "얼굴을 찾지 못했습니다",
+  "hide.found_text": "텍스트 {0}줄 찾음: 틀을 확인한 뒤 저장하세요",
+  "hide.no_text": "텍스트를 찾지 못했습니다",
+  "hide.text_needs_tesseract": "텍스트 찾기에는 Tesseract가 필요합니다: 설정 → 엔진에서 받으세요",
+  "hide.find_failed": "찾을 수 없습니다: {0}"
 }

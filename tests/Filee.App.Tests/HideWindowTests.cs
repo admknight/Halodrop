@@ -134,6 +134,24 @@ public class HideWindowTests
     }
 
     [AvaloniaFact]
+    public void Find_faces_adds_frames_to_check_and_says_how_many()
+    {
+        // Morph change: automatic face finding. A real photo with five faces, framed in the window for the user to check.
+        WithWindow("en", "light", ["faces.jpg"], (window, vm, _, _) =>
+        {
+            Assert.True(vm.CanFindFaces);
+            Assert.True(vm.FindFacesCommand.CanExecute(null));
+            vm.FindFacesCommand.Execute(null);
+            WaitFor(() => !vm.IsFinding && vm.HasStatusNotice);
+            Assert.InRange(vm.Areas.Count, 4, 7);
+            Assert.Contains($"{vm.Areas.Count} face(s) found", vm.StatusNotice);
+            Assert.True(vm.CanSave);
+            // One undo takes each frame off again, as for frames drawn by hand.
+            Assert.True(vm.CanUndo);
+        });
+    }
+
+    [AvaloniaFact]
     public void Dragging_on_the_picture_draws_a_frame_that_moves_sizes_and_shows_the_cover_at_once()
     {
         WithWindow("en", "light", ["chat.png"], (window, vm, _, _) =>
@@ -381,7 +399,7 @@ public class HideWindowTests
                 Assert.True(bounds.Left >= 12 && bounds.Right <= window.Bounds.Width - 12, $"{button.Name}: {bounds} outside {window.Bounds}");
             }
             AssertFittedLevel(window);
-            Assert.NotNull(window.ToolbarLevel); // two files' names never fit 680 px, in any font
+            Assert.NotNull(window.ToolbarLevel); // two files' names never fit 740 px (Morph: 680 in Filee), in any font
             Save(window, $"hide-narrow-{suffix}.png");
 
             // The window as it opens: as many names as fit there with this system's fonts.
@@ -493,6 +511,12 @@ public class HideWindowTests
     internal static string Picture(string folder, string name)
     {
         var path = Path.Combine(folder, name);
+        // Morph change: a real photo with faces (UltraFace's sample, MIT), for the face finder.
+        if (name == "faces.jpg")
+        {
+            File.Copy(Path.Combine(AppContext.BaseDirectory, "Privacy", "faces-3.jpg"), path);
+            return path;
+        }
         if (name.EndsWith(".gif", StringComparison.Ordinal))
         {
             using var frames = new MagickImageCollection();

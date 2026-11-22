@@ -2094,5 +2094,15 @@
   "shelf.drag_all": "Arrastar todos",
   "shelf.convert": "Abrir o donut para estes arquivos",
   "shelf.close": "Fechar a prateleira (os arquivos ficam onde estão)",
-  "shelf.remove": "Tirar da prateleira"
+  "shelf.remove": "Tirar da prateleira",
+  "hide.find_faces": "Encontrar rostos",
+  "hide.find_faces_hint": "Emoldurar cada rosto para conferir antes de salvar (neste computador, nada é enviado)",
+  "hide.find_text": "Encontrar texto",
+  "hide.find_text_hint": "Emoldurar cada linha de texto para conferir antes de salvar (Tesseract, neste computador)",
+  "hide.found_faces": "{0} encontrado(s): confira as molduras e salve",
+  "hide.no_faces": "Nenhum rosto encontrado",
+  "hide.found_text": "{0} linha(s) de texto encontrada(s): confira as molduras e salve",
+  "hide.no_text": "Nenhum texto encontrado",
+  "hide.text_needs_tesseract": "Encontrar texto precisa do Tesseract: obtenha em Configurações → Mecanismos",
+  "hide.find_failed": "Não foi possível procurar: {0}"
 }

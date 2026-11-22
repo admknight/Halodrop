@@ -2072,5 +2072,15 @@
   "shelf.drag_all": "Seret semuanya",
   "shelf.convert": "Buka donat untuk file ini",
   "shelf.close": "Tutup rak (file tetap di tempatnya)",
-  "shelf.remove": "Ambil dari rak"
+  "shelf.remove": "Ambil dari rak",
+  "hide.find_faces": "Cari wajah",
+  "hide.find_faces_hint": "Bingkai setiap wajah untuk dicek sebelum disimpan (di komputer ini, tak ada yang dikirim)",
+  "hide.find_text": "Cari teks",
+  "hide.find_text_hint": "Bingkai setiap baris teks untuk dicek sebelum disimpan (Tesseract, di komputer ini)",
+  "hide.found_faces": "{0} ditemukan: cek bingkainya, lalu simpan",
+  "hide.no_faces": "Tidak ada wajah ditemukan",
+  "hide.found_text": "{0} baris teks ditemukan: cek bingkainya, lalu simpan",
+  "hide.no_text": "Tidak ada teks ditemukan",
+  "hide.text_needs_tesseract": "Mencari teks butuh Tesseract: dapatkan di Pengaturan → Mesin",
+  "hide.find_failed": "Tidak bisa mencari: {0}"
 }

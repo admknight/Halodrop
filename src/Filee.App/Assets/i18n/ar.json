@@ -2073,5 +2073,15 @@
   "shelf.drag_all": "سحبها كلها",
   "shelf.convert": "فتح الحلقة لهذه الملفات",
   "shelf.close": "إغلاق الرف (تبقى الملفات مكانها)",
-  "shelf.remove": "إزالة من الرف"
+  "shelf.remove": "إزالة من الرف",
+  "hide.find_faces": "البحث عن الوجوه",
+  "hide.find_faces_hint": "تأطير كل وجه للمراجعة قبل الحفظ (على هذا الحاسوب، لا يُرسل شيء)",
+  "hide.find_text": "البحث عن النص",
+  "hide.find_text_hint": "تأطير كل سطر نص للمراجعة قبل الحفظ (Tesseract على هذا الحاسوب)",
+  "hide.found_faces": "وُجد {0}: راجع الإطارات ثم احفظ",
+  "hide.no_faces": "لم يُعثر على وجوه",
+  "hide.found_text": "وُجد {0} سطر نص: راجع الإطارات ثم احفظ",
+  "hide.no_text": "لم يُعثر على نص",
+  "hide.text_needs_tesseract": "البحث عن النص يحتاج Tesseract: احصل عليه من الإعدادات ← المحركات",
+  "hide.find_failed": "تعذّر البحث: {0}"
 }

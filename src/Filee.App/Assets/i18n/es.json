@@ -2074,5 +2074,15 @@
   "shelf.drag_all": "Arrastrarlos todos",
   "shelf.convert": "Abrir la dona para estos archivos",
   "shelf.close": "Cerrar la repisa (los archivos se quedan donde están)",
-  "shelf.remove": "Quitar de la repisa"
+  "shelf.remove": "Quitar de la repisa",
+  "hide.find_faces": "Buscar caras",
+  "hide.find_faces_hint": "Enmarcar cada cara para revisarla antes de guardar (en este equipo, no se envía nada)",
+  "hide.find_text": "Buscar texto",
+  "hide.find_text_hint": "Enmarcar cada línea de texto para revisarla antes de guardar (Tesseract, en este equipo)",
+  "hide.found_faces": "{0} encontradas: revisa los marcos y guarda",
+  "hide.no_faces": "No se encontraron caras",
+  "hide.found_text": "{0} línea(s) de texto encontradas: revisa los marcos y guarda",
+  "hide.no_text": "No se encontró texto",
+  "hide.text_needs_tesseract": "Buscar texto necesita Tesseract: consíguelo en Ajustes → Motores",
+  "hide.find_failed": "No se pudo buscar: {0}"
 }

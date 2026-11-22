@@ -2094,5 +2094,15 @@
   "shelf.drag_all": "Les faire tous glisser",
   "shelf.convert": "Ouvrir le donut pour ces fichiers",
   "shelf.close": "Fermer l’étagère (les fichiers restent à leur place)",
-  "shelf.remove": "Retirer de l’étagère"
+  "shelf.remove": "Retirer de l’étagère",
+  "hide.find_faces": "Trouver les visages",
+  "hide.find_faces_hint": "Encadrer chaque visage, à vérifier avant d’enregistrer (sur cet ordinateur, rien n’est envoyé)",
+  "hide.find_text": "Trouver le texte",
+  "hide.find_text_hint": "Encadrer chaque ligne de texte, à vérifier avant d’enregistrer (Tesseract, sur cet ordinateur)",
+  "hide.found_faces": "{0} trouvé(s) : vérifiez les cadres, puis enregistrez",
+  "hide.no_faces": "Aucun visage trouvé",
+  "hide.found_text": "{0} ligne(s) de texte trouvée(s) : vérifiez les cadres, puis enregistrez",
+  "hide.no_text": "Aucun texte trouvé",
+  "hide.text_needs_tesseract": "La recherche de texte demande Tesseract : à obtenir dans Réglages → Moteurs",
+  "hide.find_failed": "Recherche impossible : {0}"
 }

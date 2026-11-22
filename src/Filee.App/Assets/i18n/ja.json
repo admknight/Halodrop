@@ -2074,5 +2074,15 @@
   "shelf.drag_all": "すべてドラッグ",
   "shelf.convert": "これらのファイルのドーナツを開く",
   "shelf.close": "シェルフを閉じる (ファイルはそのまま)",
-  "shelf.remove": "シェルフから外す"
+  "shelf.remove": "シェルフから外す",
+  "hide.find_faces": "顔を検出",
+  "hide.find_faces_hint": "すべての顔に枠を付けます。保存前に確認してください (このコンピューター上で処理、送信なし)",
+  "hide.find_text": "文字を検出",
+  "hide.find_text_hint": "文字の各行に枠を付けます。保存前に確認してください (Tesseract、このコンピューター上)",
+  "hide.found_faces": "{0} 件見つかりました: 枠を確認して保存してください",
+  "hide.no_faces": "顔は見つかりませんでした",
+  "hide.found_text": "文字を {0} 行見つけました: 枠を確認して保存してください",
+  "hide.no_text": "文字は見つかりませんでした",
+  "hide.text_needs_tesseract": "文字の検出には Tesseract が必要です: 設定 → エンジンで入手できます",
+  "hide.find_failed": "検出できませんでした: {0}"
 }

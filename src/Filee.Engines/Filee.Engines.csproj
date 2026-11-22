@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q8-AnyCPU" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" /><!-- Morph change: the face finder -->
     <PackageReference Include="LTRData.DiscUtils.Iso9660" />
     <PackageReference Include="LTRData.DiscUtils.Udf" />
     <PackageReference Include="PDFsharp" />
@@ -62,5 +63,9 @@
     <!-- Pinned Tesseract language data, downloaded when an OCR preset needs it (Ocr/OcrLanguages.cs). -->
     <EmbeddedResource Include="Infrastructure\ocr-languages.json" LogicalName="Filee.Engines.ocr-languages.json" />
     <EmbeddedResource Include="Infrastructure\upscale-models.json" LogicalName="Filee.Engines.upscale-models.json" />
+  </ItemGroup>
+  <!-- Morph change: the face finder's model (UltraFace, MIT) and its licence, next to the program. -->
+  <ItemGroup>
+    <None Include="Privacy\Models\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

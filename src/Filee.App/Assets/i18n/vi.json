@@ -2094,5 +2094,15 @@
   "shelf.drag_all": "Kéo tất cả ra",
   "shelf.convert": "Mở vòng cho các tệp này",
   "shelf.close": "Đóng kệ (tệp vẫn ở chỗ cũ)",
-  "shelf.remove": "Bỏ khỏi kệ"
+  "shelf.remove": "Bỏ khỏi kệ",
+  "hide.find_faces": "Tìm khuôn mặt",
+  "hide.find_faces_hint": "Đóng khung mọi khuôn mặt để kiểm tra trước khi lưu (trên máy này, không gửi gì đi)",
+  "hide.find_text": "Tìm chữ",
+  "hide.find_text_hint": "Đóng khung mọi dòng chữ để kiểm tra trước khi lưu (Tesseract, trên máy này)",
+  "hide.found_faces": "Đã tìm thấy {0}: kiểm tra khung rồi lưu",
+  "hide.no_faces": "Không tìm thấy khuôn mặt",
+  "hide.found_text": "Đã tìm thấy {0} dòng chữ: kiểm tra khung rồi lưu",
+  "hide.no_text": "Không tìm thấy chữ",
+  "hide.text_needs_tesseract": "Tìm chữ cần Tesseract: lấy trong Cài đặt → Bộ xử lý",
+  "hide.find_failed": "Không tìm được: {0}"
 }

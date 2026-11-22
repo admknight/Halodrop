@@ -437,6 +437,81 @@ public sealed partial class HideWindowViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>Removes every frame (R); Ctrl+Z brings them back.</summary>
+    // ---- Morph change: automatic face and text finding (the frames are added to check before saving) ----
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(FindFacesCommand), nameof(FindTextCommand))]
+    private bool _isFinding;
+
+    public bool CanFindFaces => Filee.Engines.Privacy.FaceFinder.IsAvailable;
+
+    private bool CanFind() => IsEditing && !IsBusy && !IsFinding && _preview is not null;
+
+    /// <summary>Frames every face in the picture (UltraFace, on this computer).</summary>
+    [RelayCommand(CanExecute = nameof(CanFind))]
+    public async Task FindFacesAsync()
+    {
+        if (CopyOfPreview() is not { } copy)
+            return;
+        await FindAsync(async () =>
+        {
+            using (copy)
+                return await Task.Run(() => Filee.Engines.Privacy.FaceFinder.Find(copy));
+        }, "hide.found_faces", "hide.no_faces");
+    }
+
+    /// <summary>Frames every line of text in the picture (Tesseract, in the "Searchable PDF" languages).</summary>
+    [RelayCommand(CanExecute = nameof(CanFind))]
+    public async Task FindTextAsync()
+    {
+        if (_preview is null)
+            return;
+        if (!Filee.Engines.Privacy.TextFinder.IsAvailable)
+        {
+            StatusNotice = _loc["hide.text_needs_tesseract"];
+            return;
+        }
+        var language = _store.FindPreset("searchable-pdf")?.Pdf.OcrLanguage;
+        if (CopyOfPreview() is not { } copy)
+            return;
+        await FindAsync(async () =>
+        {
+            using (copy)
+                return await Filee.Engines.Privacy.TextFinder.FindAsync(copy, language, Path.GetTempPath());
+        }, "hide.found_text", "hide.no_text");
+    }
+
+    /// <summary>A copy of the picture shown, for a search that runs while another file may be loaded.</summary>
+    private MagickImage? CopyOfPreview()
+    {
+        if (_preview is not { } preview)
+            return null;
+        lock (preview)
+            return (MagickImage)preview.Clone();
+    }
+
+    private async Task FindAsync(Func<Task<IReadOnlyList<Filee.Engines.Privacy.FoundArea>>> find, string foundKey, string noneKey)
+    {
+        IsFinding = true;
+        try
+        {
+            var found = await find();
+            if (_closed)
+                return;
+            var added = found.Count(area => Areas.Add(new Avalonia.Rect(area.X, area.Y, area.Width, area.Height)));
+            StatusNotice = added == 0 ? _loc[noneKey] : _loc.Format(foundKey, added);
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or IOException or ImageMagick.MagickException
+                                       or Microsoft.ML.OnnxRuntime.OnnxRuntimeException or HttpRequestException or Filee.Core.Conversion.ConversionRefusedException)
+        {
+            StatusNotice = _loc.Format("hide.find_failed", ex.Message);
+        }
+        finally
+        {
+            IsFinding = false;
+        }
+    }
+
     [RelayCommand]
     public void Clear()
     {

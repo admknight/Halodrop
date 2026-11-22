@@ -2094,5 +2094,15 @@
   "shelf.drag_all": "Drag all of them out",
   "shelf.convert": "Open the donut for these files",
   "shelf.close": "Close the shelf (the files stay where they are)",
-  "shelf.remove": "Take off the shelf"
+  "shelf.remove": "Take off the shelf",
+  "hide.find_faces": "Find faces",
+  "hide.find_faces_hint": "Frame every face, to check before saving (on this computer, nothing is sent)",
+  "hide.find_text": "Find text",
+  "hide.find_text_hint": "Frame every line of text, to check before saving (Tesseract, on this computer)",
+  "hide.found_faces": "{0} face(s) found: check the frames, then save",
+  "hide.no_faces": "No faces found",
+  "hide.found_text": "{0} line(s) of text found: check the frames, then save",
+  "hide.no_text": "No text found",
+  "hide.text_needs_tesseract": "Finding text needs Tesseract: get it in Settings → Engines",
+  "hide.find_failed": "Couldn't search: {0}"
 }

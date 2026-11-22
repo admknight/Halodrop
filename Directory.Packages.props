@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="ISO creation">
+    <PackageVersion Include="Microsoft.ML.OnnxRuntime" Version="1.32.0" /><!-- Morph change: the face finder (Privacy/FaceFinder) -->
     <PackageVersion Include="LTRData.DiscUtils.Iso9660" Version="1.0.90" />
     <PackageVersion Include="LTRData.DiscUtils.Udf" Version="1.0.90" />
   </ItemGroup>

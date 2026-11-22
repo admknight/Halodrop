@@ -2094,5 +2094,15 @@
   "shelf.drag_all": "Przeciągnij wszystkie",
   "shelf.convert": "Otwórz pierścień dla tych plików",
   "shelf.close": "Zamknij półkę (pliki zostają na miejscu)",
-  "shelf.remove": "Zdejmij z półki"
+  "shelf.remove": "Zdejmij z półki",
+  "hide.find_faces": "Znajdź twarze",
+  "hide.find_faces_hint": "Obramuj każdą twarz do sprawdzenia przed zapisem (na tym komputerze, nic nie jest wysyłane)",
+  "hide.find_text": "Znajdź tekst",
+  "hide.find_text_hint": "Obramuj każdą linię tekstu do sprawdzenia przed zapisem (Tesseract, na tym komputerze)",
+  "hide.found_faces": "Znaleziono: {0}. Sprawdź ramki i zapisz",
+  "hide.no_faces": "Nie znaleziono twarzy",
+  "hide.found_text": "Znaleziono linii tekstu: {0}. Sprawdź ramki i zapisz",
+  "hide.no_text": "Nie znaleziono tekstu",
+  "hide.text_needs_tesseract": "Szukanie tekstu wymaga Tesseracta: w Ustawienia → Silniki",
+  "hide.find_failed": "Nie udało się wyszukać: {0}"
 }
