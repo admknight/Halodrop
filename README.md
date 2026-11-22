@@ -1,145 +1,139 @@
-<p align="center">
-  <img src="src/Filee.App/Assets/Icons/morph.png" alt="Morph" width="112">
-</p>
+<div align="center">
 
-<h1 align="center">Morph</h1>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,14,18&height=185&section=header&text=Morph&fontSize=62&fontColor=ffffff&animation=twinkling&fontAlignY=35&desc=Drag%2C%20drop%2C%20converted.&descSize=18&descAlignY=57" width="100%" alt="Morph: Drag, drop, converted.">
 
-<p align="center">
-  <b>Drag, drop, converted.</b><br>
-  Convert, shrink, blur, print and share files without opening an app.<br>
-  Free and open source, for Windows, Linux and macOS. Everything happens on your own computer.
-</p>
+<img src="src/Filee.App/Assets/Icons/morph.png" width="96" alt="Morph icon">
 
-<p align="center">
-  <a href="#download"><b>Download</b></a> ·
-  <a href="#how-it-works"><b>How it works</b></a> ·
-  <a href="#what-it-can-do"><b>What it can do</b></a> ·
-  <a href="#whats-new-in-morph"><b>What's new</b></a> ·
-  <a href="#build-from-source"><b>Build from source</b></a>
-</p>
+**Your files. Your format. Right at your cursor.**
 
-<p align="center">
-  <a href="https://github.com/admknight/Morph/actions/workflows/ci.yml"><img src="https://github.com/admknight/Morph/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-7C5CFF" alt="MIT license"></a>
-  <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-3C3489" alt="Windows 10 | 11">
-  <img src="https://img.shields.io/badge/Linux-x64%20%7C%20ARM64-3C3489" alt="Linux x64 | ARM64">
-  <img src="https://img.shields.io/badge/macOS-13%2B-534AB7" alt="macOS 13+">
-  <img src="https://img.shields.io/badge/languages-24%20incl.%20Urdu-22D3EE" alt="24 languages, Urdu included">
-</p>
+[![CI](https://github.com/admknight/Morph/actions/workflows/ci.yml/badge.svg)](https://github.com/admknight/Morph/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-43A7FF.svg)](LICENSE)
+[![Platform: Windows](https://img.shields.io/badge/Windows-10%2F11%20x64%20%7C%20ARM64-2376d1.svg)](#editions)
+[![Platform: Linux](https://img.shields.io/badge/Linux-x64%20%7C%20ARM64-2376d1.svg)](#editions)
+[![Platform: macOS](https://img.shields.io/badge/macOS-13%2B-2376d1.svg)](#editions)
+[![Languages](https://img.shields.io/badge/languages-24%20incl.%20Urdu-43A7FF)](#make-it-yours)
+[![Status: Pre-release](https://img.shields.io/badge/status-pre--release%200.7.0-43A7FF)](#editions)
 
-<p align="center">
-  <img src="docs/media/morph-home.png" width="760" alt="Morph's Home page: the guided first run offers a practice picture and a button that opens the donut">
-</p>
+[**Windows builds**](https://github.com/admknight/Morph/actions/workflows/ci.yml) · [**Features**](#features-at-a-glance) · [**Real screenshots**](#real-app-screenshots) · [**Documentation**](docs/ARCHITECTURE.md) · [**Security**](SECURITY.md) · [**Issues**](https://github.com/admknight/Morph/issues)
 
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <b>Right at your cursor</b><br>
-      Hold <kbd>Ctrl</kbd> and drag files. A ring of choices opens where you are, with only the ones that fit
-      those files. No app window to open.
-    </td>
-    <td width="33%" valign="top">
-      <b>About 270 formats, offline</b><br>
-      Pictures (RAW, HEIC too), PDF, Word, Excel, PowerPoint, HWP, CorelDRAW, e-books, archives, fonts, CAD,
-      3D models, audio and video.
-    </td>
-    <td width="33%" valign="top">
-      <b>Stays on your computer</b><br>
-      No account, no uploads, no tracking. The result lands next to the original, which is never changed.
-    </td>
-  </tr>
-</table>
+</div>
 
-## Download
+---
 
-> **The first release (0.7.0) is on its way.** Until it's published here under
-> [Releases](https://github.com/admknight/Morph/releases), the newest build of every change is on the
-> [Actions page](https://github.com/admknight/Morph/actions/workflows/ci.yml): open the latest green run and download
-> `windows-arm64-package` or a `portable-*` file (GitHub asks you to sign in for these).
+## What is Morph?
 
-- **Windows 10/11:** run `Morph-<version>-win-Setup.exe`, or unzip the portable `.zip` and run `Morph.exe`.
-  Setup needs no admin rights and nothing else installed. It isn't code-signed yet, so if Windows says
-  *"Windows protected your PC"*, click **More info → Run anyway**.
-- **Linux x64/ARM64** (Ubuntu 22.04 or newer): unpack and run `./install.sh` (no root needed). Drag gestures need X11;
-  on Wayland use the drop zone and the file manager's right-click menu.
-- **macOS 13+:** unpack and run `./install.sh`, or drag Morph to Applications. The first start needs
-  System Settings → Privacy & Security → **Open Anyway**.
+**Morph** is a free, open-source file converter you use by dragging. Hold <kbd>Ctrl</kbd> (<kbd>Option</kbd> on a Mac),
+drag files from Explorer, Finder, the desktop or a browser, and a ring of choices, the **donut**, opens at your cursor.
+Let go on one and the new file appears next to the original, which is never changed. Everything happens on your own
+computer.
 
-Morph can sit beside Filee: settings, folders and menus are separate.
+The name says what it does: files **morph** from one form into another, without opening an app.
 
-## How it works
+> [!IMPORTANT]
+> **Current status: 0.7.0, pre-release.** Every change is built and tested on GitHub (Windows x64 and ARM64, Linux and
+> macOS packages); the newest builds are on the [Actions page](https://github.com/admknight/Morph/actions/workflows/ci.yml).
+> No public release is published yet, and the Windows builds are **unsigned**, so Windows SmartScreen will warn on first
+> start. Share, print, the Explorer Gallery / VS Code selection and the Google Lens upload pass their automated checks
+> but haven't been tried on a physical PC yet.
 
-**1. Hold <kbd>Ctrl</kbd> and drag your files.** (<kbd>Option</kbd> on a Mac.) From Explorer, Finder, the desktop or a
-browser. The donut opens with the choices that fit what you're dragging.
+## Features at a glance
 
-<p align="center"><img src="docs/media/morph-donut.png" width="380" alt="The donut for a JPG: PNG, JPG, WEBP, GIF, PDF, Merge PDF, Trace and a Formats group opened into PNG, JPG and WEBP"></p>
+| Area | What Morph offers |
+| :--- | :--- |
+| **Convert** | About 270 formats offline: pictures (RAW, HEIC, AVIF too), PDF, Word, Excel, PowerPoint, HWP, **CorelDRAW** (built in, no LibreOffice), e-books, archives, fonts, CAD, 3D models, audio and video |
+| **Tools** | Crop, rotate, resize, compress to a size, remove a background, trace to SVG, **social sizes** (square, story, thumbnail, cropped, never squashed), **normalize volume**, cut clips, merge, OCR, metadata, upscale |
+| **Hide** | Pixelate, blur or black-box parts of a picture; **Find faces** and **Find text** frame them for you to check before saving |
+| **File actions** | Copy path or name, show in folder, open a terminal there, **share**, **print**, **keep on shelf** (a floating shelf to drag files out later) |
+| **Picture actions** | Copy the text in a picture (OCR), **colour palette**, set as wallpaper, **search the web** for the picture |
+| **Your own actions** | **Run a program** with the files: pick an installed app (*Open in Photoshop*, *Open in VS Code*) or write a command |
+| **Layouts** | One donut per file type, front and back, up to 12 slices a side; **templates** to switch whole layouts |
+| **Safety** | Engines run in separate workers with **memory and time limits**; a crash fails only its own file; unfinished work **resumes** after a power cut |
+| **Updates** | Checked against GitHub, signature-verified, **installed while Morph isn't in use** (can be turned off) |
 
-**2. Let go on what you want.** The new file appears next to the original. Let go in the middle, or press
-<kbd>Esc</kbd>, to cancel.
+### Private by design
 
-**3. Want more?** Press <kbd>Tab</kbd> (or roll the mouse wheel) to flip the donut to its back: tools like crop, rotate,
-compress, remove the background, and the file actions. Slices with a corner mark open into a small group.
+Morph needs **no account** and sends **no telemetry**. Conversions, face finding and text finding all run locally.
+The only things that touch the network are ones you choose: **Search the web** sends a small copy of the picture
+(without its location or camera data) to Google Lens, and that action's name says so; optional engines download once
+from their official sites, each checked against a pinned SHA-256.
 
-**No dragging?** Select files and press the shortcut, right-click them and choose **Convert with Morph**, or drop them on
-the Home page. A screenshot on the clipboard works too.
+## Real app screenshots
 
-New here? Morph's first start walks you through it with a practice picture you convert yourself.
+These are **unedited screenshots of Morph 0.7.0**, rendered by the project's own UI tests
+(`tests/Filee.App.Tests`) from the same code as the builds. They are **not mockups**.
 
-## What it can do
+| Home with the guided first run | The donut for a JPG |
+|:---:|:---:|
+| <img src="docs/media/morph-home.png" width="430" alt="Home page: step 2 of 4 of the guided first run, with a practice picture and an Open the donut button"> | <img src="docs/media/morph-donut.png" width="300" alt="The donut for a JPG: PNG, JPG, WEBP, GIF, PDF, Merge PDF, Trace, and a Formats group opened into PNG, JPG and WEBP"> |
 
-| | |
-|---|---|
-| **Convert** | Pictures: PNG, JPG, WebP, AVIF, HEIC, GIF, TIFF, ICO, SVG, RAW and more · PDF to pictures, Word, Excel, text · Word, Excel, PowerPoint and HWP to PDF · CorelDRAW to PDF, SVG, PNG (built in, no LibreOffice) · e-books · fonts · CAD and 3D · audio and video |
-| **Tools** | Crop, rotate, flip, resize, compress to a size · remove a background · trace to SVG · **social sizes** (square post, story, video thumbnail, cropped, never squashed) · **normalize volume** · cut clips · merge PDFs, pictures, videos · OCR to searchable PDF · edit or remove metadata · upscale |
-| **Hide** | Pixelate, blur or black-box parts of a picture. **Find faces** and **Find text** frame them for you to check before saving. |
-| **File actions** | Copy path or name · show in folder · open a terminal there · **share** (Windows' Share panel, the Mac share menu) · **print** · **keep on shelf** |
-| **Picture actions** | Copy the text in a picture (OCR) · **colour palette** · set as wallpaper · **search the web** for the picture (the only action that uploads anything, and its name says so) |
-| **Your own actions** | **Run a program** with the files: pick an installed app (*Open in Photoshop*, *Open in VS Code*) or write a command, for the file types you choose |
+| Hide: blur names and messages | Futuristic look | Urdu, right to left |
+|:---:|:---:|:---:|
+| <img src="docs/media/morph-hide.png" width="290" alt="The Hide window with a name and a message blurred on a chat screenshot"> | <img src="docs/media/morph-futuristic.png" width="290" alt="The Theme page in the Futuristic look, with a cyan accent and a donut preview"> | <img src="docs/media/morph-urdu.png" width="290" alt="The same Theme page in Urdu, right to left, in a Nastaliq font"> |
 
-<p align="center"><img src="docs/media/morph-hide.png" width="720" alt="The Hide window with a name and a message blurred on a chat screenshot, and the toolbar with Pixelate, Blur, Black box, Find faces and Find text"></p>
+## Editions
+
+| Edition | What you get | Status |
+| --- | --- | --- |
+| **Windows Setup EXE** | Per-user install (no admin rights), Start menu, Explorer menu "Convert with Morph", the `morph` command | 0.7.0 pre-release (unsigned) |
+| **Windows portable ZIP** | Unzip and run `Morph.exe`; data stays beside the app | 0.7.0 pre-release (unsigned) |
+| **Linux x64 / ARM64** | Unpack and run `./install.sh` (no root) | Pre-release; drag gestures need X11 |
+| **macOS 13+** | `./install.sh` or drag to Applications | Pre-release; not notarized |
+| **Source** | .NET 10 / Avalonia app, engines, tests and build scripts | MIT-licensed |
+
+**Get a build now:** open the latest green run on the [Actions page](https://github.com/admknight/Morph/actions/workflows/ci.yml)
+and download `windows-arm64-package` or a `portable-*` artifact (GitHub asks you to sign in for artifacts). Release
+downloads will appear under [Releases](https://github.com/admknight/Morph/releases) once 0.7.0 is published.
+
+### Basic requirements
+
+- **Windows 10 or 11** (x64 or ARM64), **Ubuntu 22.04+** or a similar Linux (x64 or ARM64), or **macOS 13+**
+- Nothing else to install: no .NET, Office or LibreOffice needed for the built-in formats
+- Video, audio, e-books and some rarer formats use optional engines, downloaded once in **Settings → Engines**
+
+### First run
+
+1. Install or unzip Morph and start it. On Windows, if SmartScreen appears, click **More info → Run anyway**.
+2. The **Home** page walks you through four short steps with a **practice picture** you convert yourself.
+3. Now try it with your own files: hold <kbd>Ctrl</kbd>, drag a file, and let go on a format.
+4. Press <kbd>Tab</kbd> (or roll the mouse wheel) to flip the donut to its back for tools and file actions.
+5. Make it yours in **Settings → Toolbar**: pick a **template**, drag slices in and out, save your own layout.
+
+No dragging? Select files and press the shortcut, right-click and choose **Convert with Morph**, or drop them on Home.
 
 ## Make it yours
 
-- **Templates.** A template is a whole set of donuts and their size. Start with **Morph default** (bigger, with the new
-  tools placed) or **Classic** (Filee's original layout), then save your own (Settings → Toolbar → Templates). Switching first keeps your
-  current donuts as a template, so you never lose a layout.
-- **Donuts per file type**, each with a front and a back, up to 12 slices a side and groups of 6. Drag slices in and out
-  in Settings → Toolbar.
-- **Your own presets:** size, quality, pages, output folder, file names. Watch folders convert whatever lands in them.
+- **Templates:** a template is a whole set of donuts and their size. Start with **Morph default** (bigger, with the
+  new tools placed) or **Classic** (Filee's original layout), then save your own. Switching first keeps your current
+  donuts as a template, so no layout is ever lost.
+- **Presets:** size, quality, pages, output folder and file names; **watch folders** convert whatever lands in them.
 - **Three looks:** Morph Soft, Material You and **Futuristic** (neon accent on deep navy), each light or dark.
-- **24 languages**, right-to-left included: Arabic, Persian and **Urdu** in a Nastaliq font.
+- **24 languages**, including right-to-left Arabic, Persian and **Urdu** in a Nastaliq font.
 
-<p align="center">
-  <img src="docs/media/morph-futuristic.png" width="420" alt="The Theme page in the Futuristic look, with a cyan accent and a donut preview">
-  <img src="docs/media/morph-urdu.png" width="420" alt="The same page in Urdu, right to left">
-</p>
+## How Morph works
 
-## Private and safe
+```text
+Ctrl + drag  /  shortcut  /  "Convert with Morph"  /  Home drop zone
+                              │
+                              ▼
+            Donut (Avalonia UI) ── only choices that fit the files
+                              │
+                              ▼
+            Job queue + route planner ── cheapest engine path
+                              │
+          ┌───────────────────┼─────────────────────────┐
+          ▼                   ▼                         ▼
+   Engine workers       Bundled programs          Optional engines
+   (ImageMagick,        (rhwp, 7-Zip,             (FFmpeg, LibreOffice,
+    PDFium, HWP,         MorphCdr / libcdr)        Pandoc, Tesseract…)
+    office, fonts…)      own process,              downloaded once,
+   memory + time         time limit                SHA-256 checked
+   limits, crash-safe
+          └───────────────────┼─────────────────────────┘
+                              ▼
+            Result next to the original (never overwritten)
+```
 
-- **Nothing leaves your computer.** Conversions, face finding and text finding all run locally. The only exceptions are
-  ones you choose: "Search the web" sends a small copy of the picture (without its location or camera data) to
-  Google Lens, and optional engines download once from their official sites, each checked against a pinned SHA-256.
-- **A bad file can't take Morph down.** Engines run in separate worker processes with a memory ceiling and a time
-  limit. If one crashes or hangs on a broken file, only that file fails, with a clear message. If your PC loses power
-  mid-way, Morph offers to finish the rest at the next start.
-- **Updates install themselves while Morph isn't in use**, after their signature is checked (Settings → About to turn
-  that off).
-
-## What's new in Morph
-
-Morph started in November 2026 as a fork of [Filee](https://github.com/KnifeLemon/Filee) and keeps all its features.
-On top of that it adds:
-
-- The donut **opens where you want it**: where you let go, following your cursor, or where the drag started.
-- **Crash-proof conversions** and **resume after a power cut**.
-- A **guided first run** with a practice picture, the **Futuristic** look, **Urdu**, and **layout templates** with a bigger default donut.
-- From [OrbitDrop](https://github.com/i3sam/OrbitDrop)'s ideas: file and picture actions, run a program, print, share,
-  shelf, social sizes, normalize volume, colour palette, web search, find faces and text, a CorelDRAW reader without
-  LibreOffice, worker limits, idle updates, and picking up the selection in Explorer's Gallery and in VS Code.
-
-<!-- sponsors: src/Filee.App/Assets/Sponsors/sponsors.json -->
-
-## Build from source
+## Build and test
 
 You need the [.NET 10 SDK](https://dotnet.microsoft.com/download).
 
@@ -151,17 +145,49 @@ dotnet run --project src/Filee.Cli -- help  # the morph command line
 dotnet test Filee.slnx                      # the tests
 ```
 
+On every push, [GitHub Actions](https://github.com/admknight/Morph/actions/workflows/ci.yml) checks formatting, builds,
+and runs the full test suite on Windows x64 and ARM64, then packages Windows, Linux and macOS builds. The CorelDRAW
+reader is compiled there from SHA-256-pinned sources (`build/build-cdr-reader.ps1`).
+
+### Repository map
+
+```text
+src/Filee.App/        The app: donut, windows, pages, services, 24 languages
+src/Filee.Core/       Presets, profiles, templates, job queue, route planner, worker isolation
+src/Filee.Engines/    Converters (images, PDF, office, HWP, CAD, fonts, media, CorelDRAW, face/text finders)
+src/Filee.Platform.*  Windows, Linux and macOS integration (selection, menus, share, clipboard)
+src/Filee.Setup/      Morph's own installer
+src/Morph.CdrReader/  MorphCdr, the CorelDRAW reader (libcdr)
+tests/                Core, engine, app (UI, screenshots), platform and setup tests
+build/                Packaging, engine fetching, signing, CI helpers
+docs/                 Architecture, engines, converters, languages, themes, portable mode
+```
+
 The project folders keep Filee's names (`src/Filee.App`, `Filee.slnx`) so Filee's improvements keep merging in;
 everything you see says Morph. [build/morph](build/morph/README.md) explains how a Filee release is taken in.
-More: [architecture](docs/ARCHITECTURE.md) · [adding a converter](docs/ADDING-A-CONVERTER.md) ·
-[adding a language](docs/ADDING-A-LANGUAGE.md) · [engines](docs/ENGINES.md) · [portable mode](docs/PORTABLE.md).
 
-## Credits and license
+## Security, attribution and licensing
 
-Morph is MIT-licensed. It's built on [Filee](https://github.com/KnifeLemon/Filee) by Myeonggu Kim (KnifeLemon) and the
-Filee contributors (MIT), with ideas and some code from [OrbitDrop](https://github.com/i3sam/OrbitDrop) by i3sam (MIT).
-Face finding uses [UltraFace](https://github.com/Linzaer/Ultra-Light-Fast-Generic-Face-Detector-1MB) (MIT); CorelDRAW
-files are read with libcdr and librevenge (MPL 2.0). Everything Morph uses is listed in
+Security problems: please follow [SECURITY.md](SECURITY.md) rather than opening a public issue.
+
+**Morph** is MIT-licensed, maintained by **Adam Knight (@admknight)**. It is built on
+[Filee](https://github.com/KnifeLemon/Filee) by Myeonggu Kim (KnifeLemon) and the Filee contributors (MIT), and takes
+ideas and some code from [OrbitDrop](https://github.com/i3sam/OrbitDrop) by i3sam (MIT): file and picture actions,
+print, share, shelf, social sizes, normalize, palette, web search, face/text finding, the CorelDRAW reader, worker
+limits, idle updates and the Gallery / VS Code selection. Face finding uses
+[UltraFace](https://github.com/Linzaer/Ultra-Light-Fast-Generic-Face-Detector-1MB) (MIT); CorelDRAW files are read with
+libcdr and librevenge (MPL 2.0). Every third-party component keeps its own licence; see
 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
-Made by [Adam Knight](https://github.com/admknight).
+Contributions: [CONTRIBUTING.md](CONTRIBUTING.md) · Changes: [CHANGELOG.md](CHANGELOG.md)
+
+<!-- sponsors: src/Filee.App/Assets/Sponsors/sponsors.json -->
+
+---
+
+<div align="center">
+
+**Maintained by [Adam Knight (@admknight)](https://github.com/admknight)**  
+[Portfolio](https://admknight.github.io/) · [Source](https://github.com/admknight/Morph) · [Actions](https://github.com/admknight/Morph/actions) · [Issue tracker](https://github.com/admknight/Morph/issues)
+
+</div>
