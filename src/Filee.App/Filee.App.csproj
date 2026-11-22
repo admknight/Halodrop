@@ -71,39 +71,39 @@
       <_Parameter1>RepositoryUrl</_Parameter1>
       <_Parameter2>$(FileeRepositoryUrl)</_Parameter2>
     </AssemblyAttribute>
-    <!-- Published builds (installer, portable zip) set -p:FileeRelease=true: only they register Explorer and startup
+    <!-- Published builds (installer, portable zip) set -p:MorphRelease=true: only they register Explorer and startup
          entries (UpdateService.IsReleaseBuild), so running from source leaves the user's system alone. -->
-    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(FileeRelease)' == 'true'">
-      <_Parameter1>FileeRelease</_Parameter1>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(MorphRelease)' == 'true'">
+      <_Parameter1>MorphRelease</_Parameter1>
       <_Parameter2>true</_Parameter2>
     </AssemblyAttribute>
   </ItemGroup>
 
   <!-- How official builds check updates (Directory.Build.props): the update key and the expected publisher. Running
        from source and the tests keep to today's checks. -->
-  <ItemGroup Condition="'$(FileeRelease)' == 'true'">
-    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(FileeUpdatePublicKey)' != ''">
-      <_Parameter1>FileeUpdatePublicKey</_Parameter1>
-      <_Parameter2>$(FileeUpdatePublicKey)</_Parameter2>
+  <ItemGroup Condition="'$(MorphRelease)' == 'true'">
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(MorphUpdatePublicKey)' != ''">
+      <_Parameter1>MorphUpdatePublicKey</_Parameter1>
+      <_Parameter2>$(MorphUpdatePublicKey)</_Parameter2>
     </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(FileeExpectedPublisher)' != ''">
-      <_Parameter1>FileeExpectedPublisher</_Parameter1>
-      <_Parameter2>$(FileeExpectedPublisher)</_Parameter2>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(MorphExpectedPublisher)' != ''">
+      <_Parameter1>MorphExpectedPublisher</_Parameter1>
+      <_Parameter2>$(MorphExpectedPublisher)</_Parameter2>
     </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(FileeExpectedIssuer)' != ''">
-      <_Parameter1>FileeExpectedIssuer</_Parameter1>
-      <_Parameter2>$(FileeExpectedIssuer)</_Parameter2>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(MorphExpectedIssuer)' != ''">
+      <_Parameter1>MorphExpectedIssuer</_Parameter1>
+      <_Parameter2>$(MorphExpectedIssuer)</_Parameter2>
     </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(FileeExpectedSignerKeys)' != ''">
-      <_Parameter1>FileeExpectedSignerKeys</_Parameter1>
-      <_Parameter2>$(FileeExpectedSignerKeys)</_Parameter2>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(MorphExpectedSignerKeys)' != ''">
+      <_Parameter1>MorphExpectedSignerKeys</_Parameter1>
+      <_Parameter2>$(MorphExpectedSignerKeys)</_Parameter2>
     </AssemblyAttribute>
   </ItemGroup>
 
   <!-- A subject alone is only text: an expected publisher needs the certificate authority that issued it. -->
   <Target Name="FileeCheckExpectedPublisher" BeforeTargets="CoreCompile"
-          Condition="'$(FileeRelease)' == 'true' And '$(FileeExpectedPublisher)' != '' And '$(FileeExpectedIssuer)' == ''">
-    <Error Text="FileeExpectedPublisher is set without FileeExpectedIssuer (Directory.Build.props)." />
+          Condition="'$(MorphRelease)' == 'true' And '$(MorphExpectedPublisher)' != '' And '$(MorphExpectedIssuer)' == ''">
+    <Error Text="MorphExpectedPublisher is set without MorphExpectedIssuer (Directory.Build.props)." />
   </Target>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

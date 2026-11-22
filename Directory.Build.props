@@ -26,18 +26,20 @@
     <RepositoryUrl>$(FileeRepositoryUrl)</RepositoryUrl>
     <UpstreamUrl>https://github.com/KnifeLemon/Filee</UpstreamUrl>
 
-    <!-- What an official build (-p:FileeRelease=true) checks before it installs an update (UpdateService).
-         FileeUpdatePublicKey: the public half of Filee's update key (base64; build/new-update-key.ps1 makes the pair,
+    <!-- What an official build (-p:MorphRelease=true) checks before it installs an update (UpdateService).
+         MorphUpdatePublicKey: the public half of Filee's update key (base64; build/new-update-key.ps1 makes the pair,
          build/sign-checksums.ps1 signs every release's SHA256SUMS files with the private half). With a key, an
          update without a valid signature is refused on every platform; empty, the same-release checksum is all.
-         FileeExpectedPublisher and FileeExpectedIssuer: the Authenticode certificate every Windows installer must be
+         MorphExpectedPublisher and MorphExpectedIssuer: the Authenticode certificate every Windows installer must be
          signed with, its subject and the certificate authority that issued it. Before a renewed certificate comes
          from another authority, ship a release that lists both issuers ("|" between them).
-         FileeExpectedSignerKeys: optionally the SHA-256s of the certificate public keys allowed, "|" between them. -->
-    <FileeUpdatePublicKey>MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8mlW6UZaGmh9cKDhL25Bfl7SJscOpTzRvHrfZGsJOOOIP7zH58g/XyM59H3sDeV4QQRul3TeKqg2x6In1S+uUA==</FileeUpdatePublicKey>
-    <FileeExpectedPublisher>CN=Open Source Developer MYEONGGU KIM, O=Open Source Developer, L=Seoul, S=Seoul, C=KR</FileeExpectedPublisher>
-    <FileeExpectedIssuer>CN=Certum Code Signing 2021 CA, O=Asseco Data Systems S.A., C=PL</FileeExpectedIssuer>
-    <FileeExpectedSignerKeys></FileeExpectedSignerKeys>
+         MorphExpectedSignerKeys: optionally the SHA-256s of the certificate public keys allowed, "|" between them.
+         Morph change: all empty for now. The values Filee shipped were Filee's own key and certificate, which Morph's
+         releases can't match; fill these in once Morph has its own update key and code-signing certificate. -->
+    <MorphUpdatePublicKey></MorphUpdatePublicKey>
+    <MorphExpectedPublisher></MorphExpectedPublisher>
+    <MorphExpectedIssuer></MorphExpectedIssuer>
+    <MorphExpectedSignerKeys></MorphExpectedSignerKeys>
   </PropertyGroup>
 
   <!-- Libraries their makers sign: ReadyToRun recompiles an assembly and drops its Authenticode signature, so these

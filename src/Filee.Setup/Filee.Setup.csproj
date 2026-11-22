@@ -23,8 +23,8 @@
     <Product>Morph Setup</Product>
   </PropertyGroup>
 
-  <!-- build/build-installer.ps1: dotnet publish -c Release -r win-x64 -p:FileeSetupPublish=true -->
-  <PropertyGroup Condition="'$(FileeSetupPublish)' == 'true'">
+  <!-- build/build-installer.ps1: dotnet publish -c Release -r win-x64 -p:MorphSetupPublish=true -->
+  <PropertyGroup Condition="'$(MorphSetupPublish)' == 'true'">
     <SelfContained>true</SelfContained>
     <PublishSingleFile>true</PublishSingleFile>
     <!-- No native library is left for .NET to unpack at start (into %TEMP%\.net, a folder the user can change, which
@@ -78,7 +78,7 @@
     leave the publish and its deps.json, so .NET neither unpacks nor looks for them. ANGLE (av_libglesv2.dll) is left
     out: Setup draws in software (Program.BuildAvaloniaApp).
   -->
-  <Target Name="EmbedSetupNatives" AfterTargets="ResolvePackageAssets" Condition="'$(FileeSetupPublish)' == 'true'">
+  <Target Name="EmbedSetupNatives" AfterTargets="ResolvePackageAssets" Condition="'$(MorphSetupPublish)' == 'true'">
     <ItemGroup>
       <_SetupNative Include="@(NativeCopyLocalItems)" Condition="'%(Filename)%(Extension)' == 'libSkiaSharp.dll' or '%(Filename)%(Extension)' == 'libHarfBuzzSharp.dll'" />
       <EmbeddedResource Include="@(_SetupNative)" LogicalName="native.%(Filename)%(Extension)" WithCulture="false" Type="Non-Resx" />
@@ -91,7 +91,7 @@
 
   <!-- A library that doesn't go into the single file lands next to Setup.exe, and build-installer.ps1 only takes the
        exe: a new native library has to be carried like Skia above. -->
-  <Target Name="CheckSetupIsOneFile" AfterTargets="Publish" Condition="'$(FileeSetupPublish)' == 'true'">
+  <Target Name="CheckSetupIsOneFile" AfterTargets="Publish" Condition="'$(MorphSetupPublish)' == 'true'">
     <ItemGroup>
       <_SetupLeftOut Include="$(PublishDir)*.dll" />
     </ItemGroup>
