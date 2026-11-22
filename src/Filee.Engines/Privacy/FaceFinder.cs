@@ -21,7 +21,25 @@ public static class FaceFinder
 
     public static string ModelPath => Path.Combine(AppContext.BaseDirectory, "Privacy", "Models", "ultraface-rfb-320.onnx");
 
-    public static bool IsAvailable => File.Exists(ModelPath);
+    /// <summary>
+    /// The model is there and ONNX Runtime loads on this system. Its package has no library for every system (none for
+    /// Intel Macs): there "Find faces" isn't offered, and nothing else depends on it.
+    /// </summary>
+    public static bool IsAvailable => File.Exists(ModelPath) && RuntimeLoads.Value;
+
+    private static readonly Lazy<bool> RuntimeLoads = new(() =>
+    {
+        try
+        {
+            _ = OrtEnv.Instance();
+            return true;
+        }
+        catch (Exception ex) when (ex is DllNotFoundException or TypeInitializationException or BadImageFormatException
+                                       or EntryPointNotFoundException or OnnxRuntimeException)
+        {
+            return false;
+        }
+    });
 
     /// <summary>The faces in <paramref name="picture"/>, each a little larger than the face (hair, chin).</summary>
     public static IReadOnlyList<FoundArea> Find(IMagickImage<byte> picture, float threshold = DefaultThreshold)

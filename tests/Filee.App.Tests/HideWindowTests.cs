@@ -136,6 +136,7 @@ public class HideWindowTests
     [AvaloniaFact]
     public void Find_faces_adds_frames_to_check_and_says_how_many()
     {
+        Assert.SkipUnless(Filee.Engines.Privacy.FaceFinder.IsAvailable, "ONNX Runtime has no library for this system (Intel Macs)");
         // Morph change: automatic face finding. A real photo with five faces, framed in the window for the user to check.
         WithWindow("en", "light", ["faces.jpg"], (window, vm, _, _) =>
         {

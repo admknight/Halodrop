@@ -16,7 +16,8 @@ public class PrivacyFinderTests(EngineFixture fx) : IClassFixture<EngineFixture>
     [InlineData("faces-3.jpg")]
     public void Faces_in_photos_are_found_inside_the_picture(string name)
     {
-        Assert.True(FaceFinder.IsAvailable, FaceFinder.ModelPath);
+        Assert.True(File.Exists(FaceFinder.ModelPath), FaceFinder.ModelPath);
+        Assert.SkipUnless(FaceFinder.IsAvailable, "ONNX Runtime has no library for this system (Intel Macs)");
         using var photo = new MagickImage(Sample(name));
         var faces = FaceFinder.Find(photo);
         TestContext.Current.SendDiagnosticMessage($"{name}: {faces.Count} face(s) in {photo.Width}x{photo.Height}");
@@ -37,6 +38,7 @@ public class PrivacyFinderTests(EngineFixture fx) : IClassFixture<EngineFixture>
     [Fact]
     public void An_empty_picture_has_no_faces()
     {
+        Assert.SkipUnless(FaceFinder.IsAvailable, "ONNX Runtime has no library for this system (Intel Macs)");
         using var empty = new MagickImage(new MagickColor("#88AACC"), 800, 600);
         Assert.Empty(FaceFinder.Find(empty));
     }
