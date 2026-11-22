@@ -33,7 +33,7 @@
 .EXAMPLE
   pwsh build/build-installer.ps1
   pwsh build/build-installer.ps1 -Version 2.0.0 -Portable
-  pwsh build/build-installer.ps1 -Version 2.0.0 -Portable -PublishDir app -SetupProgram Filee.Setup.exe -CertificateThumbprint <sha1>
+  pwsh build/build-installer.ps1 -Version 2.0.0 -Portable -PublishDir app -SetupProgram Morph.Setup.exe -CertificateThumbprint <sha1>
   pwsh build/build-installer.ps1 -CheckOnly
 #>
 [CmdletBinding()]
@@ -42,7 +42,7 @@ param(
     [string]$Version,
     # A finished publish folder (Morph.exe, MorphExplorerMenu.dll/.msix, engines\); skips publishing.
     [string]$PublishDir,
-    # A finished Setup program (Filee.Setup.exe from an earlier run); skips publishing src/Filee.Setup.
+    # A finished Setup program (Morph.Setup.exe from an earlier run); skips publishing src/Filee.Setup.
     [string]$SetupProgram,
     [string]$OutputDir = (Join-Path $PSScriptRoot '..\Releases'),
     [switch]$Portable,
@@ -144,7 +144,7 @@ if (-not $SetupProgram) {
         dotnet publish (Join-Path $root 'src\Filee.Setup\Filee.Setup.csproj') -c Release -r $Runtime -p:MorphSetupPublish=true `
             "-p:Version=$Version" -o $setupFolder
     }
-    $SetupProgram = Join-Path $setupFolder 'Filee.Setup.exe'
+    $SetupProgram = Join-Path $setupFolder 'Morph.Setup.exe'
 }
 $SetupProgram = (Resolve-Path $SetupProgram).Path
 

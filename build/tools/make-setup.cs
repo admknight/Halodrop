@@ -2,7 +2,7 @@
 // src/Filee.Setup/Payload/SetupPayload.cs) to the published Setup program. The engines Setup offers on a fresh install
 // come from EngineDownloads (engines.json), so Setup offers exactly what Settings → Engines offers.
 // Run by build/build-installer.ps1:
-//   dotnet run build/tools/make-setup.cs -- <Filee.Setup.exe> <publish folder> <version> <output .exe> [--fast] [--runtime=win-arm64]
+//   dotnet run build/tools/make-setup.cs -- <Morph.Setup.exe> <publish folder> <version> <output .exe> [--fast] [--runtime=win-arm64]
 // LZMA with a 48 MB dictionary, programs through the x86 branch filter; --fast uses a small dictionary, for checks.
 // --runtime is the build the payload is (win-x64 by default): build/sign-release.ps1 packs the ARM64 Setup on an x64 PC,
 // and it offers the engines of the ARM64 app. Both download the win-x64 engines on Windows 11 (EngineDownloads), so

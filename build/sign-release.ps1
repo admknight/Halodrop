@@ -109,11 +109,11 @@ Invoke-Checked 'git worktree add' { git -C $root worktree add --detach $source $
 try {
     $out = Join-Path $work 'out'
     & (Join-Path $source 'build\build-installer.ps1') -Version $Version -Portable -OutputDir $out `
-        -PublishDir (Join-Path $work 'unsigned\app') -SetupProgram (Join-Path $work 'unsigned\Filee.Setup.exe') `
+        -PublishDir (Join-Path $work 'unsigned\app') -SetupProgram (Join-Path $work 'unsigned\Morph.Setup.exe') `
         -CertificateThumbprint $CertificateThumbprint
     if ($arm64) {
         & (Join-Path $source 'build\build-installer.ps1') -Version $Version -Portable -OutputDir $out -Runtime win-arm64 `
-            -PublishDir (Join-Path $work 'unsigned-arm64\app') -SetupProgram (Join-Path $work 'unsigned-arm64\Filee.Setup.exe') `
+            -PublishDir (Join-Path $work 'unsigned-arm64\app') -SetupProgram (Join-Path $work 'unsigned-arm64\Morph.Setup.exe') `
             -CertificateThumbprint $CertificateThumbprint
     }
 }
@@ -168,7 +168,7 @@ elseif ($arm64) {
     # writes out as uninstall.exe. The release workflow ran the ARM64 Setup program in a sandbox (around a stub app).
     Write-Host 'check the signatures of the ARM64 build (an x64 PC cannot run its Setup)'
     Assert-Signed (Join-Path $work 'unsigned-arm64\app') $programs 'in the ARM64 build'
-    Assert-Signed (Join-Path $work 'unsigned-arm64') 'Filee.Setup.exe' 'in the ARM64 build'
+    Assert-Signed (Join-Path $work 'unsigned-arm64') 'Morph.Setup.exe' 'in the ARM64 build'
     Assert-Signed $out (Split-Path $setupArm64 -Leaf) 'after packing'
 }
 
