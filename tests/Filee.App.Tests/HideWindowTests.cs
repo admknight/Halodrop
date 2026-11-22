@@ -148,6 +148,10 @@ public class HideWindowTests
             Assert.True(vm.CanSave);
             // One undo takes each frame off again, as for frames drawn by hand.
             Assert.True(vm.CanUndo);
+            WaitForCover(vm);
+            Pump();
+            window.HideCanvas.FinishAnimations();
+            Save(window, "hide-find-faces-en.png");
         });
     }
 
