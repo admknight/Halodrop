@@ -34,9 +34,10 @@
          signed with, its subject and the certificate authority that issued it. Before a renewed certificate comes
          from another authority, ship a release that lists both issuers ("|" between them).
          MorphExpectedSignerKeys: optionally the SHA-256s of the certificate public keys allowed, "|" between them.
-         Morph change: all empty for now. The values Filee shipped were Filee's own key and certificate, which Morph's
-         releases can't match; fill these in once Morph has its own update key and code-signing certificate. -->
-    <MorphUpdatePublicKey></MorphUpdatePublicKey>
+         Halodrop change: Halodrop's own update key (made 22 Nov 2026; the release workflow signs with the private half,
+         the repository secret MORPH_UPDATE_KEY). The publisher and issuer stay empty until Halodrop has a code-signing
+         certificate; Filee's values were Filee's own. -->
+    <MorphUpdatePublicKey>MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsCtJPvAyBgMJCuGXlocABw0FQH6gR8B+pcGCTUVgHwa0zhPKL5cT1ttHyg1PdILIwEbJEZrpevYzweeO9dqLYA==</MorphUpdatePublicKey>
     <MorphExpectedPublisher></MorphExpectedPublisher>
     <MorphExpectedIssuer></MorphExpectedIssuer>
     <MorphExpectedSignerKeys></MorphExpectedSignerKeys>

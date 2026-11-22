@@ -315,6 +315,23 @@ jobs:
           name: windows-release
           path: Releases
 
+      # Halodrop change: the SHA256SUMS file is signed with Halodrop's update key (repository secret MORPH_UPDATE_KEY,
+      # the PEM of the private key). Official builds carry the public half and refuse an update without the .sig.
+      - name: Sign the checksums
+        env:
+          MORPH_UPDATE_KEY_PEM: ${{ secrets.MORPH_UPDATE_KEY }}
+        shell: pwsh
+        run: |
+          $public = ([xml](Get-Content Directory.Build.props -Raw)).Project.PropertyGroup.MorphUpdatePublicKey | Where-Object { $_ } | Select-Object -First 1
+          if (-not $public) { Write-Host 'No update key in Directory.Build.props: checksums are not signed.'; return }
+          if (-not $env:MORPH_UPDATE_KEY_PEM) { throw 'Directory.Build.props carries an update key, but the MORPH_UPDATE_KEY secret is missing: updates from this release would be refused.' }
+          $keyFile = Join-Path $env:RUNNER_TEMP 'update-key.pem'
+          try {
+            Set-Content -LiteralPath $keyFile -Value $env:MORPH_UPDATE_KEY_PEM -NoNewline
+            ./build/sign-checksums.ps1 -Folder Releases -PrivateKeyPath $keyFile -PublicKey $public
+          }
+          finally { Remove-Item -LiteralPath $keyFile -Force -ErrorAction SilentlyContinue }
+
       - name: Publish the GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
