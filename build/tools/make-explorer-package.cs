@@ -22,7 +22,7 @@ var output = Path.GetFullPath(args[0]);
 Directory.CreateDirectory(output);
 var repo = Environment.CurrentDirectory;
 while (!File.Exists(Path.Combine(repo, "Filee.slnx")))
-    repo = Path.GetDirectoryName(repo) ?? throw new InvalidOperationException("Run this from inside the Morph repository.");
+    repo = Path.GetDirectoryName(repo) ?? throw new InvalidOperationException("Run this from inside the Halodrop repository.");
 
 var work = Directory.CreateTempSubdirectory("morph-msix-");
 try
