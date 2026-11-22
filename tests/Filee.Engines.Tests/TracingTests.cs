@@ -429,7 +429,12 @@ public class TracingTests(EngineFixture fx) : IClassFixture<EngineFixture>
             foreach (var to in new[] { "svg", "svgz", "dxf", "dwg" })
                 Assert.DoesNotContain(planner.Plan(from, to)?.Steps ?? [], IsTracing);
         }
-        Assert.Null(builtIn.Plan(from, "svg"));
+        // Morph change: CorelDRAW has a built-in reader (MorphCdr), which writes the drawing's own vectors, so a CDR
+        // gets an SVG from it in one step; any other such file still has no built-in route to SVG.
+        if (from == "cdr")
+            Assert.Equal(Filee.Engines.Vector.CorelDrawConverter.EngineId, Assert.Single(builtIn.Plan(from, "svg")!.Steps).Converter.Id);
+        else
+            Assert.Null(builtIn.Plan(from, "svg"));
     }
 
     [Fact]
