@@ -183,7 +183,7 @@ if ($CheckOnly) {
             throw "$(Split-Path $exe -Leaf) $arguments failed with exit code $($process.ExitCode)"
         }
     }
-    $installed = Join-Path $sandbox 'Program Files\Morph'
+    $installed = Join-Path $sandbox 'Program Files\Halodrop'
     Invoke-Setup $setupExe @('/MERGETASKS=desktopicon')
     foreach ($file in 'Halodrop.exe', 'cli\halodrop.cmd', 'engines\rhwp\rhwp.exe', 'uninstall.exe', 'uninstall.json') {
         if (-not (Test-Path (Join-Path $installed $file))) { throw "Setup did not install $file" }

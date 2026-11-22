@@ -154,7 +154,7 @@ function Assert-Signed([string]$folder, [string[]]$names, [string]$where) {
 function Test-Setup([string]$exe) {
     Write-Host "install the signed $(Split-Path $exe -Leaf) into a sandbox"
     Invoke-Setup $exe
-    $installed = Join-Path $sandbox 'Program Files\Morph'
+    $installed = Join-Path $sandbox 'Program Files\Halodrop'
     Assert-Signed $installed ($programs + 'uninstall.exe') 'after installing'
     Invoke-Setup (Join-Path $installed 'uninstall.exe')
     Remove-Item $sandbox -Recurse -Force -ErrorAction SilentlyContinue
