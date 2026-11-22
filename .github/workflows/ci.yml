@@ -36,6 +36,7 @@ jobs:
     outputs:
       code: ${{ steps.files.outputs.code }}
       macos: ${{ steps.files.outputs.macos }}
+      ui: ${{ steps.files.outputs.ui }}
     steps:
       - uses: actions/checkout@v7
 
@@ -46,7 +47,7 @@ jobs:
           PR: ${{ github.event.pull_request.number }}
           AFTER: ${{ github.sha }}
         run: |
-          everything() { echo "code=true" >> "$GITHUB_OUTPUT"; echo "macos=true" >> "$GITHUB_OUTPUT"; echo "$1"; exit 0; }
+          everything() { echo "code=true" >> "$GITHUB_OUTPUT"; echo "macos=true" >> "$GITHUB_OUTPUT"; echo "ui=true" >> "$GITHUB_OUTPUT"; echo "$1"; exit 0; }
 
           if [ -n "$PR" ]; then
             files=$(gh api --paginate "repos/$REPO/pulls/$PR/files" --jq '.[].filename') || everything "File list unreadable"
@@ -58,8 +59,10 @@ jobs:
               --jq '.workflow_runs[] | select(.conclusion == "success") | "\(.id) \(.head_sha)"') || everything "Run list unreadable"
             while read -r id sha; do
               [ -z "$id" ] && continue
+              # Morph change: the x64 build passed and none of the UI test parts failed (skipped is fine: nothing on
+              # screen had changed since the run before).
               built=$(gh api "repos/$REPO/actions/runs/$id/jobs" \
-                --jq '[.jobs[] | select(.name == "windows / build (win-x64)" and .conclusion == "success")] | length') || built=0
+                --jq 'if ([.jobs[] | select(.name | startswith("windows / ui (win-x64")) | select(.conclusion != "success" and .conclusion != "skipped")] | length) > 0 then 0 else ([.jobs[] | select(.name == "windows / build (win-x64)" and .conclusion == "success")] | length) end') || built=0
               if [ "$built" != 0 ]; then base=$sha; break; fi
             done <<< "$runs"
             if [ -z "$base" ]; then everything "No earlier main run that built"; fi
@@ -71,6 +74,7 @@ jobs:
 
           code=false
           macos=false
+          ui=false
           if [ -z "$PR" ]; then
             macos=true
           else
@@ -86,6 +90,16 @@ jobs:
             esac
             if [ "$code" = false ]; then echo "Needs the build: $f"; fi
             code=true
+            # Morph change: the UI tests (all 24 languages) run when something on screen could have changed: the app,
+            # Core (presets, settings, layouts), translations, fonts, the UI tests themselves, the build. A push that
+            # only touches engines, the CLI, Setup or scripts skips them.
+            if [ "$ui" = false ]; then
+              case "$f" in
+                src/Filee.Engines/*|tests/Filee.Engines.Tests/*|src/Filee.Cli/*|tests/Filee.Cli.Tests/*|src/Filee.Setup/*|tests/Filee.Setup.Tests/*|src/Morph.CdrReader/*|build/*.ps1|build/tools/*|installer/*)
+                  ;;
+                *) ui=true; echo "Needs the UI tests: $f" ;;
+              esac
+            fi
             if [ "$macos" = true ]; then continue; fi
             case "$f" in
               .github/workflows/*|build/*|installer/macos/*|*MacOS*|*.csproj|*.props|*.targets|*.slnx|global.json|src/Filee.Engines/Infrastructure/engines.json)
@@ -99,6 +113,7 @@ jobs:
 
           echo "code=$code" >> "$GITHUB_OUTPUT"
           echo "macos=$macos" >> "$GITHUB_OUTPUT"
+          echo "ui=$ui" >> "$GITHUB_OUTPUT"
 
   # Morph change: Windows first. The Linux and macOS builds (and the Linux metadata job) run only when the repository
   # variable OTHER_PLATFORMS is "true" (Settings > Secrets and variables > Actions > Variables), so a push gets its
@@ -115,6 +130,8 @@ jobs:
     needs: changes
     if: ${{ !cancelled() && needs.changes.outputs.code != 'false' }}
     uses: ./.github/workflows/build.yml
+    with:
+      ui: ${{ needs.changes.outputs.ui != 'false' }}
 
   # The required check. It always runs, so a docs-only change (windows skipped) passes and a failed or
   # cancelled Windows build fails it.

@@ -4,6 +4,12 @@ name: Build
 
 on:
   workflow_call:
+    inputs:
+      # Morph change: whether the UI tests run (ci.yml's changes job: false when only engines, the CLI, Setup or
+      # scripts changed).
+      ui:
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -78,10 +84,7 @@ jobs:
         shell: pwsh
         run: ./build/fetch-engines.ps1 -Only rhwp,pandoc,7zip,exiftool,weasyprint
 
-      # The UI tests on their own first, as the release runs them (there they crashed with 0xC0000005): a crash
-      # names the test that was running and leaves a dump in TestResults.
-      - name: Test UI on its own
-        run: dotnet test tests/Filee.App.Tests --no-build -c Release --blame-crash --blame-hang-timeout 5m --logger "console;verbosity=normal" --results-directory TestResults/app
+      # Morph change: the UI tests run in the ui job below, in four parts at once.
 
       # FILEE_TEST_EXIFTOOL: the metadata tests write real files, and fail rather than skip if it isn't there.
       - name: Test
@@ -107,10 +110,88 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: ui-screenshots
+          name: setup-screenshots
+          path: tests/Filee.Setup.Tests/bin/Release/net10.0/screenshots/
+          if-no-files-found: ignore
+
+  # Morph change: the UI tests (tests/Filee.App.Tests, about 3,300 and the slowest by far: an hour on one machine), in
+  # four parts on machines of their own. build/ui-test-part.ps1 splits the test classes by size; the last part runs
+  # everything not in the others, so a new test class is never left out. Each part runs on its own, as before (a crash
+  # names the test that was running and leaves a dump in TestResults).
+  ui-x64:
+    name: ui (win-x64, part ${{ matrix.part }} of 4)
+    if: ${{ inputs.ui }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore Filee.slnx
+
+      - name: Fonts
+        shell: pwsh
+        run: ./build/fetch-fonts.ps1
+
+      - name: Build
+        run: dotnet build Filee.slnx --no-restore -c Release
+
+      - name: Restore Zig toolchain
+        uses: actions/cache/restore@v5
+        with:
+          path: build/.cache/zig-x86_64-windows-0.16.0
+          key: zig-0.16.0-x86_64-windows
+
+      - name: Build Explorer menu extension
+        timeout-minutes: 30
+        shell: pwsh
+        run: ./build/build-explorer-menu.ps1
+
+      - name: Restore CorelDRAW reader
+        uses: actions/cache/restore@v5
+        with:
           path: |
-            tests/Filee.App.Tests/bin/Release/net10.0/screenshots/
-            tests/Filee.Setup.Tests/bin/Release/net10.0/screenshots/
+            build/.cache/cdr-src
+            build/.cache/cdr-x64
+          key: cdr-reader-x64-${{ hashFiles('build/build-cdr-reader.ps1', 'src/Morph.CdrReader/**') }}
+
+      - name: Build CorelDRAW reader
+        continue-on-error: true
+        timeout-minutes: 30
+        shell: pwsh
+        run: ./build/build-cdr-reader.ps1 -Architecture x64
+
+      - name: Fetch rhwp, Pandoc, 7-Zip, ExifTool and WeasyPrint
+        shell: pwsh
+        run: ./build/fetch-engines.ps1 -Only rhwp,pandoc,7zip,exiftool,weasyprint
+
+      - name: Test UI, part ${{ matrix.part }}
+        shell: pwsh
+        run: |
+          $filter = ./build/ui-test-part.ps1 -Part ${{ matrix.part }} -Parts 4
+          dotnet test tests/Filee.App.Tests --no-build -c Release --filter $filter --blame-crash --blame-hang-timeout 5m --logger "console;verbosity=normal" --results-directory TestResults/app
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results-ui-${{ matrix.part }}
+          path: TestResults/
+          if-no-files-found: ignore
+
+      - name: Upload UI screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-screenshots-${{ matrix.part }}
+          path: tests/Filee.App.Tests/bin/Release/net10.0/screenshots/
           if-no-files-found: ignore
 
   # Windows on ARM64 (#236), built and tested natively: the Explorer menu DLL, Setup, 7-Zip, rhwp and Unhwp's library

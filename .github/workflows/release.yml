@@ -38,6 +38,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   portable:
@@ -88,10 +89,31 @@ jobs:
       - name: Build
         run: dotnet build Filee.slnx -c Release
 
+      # Morph change: a commit CI already passed on Windows x64 (the build and every UI part that ran) isn't tested
+      # again, so the release takes minutes instead of over an hour. Any other commit is tested here as before.
+      - name: Already tested by CI?
+        id: tested
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tested = $false
+          $runs = gh api "repos/${{ github.repository }}/actions/workflows/ci.yml/runs?head_sha=${{ github.sha }}&status=completed&per_page=20" | ConvertFrom-Json
+          foreach ($run in $runs.workflow_runs | Where-Object conclusion -eq 'success') {
+            $jobs = (gh api "repos/${{ github.repository }}/actions/runs/$($run.id)/jobs?per_page=100" | ConvertFrom-Json).jobs
+            $build = $jobs | Where-Object { $_.name -eq 'windows / build (win-x64)' -and $_.conclusion -eq 'success' }
+            $badUi = $jobs | Where-Object { $_.name -like 'windows / ui (win-x64*' -and $_.conclusion -notin 'success', 'skipped' }
+            if ($build -and -not $badUi) { $tested = $true; Write-Host "Tested by CI run $($run.html_url)"; break }
+          }
+          if (-not $tested) { Write-Host 'No passing CI run for this commit: testing here.' }
+          "value=$($tested.ToString().ToLower())" >> $env:GITHUB_OUTPUT
+
       - name: Test UI on its own
+        if: steps.tested.outputs.value != 'true'
         run: dotnet test tests/Filee.App.Tests --no-build -c Release --blame-crash --blame-hang-timeout 5m --logger "console;verbosity=normal" --results-directory TestResults/app
 
       - name: Test
+        if: steps.tested.outputs.value != 'true'
         run: dotnet test Filee.slnx --no-build -c Release --filter "FullyQualifiedName!~Filee.App.Tests"
 
       - name: Upload test results
