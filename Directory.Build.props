@@ -35,7 +35,7 @@
          from another authority, ship a release that lists both issuers ("|" between them).
          MorphExpectedSignerKeys: optionally the SHA-256s of the certificate public keys allowed, "|" between them.
          Halodrop change: Halodrop's own update key (made 22 Nov 2026; the release workflow signs with the private half,
-         the repository secret MORPH_UPDATE_KEY). The publisher and issuer stay empty until Halodrop has a code-signing
+         the repository secret HALODROP_UPDATE_KEY). The publisher and issuer stay empty until Halodrop has a code-signing
          certificate; Filee's values were Filee's own. -->
     <MorphUpdatePublicKey>MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsCtJPvAyBgMJCuGXlocABw0FQH6gR8B+pcGCTUVgHwa0zhPKL5cT1ttHyg1PdILIwEbJEZrpevYzweeO9dqLYA==</MorphUpdatePublicKey>
     <MorphExpectedPublisher></MorphExpectedPublisher>
