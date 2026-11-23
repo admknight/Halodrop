@@ -23,7 +23,7 @@ def main(root="src/Filee.App/Assets/i18n"):
                 before = value
                 if path.endswith("/tr.json"):
                     for a, b in TURKISH.items():
-                        value = value.replace(a, b)
+                        value = value.replace(a, b).replace(a.replace("'", "’"), b.replace("'", "’"))
                 value = re.sub(r"Filee(?!\.sh)", "Halodrop", value)
                 value = re.sub(r"(?<![\w/.])filee(?![\w.-]*\.sh)(?=\b)", "halodrop", value)
                 changed += value != before

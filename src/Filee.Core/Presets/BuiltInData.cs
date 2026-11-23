@@ -32,6 +32,9 @@ public static class BuiltInData
             // Morph change: the file actions that work on a folder as on a file.
             || preset.IsTool && preset.Tool is Preset.CopyPathTool or Preset.CopyNameTool or Preset.RevealTool or Preset.TerminalTool or Preset.RunTool or Preset.ShelfTool);
 
+    /// <summary>The preset that makes Valve textures (.vtf).</summary>
+    public const string VtfId = "to-vtf";
+
     /// <summary>Creates the default preset list.</summary>
     public static List<Preset> CreatePresets() =>
     [
@@ -49,6 +52,9 @@ public static class BuiltInData
         new() { Id = "to-gif", Name = "GIF", TargetFormat = "gif" },
         new() { Id = "to-avif", Name = "AVIF", TargetFormat = "avif", Image = { Quality = 60 } },
         new() { Id = "to-heic", Name = "HEIC", TargetFormat = "heic", Image = { Quality = 80 } },
+        // Valve textures for Garry's Mod and other Source games (#1478, added to the library in settings schema 98): in
+        // the palette only, in the Games field (off in a new install).
+        new() { Id = VtfId, Name = "VTF", TargetFormat = "vtf" },
         new()
         {
             Id = "half-size", NameKey = "preset.half_size", TargetFormat = SameAsSource,
@@ -168,6 +174,7 @@ public static class BuiltInData
         .. DataPresets(),
         .. CodecAndSubtitlePresets(),
         .. ModelPresets(),
+        .. SourceModelPresets(),
         .. GeoPresets(),
         .. TracePresets(),
         // Morph change: last, so Filee's presets keep their order.
@@ -685,6 +692,20 @@ public static class BuiltInData
         new() { Id = "to-ply", Name = "PLY", TargetFormat = "ply" },
         new() { Id = "to-gltf", Name = "glTF", TargetFormat = "gltf" },
     ];
+
+    /// <summary>
+    /// Studiomdl data for Source engine models (#1526, added to the library in settings schema 100): in the palette only,
+    /// after glTF, in the Games field (off in a new install). "QC + SMD" decompiles a model into the folder studiomdl
+    /// builds it from (settings schema 101); only a .mdl can take it.
+    /// </summary>
+    public static List<Preset> SourceModelPresets() =>
+    [
+        new() { Id = "to-smd", Name = "SMD", TargetFormat = "smd" },
+        new() { Id = DecompileModelId, Name = "QC + SMD", TargetFormat = FormatRegistry.Folder },
+    ];
+
+    /// <summary>The preset that decompiles a Source engine model (.mdl) into its QC and SMDs.</summary>
+    public const string DecompileModelId = "decompile-mdl";
 
     /// <summary>
     /// Geospatial vector targets (added in settings schema 25, see SettingsMigrations). CSV, the sixth slice of the

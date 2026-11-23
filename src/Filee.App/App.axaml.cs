@@ -253,6 +253,7 @@ public partial class App : Application
             AppHost.Get<TrayService>().Dispose();
             AppHost.Get<EngineIsolation>().Dispose(); // Morph change: ends the engine workers
             AppHost.Get<WatchFolderService>().DisposeAsync().AsTask().Wait(TimeSpan.FromSeconds(5));
+            AppHost.Get<MarkedFrames>().Dispose();
             Filee.App.ViewModels.OllamaModelManagerViewModel.StopFileeStartedServer();
         };
 

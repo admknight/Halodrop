@@ -29,6 +29,7 @@ public sealed class LinuxDesktopIntegrationTests : IDisposable
         Assert.Equal("'/opt/new/Morph.App' --convert %F", document.Root.Elements("action")
             .Single(action => (string?)action.Element("unique-id") == LinuxDesktopIntegration.ThunarActionId).Element("command")!.Value);
         Assert.Contains("exec '/opt/new/Morph.App' --convert \"$@\"", File.ReadAllText(Path.Combine(data, "nautilus", "scripts", "Halodrop")));
+        Assert.Contains("exec '/opt/new/Morph.App' --convert \"$@\"", File.ReadAllText(Path.Combine(configuration, "flea", "scripts", "Halodrop")));
 
         integration.SetContextMenu(false, "", "");
 
@@ -36,6 +37,7 @@ public sealed class LinuxDesktopIntegrationTests : IDisposable
         Assert.Single(document.Root!.Elements("action"));
         Assert.Equal("other", document.Root.Element("action")!.Element("unique-id")!.Value);
         Assert.False(File.Exists(Path.Combine(data, "kio", "servicemenus", "morph.desktop")));
+        Assert.False(File.Exists(Path.Combine(configuration, "flea", "scripts", "Halodrop")));
     }
 
     [Fact]
