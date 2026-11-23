@@ -15,10 +15,24 @@ change, a language may repeat; a language without lines shows the English ones):
 - `recommended`: bug fixes. The card shows once per version.
 - `optional`: new features only. No card, the sidebar button only.
 
-## 0.8.1
+## 0.9.0
 
-- When an engine's own download site fails (for example ExifTool's SourceForge mirror failing the secure connection),
-  Halodrop now takes the same file from its own copy on GitHub. Every file is still checked against its fingerprint.
+<!-- update
+level: recommended
+en: Engines download from Halodrop's own copy when their site fails; Zstandard archives, Source engine models, Clip loops and fixes from Filee
+-->
+
+- **Engine downloads don't get stuck on one site any more.** When an engine's own download site fails (for example
+  ExifTool's SourceForge mirror failing the secure connection), Halodrop takes the same file from its own copy on
+  GitHub. Every file is still checked against its fingerprint.
+- **New from Filee** (its changes up to 22 November):
+  - Zstandard (.zst) archives, and a VTF preset.
+  - Source engine 3D models (MDL): open and decompile them.
+  - Disc images: set the volume label of an ISO you make.
+  - Clip: "Mark this frame", and looping music under a clip.
+  - rustyfiles works as the file manager on Windows; Flea on Linux.
+  - Fixes for PDF/A annotations, angled scanned PDFs, Word paragraph borders, saving in the page editor, and where
+    a shortcut's output goes.
 
 ## 0.8.0
 
