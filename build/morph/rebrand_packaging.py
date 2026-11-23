@@ -8,6 +8,7 @@ import os, re, sys
 
 SHIELD = [
     r"src[/\\]Filee\.[A-Za-z.]+", r"Filee\.(App|Core|Engines|Cli|Setup|Platform(\.[A-Za-z]+)?|ExplorerMenu)(\.csproj|\.Tests)?\b",
+    r"Filee\\\\?\.(App|Core|Engines|Cli|Setup|Platform)",   # also as an escaped regex (Filee\.App\.Tests)
     r"Filee\.slnx", r"FileeExplorerMenu\.(c|rc|def)\b", r"tests[/\\]Filee\.[A-Za-z.]+",
     r"https?://(dl\.)?filee\.sh[^\s\"'<>)]*", r"filee\.sh\b(?!-)", r"KnifeLemon/Filee[A-Za-z-]*", r"github\.com/KnifeLemon[^\s\"'<>)]*",
 ]

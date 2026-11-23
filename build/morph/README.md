@@ -1,35 +1,41 @@
-# Morph's tools for taking in Filee updates
+# Halodrop's tools for taking in Filee updates
 
-Morph is built on [Filee](https://github.com/KnifeLemon/Filee) (MIT). The repository keeps Filee's history, so a
-Filee release merges in like any branch. Internal names stay `Filee.*` so merges stay small; what people see says
-Morph. Every place Morph differs from Filee is marked `Morph change:` in the code.
+Halodrop (called Morph up to 0.7.0) is built on [Filee](https://github.com/KnifeLemon/Filee) (MIT). The repository
+keeps Filee's history, so a Filee release merges in like any branch. Internal names stay `Filee.*` (and some `Morph*`)
+so merges stay small; what people see says Halodrop. Every place Halodrop differs from Filee is marked
+`Morph change:` or `Halodrop change:` in the code.
 
 ## Taking in a Filee release
 
 ```bash
 git remote add upstream https://github.com/KnifeLemon/Filee.git   # once
 git fetch upstream
-git switch -c filee-update origin/main
-git merge upstream/main                                             # resolve conflicts at the "Morph change:" marks
-python3 build/morph/rebrand_i18n.py                                 # new texts in every language
-python3 build/morph/rebrand_code_literals.py src tests              # new "Filee" strings in code
-python3 build/morph/rebrand_code_strings.py src tests               # ... in $"…" and """…""" strings
+git switch -c filee-sync origin/main
+git merge upstream/main                                             # resolve conflicts at the "change:" marks
+python3 build/morph/rebrand_after_merge.py --since origin/main      # Filee -> Halodrop, on merged lines only
+git diff                                                            # check the renames
 dotnet build Filee.slnx && dotnet test Filee.slnx                   # MorphBrandingTests catches what slipped through
 ```
 
-The code scripts keep type and resource names (`Filee.App.…`), Filee's website (`filee.sh`) and comments. Check
-their changes with `git diff` before committing: a new text key or stored id that contains "filee" must keep its
-name (the branding test lists keys that no longer exist).
+`rebrand_after_merge.py` runs the four rename scripts (texts in every language, code strings, interpolated and raw
+strings, installers and build scripts) and then puts back every line they changed that the merge didn't bring in. So
+only what Filee added or changed is renamed; Halodrop's own lines, including internal names kept on purpose
+(`Filee.slnx`, `preset.filee_connect`, test fonts, the Explorer menu package's identity), stay exactly as they are.
+Run on a tree with nothing merged it changes nothing. Don't run the four scripts on their own: they rename the whole
+tree.
 
-### Files Morph leaves out
+The scripts keep type and resource names (`Filee.App.…`), Filee's website (`filee.sh`) and comments. A new text key
+or stored id that contains "filee" must keep its name (the branding test lists keys that no longer exist).
+
+### Files Halodrop leaves out
 
 A merge may bring these back (as a "deleted by us" conflict); keep them deleted:
 
-- `docs/readme/` – Filee's translated READMEs. Morph has one README, in English.
-- `tests/Filee.App.Tests/UpdateServiceMirrorTests.cs` – Filee's download mirror, which Morph never uses
+- `docs/readme/` – Filee's translated READMEs. Halodrop has one README, in English.
+- `tests/Filee.App.Tests/UpdateServiceMirrorTests.cs` – Filee's download mirror, which Halodrop never uses
   (`MorphUpdateMirrorTests` checks that instead).
 
-### Text Morph adds
+### Text Halodrop adds
 
-New keys Morph adds to every language (`guide.*`, `resume.*`, `error.engine_crashed`, `theme.style.Futuristic`…) are in
+New keys Halodrop adds to every language (`guide.*`, `resume.*`, `error.engine_crashed`, `theme.style.Futuristic`…) are in
 all 24 files; when Filee adds a language, copy them from `en.json` and translate them too.
