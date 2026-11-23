@@ -178,7 +178,7 @@ public sealed class EngineInstallerTests : IDisposable
     {
         var libreOffice = EngineDownloads.ComponentsForRuntime("win-x64")["libreoffice"];
 
-        Assert.Equal($"https://dl.filee.sh/engines/{libreOffice.Sha256.ToLowerInvariant()}/{EngineDownloads.FileName(libreOffice)}",
+        Assert.Equal($"https://github.com/admknight/halodrop/releases/download/engines/{libreOffice.Sha256.ToLowerInvariant()}",
             EngineDownloads.MirrorUrl(libreOffice).ToString());
     }
 

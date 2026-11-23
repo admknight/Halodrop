@@ -92,11 +92,15 @@ public static class EngineDownloads
     /// Filee can't change its pinned URL, so when the URL fails the installer takes the file from here. The pinned
     /// SHA-256 is checked either way, so a copy here can't be anything but the pinned file.
     /// </summary>
-    public const string MirrorRoot = "https://dl.filee.sh/engines/";
+    /// <remarks>
+    /// Halodrop change: Halodrop's own copy, the "engines" release of its repository, filled by
+    /// .github/workflows/mirror-engines.yml; each file is an asset named by its SHA-256. It also helps when an engine's
+    /// own site can't be reached from someone's network (a SourceForge mirror failing the TLS handshake, say).
+    /// </remarks>
+    public const string MirrorRoot = "https://github.com/admknight/halodrop/releases/download/engines/";
 
-    /// <summary>Where Filee's copy of <paramref name="component"/> is: <see cref="MirrorRoot"/>/&lt;sha256&gt;/&lt;file name&gt;.</summary>
-    public static Uri MirrorUrl(EngineComponent component) =>
-        new(MirrorRoot + component.Sha256.ToLowerInvariant() + "/" + Uri.EscapeDataString(FileName(component)));
+    /// <summary>Where Halodrop's copy of <paramref name="component"/> is: <see cref="MirrorRoot"/>&lt;sha256&gt;.</summary>
+    public static Uri MirrorUrl(EngineComponent component) => new(MirrorRoot + component.Sha256.ToLowerInvariant());
 
     /// <summary>
     /// The package's downloads as text to copy (#447): per file its name, URL and SHA-256, to fetch them on a computer

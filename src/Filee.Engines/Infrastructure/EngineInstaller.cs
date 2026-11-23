@@ -98,9 +98,9 @@ public sealed class EngineInstaller
         IReadOnlyList<EnginePackage>? packages = null, Func<EngineComponent, Uri?>? mirror = null)
     {
         _http = http;
-        // Morph change: no fallback mirror. dl.filee.sh is Filee's own server; Morph fetches only from each engine's
-        // official URL (every file is still checked against its pinned SHA-256).
-        _mirror = mirror ?? (_ => null);
+        // Halodrop change: the fallback is Halodrop's own mirror (a GitHub release), not Filee's server dl.filee.sh.
+        // Every file is still checked against its pinned SHA-256, wherever it came from.
+        _mirror = mirror ?? EngineDownloads.MirrorUrl;
         _root = root ?? EngineEnvironment.DownloadRoot;
         _components = components ?? EngineDownloads.Components;
         _logger = logger ?? NullLogger.Instance;

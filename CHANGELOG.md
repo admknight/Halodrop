@@ -15,6 +15,11 @@ change, a language may repeat; a language without lines shows the English ones):
 - `recommended`: bug fixes. The card shows once per version.
 - `optional`: new features only. No card, the sidebar button only.
 
+## 0.8.1
+
+- When an engine's own download site fails (for example ExifTool's SourceForge mirror failing the secure connection),
+  Halodrop now takes the same file from its own copy on GitHub. Every file is still checked against its fingerprint.
+
 ## 0.8.0
 
 <!-- update
