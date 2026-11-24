@@ -347,4 +347,5 @@ jobs:
           $notesFile = Join-Path $env:RUNNER_TEMP 'notes.md'
           Set-Content $notesFile "## What's Changed`n`n$changes" -Encoding utf8
           $files = Get-ChildItem Releases -File | ForEach-Object FullName
-          gh release create '${{ inputs.tag || github.ref_name }}' --target '${{ github.sha }}' --title "Halodrop $version" --notes-file $notesFile @files
+          # Halodrop change: always a v tag (v0.10.0), whether the dispatch said v0.10.0 or 0.10.0.
+          gh release create "v$version" --target '${{ github.sha }}' --title "Halodrop $version" --notes-file $notesFile @files

@@ -45,3 +45,11 @@ all 24 files; when Filee adds a language, copy them from `en.json` and translate
 Filee's decks (`Assets/WhatsNew/2.x`) stay in the tree so merges stay small, but the app loads only decks whose
 `slides.json` says `"app": "halodrop"`. A new Filee deck therefore never shows; to show one of its features, add a slide
 to Halodrop's own deck and record it with `WhatsNewMedia` (it renders the clips headlessly).
+
+### Before anything goes to main
+
+1. `build/morph/check-before-push.sh` must end with "ALL CHECKS PASSED" (build, format, tests that still quote a
+   changed text, Core and CLI tests; `--full` adds the app's UI tests). Failures that only happen in a Linux sandbox
+   are listed in `sandbox-known-failures.txt`.
+2. `git push origin HEAD:check/<topic>` runs the full CI on Windows. Only when it passes: `git push origin HEAD:main`,
+   then delete the check branch.

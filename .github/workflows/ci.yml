@@ -4,7 +4,8 @@ name: CI
 # Changes to documentation and repository metadata only skip the build and tests (see the changes job).
 on:
   push:
-    branches: [main]
+    # Halodrop change: check/* branches run the full CI before a commit goes to main (build/morph/check-before-push.sh).
+    branches: [main, 'check/**']
   pull_request:
 
 permissions:
