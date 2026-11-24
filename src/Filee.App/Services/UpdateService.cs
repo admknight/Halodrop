@@ -120,7 +120,7 @@ public sealed partial class UpdateService : ObservableObject
     public static string LatestReleaseUrl => RepositoryUrl.TrimEnd('/') + "/releases/latest";
 
     /// <summary>The website: one big download button, friendlier than the GitHub release page.</summary>
-    public const string WebsiteUrl = "https://filee.sh/";
+    public const string WebsiteUrl = "https://github.com/admknight/halodrop/releases/latest"; // Halodrop change: filee.sh hands out Filee, not Halodrop
 
     private static readonly bool InstalledCopy =
         OperatingSystem.IsWindows() && IsInstalledIn(AppContext.BaseDirectory)
@@ -830,10 +830,10 @@ public sealed partial class UpdateService : ObservableObject
         return await response.Content.ReadAsByteArrayAsync(cancellationToken);
     }
 
-    /// <summary>Opens a download page: the website for installed copies, the release page (portable zip) otherwise.</summary>
+    /// <summary>Opens the download page: Halodrop's latest release (Setup and portable zip).</summary>
     public void OpenDownloadPage()
     {
-        var url = IsInstalled ? WebsiteUrl : LatestReleaseUrl;
+        var url = LatestReleaseUrl; // Halodrop change: filee.sh hands out Filee, so installed copies go to the release too
         try
         {
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });

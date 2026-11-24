@@ -11,7 +11,7 @@ public static class SetupInfo
             .FirstOrDefault(a => a.Key == "RepositoryUrl")?.Value ?? "https://github.com/KnifeLemon/Filee";
 
     /// <summary>The website: one big download button.</summary>
-    public const string WebsiteUrl = "https://filee.sh/";
+    public const string WebsiteUrl = "https://github.com/admknight/halodrop/releases/latest"; // Halodrop change
 
     /// <summary>The version this Setup program was built as (the payload says which Filee it installs).</summary>
     public static string Version =>

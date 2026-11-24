@@ -15,6 +15,19 @@ change, a language may repeat; a language without lines shows the English ones):
 - `recommended`: bug fixes. The card shows once per version.
 - `optional`: new features only. No card, the sidebar button only.
 
+## 0.9.1
+
+<!-- update
+level: recommended
+en: When an update can't install, Halodrop now sends you to its own download page instead of Filee's website
+ur: اپ ڈیٹ انسٹال نہ ہو سکے تو اب Halodrop آپ کو Filee کی ویب سائٹ کے بجائے اپنے ڈاؤن لوڈ صفحے پر بھیجتا ہے
+-->
+
+- **Failed updates point to Halodrop.** If an update couldn't download, couldn't be verified or was rolled back, the
+  message said to download the new version from filee.sh and pressing OK opened it. That site hands out Filee, not
+  Halodrop. The message now says GitHub and OK opens Halodrop's latest release. Setup's "damaged" and "incomplete"
+  messages say GitHub too.
+
 ## 0.9.0
 
 <!-- update
