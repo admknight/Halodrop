@@ -51,6 +51,8 @@
     <AvaloniaResource Include="Assets\**" />
     <!-- Shown on the About page. -->
     <AvaloniaResource Include="..\..\THIRD-PARTY-NOTICES.md" Link="Assets\THIRD-PARTY-NOTICES.md" />
+    <!-- Halodrop change: the changelog, for the "What's new" notes after an update -->
+    <AvaloniaResource Include="..\..\CHANGELOG.md" Link="Assets\CHANGELOG.md" />
   </ItemGroup>
 
   <ItemGroup>

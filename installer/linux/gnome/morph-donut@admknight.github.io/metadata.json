@@ -1,6 +1,6 @@
 {
   "uuid": "morph-donut@admknight.github.io",
-  "name": "Halodrop donut at the cursor",
+  "name": "Halodrop at the cursor",
   "description": "Enables Halodrop drag gestures on GNOME Wayland without input-device permissions, and places its conversion menu at the pointer.",
   "version": 3,
   "shell-version": [

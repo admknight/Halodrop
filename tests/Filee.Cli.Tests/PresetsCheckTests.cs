@@ -74,7 +74,7 @@ public sealed class PresetsCheckTests : IDisposable
         var result = await Run("presets", "check", folder);
 
         Assert.True(result.Code == 0, result.Output + result.Errors);
-        Assert.Contains("OK: 1 preset(s), 0 donut(s)", result.Output, StringComparison.Ordinal);
+        Assert.Contains("OK: 1 preset(s), 0 halo(s)", result.Output, StringComparison.Ordinal);
     }
 
     [Fact]

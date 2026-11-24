@@ -23,7 +23,7 @@
 ## What is Halodrop?
 
 **Halodrop** is a free, open-source file converter you use by dragging. Hold <kbd>Ctrl</kbd> (<kbd>Option</kbd> on a Mac),
-drag files from Explorer, Finder, the desktop or a browser, and a ring of choices, the **donut**, opens at your cursor.
+drag files from Explorer, Finder, the desktop or a browser, and a ring of choices, the **halo**, opens at your cursor.
 Let go on one and the new file appears next to the original, which is never changed. Everything happens on your own
 computer.
 
@@ -45,7 +45,7 @@ was called **Morph** up to version 0.7.0.
 | **File actions** | Copy path or name, show in folder, open a terminal there, **share**, **print**, **keep on shelf** (a floating shelf to drag files out later) |
 | **Picture actions** | Copy the text in a picture (OCR), **colour palette**, set as wallpaper, **search the web** for the picture |
 | **Your own actions** | **Run a program** with the files: pick an installed app (*Open in Photoshop*, *Open in VS Code*) or write a command |
-| **Layouts** | One donut per file type, front and back, up to 16 slices a side (the donut grows to fit); **templates** to switch whole layouts |
+| **Layouts** | One halo per file type, front and back, up to 16 slices a side (the halo grows to fit); **templates** to switch whole layouts |
 | **Safety** | Engines run in separate workers with **memory and time limits**; a crash fails only its own file; unfinished work **resumes** after a power cut |
 | **Updates** | Checked against GitHub, signature-verified, **installed while Halodrop isn't in use** (can be turned off) |
 
@@ -62,17 +62,17 @@ These are **unedited screenshots of version 0.7.0** (still named Morph then), re
 from the same code as the builds. They are **not mockups**. Colours, fonts and window sizes vary with your system
 and the look you pick.
 
-| Home with the guided first run | The donut: formats in front | Flip it: tools on the back |
+| Home with the guided first run | The halo: formats in front | Flip it: tools on the back |
 |:---:|:---:|:---:|
-| <img src="docs/media/morph-home.png" width="270" alt="Home page, step 2 of 4 of the guided first run, with a practice picture and an Open the donut button"> | <img src="docs/media/morph-donut-front.png" width="270" alt="The front of the donut for three JPGs: PNG, JPG, WEBP, GIF, PDF, Merge PDF and Trace"> | <img src="docs/media/morph-donut-back.png" width="270" alt="The back of the donut: Crop, Rotate, Cut out, Merge images, Compress image, Half size, Edit pictures and One ZIP"> |
+| <img src="docs/media/morph-home.png" width="270" alt="Home page, step 2 of 4 of the guided first run, with a practice picture and an Open the halo button"> | <img src="docs/media/morph-donut-front.png" width="270" alt="The front of the halo for three JPGs: PNG, JPG, WEBP, GIF, PDF, Merge PDF and Trace"> | <img src="docs/media/morph-donut-back.png" width="270" alt="The back of the halo: Crop, Rotate, Cut out, Merge images, Compress image, Half size, Edit pictures and One ZIP"> |
 
-| A PDF donut with a group open | Hide: blur names and messages | Futuristic look |
+| A PDF halo with a group open | Hide: blur names and messages | Futuristic look |
 |:---:|:---:|:---:|
-| <img src="docs/media/morph-donut-pdf.png" width="270" alt="The dark donut for a PDF with the Edit group opened into Crop, Left, Right, Pages, Split and Add"> | <img src="docs/media/morph-hide.png" width="270" alt="The Hide window with a name and a message blurred on a chat screenshot, and the toolbar with Find faces and Find text"> | <img src="docs/media/morph-futuristic.png" width="270" alt="The Theme page in the Futuristic look, with a cyan accent and a donut preview"> |
+| <img src="docs/media/morph-donut-pdf.png" width="270" alt="The dark halo for a PDF with the Edit group opened into Crop, Left, Right, Pages, Split and Add"> | <img src="docs/media/morph-hide.png" width="270" alt="The Hide window with a name and a message blurred on a chat screenshot, and the toolbar with Find faces and Find text"> | <img src="docs/media/morph-futuristic.png" width="270" alt="The Theme page in the Futuristic look, with a cyan accent and a halo preview"> |
 
 | Keep on shelf | Colour palette | Urdu, right to left |
 |:---:|:---:|:---:|
-| <img src="docs/media/morph-shelf.png" width="230" alt="The floating shelf holding three pictures with thumbnails and a PDF, with drag-all, donut and close buttons"> | <img src="docs/media/morph-palette.png" width="250" alt="The card the colour palette leaves: six swatches with their hex codes, copied"> | <img src="docs/media/morph-urdu.png" width="270" alt="The Theme page in Urdu, right to left, in a Nastaliq font"> |
+| <img src="docs/media/morph-shelf.png" width="230" alt="The floating shelf holding three pictures with thumbnails and a PDF, with drag-all, halo and close buttons"> | <img src="docs/media/morph-palette.png" width="250" alt="The card the colour palette leaves: six swatches with their hex codes, copied"> | <img src="docs/media/morph-urdu.png" width="270" alt="The Theme page in Urdu, right to left, in a Nastaliq font"> |
 
 <details>
 <summary>More screenshots: the tool windows and the Settings pages</summary>
@@ -89,9 +89,9 @@ and the look you pick.
 |:---:|:---:|:---:|
 | <img src="docs/media/morph-metadata.png" width="270" alt="The metadata editor with location, camera and date fields"> | <img src="docs/media/morph-pdf-pages.png" width="270" alt="The PDF page editor with page thumbnails to reorder, rotate, delete and extract"> | <img src="docs/media/morph-compression.png" width="270" alt="Choosing the compression of a picture, with the estimated size"> |
 
-| Home and recent conversions | Donut toolbar settings | Presets |
+| Home and recent conversions | Halo toolbar settings | Presets |
 |:---:|:---:|:---:|
-| <img src="docs/media/morph-page-home.png" width="270" alt="Home page with recent conversions and their Open buttons"> | <img src="docs/media/morph-page-toolbar.png" width="270" alt="Settings, Donut toolbar: the donuts per file type, their slices and the available presets"> | <img src="docs/media/morph-page-presets.png" width="270" alt="Settings, Presets: a preset's target, size, image and output options"> |
+| <img src="docs/media/morph-page-home.png" width="270" alt="Home page with recent conversions and their Open buttons"> | <img src="docs/media/morph-page-toolbar.png" width="270" alt="Settings, Halo toolbar: the halos per file type, their slices and the available presets"> | <img src="docs/media/morph-page-presets.png" width="270" alt="Settings, Presets: a preset's target, size, image and output options"> |
 
 | Shortcuts | Watch folders | Engines |
 |:---:|:---:|:---:|
@@ -128,16 +128,16 @@ and the look you pick.
 1. Install or unzip Halodrop and start it. On Windows, if SmartScreen appears, click **More info → Run anyway**.
 2. The **Home** page walks you through four short steps with a **practice picture** you convert yourself.
 3. Now try it with your own files: hold <kbd>Ctrl</kbd>, drag a file, and let go on a format.
-4. Press <kbd>Tab</kbd> (or roll the mouse wheel) to flip the donut to its back for tools and file actions.
+4. Press <kbd>Tab</kbd> (or roll the mouse wheel) to flip the halo to its back for tools and file actions.
 5. Make it yours in **Settings → Toolbar**: pick a **template**, drag slices in and out, save your own layout.
 
 No dragging? Select files and press the shortcut, right-click and choose **Convert with Halodrop**, or drop them on Home.
 
 ## Make it yours
 
-- **Templates:** a template is a whole set of donuts and their size. Start with **Halodrop default** (bigger, with the
+- **Templates:** a template is a whole set of halos and their size. Start with **Halodrop default** (bigger, with the
   new tools placed) or **Classic** (Filee's original layout), then save your own. Switching first keeps your current
-  donuts as a template, so no layout is ever lost.
+  halos as a template, so no layout is ever lost.
 - **Presets:** size, quality, pages, output folder and file names; **watch folders** convert whatever lands in them.
 - **Three looks:** Halodrop Soft, Material You and **Futuristic** (neon accent on deep navy), each light or dark.
 - **24 languages**, including right-to-left Arabic, Persian and **Urdu** in a Nastaliq font.
@@ -148,7 +148,7 @@ No dragging? Select files and press the shortcut, right-click and choose **Conve
 Ctrl + drag  /  shortcut  /  "Convert with Halodrop"  /  Home drop zone
                               │
                               ▼
-            Donut (Avalonia UI) ── only choices that fit the files
+            Halo (Avalonia UI) ── only choices that fit the files
                               │
                               ▼
             Job queue + route planner ── cheapest engine path
@@ -185,7 +185,7 @@ reader is compiled there from SHA-256-pinned sources (`build/build-cdr-reader.ps
 ### Repository map
 
 ```text
-src/Filee.App/        The app: donut, windows, pages, services, 24 languages
+src/Filee.App/        The app: halo, windows, pages, services, 24 languages
 src/Filee.Core/       Presets, profiles, templates, job queue, route planner, worker isolation
 src/Filee.Engines/    Converters (images, PDF, office, HWP, CAD, fonts, media, CorelDRAW, face/text finders)
 src/Filee.Platform.*  Windows, Linux and macOS integration (selection, menus, share, clipboard)

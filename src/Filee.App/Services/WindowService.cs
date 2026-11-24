@@ -919,6 +919,45 @@ public sealed class WindowService(ILocalizer loc, IServiceProvider services, Mem
 
     internal WhatsNewWindow? WhatsNew => _whatsNew;
 
+    private ChangelogWindow? _changelog;
+
+    internal ChangelogWindow? ChangelogNotes => _changelog;
+
+    /// <summary>
+    /// Halodrop change: shows the notes of <paramref name="entries"/> (newest first), centred on the main window when it
+    /// is open; <paramref name="tour"/> opens the slides from it. A second call replaces the open window.
+    /// </summary>
+    public void ShowChangelog(IReadOnlyList<ChangelogEntry> entries, Action? tour)
+    {
+        _changelog?.Close();
+        var window = new ChangelogWindow(entries, loc, tour);
+        PrepareWindow(window);
+        window.Closed += (_, _) =>
+        {
+            if (_changelog == window)
+                _changelog = null;
+            trimmer.Request();
+        };
+        _changelog = window;
+        if (_main is { IsVisible: true } main && main.WindowState != WindowState.Minimized)
+        {
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            window.Show(main);
+        }
+        else
+            window.Show();
+        window.Activate();
+    }
+
+    /// <summary>Halodrop change: runs <paramref name="action"/> now, or once the engine setup window (first run) closes.</summary>
+    public void AfterEngineSetup(Action action)
+    {
+        if (_engineSetup is { } open)
+            open.Closed += (_, _) => Avalonia.Threading.Dispatcher.UIThread.Post(action);
+        else
+            action();
+    }
+
     private PresetGalleryWindow? _gallery;
     private GalleryExportWindow? _galleryExport;
 

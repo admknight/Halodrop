@@ -1,0 +1,13 @@
+{
+  "app": "halodrop",
+  "version": "0.10.0",
+  "slides": [
+    { "id": "slices", "media": "slices.webp", "poster": 10, "title": "whats_new.0_10_0.slices.title", "text": "whats_new.0_10_0.slices.text" },
+    { "id": "bloom", "media": "bloom.webp", "title": "whats_new.0_10_0.bloom.title", "text": "whats_new.0_10_0.bloom.text" },
+    { "id": "browser", "media": "browser.webp", "title": "whats_new.0_10_0.browser.title", "text": "whats_new.0_10_0.browser.text" },
+    { "id": "flip", "media": "flip.webp", "title": "whats_new.0_10_0.flip.title", "text": "whats_new.0_10_0.flip.text" },
+    { "id": "crop", "media": "crop.webp", "poster": 53, "title": "whats_new.0_10_0.crop.title", "text": "whats_new.0_10_0.crop.text" },
+    { "id": "annotate", "media": "annotate.webp", "poster": 155, "title": "whats_new.0_10_0.annotate.title", "text": "whats_new.0_10_0.annotate.text" },
+    { "id": "theme", "media": "theme.webp", "poster": 24, "title": "whats_new.0_10_0.theme.title", "text": "whats_new.0_10_0.theme.text" }
+  ]
+}

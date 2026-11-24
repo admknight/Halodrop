@@ -370,11 +370,11 @@ else
 fi
 
 if [ -n "$gnome_extension_note" ] && [ "$upgrade" -eq 0 ] && [ "$is_gnome" = true ]; then
-    printf '%s\n' 'GNOME Wayland: enable "Halodrop donut at the cursor" in Extensions.' \
+    printf '%s\n' 'GNOME Wayland: enable "Halodrop at the cursor" in Extensions.' \
         'Sign out and sign in if the extension is not listed yet. Then hold Ctrl and drag a file in Files.' \
         'No administrator access or input group is required. See GNOME-WAYLAND.md.'
 elif [ "$gnome_extension_note" = added ]; then
-    printf '%s\n' 'GNOME Wayland: added the "Halodrop donut at the cursor" extension. Sign out and sign in, then enable it in Extensions.'
+    printf '%s\n' 'GNOME Wayland: added the "Halodrop at the cursor" extension. Sign out and sign in, then enable it in Extensions.'
 elif [ "$gnome_extension_note" = updated ]; then
-    printf '%s\n' 'GNOME: updated the "Halodrop donut at the cursor" extension. Sign out and sign in so GNOME Shell loads it.'
+    printf '%s\n' 'GNOME: updated the "Halodrop at the cursor" extension. Sign out and sign in so GNOME Shell loads it.'
 fi

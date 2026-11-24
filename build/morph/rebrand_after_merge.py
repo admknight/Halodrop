@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Halodrop: the rename that follows a Filee merge, on what the merge brought in only.
 
-Runs the four rename scripts (rebrand_i18n, rebrand_code_literals, rebrand_code_strings, rebrand_packaging) over the
+Runs the rename scripts (rebrand_i18n, rebrand_code_literals, rebrand_code_strings, rebrand_packaging, and
+rename_donut_to_halo for the texts) over the
 whole tree, then puts back every line they changed that the merge didn't bring in. So text Filee added or changed is
 renamed (Filee -> Halodrop), and everything Halodrop already had stays exactly as it was: internal names kept on
 purpose (Filee.slnx, preset.filee_connect, test fonts, the Explorer menu package's identity...) can't be touched again,
@@ -18,7 +19,8 @@ import argparse, difflib, os, re, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS = [("rebrand_i18n.py", []), ("rebrand_code_literals.py", ["src", "tests"]),
-           ("rebrand_code_strings.py", ["src", "tests"]), ("rebrand_packaging.py", ["installer", "build"])]
+           ("rebrand_code_strings.py", ["src", "tests"]), ("rebrand_packaging.py", ["installer", "build"]),
+           ("rename_donut_to_halo.py", ["src/Filee.App/Assets/i18n"])]  # Filee's "donut" is Halodrop's halo
 
 
 def git(*args):

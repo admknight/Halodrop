@@ -55,7 +55,7 @@ libxt6). A native Wayland session has additional input restrictions; use the
 drop window and file-manager actions, or the experimental setup below.
 
 GNOME Wayland gestures (experimental, GNOME Shell 45–51): the Linux package
-includes the “Halodrop donut at the cursor” Shell extension. install.sh installs
+includes the “Halodrop at the cursor” Shell extension. install.sh installs
 it for the current user on GNOME and requests activation. Open Extensions and
 enable it. If it is missing or still running an older version, sign out and
 sign in again, then start Halodrop and hold Ctrl while dragging a file in Files.
@@ -75,7 +75,7 @@ setup, limits and troubleshooting.
 
 Wayland gesture (experimental, KDE Plasma 6 and Hyprland, off by default): Halodrop reads
 the mouse and keyboard from /dev/input through libinput, and a KWin script or Hyprland
-window rule places the donut at the cursor because Wayland apps cannot place windows.
+window rule places the halo at the cursor because Wayland apps cannot place windows.
 It needs libinput, libudev and libwayland-client (libinput10, libudev1 and
 libwayland-client0 on Ubuntu). To turn it on:
 1. Start Halodrop with MORPH_WAYLAND_GESTURES=1 in its environment, for example

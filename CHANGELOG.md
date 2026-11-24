@@ -15,6 +15,32 @@ change, a language may repeat; a language without lines shows the English ones):
 - `recommended`: bug fixes. The card shows once per version.
 - `optional`: new features only. No card, the sidebar button only.
 
+## 0.10.0
+
+<!-- update
+level: optional
+en: Filee's donut is now the halo, in every language
+en: A "What's new" window after every update, and a feature tour after installing
+ur: Filee کا ڈونٹ اب ہالہ کہلاتا ہے، ہر زبان میں
+ur: ہر اپ ڈیٹ کے بعد "نیا کیا ہے" کی ونڈو، اور انسٹال کے بعد فیچرز کا تعارف
+-->
+
+- **The donut is now the halo.** The ring of choices that opens at your cursor is called the halo everywhere: in the
+  app, in all 24 languages, in the guide and in the README. Settings → Donut toolbar is now Settings → Halo toolbar.
+  Your layouts and settings stay as they were. Languages that already called it a ring or circular menu (German,
+  Polish, Turkish and others) keep their word.
+- **"What's new" after every update.** After Halodrop updates, a window lists what changed in each version since the
+  one you had, newest first, with short notes in your language and the full notes below. A bigger release can show
+  slides instead. About → "What's new in Halodrop" opens it again any time, and "All releases on GitHub" goes to the
+  full history.
+- **A feature tour after installing.** A fresh install opens a short tour of Halodrop's main features: up to 16
+  slices, Bloom, dropping straight from the browser, the back face, crop, annotate and colours. It waits until the
+  engine download window is closed. The changelog window has a "Feature tour" button to watch it again.
+- **Bengali shows Halodrop's name.** Bengali texts still wrote Filee's name in Bengali letters; they now say Halodrop.
+- **The command line says halodrop.** Error messages of `halodrop-cli` start with `halodrop:` instead of `morph:`.
+- The GNOME Shell and KWin extensions are now called "Halodrop at the cursor".
+- Filee's old "What's new" slides (2.0, 2.3, 2.5) no longer show, in the app or in Setup: they showed Filee's name.
+
 ## 0.9.1
 
 <!-- update

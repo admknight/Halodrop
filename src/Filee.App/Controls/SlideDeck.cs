@@ -3,6 +3,7 @@
 // newest deck while it copies files.
 //
 // {
+//   "app": "halodrop",
 //   "version": "2.0.0",
 //   "slides": [
 //     { "id": "formats", "media": "formats.webp", "title": "whats_new.2_0_0.formats.title", "text": "whats_new.2_0_0.formats.text" },
@@ -38,6 +39,12 @@ public sealed record SlideMedia(Uri Source, int PosterFrame = 0);
 /// <summary>The slides introducing <see cref="Version"/>.</summary>
 public sealed record SlideDeck(Version Version, IReadOnlyList<Slide> Slides)
 {
+    /// <summary>
+    /// Halodrop change: whose deck this is ("halodrop"); null for Filee's. Filee's decks stay in the tree, so Filee merges
+    /// stay small, but they show Filee and are numbered by Filee's versions: <see cref="LoadAll"/> leaves them out.
+    /// </summary>
+    public string? App { get; init; }
+
     /// <summary>Where the decks live inside an assembly's resources.</summary>
     public const string Folder = "Assets/WhatsNew";
 
@@ -48,7 +55,8 @@ public sealed record SlideDeck(Version Version, IReadOnlyList<Slide> Slides)
     /// Every deck in the resources of <paramref name="assembly"/> ("Filee", "Filee.Setup"), oldest first. A broken
     /// manifest is skipped: the slides are a nicety and must never stop Filee from starting.
     /// </summary>
-    public static IReadOnlyList<SlideDeck> LoadAll(string assembly)
+    /// <param name="everyApp">Halodrop change: Filee's decks too (tests of the assets merges keep).</param>
+    public static IReadOnlyList<SlideDeck> LoadAll(string assembly, bool everyApp = false)
     {
         var root = new Uri($"avares://{assembly}/{Folder}/");
         IEnumerable<Uri> assets;
@@ -66,7 +74,7 @@ public sealed record SlideDeck(Version Version, IReadOnlyList<Slide> Slides)
             try
             {
                 using var reader = new StreamReader(AssetLoader.Open(manifest));
-                if (Parse(reader.ReadToEnd(), new Uri(manifest, ".")) is { } deck)
+                if (Parse(reader.ReadToEnd(), new Uri(manifest, ".")) is { } deck && (everyApp || deck.App == "halodrop")) // Halodrop change
                     decks.Add(deck);
             }
             catch (Exception ex) when (ex is IOException or JsonException or InvalidOperationException or ArgumentException)
@@ -108,7 +116,7 @@ public sealed record SlideDeck(Version Version, IReadOnlyList<Slide> Slides)
                 });
             }
         }
-        return slides.Count == 0 ? null : new SlideDeck(version, slides);
+        return slides.Count == 0 ? null : new SlideDeck(version, slides) { App = Text(root, "app") };
     }
 
     /// <summary>

@@ -1,0 +1,45 @@
+<!-- Halodrop change: "What's new" as text, after an update without slides and from About: each version's notes, newest
+     first, its summaries in the user's language. A feature tour button when Halodrop has slides, a link to every
+     release, OK. Esc closes. -->
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Filee.App.Views.ChangelogWindow"
+        Title="Halodrop"
+        Icon="avares://Halodrop/Assets/Icons/morph.ico"
+        Width="560"
+        SizeToContent="Height"
+        CanResize="False"
+        WindowDecorations="None"
+        Background="Transparent"
+        TransparencyLevelHint="Transparent"
+        WindowStartupLocation="CenterScreen">
+  <Border Classes="card" Margin="12" Padding="20,14,20,18">
+    <StackPanel>
+      <DockPanel x:Name="Header" Background="Transparent" Margin="0,0,0,10">
+        <Button x:Name="CloseButton" DockPanel.Dock="Right" Classes="icon" Padding="6" VerticalAlignment="Center"
+                Click="OnClose" ToolTip.Tip="{DynamicResource common.close}" AutomationProperties.Name="{DynamicResource common.close}">
+          <PathIcon Width="12" Height="12" Data="{StaticResource Icon.Close}" />
+        </Button>
+        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <Image Source="avares://Halodrop/Assets/Icons/morph.png" Width="20" Height="20" />
+          <TextBlock x:Name="HeaderText" FontWeight="SemiBold" VerticalAlignment="Center" />
+        </StackPanel>
+      </DockPanel>
+
+      <ScrollViewer x:Name="NotesScroller" MaxHeight="440" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel x:Name="Notes" Spacing="4" Margin="0,0,10,0" />
+      </ScrollViewer>
+
+      <DockPanel Margin="0,16,0,0" LastChildFill="False">
+        <Button x:Name="OkButton" DockPanel.Dock="Right" Classes="accent" MinWidth="96" HorizontalContentAlignment="Center"
+                IsDefault="True" Content="{DynamicResource common.ok}" Click="OnClose" />
+        <Button x:Name="TourButton" DockPanel.Dock="Left" MinWidth="96" HorizontalContentAlignment="Center"
+                Content="{DynamicResource changelog.tour}" Click="OnTour" Margin="0,0,8,0" />
+        <Button x:Name="ReleasesButton" DockPanel.Dock="Left" Classes="ghost" Padding="4,0" VerticalAlignment="Center"
+                Click="OnReleases">
+          <TextBlock Text="{DynamicResource changelog.all_releases}" Foreground="{DynamicResource AccentBrush}" />
+        </Button>
+      </DockPanel>
+    </StackPanel>
+  </Border>
+</Window>

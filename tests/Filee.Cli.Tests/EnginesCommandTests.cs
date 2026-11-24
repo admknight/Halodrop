@@ -189,7 +189,7 @@ public sealed class EnginesCommandTests : IDisposable
             (code, output, errors) = await Run("engines", "install", "pandoc");
             Assert.Equal(1, code);
             Assert.Empty(output);
-            Assert.Equal("morph: pandoc is being installed by another Halodrop. Try again when it has finished.", errors.Trim());
+            Assert.Equal("halodrop: pandoc is being installed by another Halodrop. Try again when it has finished.", errors.Trim());
         }
         Assert.Empty(_server.Requests);
         Assert.Equal(0, (await Run("engines", "install", "pandoc")).Code);
@@ -318,7 +318,7 @@ public sealed class EnginesCommandTests : IDisposable
         var (code, output, errors) = await Run(args);
         Assert.Equal(2, code);
         Assert.Empty(output);
-        Assert.StartsWith("morph: ", errors);
+        Assert.StartsWith("halodrop: ", errors);
         Assert.Empty(_server.Requests);
     }
 

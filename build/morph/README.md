@@ -17,8 +17,8 @@ git diff                                                            # check the 
 dotnet build Filee.slnx && dotnet test Filee.slnx                   # MorphBrandingTests catches what slipped through
 ```
 
-`rebrand_after_merge.py` runs the four rename scripts (texts in every language, code strings, interpolated and raw
-strings, installers and build scripts) and then puts back every line they changed that the merge didn't bring in. So
+`rebrand_after_merge.py` runs the rename scripts (texts in every language, code strings, interpolated and raw
+strings, installers and build scripts, and Filee's "donut" to Halodrop's halo in every language) and then puts back every line they changed that the merge didn't bring in. So
 only what Filee added or changed is renamed; Halodrop's own lines, including internal names kept on purpose
 (`Filee.slnx`, `preset.filee_connect`, test fonts, the Explorer menu package's identity), stay exactly as they are.
 Run on a tree with nothing merged it changes nothing. Don't run the four scripts on their own: they rename the whole
@@ -39,3 +39,9 @@ A merge may bring these back (as a "deleted by us" conflict); keep them deleted:
 
 New keys Halodrop adds to every language (`guide.*`, `resume.*`, `error.engine_crashed`, `theme.style.Futuristic`…) are in
 all 24 files; when Filee adds a language, copy them from `en.json` and translate them too.
+
+### Filee's "What's new" slides
+
+Filee's decks (`Assets/WhatsNew/2.x`) stay in the tree so merges stay small, but the app loads only decks whose
+`slides.json` says `"app": "halodrop"`. A new Filee deck therefore never shows; to show one of its features, add a slide
+to Halodrop's own deck and record it with `WhatsNewMedia` (it renders the clips headlessly).

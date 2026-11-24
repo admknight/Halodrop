@@ -37,6 +37,9 @@ public partial class WhatsNewWindow : Window
         Opened += (_, _) => PrimaryButton.Focus();
     }
 
+    /// <summary>The deck shown (tests).</summary>
+    internal SlideDeck? Deck => _deck;
+
     /// <summary>The slideshow (tests).</summary>
     internal SlideShow SlideShow => Slides;
 

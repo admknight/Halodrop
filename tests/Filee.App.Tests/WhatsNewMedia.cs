@@ -28,6 +28,7 @@ using Filee.App.Views.Pages;
 using Filee.Core.History;
 using Filee.Core.Localization;
 using Filee.Core.Presets;
+using Filee.Core.Profiles;
 using Filee.Core.Settings;
 using ImageMagick;
 using ImageMagick.Drawing;
@@ -97,6 +98,137 @@ public class WhatsNewMedia
             theme.Apply(new ThemeSettings(), "en");
             TestServices.EnsureInitialized("en");
         }
+    }
+
+    /// <summary>
+    /// Halodrop change: Halodrop's feature tour (0.10.0), shown after a fresh install and from the changelog: 16 slices,
+    /// Bloom, then Filee's demonstrations recorded again with Halodrop's name.
+    /// </summary>
+    [AvaloniaFact(Explicit = true)]
+    public void Generate_0_10_0()
+    {
+        TestServices.EnsureInitialized("en");
+        var folder = Folder("0.10.0");
+        Directory.CreateDirectory(folder);
+        var theme = AppHost.Get<ThemeService>();
+        Motion.Set(true);
+        var culture = System.Globalization.CultureInfo.CurrentCulture;
+        System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("en-US");
+        try
+        {
+            theme.Apply(new ThemeSettings { ReduceMotion = false, Mode = ThemeMode.Light }, "en");
+            Write(folder, "slices.webp", SixteenSlices);
+            Write(folder, "bloom.webp", Bloom);
+            Write(folder, "browser.webp", BrowserDrop);
+            Write(folder, "flip.webp", DonutFlip);
+            Write(folder, "crop.webp", Crop);
+            Write(folder, "annotate.webp", Annotate);
+            Write(folder, "theme.webp", () => Theme("0.10.0"));
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentCulture = culture;
+            theme.Apply(new ThemeSettings(), "en");
+            TestServices.EnsureInitialized("en");
+        }
+    }
+
+    /// <summary>Halodrop change: the pictures' halo with 12 slices, then with 16 and a little bigger, slices lit in turn.</summary>
+    private static Clip SixteenSlices()
+    {
+        var clip = new Clip();
+        var store = AppHost.Get<UserDataStore>();
+        string[] files = [@"C:\photos\a.jpg"];
+        var profile = ProfileSelector.Select(store.Profiles, files)!;
+        var (front, back) = (profile.PresetIds, profile.BackPresetIds);
+        var ids = front.Concat(back ?? []).Concat(store.Presets.Select(p => p.Id)).Distinct().ToList();
+        try
+        {
+            foreach (var count in new[] { 12, 16 })
+            {
+                (profile.PresetIds, profile.BackPresetIds) = (ids.Take(count).ToList(), []);
+                var (window, vm) = OpenDonut(files, clickMode: true);
+                vm.Items = vm.Items.Select(Enabled).ToList();
+                try
+                {
+                    var donut = window.DonutControl;
+                    if (clip.Count == 0)
+                    {
+                        // Frame 0: the 12-slice halo, for reduced motion.
+                        donut.FinishAnimations();
+                        Settle(donut);
+                        clip.Add(Capture(window), 1400);
+                        continue;
+                    }
+                    donut.PlayOpenAnimation();
+                    Run(clip, window, 0.5);
+                    clip.MarkPoster();
+                    clip.Hold(600);
+                    for (var i = 0; i < count; i++)
+                    {
+                        Highlight(window, vm, i);
+                        clip.Add(Capture(window), 110);
+                    }
+                    donut.SetExternalHighlight(-1);
+                    Settle(donut);
+                    clip.Add(Capture(window), 1600);
+                }
+                finally
+                {
+                    window.Close();
+                }
+            }
+        }
+        finally
+        {
+            (profile.PresetIds, profile.BackPresetIds) = (front, back);
+        }
+        return clip;
+    }
+
+    /// <summary>Halodrop change: the halo blooming open (Settings → Theme → Bloom), at half speed so the turn shows.</summary>
+    private static Clip Bloom()
+    {
+        var clip = new Clip();
+        string[][] sets = [[@"C:\photos\a.jpg"], [@"C:\work\report.pdf"], [@"C:\photos\a.jpg", @"C:\photos\b.jpg"]];
+        Motion.Bloom = true;
+        try
+        {
+            foreach (var files in sets)
+            {
+                var (window, vm) = OpenDonut(files, clickMode: true);
+                vm.Items = vm.Items.Select(Enabled).ToList();
+                try
+                {
+                    var donut = window.DonutControl;
+                    if (clip.Count == 0)
+                    {
+                        donut.FinishAnimations();
+                        Settle(donut);
+                        clip.Add(Capture(window), 900);
+                    }
+                    donut.PlayOpenAnimation();
+                    for (var t = 0.0; t < 0.45; t += Frame / 2)
+                    {
+                        KeepFramesComing(donut);
+                        donut.Advance(Frame / 2);
+                        Dispatcher.UIThread.RunJobs();
+                        clip.Add(Capture(window), (int)(Frame * 1000));
+                    }
+                    Settle(donut);
+                    clip.Add(Capture(window), 1200);
+                }
+                finally
+                {
+                    window.Close();
+                }
+            }
+        }
+        finally
+        {
+            Motion.Bloom = false;
+        }
+        return clip;
     }
 
     [AvaloniaFact(Explicit = true)]
@@ -309,7 +441,12 @@ public class WhatsNewMedia
         // Crop on the donut's front (it ships on the back face, where Tab turns the donut): one drop in a short clip.
         var images = AppHost.Get<UserDataStore>().Profiles.Single(p => p.Id == "images");
         var (front, back) = (images.PresetIds.ToList(), images.BackPresetIds?.ToList());
-        images.PresetIds[images.PresetIds.IndexOf("half-size")] = "tool-crop";
+        // Halodrop change: Halodrop's layout may not have Half size, or may have Crop in front already.
+        if (!images.PresetIds.Contains("tool-crop"))
+        {
+            var at = images.PresetIds.IndexOf("half-size");
+            images.PresetIds[at >= 0 ? at : Math.Min(1, images.PresetIds.Count - 1)] = "tool-crop";
+        }
         images.BackPresetIds?.Remove("tool-crop");
         CropOverlayWindow? window = null;
         try

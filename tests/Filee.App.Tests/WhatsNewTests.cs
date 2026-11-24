@@ -28,19 +28,23 @@ public class WhatsNewTests
 {
     private static readonly Version V2 = new(2, 0, 0);
 
+    /// <summary>Halodrop change: the version of Halodrop's feature tour, its only deck that LoadAll returns.</summary>
+    private static readonly Version Tour = new(0, 10, 0);
+
     private static SlideDeck Deck(string version) =>
         new(SlideDeck.TryParseVersion(version)!, [new Slide("a", new Uri("avares://Halodrop/a.webp"), "t", "x")]);
 
     // ───────────────────────── Manifests ─────────────────────────
 
     [AvaloniaTheory]
+    [InlineData("0.10.0")]
     [InlineData("2.0.0")]
     [InlineData("2.3.0")]
     [InlineData("2.5.0")]
     public void A_deck_ships_with_its_media_and_texts(string version)
     {
         TestServices.EnsureInitialized("en");
-        var decks = SlideDeck.LoadAll("Halodrop");
+        var decks = SlideDeck.LoadAll("Halodrop", everyApp: true);
         var deck = Assert.Single(decks, d => d.Version == new Version(version));
         Assert.InRange(deck.Slides.Count, 5, 7);
         Assert.Equal(deck.Slides.Count, deck.Slides.Select(s => s.Id).Distinct().Count());
@@ -101,7 +105,7 @@ public class WhatsNewTests
     public void Portuguese_recordings_preserve_the_desktop_context_and_localize_the_other_slides(string language)
     {
         TestServices.EnsureInitialized(language);
-        var deck = Assert.Single(SlideDeck.LoadAll("Halodrop"), d => d.Version == V2);
+        var deck = Assert.Single(SlideDeck.LoadAll("Halodrop", everyApp: true), d => d.Version == V2);
         foreach (var slide in deck.Slides)
         {
             var media = slide.MediaFor(language);
@@ -186,12 +190,47 @@ public class WhatsNewTests
 
     private static readonly SlideDeck[] Decks = [Deck("2.0.0"), Deck("2.1.0"), Deck("2.2.0")];
 
-    [Fact]
-    public void A_fresh_install_shows_nothing_and_counts_its_version_as_seen()
+    [AvaloniaFact]
+    public void Only_halodrops_own_decks_are_loaded()
     {
+        TestServices.EnsureInitialized("en");
+        var deck = Assert.Single(SlideDeck.LoadAll("Halodrop"));
+        Assert.Equal(Tour, deck.Version);
+        Assert.Equal("halodrop", deck.App);
+        Assert.Contains(SlideDeck.LoadAll("Halodrop", everyApp: true), d => d.App is null);
+    }
+
+    [Fact]
+    public void A_fresh_install_shows_the_tour()
+    {
+        // Halodrop change: Filee showed nothing after a fresh install; Halodrop shows its feature tour.
         var decision = WhatsNewService.Decide(null, firstRunCompleted: false, V2, Decks);
+        Assert.Equal(V2, decision.Show?.Version);
+        Assert.True(decision.Welcome);
+        Assert.Null(decision.Remember);
+        // Older than every deck: nothing, and the version counts as seen.
+        var older = WhatsNewService.Decide(null, firstRunCompleted: false, new Version(1, 0, 0), Decks);
+        Assert.Null(older.Show);
+        Assert.Equal(new Version(1, 0, 0), older.Remember);
+    }
+
+    private static readonly ChangelogEntry[] Notes =
+    [
+        new(new Version(2, 2, 3), ReleaseNotes.Parse("2.2.3", null), []),
+        new(new Version(2, 2, 2), ReleaseNotes.Parse("2.2.2", null), []),
+        new(new Version(2, 2, 1), ReleaseNotes.Parse("2.2.1", null), []),
+    ];
+
+    [Fact]
+    public void An_update_without_slides_shows_the_notes_of_every_version_in_between()
+    {
+        var decision = WhatsNewService.Decide("2.2.0", true, new Version(2, 2, 2), Decks, changelog: Notes);
         Assert.Null(decision.Show);
-        Assert.Equal(V2, decision.Remember);
+        Assert.Null(decision.Remember);
+        Assert.Equal([new Version(2, 2, 2), new Version(2, 2, 1)], decision.Notes!.Select(n => n.Version));
+        // Nothing seen before: this version's notes only.
+        var unknown = WhatsNewService.Decide(null, true, new Version(2, 2, 3), [], changelog: Notes);
+        Assert.Equal([new Version(2, 2, 3)], unknown.Notes!.Select(n => n.Version));
     }
 
     [Fact]
@@ -243,13 +282,13 @@ public class WhatsNewTests
         var (seen, firstRun, version) = (store.Settings.WhatsNewSeenVersion, store.Settings.FirstRunCompleted, service.CurrentVersion);
         try
         {
-            service.CurrentVersion = V2;
+            service.CurrentVersion = Tour;
             store.Settings.FirstRunCompleted = true;
             store.Settings.WhatsNewSeenVersion = null;
 
             service.CheckAtStartup(background: true);
             Pump();
-            Assert.Equal(V2, service.Pending?.Version);
+            Assert.Equal(Tour, service.Pending?.Version);
             Assert.Null(windows.WhatsNew);
             Assert.Null(store.Settings.WhatsNewSeenVersion); // not seen yet: a quit now shows them next time
 
@@ -258,7 +297,7 @@ public class WhatsNewTests
             var window = Assert.IsType<WhatsNewWindow>(windows.WhatsNew);
             Assert.True(window.IsVisible);
             Assert.Null(service.Pending);
-            Assert.Equal("2.0.0", store.Settings.WhatsNewSeenVersion);
+            Assert.Equal("0.10.0", store.Settings.WhatsNewSeenVersion);
             window.Close();
 
             // Shown once: the next start has nothing to show.
@@ -276,24 +315,29 @@ public class WhatsNewTests
     }
 
     [AvaloniaFact]
-    public void A_fresh_install_is_marked_seen_without_a_window()
+    public void A_fresh_install_shows_the_tour_once_halodrop_is_open()
     {
         TestServices.EnsureInitialized("en");
         var (service, store, windows) = (AppHost.Get<WhatsNewService>(), AppHost.Get<UserDataStore>(), AppHost.Get<WindowService>());
         var (seen, firstRun, version) = (store.Settings.WhatsNewSeenVersion, store.Settings.FirstRunCompleted, service.CurrentVersion);
         try
         {
-            service.CurrentVersion = V2;
+            service.CurrentVersion = Tour;
             store.Settings.FirstRunCompleted = false;
             store.Settings.WhatsNewSeenVersion = null;
-            service.CheckAtStartup(background: false);
+            service.CheckAtStartup(background: true);
             Pump();
             Assert.Null(windows.WhatsNew);
-            Assert.Null(service.Pending);
-            Assert.Equal("2.0.0", store.Settings.WhatsNewSeenVersion);
+            Assert.Equal(Tour, service.Pending?.Version);
+            windows.ShowMain();
+            Pump();
+            Assert.IsType<WhatsNewWindow>(windows.WhatsNew);
+            Assert.Equal("0.10.0", store.Settings.WhatsNewSeenVersion);
         }
         finally
         {
+            windows.WhatsNew?.Close();
+            windows.Main?.Close();
             (store.Settings.WhatsNewSeenVersion, store.Settings.FirstRunCompleted, service.CurrentVersion) = (seen, firstRun, version);
         }
     }
@@ -326,7 +370,7 @@ public class WhatsNewTests
     {
         TestServices.EnsureInitialized(language);
         beforeOpening?.Invoke();
-        var deck = SlideDeck.LoadAll("Halodrop").Single(d => d.Version == (version ?? V2));
+        var deck = SlideDeck.LoadAll("Halodrop", everyApp: true).Single(d => d.Version == (version ?? V2));
         var window = new WhatsNewWindow(deck, AppHost.Get<ILocalizer>());
         window.Show();
         window.Activate();
@@ -526,41 +570,142 @@ public class WhatsNewTests
     }
 
     [AvaloniaFact]
-    public void About_offers_the_slides_again()
+    public void About_offers_the_changelog_and_the_tour_from_it()
     {
+        // Halodrop change: About → "What's new" opens the changelog up to this version, with the feature tour from there.
         TestServices.EnsureInitialized("en");
         var service = AppHost.Get<WhatsNewService>();
         var store = AppHost.Get<UserDataStore>();
-        var (version, seen) = (service.CurrentVersion, store.Settings.WhatsNewSeenVersion);
+        var windows = AppHost.Get<WindowService>();
+        var (version, seen, notes) = (service.CurrentVersion, store.Settings.WhatsNewSeenVersion, service.ChangelogEntries);
         try
         {
-            service.CurrentVersion = new Version(2, 0, 3);
-            var vm = new MainWindowViewModel(AppHost.Services, AppHost.Get<ILocalizer>(), AppHost.Get<UpdateService>(), AppHost.Get<UserDataStore>());
+            service.CurrentVersion = Tour;
+            service.ChangelogEntries = Changelog.Parse("""
+                ## 0.11.0
+
+                - Not out yet.
+
+                ## 0.10.0
+
+                <!-- update
+                level: optional
+                en: The halo, a feature tour
+                -->
+
+                - **The halo.** Filee's donut is now the halo.
+                - A tour of the features.
+
+                ## 0.9.1
+
+                Failed updates point to Halodrop.
+                """);
+            var vm = new MainWindowViewModel(AppHost.Services, AppHost.Get<ILocalizer>(), AppHost.Get<UpdateService>(), store);
             vm.Navigate("about");
             var window = new MainWindow { DataContext = vm, Width = 1080, Height = 820 };
             window.Show();
             Pump();
             var about = (AboutPageViewModel)vm.CurrentPage!;
-            Assert.Equal(AppHost.Get<ILocalizer>().Format("whats_new.about_link", "2.0"), about.WhatsNewText);
+            Assert.Equal(AppHost.Get<ILocalizer>().Format("whats_new.about_link", "0.10.0"), about.WhatsNewText);
             var link = Named(window, "WhatsNewLink");
             Assert.True(link.IsEffectivelyVisible);
             Save(window, "page-about-whats-new-en.png");
 
             link.Command!.Execute(null);
             Pump();
-            Assert.IsType<WhatsNewWindow>(AppHost.Get<WindowService>().WhatsNew);
-            Assert.Equal("2.0.3", store.Settings.WhatsNewSeenVersion);
-            AppHost.Get<WindowService>().WhatsNew!.Close();
-            window.Close();
+            var changelog = Assert.IsType<ChangelogWindow>(windows.ChangelogNotes);
+            Assert.Equal([new Version(0, 10, 0), new Version(0, 9, 1)], changelog.Entries.Select(e => e.Version));
+            Assert.Equal("0.10.0", store.Settings.WhatsNewSeenVersion);
+            Save(changelog, "whats-new-changelog-en.png");
 
-            // A version older than every deck has nothing to offer.
-            service.CurrentVersion = new Version(1, 12, 0);
-            using var older = new AboutPageViewModel(AppHost.Get<ILocalizer>(), store, AppHost.Get<UpdateService>(), service);
-            Assert.False(older.HasWhatsNew);
+            Click(Named(changelog, "TourButton"));
+            Pump();
+            Assert.Null(windows.ChangelogNotes);
+            Assert.Equal(Tour, Assert.IsType<WhatsNewWindow>(windows.WhatsNew).Deck.Version);
+            windows.WhatsNew!.Close();
+            window.Close();
         }
         finally
         {
-            (service.CurrentVersion, store.Settings.WhatsNewSeenVersion) = (version, seen);
+            windows.ChangelogNotes?.Close();
+            windows.WhatsNew?.Close();
+            (service.CurrentVersion, store.Settings.WhatsNewSeenVersion, service.ChangelogEntries) = (version, seen, notes);
+        }
+    }
+
+    [Fact]
+    public void The_built_in_changelog_reads_every_version()
+    {
+        var text = File.ReadAllText(Path.Combine(WhatsNewMedia.RepositoryRoot, "CHANGELOG.md"));
+        var entries = Changelog.Parse(text);
+        Assert.Contains(entries, e => e.Version == new Version(0, 8, 0));
+        // Filee's history below Halodrop's ("## Filee …") is not Halodrop's to show.
+        Assert.All(entries, e => Assert.True(e.Version < new Version(1, 0, 0), $"{e.Version} is Filee's"));
+        Assert.Equal(entries.OrderByDescending(e => e.Version).Select(e => e.Version), entries.Select(e => e.Version));
+        Assert.All(entries, e => Assert.NotEmpty(e.Blocks));
+        // The hidden block is read for its summaries and never shown as text.
+        Assert.All(entries.SelectMany(e => e.Blocks), b => Assert.DoesNotContain("<!--", b.Text, StringComparison.Ordinal));
+        var latest = entries[0];
+        Assert.NotEmpty(latest.Note.In("en"));
+    }
+
+    [Fact]
+    public void Changelog_blocks_join_lines_and_keep_bold()
+    {
+        var entry = Assert.Single(Changelog.Parse("""
+            # Changelog
+
+            Intro text.
+
+            ## 1.2.0
+
+            <!-- update
+            level: recommended
+            en: Fixed things
+            ur: چیزیں ٹھیک ہوئیں
+            -->
+
+            - **Bold start.** Goes on
+              on the next line, with a [link](https://example.com) and `code`.
+            - Second.
+
+            A paragraph
+            in two lines.
+            """));
+        Assert.Equal(new Version(1, 2, 0), entry.Version);
+        Assert.Equal(UpdateLevel.Recommended, entry.Note.Level);
+        Assert.Equal(["چیزیں ٹھیک ہوئیں"], entry.Note.In("ur"));
+        Assert.Equal(
+            [
+                new ChangelogBlock(ChangelogBlockKind.Bullet, "**Bold start.** Goes on on the next line, with a link and code."),
+                new ChangelogBlock(ChangelogBlockKind.Bullet, "Second."),
+                new ChangelogBlock(ChangelogBlockKind.Paragraph, "A paragraph in two lines."),
+            ],
+            entry.Blocks);
+        Assert.Equal([("Bold start.", true), (" Goes on", false)], Changelog.Runs("**Bold start.** Goes on"));
+    }
+
+    [AvaloniaTheory]
+    [InlineData("en")]
+    [InlineData("ur")]
+    [InlineData("ar")]
+    public void Changelog_window_renders(string language)
+    {
+        TestServices.EnsureInitialized(language);
+        var entries = Changelog.Parse(File.ReadAllText(Path.Combine(WhatsNewMedia.RepositoryRoot, "CHANGELOG.md"))).Take(2).ToList();
+        var window = new ChangelogWindow(entries, AppHost.Get<ILocalizer>(), tour: () => { });
+        window.Show();
+        Pump();
+        try
+        {
+            Assert.True(window.NotesPanel.Children.Count > entries.Count);
+            Assert.True(Named(window, "TourButton").IsVisible);
+            Save(window, $"whats-new-changelog-window-{language}.png");
+        }
+        finally
+        {
+            window.Close();
+            TestServices.EnsureInitialized("en");
         }
     }
 
@@ -613,6 +758,10 @@ public class WhatsNewTests
     /// poster frame (what the installer shows too). A screenshot of each slide.
     /// </summary>
     [AvaloniaTheory]
+    [InlineData("0.10.0", "en", false)]
+    [InlineData("0.10.0", "en", true)]
+    [InlineData("0.10.0", "ur", false)]
+    [InlineData("0.10.0", "ar", true)]
     [InlineData("2.3.0", "en", false)]
     [InlineData("2.3.0", "en", true)]
     [InlineData("2.3.0", "ko", false)]
@@ -643,7 +792,7 @@ public class WhatsNewTests
         try
         {
             var slides = window.SlideShow;
-            Assert.Equal(6, slides.Slides.Count);
+            Assert.Equal(version == "0.10.0" ? 7 : 6, slides.Slides.Count); // Halodrop change: its tour has 7
             var heights = new HashSet<double>();
             for (var i = 0; i < slides.Slides.Count; i++)
             {

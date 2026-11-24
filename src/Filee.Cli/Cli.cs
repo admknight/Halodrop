@@ -29,7 +29,7 @@ internal static class Cli
         var options = CliOptions.Parse(args);
         if (options.Error is not null)
         {
-            errors.WriteLine($"morph: {options.Error}");
+            errors.WriteLine($"halodrop: {options.Error}");
             errors.WriteLine("Run 'halodrop help' for usage.");
             return UsageError;
         }
@@ -68,12 +68,12 @@ internal static class Cli
         var files = ExpandInputs(options.Inputs, options.Recursive, missing,
             foldersAsInputs: BuiltInData.AcceptsFolders(preset) || preset.PacksIntoOneArchive);
         foreach (var path in missing)
-            errors.WriteLine($"morph: not found: {path}");
+            errors.WriteLine($"halodrop: not found: {path}");
         if (missing.Count > 0)
             return UsageError;
         if (files.Count == 0)
         {
-            errors.WriteLine("morph: no files to convert.");
+            errors.WriteLine("halodrop: no files to convert.");
             return NothingToDo;
         }
         // Without it files stay as given, and a folder or wildcard as the file system lists it.
@@ -118,7 +118,7 @@ internal static class Cli
             settleTime: settle);
         if (!watcher.Start())
         {
-            errors.WriteLine($"morph: {watcher.Error}");
+            errors.WriteLine($"halodrop: {watcher.Error}");
             return UsageError;
         }
         if (events is not null)
@@ -281,12 +281,12 @@ internal static class Cli
         {
             if (FindFormat(options.To) is not { } format)
             {
-                errors.WriteLine($"morph: unknown format '{options.To}'. Run 'halodrop formats' for the list.");
+                errors.WriteLine($"halodrop: unknown format '{options.To}'. Run 'halodrop formats' for the list.");
                 return null;
             }
             if (!format.Writable)
             {
-                errors.WriteLine($"morph: Halodrop reads {format.DisplayName} but can't write it.");
+                errors.WriteLine($"halodrop: Halodrop reads {format.DisplayName} but can't write it.");
                 return null;
             }
             preset = new Preset { TargetFormat = format.Id };
@@ -302,7 +302,7 @@ internal static class Cli
             var found = Find(host.Store.Presets.Where(p => !p.IsGroup && !p.IsTool)) ?? Find(host.Store.Presets);
             if (found is null)
             {
-                errors.WriteLine($"morph: no preset '{wanted}'. Run 'halodrop presets' for the list.");
+                errors.WriteLine($"halodrop: no preset '{wanted}'. Run 'halodrop presets' for the list.");
                 return null;
             }
             if (found.IsGroup)
@@ -310,13 +310,13 @@ internal static class Cli
                 // A donut group converts nothing; name what it holds so the right one is easy to pick.
                 var members = found.SubPresetIds.Select(host.Store.FindConversion).OfType<Preset>().Select(p => p.Id).ToList();
                 errors.WriteLine(members.Count > 0
-                    ? $"morph: '{wanted}' is a group on the donut, not a conversion. Use one of: {string.Join(", ", members)}"
-                    : $"morph: '{wanted}' is a group on the donut, not a conversion, and has no presets left. Run 'halodrop presets' for the list.");
+                    ? $"halodrop: '{wanted}' is a group on the halo, not a conversion. Use one of: {string.Join(", ", members)}"
+                    : $"halodrop: '{wanted}' is a group on the halo, not a conversion, and has no presets left. Run 'halodrop presets' for the list.");
                 return null;
             }
             if (found.IsTool)
             {
-                errors.WriteLine($"morph: '{wanted}' is an interactive tool, not a conversion.");
+                errors.WriteLine($"halodrop: '{wanted}' is an interactive tool, not a conversion.");
                 return null;
             }
             preset = found.Clone();
@@ -326,7 +326,7 @@ internal static class Cli
         {
             if (preset.TargetFormat != "iso")
             {
-                errors.WriteLine("morph: --iso-filesystem requires an ISO target.");
+                errors.WriteLine("halodrop: --iso-filesystem requires an ISO target.");
                 return null;
             }
             preset.Archive.IsoFileSystem = filesystem;
@@ -360,13 +360,13 @@ internal static class Cli
         var category = FormatRegistry.FindById(preset.TargetFormat)?.Category;
         if (options.SplitEvery is { } pagesEvery && category == FormatCategory.Video)
         {
-            errors.WriteLine($"morph: --split-every {options.SplitEveryText} is a number of pages, but this makes videos. "
+            errors.WriteLine($"halodrop: --split-every {options.SplitEveryText} is a number of pages, but this makes videos. "
                 + $"Give a length, e.g. {pagesEvery}s or {pagesEvery}m.");
             return null;
         }
         if (options.SplitEverySeconds is not null && preset.TargetFormat == "pdf")
         {
-            errors.WriteLine($"morph: --split-every {options.SplitEveryText} is a length of video, but this makes PDFs. "
+            errors.WriteLine($"halodrop: --split-every {options.SplitEveryText} is a length of video, but this makes PDFs. "
                 + "Give a number of pages, e.g. --split-every 10.");
             return null;
         }
@@ -442,7 +442,7 @@ internal static class Cli
         {
             if (FindFormat(name) is not { } from)
             {
-                errors.WriteLine($"morph: unknown format '{name}'.");
+                errors.WriteLine($"halodrop: unknown format '{name}'.");
                 return UsageError;
             }
             var installed = host.Catalog.CreatePlanner();

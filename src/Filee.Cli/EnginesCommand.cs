@@ -20,7 +20,7 @@ internal static class EnginesCommand
         var id = options.Inputs[1];
         if (EngineDownloads.Packages.FirstOrDefault(p => string.Equals(p.Id, id, StringComparison.OrdinalIgnoreCase)) is not { } package)
         {
-            errors.WriteLine($"morph: unknown engine '{id}'. Run 'halodrop engines' for the list.");
+            errors.WriteLine($"halodrop: unknown engine '{id}'. Run 'halodrop engines' for the list.");
             return Cli.UsageError;
         }
         var result = options.Inputs[0].ToLowerInvariant() switch
@@ -64,7 +64,7 @@ internal static class EnginesCommand
             });
         }
         else if (failed)
-            errors.WriteLine($"morph: {result.Message}");
+            errors.WriteLine($"halodrop: {result.Message}");
         else if (!options.Quiet)
             output.WriteLine(result.Message);
     }

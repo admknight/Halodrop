@@ -24,8 +24,9 @@ public sealed partial class AboutPageViewModel : ObservableObject, IDisposable
         _whatsNew = whatsNew;
         Version = loc.Format("about.version", UpdateService.CurrentVersion);
         VersionBadge = "v" + UpdateService.CurrentVersion;
-        if (whatsNew?.Latest is { } deck)
-            WhatsNewText = loc.Format("whats_new.about_link", deck.DisplayVersion);
+        // Halodrop change: always there, for the changelog (with the feature tour a click away).
+        if (whatsNew is not null)
+            WhatsNewText = loc.Format("whats_new.about_link", whatsNew.CurrentVersion.ToString(3));
         _checkForUpdates = store.Settings.CheckForUpdates;
         _installWhenIdle = store.Settings.InstallUpdatesWhenIdle; // Morph change
         ShowUpdateState(updates.LatestVersion);
@@ -52,13 +53,13 @@ public sealed partial class AboutPageViewModel : ObservableObject, IDisposable
 
     public string DeveloperLinkText => MorphDeveloper.Url.Replace("https://", "", StringComparison.Ordinal);
 
-    /// <summary>"What's new in Filee 2.0": the slides of the newest version up to this one; null when there are none.</summary>
+    /// <summary>"What's new in Halodrop 0.10.0": the changelog up to this version; null without the service.</summary>
     public string? WhatsNewText { get; }
 
     public bool HasWhatsNew => WhatsNewText is not null;
 
     [RelayCommand]
-    private void ShowWhatsNew() => _whatsNew?.Show();
+    private void ShowWhatsNew() => _whatsNew?.ShowNotes(); // Halodrop change: the changelog, with the tour from there
 
     /// <summary>The page is rebuilt on every visit; the update service lives on.</summary>
     public void Dispose() => _updates.PropertyChanged -= OnUpdatesChanged;
