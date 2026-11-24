@@ -988,7 +988,7 @@ public class DonutEditorTests
             Assert.Equal(images.PresetIds.Count, donut.Items.Count); // in place of the top slice, not added
             Assert.Equal(0, donut.OpenedGroup);
             Assert.Equal("Example group", donut.CenterTitle);
-            Assert.Equal("This donut has no groups", donut.CenterSubtitle);
+            Assert.Equal("This halo has no groups", donut.CenterSubtitle);
             // Restyling keeps it.
             page.FindControl<Slider>("RingSpreadSlider")!.Value = 250;
             RenderTests.Pump();
@@ -1003,7 +1003,7 @@ public class DonutEditorTests
                 RenderTests.Pump();
                 Assert.Equal(face, model.IsBackFace);
                 Assert.Equal(RadialViewModel.ExampleGroupId, donut.Items![0].Id);
-                Assert.Equal(("Example group", "This donut has no groups"), (donut.CenterTitle, donut.CenterSubtitle));
+                Assert.Equal(("Example group", "This halo has no groups"), (donut.CenterTitle, donut.CenterSubtitle));
             }
 
             vm.DoneAdjustingLookCommand.Execute(null);

@@ -120,15 +120,7 @@ public class SetupWindowTests
         Assert.Equal(model.Deck!.Slides.Count, slides.Slides.Count);
         Assert.Equal(model.Deck.Slides[0].MediaFor(language).Source, slides.Media.Source);
         Assert.True(slides.Media.HasPicture);
-        if (language is "pt-PT" or "pt-BR")
-        {
-            // Browser and flip keep the complete shared desktop interaction; crop uses its own Portuguese media.
-            Assert.Equal(model.Deck.Slides[0].Media, slides.Media.Source);
-            slides.GoTo(3);
-            Pump();
-            Assert.Contains($"/{language}/crop.webp", slides.Media.Source!.AbsolutePath);
-            Assert.Equal(model.Deck.Slides[3].MediaFor(language).PosterFrame, slides.Media.PosterFrame);
-        }
+        // Halodrop change: Halodrop's tour has no Portuguese recordings (Filee's 2.0 deck had), every language shares them.
         Check(window, $"setup-3-installing-{language}.png");
 
         runner.Result = new InstallResult(new LaunchRequest(@"C:\Program Files\Halodrop\Halodrop.exe", "--install-engines=pandoc"),
@@ -280,7 +272,7 @@ public class SetupWindowTests
     public void The_whats_new_slides_take_turns_while_installing()
     {
         var (model, texts, runner) = Model("en");
-        Assert.Equal(new Version(2, 0, 0), model.Deck!.Version);
+        Assert.Equal(new Version(0, 10, 0), model.Deck!.Version); // Halodrop change: its own tour, never Filee's slides
         var window = Show(model);
         runner.Hold = new TaskCompletionSource();
         _ = model.InstallAsync();

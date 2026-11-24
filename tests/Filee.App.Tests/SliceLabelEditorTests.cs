@@ -34,7 +34,7 @@ public class SliceLabelEditorTests
         Assert.Equal("", labels.ShortName);
         Assert.Equal(loc.DonutName(preset), labels.ShortNamePlaceholder);
         Assert.Null(labels.Show.Value);
-        Assert.Equal(["Use the donut's setting", "Auto", "Icon & text", "Text only", "Icon only"], labels.ShowChoices.Select(c => c.Label));
+        Assert.Equal(["Use the halo's setting", "Auto", "Icon & text", "Text only", "Icon only"], labels.ShowChoices.Select(c => c.Label));
 
         // Picked in the picker, typed, chosen; saved.
         labels.IconPicker.PickCommand.Execute(labels.IconPicker.Sections[0].Icons[0]);

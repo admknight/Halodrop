@@ -321,13 +321,13 @@ public class ToolbarPageTests
         {
             EveryButtonIsNamed();
             NamedAsShown();
-            Assert.Equal("Edit Donut Size", NameOf(page.FindControl<Button>("EditSize")!));
+            Assert.Equal("Edit Halo Size", NameOf(page.FindControl<Button>("EditSize")!));
 
             languages.SetLanguage("ko");
             Dispatcher.UIThread.RunJobs();
             EveryButtonIsNamed();
             NamedAsShown();
-            Assert.Equal("도넛 크기 편집", NameOf(page.FindControl<Button>("EditSize")!));
+            Assert.Equal("헤일로 크기 편집", NameOf(page.FindControl<Button>("EditSize")!));
 
             // A group open in the editor (the way back to the donut), and a profile for mixed selections.
             vm.SelectedProfile = vm.Profiles.Single(p => p.Profile.Id == "images");
