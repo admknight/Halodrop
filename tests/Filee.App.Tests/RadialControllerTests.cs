@@ -126,6 +126,11 @@ public class RadialControllerTests
         }
 
         TestServices.EnsureInitialized("en");
+        // Halodrop change: this drops on a slice during the drag, the donut-at-drag-start way (Halodrop's default opens
+        // the halo where the files are let go, and a drop there only blooms it).
+        var donutSettings = AppHost.Get<UserDataStore>().Settings.Donut;
+        var openAtBefore = donutSettings.OpenAt;
+        donutSettings.OpenAt = DonutOpenAt.DragStart;
         var platform = new WindowPlatform();
         var radial = Create(platform);
         var tempFile = Path.Combine(Path.GetTempPath(), "morph-test-drop.png");
@@ -171,6 +176,7 @@ public class RadialControllerTests
         }
         finally
         {
+            donutSettings.OpenAt = openAtBefore;
             radial.Close(animate: false);
             if (File.Exists(tempFile))
                 File.Delete(tempFile);

@@ -1433,6 +1433,10 @@ public class DonutFlipTests
         var conversions = AppHost.Get<ConversionService>();
         var folder = Directory.CreateTempSubdirectory("morph-flip-");
         ConversionJob? started = null;
+        // Halodrop change: these drops land on a slice during the drag, the donut-at-drag-start way (Halodrop's default
+        // opens the halo where the files are let go, and a drop there only blooms it).
+        var openAtBefore = Store.Settings.Donut.OpenAt;
+        Store.Settings.Donut.OpenAt = DonutOpenAt.DragStart;
         try
         {
             var file = Path.Combine(folder.FullName, "photo.jpg");
@@ -1480,6 +1484,7 @@ public class DonutFlipTests
         }
         finally
         {
+            Store.Settings.Donut.OpenAt = openAtBefore;
             radial.Close(animate: false);
             (typeof(WindowService).GetField("_cropOverlay", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
                 .GetValue(AppHost.Get<WindowService>()) as Window)?.Close();

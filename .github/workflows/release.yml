@@ -23,6 +23,10 @@
 # and tests the installer and portable zip, and the publish job releases them straight away, unsigned. Linux, macOS
 # and Windows ARM64 run only when the repository variable OTHER_PLATFORMS is "true"; then the release is a draft
 # for build/sign-release.ps1, as in Filee.
+# Halodrop change: the repository variable LINUX_MACOS = "true" builds and tests the Linux and macOS packages
+# (portable.yml) too, and the publish job releases them with the Windows files, every SHA256SUMS file signed with the
+# update key. The release then waits for the macOS packages (Intel Macs take up to about two and a half hours), and a
+# failed Linux or macOS package stops it.
 name: Release
 
 on:
@@ -42,7 +46,7 @@ permissions:
 
 jobs:
   portable:
-    if: ${{ vars.OTHER_PLATFORMS == 'true' }}
+    if: ${{ vars.OTHER_PLATFORMS == 'true' || vars.LINUX_MACOS == 'true' }}  # Halodrop change: LINUX_MACOS
     uses: ./.github/workflows/portable.yml
     with:
       version: ${{ inputs.tag || github.ref_name }}
@@ -303,9 +307,10 @@ jobs:
           gh release create '${{ inputs.tag || github.ref_name }}' --draft --title "Halodrop $version" --notes-file $notesFile --verify-tag @files
 
   # Morph change: Windows x64 only, published as tested (unsigned) with the version's CHANGELOG.md section as notes.
+  # Halodrop change: with LINUX_MACOS, the Linux and macOS packages too (they must pass; skipped is fine without it).
   publish:
-    needs: windows
-    if: ${{ vars.OTHER_PLATFORMS != 'true' }}
+    needs: [windows, portable]
+    if: ${{ !cancelled() && vars.OTHER_PLATFORMS != 'true' && needs.windows.result == 'success' && (needs.portable.result == 'success' || needs.portable.result == 'skipped' && vars.LINUX_MACOS != 'true') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -313,6 +318,14 @@ jobs:
       - uses: actions/download-artifact@v8
         with:
           name: windows-release
+          path: Releases
+
+      - name: Download Linux and macOS packages
+        if: needs.portable.result == 'success'
+        uses: actions/download-artifact@v8
+        with:
+          pattern: portable-*
+          merge-multiple: true
           path: Releases
 
       # Halodrop change: the SHA256SUMS file is signed with Halodrop's update key (repository secret HALODROP_UPDATE_KEY,

@@ -53,3 +53,12 @@ to Halodrop's own deck and record it with `WhatsNewMedia` (it renders the clips 
    are listed in `sandbox-known-failures.txt`.
 2. `git push origin HEAD:check/<topic>` runs the full CI on Windows. Only when it passes: `git push origin HEAD:main`,
    then delete the check branch.
+
+### Linux and macOS in releases
+
+The repository variable `LINUX_MACOS` (Settings → Secrets and variables → Actions → Variables) set to `true` makes the
+release build and test the Linux (x64, ARM64) and macOS (Apple Silicon, Intel) packages with `portable.yml` and publish
+them with the Windows files; every SHA256SUMS file gets its `.sig`. The release then takes up to about three hours
+(Intel Macs are slow) and stops if one of them fails. To try the packages without releasing, run "Linux and macOS
+packages" from Actions on a `check/` branch. Leave `OTHER_PLATFORMS` unset: it switches to Filee's draft release, which
+needs Filee's signing PC. The macOS packages are ad-hoc signed and not notarized (no Apple Developer ID).
