@@ -166,8 +166,12 @@ public sealed class EngineIsolationTests : IDisposable
         IsolatedStepRunner.WatchEvery = TimeSpan.FromMilliseconds(250);
         try
         {
+            // Halodrop change: the memory case gets a stall limit it can't reach first. The hog says nothing while it fills
+            // its memory, and on a slow Apple Silicon runner starting the worker and filling 600 MB took longer than 3 s,
+            // so it was stopped as stalled before the memory check could see it.
+            var stallLimit = engine == EngineWorker.HogForTests ? TimeSpan.FromSeconds(30) : TimeSpan.FromSeconds(3);
             using var runner = Runner(new HashSet<string>(IsolatedStepRunner.InProcessEngines) { engine },
-                memoryCeiling: 600L << 20, stallLimit: TimeSpan.FromSeconds(3));
+                memoryCeiling: 600L << 20, stallLimit: stallLimit);
             var watch = System.Diagnostics.Stopwatch.StartNew();
             var refused = await Assert.ThrowsAsync<ConversionRefusedException>(() =>
                 runner.RunAsync(new Crashing(engine), Step(Practice()), null, CancellationToken.None));
