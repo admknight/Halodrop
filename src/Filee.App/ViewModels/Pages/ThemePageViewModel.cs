@@ -31,6 +31,7 @@ public sealed partial class ThemePageViewModel : ObservableObject, IDisposable
         Style = Styles.FirstOrDefault(s => s.Value == theme.Style) ?? Styles[0];
         Modes = Enum.GetValues<ThemeMode>().Select(m => new Choice<ThemeMode>(m, loc[$"theme.mode.{m}"])).ToList();
         Mode = Modes.First(m => m.Value == theme.Mode);
+        ProgressRing = theme.ProgressRing;
         if (!string.IsNullOrEmpty(theme.PresetKey) &&
             ThemeService.Presets.FirstOrDefault(p => string.Equals(p.Key, theme.PresetKey, StringComparison.OrdinalIgnoreCase)) is { } initialPreset)
         {
@@ -91,6 +92,10 @@ public sealed partial class ThemePageViewModel : ObservableObject, IDisposable
 
     [ObservableProperty] private Choice<ThemeStyle> _style = null!;
     [ObservableProperty] private Choice<ThemeMode> _mode = null!;
+    [ObservableProperty, NotifyPropertyChangedFor(nameof(IsTickRing))] private ProgressRingStyle _progressRing;
+
+    /// <summary>The dial of ticks is the chosen progress ring (the other card shows the arc).</summary>
+    public bool IsTickRing => ProgressRing == ProgressRingStyle.Ticks;
     [ObservableProperty, NotifyPropertyChangedFor(nameof(AccentBrush), nameof(PreviewBackdrop))] private Color _accent;
     [ObservableProperty] private string _accentHex = "";
 
@@ -187,6 +192,11 @@ public sealed partial class ThemePageViewModel : ObservableObject, IDisposable
                  && string.Equals(hex, FuturisticPalette.SignatureAccent, StringComparison.OrdinalIgnoreCase))
             Accent = Color.Parse(SoftPalette.DefaultAccent);
     }
+
+    partial void OnProgressRingChanged(ProgressRingStyle value) => Save(t => t.ProgressRing = value);
+
+    [RelayCommand]
+    private void SetProgressRing(ProgressRingStyle target) => ProgressRing = target;
 
     partial void OnModeChanged(Choice<ThemeMode>? oldValue, Choice<ThemeMode> newValue)
     {

@@ -356,7 +356,8 @@ desktop.write_text(
     'Comment=Convert files with Halodrop\n'
     f'Exec={quoted_exec(str(app / "Halodrop"))} --convert %F\n'
     f'Icon={desktop_value(app / "halodrop.png")}\n'
-    'Terminal=false\nCategories=Utility;\nX-Morph-Managed=true\n', encoding='utf-8')
+    # StartupWMClass matches Avalonia's X11 WM_CLASS (the entry assembly name), so the taskbar shows this icon.
+    'Terminal=false\nCategories=Utility;\nStartupWMClass=Halodrop\nX-Morph-Managed=true\n', encoding='utf-8')
 PY
 
 if command -v update-desktop-database >/dev/null 2>&1; then

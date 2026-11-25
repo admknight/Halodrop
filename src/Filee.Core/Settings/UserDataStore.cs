@@ -258,6 +258,23 @@ public sealed class UserDataStore
         return kept;
     }
 
+    /// <summary>
+    /// Drops one finished conversion from the history (the card's X in Recent conversions). The files it made stay where
+    /// they are: this only forgets the entry, unlike <see cref="ClearHistory"/> which forgets all of them.
+    /// </summary>
+    /// <returns>Whether the entry was in the history and has been removed.</returns>
+    public bool RemoveHistory(HistoryEntry entry)
+    {
+        bool removed;
+        lock (_saveLock)
+            removed = History.Remove(entry);
+        if (!removed)
+            return false;
+        Write(HistoryPath, History, FileeJsonContext.Default.ListHistoryEntry);
+        HistoryChanged?.Invoke(this, EventArgs.Empty);
+        return true;
+    }
+
     /// <summary>Replaces presets and profiles with factory defaults.</summary>
     public void ResetLibrary()
     {
@@ -1276,6 +1293,9 @@ internal static class SettingsMigrations
         //       donut.
         if (from < 101 && presets.All(p => p.Id != BuiltInData.DecompileModelId))
             changed |= AddLikeNewLibrary(presets, BuiltInData.DecompileModelId);
+        // v102: SRTM elevation tiles (.hgt, #1793) learn the images donut; custom claims stay put.
+        if (from < 102)
+            changed |= LearnExtensions(profiles, out _, ["hgt"]);
         return changed;
     }
 
