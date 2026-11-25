@@ -169,7 +169,7 @@ internal static class CueSheet
         // refusal or cancellation leaves an image already at that path (the "overwrite" policy) as it was, like the
         // folder → ISO writer does.
         var temporary = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(output))!,
-            $".{Path.GetFileName(output)}.{Guid.NewGuid().ToString("N")[..8]}.filee-tmp");
+            $".{Path.GetFileName(output)}.{Guid.NewGuid().ToString("N")[..8]}.morph-tmp"); // Halodrop change: Halodrop's temporary suffix
         var succeeded = false;
         try
         {

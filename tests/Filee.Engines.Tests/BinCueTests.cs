@@ -373,7 +373,7 @@ public class BinCueTests(EngineFixture fx) : IClassFixture<EngineFixture>
 
         Assert.Equal(JobState.Failed, job.State);
         Assert.Equal("an image made earlier", await File.ReadAllTextAsync(existing, Ct));
-        Assert.Empty(Directory.GetFiles(dir, "*.filee-tmp", new EnumerationOptions { AttributesToSkip = 0 }));
+        Assert.Empty(Directory.GetFiles(dir, "*.morph-tmp", new EnumerationOptions { AttributesToSkip = 0 }));
     }
 
     [Fact]
