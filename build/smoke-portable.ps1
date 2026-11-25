@@ -35,9 +35,9 @@ if (-not (Test-Path -LiteralPath (Join-Path $package 'morph.portable') -PathType
     throw 'Portable archive is missing morph.portable.'
 }
 if ($IsMacOS) {
-    Invoke-Checked 'Extracted app signature' { codesign --verify --deep --strict (Join-Path $package 'Morph.app') }
+    Invoke-Checked 'Extracted app signature' { codesign --verify --deep --strict (Join-Path $package 'Halodrop.app') }
 }
-$bin = if ($IsMacOS) { Join-Path $package 'Morph.app/Contents/MacOS' } else { $package }
+$bin = if ($IsMacOS) { Join-Path $package 'Halodrop.app/Contents/MacOS' } else { $package }
 $cli = Join-Path $bin 'halodrop-cli'
 
 Invoke-Checked 'CLI start' { & $cli version }

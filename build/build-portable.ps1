@@ -1,5 +1,5 @@
 # Builds the Linux or macOS portable package (tar.gz + SHA256SUMS) on its own operating system. macOS also gets a
-# disk image (the signed Morph.app next to an Applications link, to drag it there, on the background and window
+# disk image (the signed Halodrop.app next to an Applications link, to drag it there, on the background and window
 # layout of installer/macos/dmg, built with dmgbuild, pinned in installer/macos/dmg/requirements.txt). The image
 # itself is not signed, and neither it nor the app is notarized here.
 #
@@ -82,7 +82,7 @@ if ((Test-Path -LiteralPath $archive) -or (Test-Path -LiteralPath $sums) -or (Te
 }
 $stage = Join-Path $root ('build/.cache/portable/' + [Guid]::NewGuid().ToString('N'))
 $package = Join-Path $stage $packageName
-$appBundle = Join-Path $package 'Morph.app'
+$appBundle = Join-Path $package 'Halodrop.app'  # Halodrop change: the name install.sh, INSTALL.txt and the disk image use
 $publish = if ($Runtime.StartsWith('osx-')) { Join-Path $appBundle 'Contents/MacOS' } else { $package }
 New-Item -ItemType Directory -Force -Path $publish | Out-Null
 
@@ -194,7 +194,7 @@ Invoke-Checked 'Create tar.gz' { tar -czf $temporaryArchive -C $stage $packageNa
 Move-Item -LiteralPath $temporaryArchive -Destination $archive
 $packages = @($archive)
 if ($Runtime.StartsWith('osx-')) {
-    # The same signed Morph.app, next to a link to /Applications to drag it onto, on the background and window
+    # The same signed Halodrop.app, next to a link to /Applications to drag it onto, on the background and window
     # layout of installer/macos/dmg/settings.py. dmgbuild copies the app with ditto, which keeps the signature's
     # extended attributes; settings.py checks the copies. install.sh (in the tar.gz) is still the way to get the halodrop
     # command.
