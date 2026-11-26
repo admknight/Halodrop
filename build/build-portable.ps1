@@ -200,8 +200,10 @@ if ($Runtime.StartsWith('osx-')) {
     # command.
     $temporaryImage = "$diskImage.$([Guid]::NewGuid().ToString('N')).partial.dmg"
     $dmgFolder = Join-Path $root 'installer/macos/dmg'
+    # Halodrop change: GitHub's macOS runners sometimes hold the new volume busy for a while (Spotlight, XProtect), and
+    # dmgbuild's few detach attempts then fail the build ("couldn't eject ... Resource busy"): 30 attempts, its most.
     Invoke-Checked 'Create dmg' {
-        python3 -m dmgbuild -s (Join-Path $dmgFolder 'settings.py') -D "app=$appBundle" -D "dir=$dmgFolder" Halodrop $temporaryImage | Out-Null
+        python3 -m dmgbuild --detach-retries 30 -s (Join-Path $dmgFolder 'settings.py') -D "app=$appBundle" -D "dir=$dmgFolder" Halodrop $temporaryImage | Out-Null
     }
     Move-Item -LiteralPath $temporaryImage -Destination $diskImage
     $packages += $diskImage
