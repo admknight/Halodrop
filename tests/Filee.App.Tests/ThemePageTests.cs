@@ -111,7 +111,7 @@ public class ThemePageTests
     public void Appearance_buttons_switch_the_mode_and_mark_the_one_that_is_on()
     {
         TestServices.EnsureInitialized();
-        var directory = Directory.CreateTempSubdirectory("filee-theme-mode-").FullName;
+        var directory = Directory.CreateTempSubdirectory("halodrop-theme-mode-").FullName;
         var store = new UserDataStore(directory);
         store.Load();
         store.Settings.Theme.Mode = ThemeMode.Dark;

@@ -15,6 +15,32 @@ change, a language may repeat; a language without lines shows the English ones):
 - `recommended`: bug fixes. The card shows once per version.
 - `optional`: new features only. No card, the sidebar button only.
 
+## 0.12.0
+
+<!-- update
+level: recommended
+en: New from Filee: colour palettes (PAL, GPL, ACT), Janome embroidery (JEF), DNA and protein alignments (FASTA, PHYLIP, NEXUS) and JSP pages
+en: Video presets can turn phone videos upright; Settings → Theme has System, Light and Dark buttons
+en: Fixes for PDF page numbers after merging, theme preview buttons and dragging from ROX-Filer on Linux
+ur: Filee سے نیا: رنگوں کی پیلیٹس (PAL، GPL، ACT)، Janome کڑھائی (JEF)، DNA اور پروٹین الائنمنٹس (FASTA، PHYLIP، NEXUS) اور JSP صفحات
+ur: ویڈیو پری سیٹس فون کی ویڈیوز سیدھی کر سکتے ہیں؛ سیٹنگز ← تھیم میں سسٹم، لائٹ اور ڈارک کے بٹن
+ur: جوڑنے کے بعد PDF صفحہ نمبروں، تھیم پیش نظارہ بٹنوں اور Linux پر ROX-Filer سے گھسیٹنے کی درستیاں
+-->
+
+- **New from Filee** (its changes up to 26 November):
+  - Colour palettes (PAL, GIMP GPL, Adobe ACT) convert into each other, into a list of HEX codes (TXT, JSON) or into
+    a picture of the swatches.
+  - Janome embroidery designs (.jef) turn into PNG, JPG, PDF and SVG in their thread colours.
+  - Sequence alignments (FASTA, PHYLIP, NEXUS) convert into each other, with presets for each.
+  - JavaServer Pages (.jsp) open as text and convert like other source files.
+  - Video presets: **Turn phone videos upright** encodes vertical phone videos again so they stand upright on TVs and
+    players that show them sideways. Saved at high quality (HEVC stays HEVC), takes longer.
+  - Settings → Theme: Appearance is now three buttons, System, Light and Dark, instead of a list.
+- **Fixes from Filee:**
+  - Merged and rebuilt PDFs keep their page labels (such as i, ii, iii before page 1).
+  - The theme preview's Save and Cancel buttons react to the mouse like real buttons.
+  - Linux: dragging files from ROX-Filer opens the halo.
+
 ## 0.11.0
 
 <!-- update
