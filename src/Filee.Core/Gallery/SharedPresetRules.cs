@@ -261,6 +261,7 @@ internal static class SharedPresetRules
             ("videoCodec", Enum<VideoCodec>()),
             ("audioCodec", Enum<AudioCodec>()),
             ("hardwareEncoding", Flag),
+            ("turnUpright", Flag),
             ("saveEveryFrame", Flag),
             ("extractMotionPhoto", Flag),
             ("caption", Flag),

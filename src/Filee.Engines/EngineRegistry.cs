@@ -57,6 +57,7 @@ public static class EngineRegistry
         new ArchiveConverter(),
         new VectorConverter(),
         new CorelDrawConverter(), // Morph change
+        new Palettes.PaletteConverter(),
         new IcnsConverter(),
         new FontConverter(),
         new DocxWriterConverter(),
