@@ -21,7 +21,7 @@ internal static class Help
         _ => General,
     };
 
-    private const string General = """
+    private static string General => $"""
         Halodrop: convert files offline from the command line.
 
         Usage:
@@ -41,8 +41,8 @@ internal static class Help
           halodrop convert folder --to iso --iso-filesystem udf201
           halodrop convert photo.heic --to jpg
           halodrop convert *.png --to webp --quality 80 -o converted
-          halodrop convert D:\Scans --recursive --preset to-pdf
-          halodrop watch D:\Inbox --to pdf --move-originals
+          halodrop convert {ExampleFolder("Scans")} --recursive --preset to-pdf
+          halodrop watch {ExampleFolder("Inbox")} --to pdf --move-originals
           halodrop engines install pandoc
 
         Presets and engines are the ones in the Halodrop app. Exit codes: 0 nothing failed (skipped
@@ -50,6 +50,8 @@ internal static class Help
         convert.
 
         """;
+
+    private static string ExampleFolder(string name) => OperatingSystem.IsWindows() ? $@"D:\{name}" : $"~/{name}";
 
     private const string Presets = """
         Usage: halodrop presets [--json]
@@ -150,9 +152,9 @@ internal static class Help
         Options:
           -t, --to <format>      Target format, or same-audio (a video's sound as it is)
           -p, --preset <preset>  A preset from the app, by id or name
-          -o, --output <folder>  Where converted files go (default: <folder>\converted)
+          -o, --output <folder>  Where converted files go (default: <folder>{{Path.DirectorySeparatorChar}}converted)
           -r, --recursive        Also watch sub folders (their files keep the sub folder in the output)
-              --move-originals   Move converted sources to <folder>\originals; files already waiting are
+              --move-originals   Move converted sources to <folder>{{Path.DirectorySeparatorChar}}originals; files already waiting are
                                  converted at start
               --settle <seconds> How long a file must stay unchanged (default {{FolderWatcher.DefaultSettleTime.TotalSeconds}})
               --keep-dates       Give converted files the created and modified dates of the originals
