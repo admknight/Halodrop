@@ -41,8 +41,8 @@ public sealed class HelpTests
         }
         else
         {
-            Assert.Contains("filee convert ~/Scans", general);
-            Assert.Contains("filee watch ~/Inbox", general);
+            Assert.Contains("halodrop convert ~/Scans", general);
+            Assert.Contains("halodrop watch ~/Inbox", general);
             Assert.Contains("<folder>/converted", watch);
             Assert.Contains("<folder>/originals", watch);
             Assert.DoesNotContain(@"D:\", general);

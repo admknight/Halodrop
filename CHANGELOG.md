@@ -15,6 +15,37 @@ change, a language may repeat; a language without lines shows the English ones):
 - `recommended`: bug fixes. The card shows once per version.
 - `optional`: new features only. No card, the sidebar button only.
 
+## 0.13.0
+
+<!-- update
+level: recommended
+en: New from Filee: a ZIP of pictures becomes a CBZ comic and a RAR a CBR, Blizzard textures (BLP) and 16-bit GeoTIFF rasters open as pictures
+en: Shortcuts: a drag gesture can leave keys pressed mid-drag to the file manager; the ticks ring shows source → preset
+en: Fixes for CSV cells like +007 or NaN turning into numbers, command line options and tag chips in Material You
+ur: Filee سے نیا: تصویروں والی ZIP، CBZ کامک اور RAR، CBR بن جاتی ہے؛ Blizzard ٹیکسچرز (BLP) اور 16 بِٹ GeoTIFF تصویروں کی طرح کھلتے ہیں
+ur: شارٹ کٹس: گھسیٹنے کا اشارہ گھسیٹنے کے دوران دبائی گئی کیز فائل مینیجر پر چھوڑ سکتا ہے؛ نشانات والا دائرہ ماخذ ← پری سیٹ دکھاتا ہے
+ur: CSV میں +007 یا NaN جیسے خانوں کے نمبر بن جانے، کمانڈ لائن آپشنز اور Material You میں ٹیگ چپس کی درستیاں
+-->
+
+- **New from Filee** (its changes up to 28 November):
+  - Comics: the **CBZ** preset takes a ZIP of pictures and the new **CBR** preset takes a RAR, and both just copy the
+    file with the comic extension, nothing packed again. An archive without pictures, or with a password, is refused
+    with a reason.
+  - Blizzard textures (.blp, Warcraft III and World of Warcraft) convert to PNG, JPG and the other image formats.
+  - 16-bit and floating-point GeoTIFF rasters (elevation, satellite) convert to clear pictures instead of nearly black
+    ones.
+  - Settings → Shortcuts: turn off **Also open when the keys are pressed during a drag** on a gesture, and Ctrl pressed
+    in the middle of a drag goes to the file manager (to copy instead of move) instead of opening the halo. On by
+    default, so nothing changes until you turn it off.
+  - The Ticks progress ring shows the source format and the preset under the percentage, like `MP4 → WEBP`.
+  - macOS: Finder's right-click item and the permission prompts are in Arabic too.
+- **Fixes from Filee:**
+  - CSV and TSV to XLSX or ODS: cells such as `+007`, ` 007`, `NaN` or `Infinity` stay as written instead of turning
+    into numbers.
+  - Command line: `--to=jpg` works, an option missing its value says so, everything after `--` is a file, and
+    `halodrop help` shows paths for your system.
+  - Tag chips are visible in the Material You theme.
+
 ## 0.12.0
 
 <!-- update
