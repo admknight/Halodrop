@@ -33,8 +33,8 @@ public sealed class HelpTests
 
         if (OperatingSystem.IsWindows())
         {
-            Assert.Contains(@"filee convert D:\Scans", general);
-            Assert.Contains(@"filee watch D:\Inbox", general);
+            Assert.Contains(@"halodrop convert D:\Scans", general);
+            Assert.Contains(@"halodrop watch D:\Inbox", general);
             Assert.Contains(@"<folder>\converted", watch);
             Assert.Contains(@"<folder>\originals", watch);
             Assert.DoesNotContain("~/", general);

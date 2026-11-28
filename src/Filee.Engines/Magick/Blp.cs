@@ -300,7 +300,7 @@ internal static class Blp
         if (rawWidth == 0 || rawHeight == 0)
             throw Refuse("The BLP file has no pixels.");
         if (rawWidth > MaxSide || rawHeight > MaxSide)
-            throw Refuse($"The texture is too large to read ({rawWidth} × {rawHeight}; Filee reads up to {MaxSide} px a side).");
+            throw Refuse($"The texture is too large to read ({rawWidth} × {rawHeight}; Halodrop reads up to {MaxSide} px a side).");
         var width = (int)rawWidth;
         var height = (int)rawHeight;
         if (!FitsBudget(width, height))
